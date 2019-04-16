@@ -25,26 +25,33 @@ module.exports = {
   },
   // add your custom rules here
   rules: {
+    'arrow-body-style': 0,
+    'linebreak-style': 0,
+    'arrow-parens': 0,
+    'quote-props': 0,
+    'no-console': 0,
+    'max-len': 0,
+    'object-curly-newline': 0,
+    'no-mixed-operators': 0,
+    'no-plusplus': 0,
+    'func-names': ["error", "never"],
+    'no-bitwise': ['error', { 'allow': ['~'] }],
+    'no-underscore-dangle': 0,
+    "import/extensions": ["never"],
+    'camelcase': 0,
+    'func-names': ['error', 'as-needed'],
+    'import/no-dynamic-require': 0,
+    "import/no-named-as-default": 0,
+    "import/prefer-default-export": 0,
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       js: 'never',
       vue: 'never'
     }],
-    // disallow reassignment of function parameters
-    // disallow parameter object manipulation except for specific exclusions
     'no-param-reassign': ['error', {
-      props: true,
-      ignorePropertyModificationsFor: [
-        'state', // for vuex state
-        'acc', // for reduce accumulators
-        'e' // for e.returnvalue
-      ]
+      props: false
     }],
-    // allow optionalDependencies
-    'import/no-extraneous-dependencies': ['error', {
-      optionalDependencies: ['test/unit/index.js']
-    }],
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  }
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+  },
 }
