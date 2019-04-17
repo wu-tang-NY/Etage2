@@ -54,9 +54,9 @@ export default {
     display: block;
     padding: 8px rem(24) 7px;
     color: $colors-text--primary;
-    font-weight: 700;
+    font-weight: 600;
     font-size: rem(14);
-    letter-spacing: .3px;
+    letter-spacing: .2px;
     position: relative;
 
     &:hover {
