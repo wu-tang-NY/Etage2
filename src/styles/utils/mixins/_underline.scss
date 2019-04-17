@@ -1,0 +1,5 @@
+@mixin underline($color: $colors-accent) {
+  border-bottom: 1px dashed $color;
+  display: inline-block;
+  padding-bottom: 3px;
+}
