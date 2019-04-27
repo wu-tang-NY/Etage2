@@ -15,6 +15,8 @@ import './components';
 import App from './App';
 import router from './router';
 
+import EventBus from './eventbus';
+
 Vue.config.productionTip = false;
 
 Vue.use(VueAwesomeSwiper);
@@ -23,6 +25,7 @@ Vue.use(VueSvgIcon, {
   tagName: 'svg-icon',
 });
 
+Vue.prototype.$eventbus = EventBus;
 
 /* eslint-disable no-new */
 new Vue({

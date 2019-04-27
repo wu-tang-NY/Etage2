@@ -10,6 +10,10 @@ export default new Router({
   linkActiveClass: 'active',
   linkExactActiveClass: 'active',
 
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
+
   routes: [
     {
       path: '/',
@@ -18,7 +22,7 @@ export default new Router({
         {
           path: '',
           name: 'Main',
-          component: () => import('@/views/services'),
+          component: () => import('@/views/Main'),
         },
       ],
     },

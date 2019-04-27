@@ -63,17 +63,12 @@ export default {
 <style lang="scss">
 $footer-height: 65px;
 
-.app-main {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .app-header,
 .app-footer {
   position: fixed;
   left: 0;
   width: 100%;
+  z-index: 1;
 }
 
 .app-header {
@@ -103,11 +98,9 @@ $footer-height: 65px;
 
 .app-content {
   padding: 140px 0 $footer-height;
-  flex: 1 1 auto;
 }
 
 .app-footer {
-  border-top: 3px solid $colors-grey-300;
   font: 500 rem(12) $font-family--secondary;
   color: $colors-text--secondary;
   letter-spacing: .2px;

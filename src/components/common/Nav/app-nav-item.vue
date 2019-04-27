@@ -1,18 +1,19 @@
-<template functional>
+<template>
   <li
     class="app-nav-item"
     :class="{
-      'app-nav-item--active': props.active,
-      'app-nav-item--visited': props.visited,
+      'app-nav-item--active': active,
+      'app-nav-item--visited': visited,
     }"
   >
     <a href="" class="app-nav-item__link" @click.prevent>
       <div class="app-nav-item__inner">
         <slot>
-          <span class="app-nav-item__icon" v-if="props.icon">
-            <svg-icon :name="icon" />
+          <span class="app-nav-item__icon" v-if="icon">
+            <svg-icon :name="icon" :original="!active" />
           </span>
-          <span class="app-nav-item__text">{{ props.title }}</span>
+
+          <span class="app-nav-item__text">{{ title }}</span>
         </slot>
       </div>
       <div class="app-nav-item__bg"></div>
@@ -74,6 +75,16 @@ export default {
     z-index: 1;
   }
 
+  &__icon {
+    display: inline-block;
+    @include size(26px);
+    margin-right: 6px;
+  }
+
+  &__text {
+    vertical-align: middle;
+  }
+
   &__bg {
     @include absolute(0, 0);
     @include size(100%);
@@ -110,9 +121,18 @@ export default {
         }
       }
 
+      &__icon {
+        color: $white !important;
+
+        svg {
+          fill: $white !important;
+        }
+      }
+
       &__bg::before {
         background-color: $colors-accent;
         width: 100%;
+        left: 0;
       }
     }
   }

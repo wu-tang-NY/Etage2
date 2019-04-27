@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon" transform="translate(7.000000, 9.000000)">
+            <path d="M0,0 L0,9 L1.5,9 L1.5,33 L34.5,33 L34.5,9 L36,9 L36,0 L0,0 Z M4.5,9 L31.5,9 L31.5,30 L4.5,30 L4.5,9 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
+            <polygon id="Path" fill="#FFA511" points="3 3 33 3 33 6 3 6"></polygon>
+            <path d="M13.21875,12 C12.3925785,12.0761715 11.7832035,12.8144535 11.859375,13.640625 C11.9355465,14.4667965 12.6738285,15.0761715 13.5,15 L22.5,15 C23.0390625,15.005859 23.5429695,14.724609 23.818359,14.255859 C24.087891,13.787109 24.087891,13.212891 23.818359,12.744141 C23.5429695,12.275391 23.0390625,11.994141 22.5,12 L13.5,12 C13.453125,12 13.40625,12 13.359375,12 C13.3125,12 13.265625,12 13.21875,12 Z" id="Path" fill="#FFA511"></path>
+        </g>
+    </g>
+</svg>

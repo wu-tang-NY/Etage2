@@ -7,6 +7,7 @@
       :icon="icon"
       :active="index === activePage"
       :visited="index < activePage"
+      @click.native="handleClick(index)"
     />
   </app-nav>
 </template>
@@ -18,22 +19,33 @@ export default {
     pages: [
       {
         title: 'Услуги',
-        icon: '',
+        icon: 'icon_1_c',
       },
       {
         title: 'Сколько стоит?',
-        icon: '',
+        icon: 'icon_2_c',
       },
       {
         title: 'Почему нам доверяют?',
-        icon: '',
+        icon: 'icon_3_c',
       },
       {
         title: 'Как заказать?',
-        icon: '',
+        icon: 'icon_4_c',
       },
     ],
-    activePage: 2,
+    activePage: 0,
   }),
+  methods: {
+    handleClick(index) {
+      this.activePage = index;
+      this.$eventbus.$emit('section:change', index + 1);
+    },
+  },
+  mounted() {
+    this.$eventbus.$on('section:scroll', index => {
+      this.activePage = index - 1;
+    });
+  },
 };
 </script>

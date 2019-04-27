@@ -4,6 +4,52 @@
   text-rendering: optimizeLegibility;
 }
 
-html, body {
-  height: 100%;
+h1, h2, h3 {
+  margin: 0;
+  font-family: $font-family--secondary;
+  font-weight: 800;
+  color: $colors-text--primary;
+}
+
+h1 {
+  font-size: rem(46);
+  line-height: 1.22;
+  letter-spacing: .9px;
+}
+
+h2 {
+  font-size: rem(30);
+  line-height: 1.5;
+  letter-spacing: .6px;
+}
+
+h3 {
+  font-size: rem(20);
+  line-height: 1.5;
+  letter-spacing: .4px;
+}
+
+p {
+  font-size: rem(14);
+  line-height: rem(20);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: rem(15);
+  line-height: rem(24);
+
+  a {
+    color: $colors-accent;
+    font-weight: bold;
+    @include underline;
+  }
+}
+
+.dark-gray {
+  color: $colors-text--primary;
+}
+
+.light-gray {
+  color: $colors-text--secondary;
 }
