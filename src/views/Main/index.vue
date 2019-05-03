@@ -1,24 +1,39 @@
 <template>
-  <div class="app-page app-page--main page-main" :style="{ height: pageHeight }" ref="page">
+  <div class="app-page app-page--main page-main">
     <div class="page-main__inner">
-      <swiper class="page-main__sections" :options="options" ref="sections">
-        <swiper-slide
-          class="page-main__section"
-          v-for="section in Object.keys(sections)"
+      <div class="page-main__sections" ref="sectionsWrapper" id="sections">
+        <section
+          class="app-section"
+          v-for="(section, index) in Object.keys(sectionsComponents)"
+          :style="{ width: `${windowWidth}px` }"
           :key="section"
+          :id="`section-${index + 1}`"
         >
-          <component :is="section" />
-        </swiper-slide>
-      </swiper>
+          <div class="container">
+            <component :is="section" :active="activeSectionIndex === index" />
+          </div>
+        </section>
+      </div>
 
-      <div class="page-main__bg" :style="{ width: pageHeight }">
+      <div class="page-main__bg">
         <div class="page-main__bg-inner">
-          <div class="page-main__bg-image" :style="{ transform: `translateX(-${(currentSectionIndex - 1) * clientWidth}px)` }">
+          <div class="page-main__bg-image" :style="{ width: `${totalWidth}px` }" ref="bg">
             <svg-icon name="bg" original />
           </div>
 
-          <div class="page-main__bg-car">
-            <svg-icon name="car" original />
+          <div class="page-main__bg-car bg-car" ref="car">
+            <div class="bg-car__cloud" ref="cloud">
+              <portal-target name="car-cloud">
+                <!--
+                This component can be located anwhere in your App.
+                The slot content of the above portal component will be rendered here.
+                -->
+              </portal-target>
+            </div>
+
+            <div class="bg-car__image">
+              <svg-icon name="car" original />
+            </div>
           </div>
         </div>
       </div>
@@ -27,82 +42,170 @@
 </template>
 
 <script>
-import sections from './sections';
+import TimelineMax from 'gsap/TimelineMax';
+import TweenMax from 'gsap/TweenMax';
+
+// eslint-disable-next-line
+import ScrollMagic from 'ScrollMagic';
+
+import 'animation.gsap';
+import 'debug.addIndicators';
+
+import sectionsComponents from './sections';
 
 export default {
   name: 'AppPageMain',
-  components: { ...sections },
+  components: { ...sectionsComponents },
   data: () => ({
-    options: {
-      allowTouchMove: false,
-      loop: true,
-    },
+    windowWidth: 0,
+    totalWidth: 0,
 
-    pageHeight: null,
-    currentSectionIndex: 0,
+    activeSectionIndex: 0,
+
+    ScrollMagicController: null,
+    scrollMagicScenes: [],
   }),
-  watch: {
-    currentSectionIndex(index) {
-      if (index) {
-        this.swiper.slideNext();
-        this.$eventbus.$emit('section:scroll', index);
-      }
-    },
-  },
   computed: {
-    sections() {
-      return sections;
+    sectionsComponents() {
+      return sectionsComponents;
     },
 
-    swiper() {
-      return this.$refs.sections.swiper;
-    },
-
-    clientWidth() {
-      return document.documentElement.clientWidth;
+    getCarPos() {
+      return this.$refs.car.getBoundingClientRect();
     },
   },
   methods: {
-    handleScrollPage() {
-      const { pageYOffset } = window;
-      const { clientHeight } = document.documentElement;
+    onScroll() {
+      setImmediate(() => {
+        const sections = document.querySelector('#sections');
+        const el = sections.querySelector('section.active');
 
-      const scrolled = pageYOffset + this.clientWidth;
+        this.activeSectionIndex = Array.from(sections.children).indexOf(el);
 
-      const currentSectionIndex = Math.ceil(scrolled / this.clientWidth);
-
-      console.log(scrolled / this.clientWidth);
-
-      if (currentSectionIndex > Object.keys(this.sections).length) {
-        window.scrollTo({ top: 0 });
-      }
-
-      this.currentSectionIndex = currentSectionIndex;
+        this.$eventbus.$emit('section:scroll', this.activeSectionIndex);
+      });
     },
 
-    setPageHeight() {
-      const sectionsAmount = Object.keys(sections).length;
-
-      const windowHeight = this.clientWidth * sectionsAmount;
-
-      this.pageHeight = `${windowHeight}px`;
+    onResize() {
+      this.windowWidth = document.documentElement.clientWidth;
+      this.totalWidth = Object.keys(sectionsComponents).length * this.windowWidth;
     },
 
-    slideTo(index) {
-      window.scrollTo({ top: this.clientWidth * index });
+    onSectionChange(index) {
+      this.ScrollMagicController.scrollTo(this.scrollMagicScenes[index]);
+    },
+
+    initAnimations() {
+      const { sectionsWrapper, bg, car, cloud } = this.$refs;
+      const carWidth = car.offsetWidth;
+      const pageWidth = document.documentElement.clientWidth;
+
+
+      this.ScrollMagicController = new ScrollMagic.Controller({
+        addIndicators: process.env.NODE_ENV === 'development',
+      });
+
+      // SECTION 1
+
+      const tween1 = new TimelineMax()
+        .set(car, { left: 300, x: 0, immediateRender: true });
+
+      const firstSlideCarPathLength = pageWidth - this.getCarPos.left;
+
+      tween1
+        .fromTo(car, 1, { x: 0 }, { x: firstSlideCarPathLength })
+        .set(car, { left: 0, x: -carWidth, immediateRender: true })
+        .to(sectionsWrapper, 0.2, { x: -pageWidth });
+
+      this.scrollMagicScenes.push(
+        new ScrollMagic.Scene({
+          duration: pageWidth,
+        })
+          .setTween(tween1)
+          .setClassToggle('#section-1', 'active')
+          .addTo(this.ScrollMagicController),
+      );
+
+
+      // SECTION 2
+
+      const tween2 = new TimelineMax()
+        .add([
+          TweenMax.fromTo(car, 1, { x: -carWidth }, { x: pageWidth }),
+          TweenMax.fromTo(cloud, 0.1, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }, 1),
+        ])
+        .set(car, { x: -carWidth, immediateRender: true })
+        .set(cloud, { opacity: 0 })
+        .to(sectionsWrapper, 0.2, { x: -pageWidth * 2 });
+
+      this.scrollMagicScenes.push(
+        new ScrollMagic.Scene({
+          duration: pageWidth,
+          offset: pageWidth,
+        })
+          .setTween(tween2)
+          .setClassToggle('#section-2', 'active')
+          .addTo(this.ScrollMagicController),
+      );
+
+
+      // SECTION 3
+
+      const tween3 = new TimelineMax()
+        .add([
+          TweenMax.fromTo(car, 1, { x: -carWidth }, { x: pageWidth }),
+          TweenMax.fromTo(cloud, 0.1, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }, 1),
+        ])
+        .set(car, { x: -carWidth, immediateRender: true })
+        .set(cloud, { opacity: 0 })
+        .to(sectionsWrapper, 0.2, { x: -pageWidth * 3 });
+
+      this.scrollMagicScenes.push(
+        new ScrollMagic.Scene({
+          duration: pageWidth,
+          offset: pageWidth * 2,
+        })
+          .setTween(tween3)
+          .setClassToggle('#section-3', 'active')
+          .addTo(this.ScrollMagicController),
+      );
+
+
+      // SECTION 4
+
+      const tween4 = new TimelineMax()
+        .fromTo(car, 1, { opacity: 1, x: -carWidth }, { opacity: 1, x: pageWidth - 300 })
+        .set(car, { opacity: 0, x: -carWidth, immediateRender: true });
+
+      this.scrollMagicScenes.push(
+        new ScrollMagic.Scene({
+          duration: pageWidth,
+          offset: pageWidth * 3,
+        })
+          .setTween(tween4)
+          .setClassToggle('#section-4', 'active')
+          .addTo(this.ScrollMagicController),
+      );
+
+
+      const bgTween = new TimelineMax()
+        .to(bg, 1, { ease: 'linear', x: -(pageWidth * 3) });
+
+      new ScrollMagic.Scene({
+        duration: pageWidth * 4,
+      })
+        .setTween(bgTween)
+        .addTo(this.ScrollMagicController);
     },
   },
   mounted() {
-    this.setPageHeight();
+    this.onResize();
+    this.initAnimations();
 
-    window.addEventListener('resize', this.setPageHeight, { passive: true });
-    window.addEventListener('scroll', this.handleScrollPage, { passive: true });
+    window.addEventListener('scroll', this.onScroll);
+    window.addEventListener('resize', this.onResize);
 
-    this.$eventbus.$on('section:change', this.slideTo);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.setPageHeight);
-    window.removeEventListener('scroll', this.handleScrollPage);
+    this.$eventbus.$on('section:change', this.onSectionChange);
   },
 };
 </script>
@@ -113,29 +216,50 @@ export default {
 }
 
 .page-main {
+
   &__inner {
     position: fixed;
-    left: 0; right: 0;
-    height: calc(100% - 200px);
+    // left: 0; right: 0;
+    // height: calc(100% - 200px);
+    overflow: hidden;
   }
 
   &__sections {
+    display: flex;
   }
 
   &__bg {
-    position: absolute;
-    left: 0; bottom: 0;
+    position: fixed;
+    left: 0; bottom: 40px;
+    z-index: -1;
+
+    &-inner {
+      overflow: hidden;
+    }
 
     &-image {
-      margin: 0 0 -25px -140px;
-      transition: .7s;
+      margin: 0 0 0 -140px;
     }
 
     &-car {
       position: absolute;
-      bottom: 20px; left: 300px;
+      bottom: 35px; left: 300px;
       @include size(220px, 100px);
     }
   }
+}
+
+.bg-car {
+  &__cloud {
+    position: absolute;
+    left: 100%;
+    bottom: 100%;
+    transform: translate(-50px, 20px);
+  }
+}
+
+.app-section {
+  height: 100%;
+  flex: 0 0 auto;
 }
 </style>

@@ -31,7 +31,7 @@ export default {
 
   &__list {
     list-style: none;
-    margin: 0 0 0 -8px;
+    margin: 0 0 0 -9px;
     padding: 0;
   }
 }

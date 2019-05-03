@@ -39,13 +39,19 @@ export default {
   methods: {
     handleClick(index) {
       this.activePage = index;
-      this.$eventbus.$emit('section:change', index + 1);
+
+      this.$eventbus.$emit('section:change', index);
     },
   },
   mounted() {
     this.$eventbus.$on('section:scroll', index => {
-      this.activePage = index - 1;
+      this.activePage = index;
     });
+
+    const sections = document.querySelector('#sections');
+    const el = sections.querySelector('section.active');
+
+    this.activePage = Array.from(sections.children).indexOf(el);
   },
 };
 </script>

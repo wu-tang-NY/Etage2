@@ -1,63 +1,117 @@
 <template>
-  <section-container>
-    <section class="reviews">
-      <h2>Почему нам доверяют?</h2>
+  <section class="reviews">
+    <h2>Почему нам доверяют?</h2>
 
-      <div class="subheading dark-gray">В первый раз - потому что с нами легко и надежно, во все последующие - по опыту и дружбе.</div>
+    <div class="subheading dark-gray">В первый раз - потому что с нами легко и надежно, во все последующие - по опыту и дружбе.</div>
 
-      <div class="reviews__list">
-        <div v-for="item in items" :key="item.feature" class="reviews__block">
-          <div class="reviews__title" v-html="item.feature"></div>
-        </div>
+    <div class="reviews__list">
+      <div v-for="item in items" :key="item.feature" class="reviews__block">
+        <svg-icon :name="item.svg" original class="reviews__icon" />
+
+        <div class="reviews__title" v-html="item.feature"></div>
+
+        <svg-icon name="chevron_feature" original class="reviews__chevron" />
       </div>
+    </div>
 
+    <div class="reviews__swiper">
       <swiper :options="options">
-        <swiper-slide>Slide 1</swiper-slide>
-        <swiper-slide>Slide 2</swiper-slide>
-        <swiper-slide>Slide 3</swiper-slide>
-        <swiper-slide>Slide 4</swiper-slide>
-        <swiper-slide>Slide 5</swiper-slide>
-        <swiper-slide>Slide 6</swiper-slide>
-        <swiper-slide>Slide 7</swiper-slide>
-        <swiper-slide>Slide 8</swiper-slide>
-        <swiper-slide>Slide 9</swiper-slide>
-        <swiper-slide>Slide 10</swiper-slide>
+        <swiper-slide v-for="(slide, index) in slides" :key="index" class="reviews__slide">
+          <div class="reviews__slide-title">{{ slide.title }}</div>
 
-        <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div>
+          <p class="reviews__slide-desc dark-gray">{{ slide.desc }}</p>
+        </swiper-slide>
       </swiper>
 
-      <div class="row justify-content-center">
-        <div class="reviews__next">Отзывы о нашей работе</div>
+      <div class="swiper-button-prev reviews__swiper-button swiper-button-white" slot="button-prev"></div>
+      <div class="swiper-button-next reviews__swiper-button swiper-button-white" slot="button-next"></div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="reviews__next">Отзывы о нашей работе
+        <svg-icon name="arrow-next" original/>
       </div>
-    </section>
-  </section-container>
+    </div>
+
+    <portal to="car-cloud" v-if="active">
+      <car-cloud
+        icon="cloud_large"
+        icon-width="433"
+      >
+        <p>
+          <span>123 семьи</span> переселились с нашей помощью в новое жилище в этом году
+        </p>
+        <p>
+          <span>123 тонны</span> личных вещей уже перевезено в этом году
+        </p>
+      </car-cloud>
+    </portal>
+  </section>
 </template>
 
 <script>
-import SectionContainer from '../../components/PageMainSectionContainer';
+import CarCloud from '../../components/PageMainCarCloud';
 
 export default {
   name: 'AppPageMainSectionReviews',
   components: {
-    SectionContainer,
+    CarCloud,
+  },
+  props: {
+    active: Boolean,
   },
   data: () => ({
     items: [
       {
         feature: 'Индивидуальный <br> подход',
+        svg: 'individual_feature',
       },
       {
         feature: 'Команда <br> специалистов',
+        svg: 'team_feature',
       },
       {
         feature: 'Профессиональные упаковочные материалы',
+        svg: 'pack_feature',
       },
       {
-        feature: 'Современный грузовой автопарк',
+        feature: 'Современный <br> грузовой автопарк',
+        svg: 'auto_feature',
       },
       {
         feature: 'Прозрачность ценообразования',
+        svg: 'price_feature',
+      },
+    ],
+
+    slides: [
+      {
+        title: 'Gleb Ivanovich',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+      },
+      {
+        title: 'Gleb Ivanovich',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+      },
+      {
+        title: 'Gleb Ivanovich',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+      },
+      {
+        title: 'Gleb Ivanovich',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+      },
+      {
+        title: 'Gleb Ivanovich',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+      },
+      {
+        title: 'Gleb Ivanovich',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+      },
+      {
+        title: 'Gleb Ivanovich',
+        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
       },
     ],
 
@@ -65,8 +119,11 @@ export default {
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
-        slidesPerView: 3,
       },
+      slidesPerView: 'auto',
+      centeredSlides: true,
+      loop: true,
+      spaceBetween: 70,
     },
   }),
 };
@@ -105,6 +162,82 @@ export default {
     letter-spacing: 0.3px;
   }
 
+  &__icon {
+    @include size(39px);
+    margin-bottom: 18px;
+  }
+
+  &__chevron {
+    height: 12px;
+    margin-top: 12px;
+  }
+
+  &__swiper {
+    margin-top: 70px;
+    margin-bottom: 40px;
+    position: relative;
+
+    &::before {
+      content: '';
+      z-index: 10;
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 200px;
+      height: 100%;
+      background-image: linear-gradient(to right, #ffffff 10%, rgba(255, 255, 255, 0));
+    }
+
+    &::after {
+      content: '';
+      z-index: 10;
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 200px;
+      height: 100%;
+      background-image: linear-gradient(to left, #ffffff 10%, rgba(255, 255, 255, 0));
+    }
+  }
+
+  &__swiper-button {
+    @include size(28px);
+    background-color: $colors-accent;
+    background-size: 8px 14px;
+    background-position: center;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    margin-top: 0;
+
+    &.swiper-button-next {
+      right: -30px;
+    }
+
+    &.swiper-button-prev {
+      left: -30px;
+    }
+
+    &:hover, &:focus, &:active {
+      outline: none;
+    }
+  }
+
+  &__slide {
+    text-align: center;
+    width: 400px;
+  }
+
+  &__slide-title {
+    color: $colors-accent;
+    font-size: rem(16);
+    line-height: 1;
+    letter-spacing: .3px;
+    font-weight: bold;
+    margin-bottom: 7px;
+  }
+
   &__next {
     background-color: $colors-accent;
     color: $white;
@@ -118,6 +251,22 @@ export default {
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
     letter-spacing: 0.3px;
     font-weight: bold;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+
+    svg {
+      @include size(18px);
+      margin-left: 14px;
+      transition: .3s ease-in-out;
+    }
+
+    &:hover {
+      filter: brightness(1.1);
+
+      svg {
+        transform: translateX(6px);
+      }
+    }
   }
 }
 </style>

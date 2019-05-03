@@ -1,7 +1,9 @@
 <template functional>
   <div class="app-logo">
     <a href="/" class="app-logo__title">
-      <span class="app-logo__icon">Этаж</span>
+      <span class="app-logo__icon">
+        <svg-icon name="logo_dark" original />
+      </span>
     </a>
     <span class="app-logo__subtitle">Все виды грузоперевозок по Одессе и области</span>
   </div>
@@ -21,15 +23,20 @@ export default {
     align-items: center;
     letter-spacing: .3px;
 
-    &__title {
-      color: $colors-text--primary;
-      font: 900 rem(36) $font-family--secondary;
-      text-transform: lowercase;
-      padding-bottom: 4px;
+    // &__title {
+    //   color: $colors-text--primary;
+    //   font: 900 rem(36) $font-family--secondary;
+    //   text-transform: lowercase;
+    //   padding-bottom: 4px;
 
-      &:hover {
-        color: $colors-text--primary;
-      }
+    //   &:hover {
+    //     color: $colors-text--primary;
+    //   }
+    // }
+
+    &__icon {
+      display: block;
+      @include size(110px, 22px);
     }
 
     &__subtitle {

@@ -1,80 +1,82 @@
 <template>
-  <section-container>
-    <section class="order">
-      <h2>Онлайн заказ</h2>
+  <section class="section-order">
+    <h2>Онлайн заказ</h2>
 
-      <div class="subtitle dark-gray">
-        Если вы впервые столкнулись с потребностью использования сервиса
-        грузоперевозок и точно не знаете, какого размера автомобиль вам нужен и необходимы ли грузчики вообще
-         - не отчаивайтесь. У превалирующего большинства наших постоянных заказчиков мы - их первый опыт.
-        Мы будем рады прояснить для вас все моменты, связанные с работой нашего сервиса или спецификой сферы перевозок в целом.
-        Просто оставьте свой номер ниже.
-      </div>
+    <div class="subtitle dark-gray">
+      Если вы впервые столкнулись с потребностью использования сервиса
+      грузоперевозок и точно не знаете, какого размера автомобиль вам нужен и необходимы ли грузчики вообще
+        - не отчаивайтесь. У превалирующего большинства наших постоянных заказчиков мы - их первый опыт.
+      Мы будем рады прояснить для вас все моменты, связанные с работой нашего сервиса или спецификой сферы перевозок в целом.
+      Просто оставьте свой номер ниже.
+    </div>
 
-      <div class="order__tab-wrapper">
-        <div class="order__tab-block">
-          <button
-            class="order__tab order__tab--left"
-            :class="{ 'order__tab--active': active }"
-            @click="active = !active"
-          >
-            Заполните форму
-          </button>
+    <div class="section-order__tab-wrapper">
+      <div class="section-order__tab-block">
+        <button
+          class="section-order__tab order__tab--left"
+          :class="{ 'section-order__tab--active': tabs[activeTab] === 'order' }"
+          @click="activeTab = 0"
+        >
+          Заполните форму
+        </button>
 
-          <div
-            class="order__tab-description"
-            :class="{ 'order__tab-description--active': active }"
-          >
-            и мы перезвоним вам в течение 15 минут и огласим примерную стоимость
-          </div>
-        </div>
-
-        <div class="order__tab-block">
-          <div class="order__divider">
-            или
-          </div>
-        </div>
-
-        <div class="order__tab-block">
-          <button
-            class="order__tab order__tab--right"
-            :class="{ 'order__tab--active': !active }"
-            @click="active = !active"
-          >
-            Оставьте номер
-          </button>
-
-          <div
-            class="order__tab-description order__tab-description--right"
-            :class="{ 'order__tab-description--active': !active }"
-          >
-            чтобы узнать все и сразу
-          </div>
+        <div
+          class="section-order__tab-description"
+          :class="{ 'section-order__tab-description--active': tabs[activeTab] === 'order' }"
+        >
+          и мы перезвоним вам в течение 15 минут и огласим примерную стоимость
         </div>
       </div>
 
-      <order-form-component v-if="active" />
-    </section>
-  </section-container>
+      <div class="section-order__tab-block">
+        <div class="section-order__divider">
+          или
+        </div>
+      </div>
+
+      <div class="section-order__tab-block">
+        <button
+          class="section-order__tab order__tab--right"
+          :class="{ 'section-order__tab--active': tabs[activeTab] === 'call' }"
+          @click="activeTab = 1"
+        >
+          Оставьте номер
+        </button>
+
+        <div
+          class="section-order__tab-description section-order__tab-description--right"
+          :class="{ 'section-order__tab-description--active': !active }"
+        >
+          чтобы узнать все и сразу
+        </div>
+      </div>
+    </div>
+
+
+    <transition name="component-fade" mode="out-in" >
+      <component :is="tabs[activeTab]" />
+    </transition>
+  </section>
 </template>
 
 <script>
-import SectionContainer from '../../components/PageMainSectionContainer';
-
 export default {
   name: 'AppPageMainSectionOrder',
   components: {
-    SectionContainer,
-    OrderFormComponent: () => import('./components/SectionOrderForm'),
+    order: () => import('./components/OrderFormComponent'),
+    call: () => import('./components/CallFormComponent'),
   },
   data: () => ({
     active: true,
+
+    tabs: ['order', 'call'],
+    activeTab: 0,
   }),
 };
 </script>
 
 <style lang="scss">
-.order {
+.section-order {
   padding-top: 30px;
 
   h2 {
@@ -140,6 +142,7 @@ export default {
 
   &__tab-description {
     max-width: 222px;
+    font-size: rem(14);
     color: $colors-text--secondary;
     transition: .3s ease-in-out;
     letter-spacing: .3px;
@@ -152,5 +155,15 @@ export default {
       padding-left: 20px;
     }
   }
+}
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity .4s ease;
+}
+
+.component-fade-enter,
+.component-fade-leave-to {
+  opacity: 0;
 }
 </style>

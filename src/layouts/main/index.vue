@@ -97,7 +97,9 @@ $footer-height: 65px;
 }
 
 .app-content {
-  padding: 140px 0 $footer-height;
+  padding: 0;
+  position: relative;
+  top: 140px;
 }
 
 .app-footer {

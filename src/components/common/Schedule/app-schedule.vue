@@ -1,6 +1,7 @@
 <template functional>
   <div class="app-schedule">
     <div class="app-schedule__icon">
+      <svg-icon name="label_schedule" original />
     </div>
 
     <div class="app-schedule__content">
@@ -24,8 +25,15 @@ export default {
 $schedule-text-color: rgba($colors-text--primary, .8);
 
 .app-schedule {
+  display: flex;
   font-size: rem(12);
   letter-spacing: .2px;
+
+  &__icon {
+    color: $colors-accent;
+    @include size(9px, 16px);
+    margin: 3px 8px 0 0;
+  }
 
   &__label {
     font-weight: 900;

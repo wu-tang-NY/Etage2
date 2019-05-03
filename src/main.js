@@ -6,6 +6,7 @@ import 'bootstrap';
 
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueSvgIcon from 'vue-svgicon';
+import PortalVue from 'portal-vue';
 
 import './styles/index.scss';
 
@@ -20,6 +21,7 @@ import EventBus from './eventbus';
 Vue.config.productionTip = false;
 
 Vue.use(VueAwesomeSwiper);
+Vue.use(PortalVue);
 
 Vue.use(VueSvgIcon, {
   tagName: 'svg-icon',
