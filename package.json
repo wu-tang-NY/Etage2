@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
     "svg": "vsvg -s ./static/icons -t ./src/assets/icons",
-    "heroku-prebuild": "npm run build npm install --dev"
+    "heroku-prebuild": "npm run build && npm install --dev"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
