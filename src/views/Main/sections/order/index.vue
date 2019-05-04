@@ -1,5 +1,5 @@
 <template>
-  <section class="section-order">
+  <div class="section-order">
     <h2>Онлайн заказ</h2>
 
     <div class="subtitle dark-gray">
@@ -56,7 +56,7 @@
     <transition name="component-fade" mode="out-in" >
       <component :is="tabs[activeTab]" />
     </transition>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -66,9 +66,12 @@ export default {
     order: () => import('./components/OrderFormComponent'),
     call: () => import('./components/CallFormComponent'),
   },
+  props: {
+    active: {
+      type: Boolean,
+    },
+  },
   data: () => ({
-    active: true,
-
     tabs: ['order', 'call'],
     activeTab: 0,
   }),

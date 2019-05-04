@@ -18,7 +18,7 @@
       <div class="page-main__bg">
         <div class="page-main__bg-inner">
           <div class="page-main__bg-image" :style="{ width: `${totalWidth}px` }" ref="bg">
-            <svg-icon name="bg" original />
+            <!-- <svg-icon name="bg" original /> -->
           </div>
 
           <div class="page-main__bg-car bg-car" ref="car">
@@ -43,7 +43,6 @@
 
 <script>
 import TimelineMax from 'gsap/TimelineMax';
-import TweenMax from 'gsap/TweenMax';
 
 // eslint-disable-next-line
 import ScrollMagic from 'ScrollMagic';
@@ -108,14 +107,8 @@ export default {
       // SECTION 1
 
       const tween1 = new TimelineMax()
-        .set(car, { left: 300, x: 0, immediateRender: true });
-
-      const firstSlideCarPathLength = pageWidth - this.getCarPos.left;
-
-      tween1
-        .fromTo(car, 1, { x: 0 }, { x: firstSlideCarPathLength })
-        .set(car, { left: 0, x: -carWidth, immediateRender: true })
-        .to(sectionsWrapper, 0.2, { x: -pageWidth });
+        .set(car, { left: 150, x: 0, immediateRender: true })
+        .to(sectionsWrapper, 0.2, { x: -pageWidth }, 1);
 
       this.scrollMagicScenes.push(
         new ScrollMagic.Scene({
@@ -130,12 +123,8 @@ export default {
       // SECTION 2
 
       const tween2 = new TimelineMax()
-        .add([
-          TweenMax.fromTo(car, 1, { x: -carWidth }, { x: pageWidth }),
-          TweenMax.fromTo(cloud, 0.1, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }, 1),
-        ])
-        .set(car, { x: -carWidth, immediateRender: true })
-        .set(cloud, { opacity: 0 })
+        .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
+        .to(cloud, 0.15, { opacity: 0, y: -20 }, 1)
         .to(sectionsWrapper, 0.2, { x: -pageWidth * 2 });
 
       this.scrollMagicScenes.push(
@@ -152,12 +141,8 @@ export default {
       // SECTION 3
 
       const tween3 = new TimelineMax()
-        .add([
-          TweenMax.fromTo(car, 1, { x: -carWidth }, { x: pageWidth }),
-          TweenMax.fromTo(cloud, 0.1, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }, 1),
-        ])
-        .set(car, { x: -carWidth, immediateRender: true })
-        .set(cloud, { opacity: 0 })
+        .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
+        .to(cloud, 0.15, { opacity: 0, y: -20 }, 1)
         .to(sectionsWrapper, 0.2, { x: -pageWidth * 3 });
 
       this.scrollMagicScenes.push(
@@ -174,7 +159,7 @@ export default {
       // SECTION 4
 
       const tween4 = new TimelineMax()
-        .fromTo(car, 1, { opacity: 1, x: -carWidth }, { opacity: 1, x: pageWidth - 300 })
+        .to(car, 1, { x: pageWidth })
         .set(car, { opacity: 0, x: -carWidth, immediateRender: true });
 
       this.scrollMagicScenes.push(
@@ -238,12 +223,14 @@ export default {
     }
 
     &-image {
-      margin: 0 0 0 -140px;
+      background: url('/static/icons/bg.svg') repeat-x;
+      background-size: auto 275px;
+      height: 275px;
     }
 
     &-car {
       position: absolute;
-      bottom: 35px; left: 300px;
+      bottom: 0; left: 0;
       @include size(220px, 100px);
     }
   }
@@ -254,7 +241,16 @@ export default {
     position: absolute;
     left: 100%;
     bottom: 100%;
-    transform: translate(-50px, 20px);
+    margin-bottom: -10px;
+    transform: translate(-60px, 0);
+  }
+
+  &__image {
+    height: 70px;
+
+    svg {
+      @include size(100%);
+    }
   }
 }
 

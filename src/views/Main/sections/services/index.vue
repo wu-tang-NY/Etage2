@@ -20,6 +20,11 @@
 <script>
 export default {
   name: 'AppPageMainSectionServices',
+  props: {
+    active: {
+      type: Boolean,
+    },
+  },
 };
 </script>
 

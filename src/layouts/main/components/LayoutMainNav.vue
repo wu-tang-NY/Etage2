@@ -1,10 +1,11 @@
 <template>
   <app-nav>
     <app-nav-item
-      v-for="({ title, icon }, index) in pages"
+      v-for="({ title, icon, children }, index) in pages"
       :key="title"
       :title="title"
       :icon="icon"
+      :children="children"
       :active="index === activePage"
       :visited="index < activePage"
       @click.native="handleClick(index)"
@@ -20,6 +21,19 @@ export default {
       {
         title: 'Услуги',
         icon: 'icon_1_c',
+        children: [{
+          title: 'Основная информация',
+          path: '',
+        }, {
+          title: 'Другая информация 1',
+          path: '',
+        }, {
+          title: 'Другая информация 2',
+          path: '',
+        }, {
+          title: 'Другая информация 3',
+          path: '',
+        }],
       },
       {
         title: 'Сколько стоит?',

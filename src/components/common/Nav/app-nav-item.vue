@@ -1,22 +1,35 @@
 <template>
   <li
-    class="app-nav-item"
+    class="nav-item"
     :class="{
-      'app-nav-item--active': active,
-      'app-nav-item--visited': visited,
+      'nav-item--active': active,
+      'nav-item--visited': visited,
     }"
   >
-    <a href="" class="app-nav-item__link" @click.prevent>
-      <div class="app-nav-item__inner">
+    <a href="" class="nav-item__link" @click.prevent>
+      <div class="nav-item__inner">
         <slot>
-          <span class="app-nav-item__icon" v-if="icon">
+          <span class="nav-item__icon" v-if="icon">
             <svg-icon :name="icon" :original="!active" />
           </span>
 
-          <span class="app-nav-item__text">{{ title }}</span>
+          <span class="nav-item__text">{{ title }}</span>
         </slot>
+
+        <span class="nav-item__chevron" v-if="children"></span>
       </div>
-      <div class="app-nav-item__bg"></div>
+
+      <div class="nav-item__bg"></div>
+
+      <ul class="nav-inner" v-if="children">
+        <template v-for="(child, index) in children">
+          <router-link class="nav-inner__item" :to="child.path" tag="li" :key="index">
+            <a href="" class="nav-inner__link">
+              {{ child.title }}
+            </a>
+          </router-link>
+        </template>
+      </ul>
     </a>
   </li>
 </template>
@@ -28,32 +41,39 @@ export default {
     title: {
       type: String,
     },
+
     icon: {
       type: String,
     },
+
     active: {
       type: Boolean,
       required: true,
     },
+
     visited: {
       type: Boolean,
       required: true,
+    },
+
+    children: {
+      type: Array,
     },
   },
 };
 </script>
 
 <style lang="scss">
-.app-nav-item {
+.nav-item {
   display: inline-block;
 
   &:not(:last-child) {
-    margin-right: 5px;
+    margin-right: -15px;
   }
 
   &__link {
     display: block;
-    padding: 8px rem(24) 7px;
+    padding: 7px rem(24) 8px;
     color: $colors-text--primary;
     font-weight: 600;
     font-size: rem(14);
@@ -63,9 +83,13 @@ export default {
     &:hover {
       color: $colors-text--primary;
 
-      .app-nav-item__bg::before {
+      .nav-item__bg::before {
         width: 100%;
         left: 0;
+      }
+
+      .nav-inner {
+        display: block;
       }
     }
   }
@@ -81,15 +105,25 @@ export default {
     margin-right: 6px;
   }
 
+  &__chevron {
+    border: 4px solid transparent;
+    border-top-color: $white;
+    display: inline-block;
+    margin-left: 5px;
+    transform: translate(0, 2px);
+  }
+
   &__text {
     vertical-align: middle;
   }
 
   &__bg {
-    @include absolute(0, 0);
+    position: absolute;
+    bottom: 2px; left: 0;
     @include size(100%);
     overflow: hidden;
-    transform: translate(0, 0) skew(25deg);
+    // transform: translate(0, 0) skew(25deg);
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 20px 100%);
 
     &::before {
       content: '';
@@ -102,8 +136,31 @@ export default {
     }
   }
 
-  &.app-nav-item--visited {
-    .app-nav-item {
+  .nav-inner {
+    background-color: $colors-accent;
+    padding: 10px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 230px;
+    display: none;
+
+    &__link {
+      display: block;
+      padding: 9px 10px;
+      color: $white;
+      font-weight: 500;
+      letter-spacing: .3px;
+      transition: background-color .15s ease-in-out;
+
+      &:hover {
+        background-color: rgba($white, .2);
+      }
+    }
+  }
+
+  &.nav-item--visited {
+    .nav-item {
       &__bg::before {
         background-color: $colors-grey-200;
         width: 100%;
@@ -111,8 +168,8 @@ export default {
     }
   }
 
-  &.app-nav-item--active {
-    .app-nav-item {
+  &.nav-item--active {
+    .nav-item {
       &__link {
         color: $white;
 
