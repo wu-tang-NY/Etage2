@@ -9,7 +9,8 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "svg": "vsvg -s ./static/icons -t ./src/assets/icons"
+    "svg": "vsvg -s ./static/icons -t ./src/assets/icons",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
