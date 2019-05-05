@@ -1,11 +1,11 @@
 <template functional>
   <div class="app-schedule">
-    <div class="app-schedule__icon">
+    <div class="app-schedule__icon" v-if="!props.withoutLabel">
       <svg-icon name="label_schedule" original />
     </div>
 
     <div class="app-schedule__content">
-      <div class="app-schedule__label">Наш график:</div>
+      <div class="app-schedule__label" v-if="!props.withoutLabel">Наш график:</div>
 
       <div class="app-schedule__text">
         <div>С <strong>8:30</strong> до <strong>20:00</strong></div>
@@ -18,6 +18,9 @@
 <script>
 export default {
   name: 'AppSchedule',
+  props: {
+    withoutLabel: Boolean,
+  },
 };
 </script>
 
@@ -26,7 +29,7 @@ $schedule-text-color: rgba($colors-text--primary, .8);
 
 .app-schedule {
   display: flex;
-  font-size: rem(12);
+  font-size: rem(14);
   letter-spacing: .2px;
 
   &__icon {
@@ -48,6 +51,12 @@ $schedule-text-color: rgba($colors-text--primary, .8);
     strong {
       font-weight: 900;
     }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .app-schedule {
+    font-size: rem(12);
   }
 }
 </style>

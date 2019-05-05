@@ -55,6 +55,9 @@ import sectionsComponents from './sections';
 export default {
   name: 'AppPageMain',
   components: { ...sectionsComponents },
+  props: {
+    mobile: Boolean,
+  },
   data: () => ({
     windowWidth: 0,
     totalWidth: 0,
@@ -95,106 +98,116 @@ export default {
     },
 
     initAnimations() {
-      const { sectionsWrapper, bg, car, cloud } = this.$refs;
-      const carWidth = car.offsetWidth;
-      const pageWidth = document.documentElement.clientWidth;
+      if (!this.mobile) {
+        console.log('+++', this.mobile);
+        const { sectionsWrapper, bg, car, cloud } = this.$refs;
+        const carWidth = car.offsetWidth;
+        const pageWidth = document.documentElement.clientWidth;
 
 
-      this.ScrollMagicController = new ScrollMagic.Controller({
-        // addIndicators: process.env.NODE_ENV === 'development',
-      });
+        this.ScrollMagicController = new ScrollMagic.Controller({
+          // addIndicators: process.env.NODE_ENV === 'development',
+        });
 
-      // SECTION 1
+        // SECTION 1
 
-      const tween1 = new TimelineMax()
-        .set(car, { left: 150, x: 0, immediateRender: true })
-        .to(sectionsWrapper, 0.2, { x: -pageWidth }, 1);
+        const tween1 = new TimelineMax()
+          .set(car, { left: 150, x: 0, immediateRender: true })
+          .to(sectionsWrapper, 0.2, { x: -pageWidth }, 1);
 
-      this.scrollMagicScenes.push(
+        this.scrollMagicScenes.push(
+          new ScrollMagic.Scene({
+            duration: pageWidth,
+          })
+            .setPin(this.$refs.page)
+            .setTween(tween1)
+            .setClassToggle('#section-1', 'active')
+            .addTo(this.ScrollMagicController),
+        );
+
+
+        // SECTION 2
+
+        const tween2 = new TimelineMax()
+          .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
+          .to(cloud, 0.15, { opacity: 0, y: -20 }, 1)
+          .to(sectionsWrapper, 0.2, { x: -pageWidth * 2 });
+
+        this.scrollMagicScenes.push(
+          new ScrollMagic.Scene({
+            duration: pageWidth,
+            offset: pageWidth,
+          })
+            .setPin(this.$refs.page)
+            .setTween(tween2)
+            .setClassToggle('#section-2', 'active')
+            .addTo(this.ScrollMagicController),
+        );
+
+
+        // SECTION 3
+
+        const tween3 = new TimelineMax()
+          .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
+          .to(cloud, 0.15, { opacity: 0, y: -20 }, 1)
+          .to(sectionsWrapper, 0.2, { x: -pageWidth * 3 });
+
+        this.scrollMagicScenes.push(
+          new ScrollMagic.Scene({
+            duration: pageWidth,
+            offset: pageWidth * 2,
+          })
+            .setPin(this.$refs.page)
+            .setTween(tween3)
+            .setClassToggle('#section-3', 'active')
+            .addTo(this.ScrollMagicController),
+        );
+
+
+        // SECTION 4
+
+        const tween4 = new TimelineMax()
+          .to(car, 1, { x: pageWidth })
+          .set(car, { opacity: 0, x: -carWidth, immediateRender: true });
+
+        this.scrollMagicScenes.push(
+          new ScrollMagic.Scene({
+            duration: pageWidth,
+            offset: pageWidth * 3,
+          })
+            .setPin(this.$refs.page)
+            .setTween(tween4)
+            .setClassToggle('#section-4', 'active')
+            .addTo(this.ScrollMagicController),
+        );
+
+
+        const bgTween = new TimelineMax()
+          .to(bg, 1, { ease: 'linear', x: -(pageWidth * 3) });
+
         new ScrollMagic.Scene({
-          duration: pageWidth,
+          duration: pageWidth * 4,
         })
-          .setPin(this.$refs.page)
-          .setTween(tween1)
-          .setClassToggle('#section-1', 'active')
-          .addTo(this.ScrollMagicController),
-      );
-
-
-      // SECTION 2
-
-      const tween2 = new TimelineMax()
-        .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
-        .to(cloud, 0.15, { opacity: 0, y: -20 }, 1)
-        .to(sectionsWrapper, 0.2, { x: -pageWidth * 2 });
-
-      this.scrollMagicScenes.push(
-        new ScrollMagic.Scene({
-          duration: pageWidth,
-          offset: pageWidth,
-        })
-          .setPin(this.$refs.page)
-          .setTween(tween2)
-          .setClassToggle('#section-2', 'active')
-          .addTo(this.ScrollMagicController),
-      );
-
-
-      // SECTION 3
-
-      const tween3 = new TimelineMax()
-        .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
-        .to(cloud, 0.15, { opacity: 0, y: -20 }, 1)
-        .to(sectionsWrapper, 0.2, { x: -pageWidth * 3 });
-
-      this.scrollMagicScenes.push(
-        new ScrollMagic.Scene({
-          duration: pageWidth,
-          offset: pageWidth * 2,
-        })
-          .setPin(this.$refs.page)
-          .setTween(tween3)
-          .setClassToggle('#section-3', 'active')
-          .addTo(this.ScrollMagicController),
-      );
-
-
-      // SECTION 4
-
-      const tween4 = new TimelineMax()
-        .to(car, 1, { x: pageWidth })
-        .set(car, { opacity: 0, x: -carWidth, immediateRender: true });
-
-      this.scrollMagicScenes.push(
-        new ScrollMagic.Scene({
-          duration: pageWidth,
-          offset: pageWidth * 3,
-        })
-          .setPin(this.$refs.page)
-          .setTween(tween4)
-          .setClassToggle('#section-4', 'active')
-          .addTo(this.ScrollMagicController),
-      );
-
-
-      const bgTween = new TimelineMax()
-        .to(bg, 1, { ease: 'linear', x: -(pageWidth * 3) });
-
-      new ScrollMagic.Scene({
-        duration: pageWidth * 4,
-      })
-        .setTween(bgTween)
-        .addTo(this.ScrollMagicController);
+          .setTween(bgTween)
+          .addTo(this.ScrollMagicController);
+      }
     },
   },
   mounted() {
     this.onResize();
-    this.initAnimations();
 
-    window.addEventListener('scroll', this.onScroll);
+    if (!this.mobile) {
+      this.initAnimations();
+      window.addEventListener('scroll', this.onScroll);
+    }
+
     window.addEventListener('resize', this.onResize);
 
     this.$eventbus.$on('section:change', this.onSectionChange);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
   },
 };
 </script>
@@ -205,21 +218,11 @@ export default {
 }
 
 .page-main {
-
-  &__inner {
-    position: fixed;
-    // left: 0; right: 0;
-    // height: calc(100% - 200px);
-    overflow: hidden;
-  }
-
   &__sections {
     display: flex;
   }
 
   &__bg {
-    position: fixed;
-    left: 0; bottom: 40px;
     z-index: -1;
 
     &-inner {
@@ -227,9 +230,9 @@ export default {
     }
 
     &-image {
-      background: url('/static/icons/bg.svg') repeat-x;
-      background-size: auto 275px;
-      height: 275px;
+      background: url('/static/icons/bg.svg') -100px 12px repeat-x;
+      background-size: auto 150px;
+      height: 150px;
     }
 
     &-car {
@@ -261,5 +264,40 @@ export default {
 .app-section {
   height: 100%;
   flex: 0 0 auto;
+}
+
+
+@include media-breakpoint-up(md) {
+  .page-main {
+    &__inner {
+      position: fixed;
+      overflow: hidden;
+    }
+
+    &__bg {
+      position: fixed;
+      left: 0; bottom: 40px;
+
+      &-image {
+        background-size: auto 275px;
+        height: 275px;
+      }
+    }
+  }
+}
+
+
+@include media-breakpoint-down(md) {
+  .page-main {
+    &__sections {
+      flex-direction: column;
+    }
+
+    &__bg {
+      &-car {
+        display: none;
+      }
+    }
+  }
 }
 </style>

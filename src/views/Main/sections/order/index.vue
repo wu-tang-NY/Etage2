@@ -54,7 +54,7 @@
 
 
     <transition name="component-fade" mode="out-in" >
-      <component :is="tabs[activeTab]" />
+      <!-- <component :is="tabs[activeTab]" /> -->
     </transition>
   </div>
 </template>

@@ -1,31 +1,33 @@
 <template functional>
   <div class="app-phones">
-    <div class="app-phones__codes-wrapper">
-      <ul class="app-phones__codes">
-        <li class="app-phones__code">
-          <span class="app-phones__code-icon">
-            <svg-icon name="operator_1" original />
-          </span>
-          <span class="app-phones__code-text">093</span>
-        </li>
+    <ul class="app-phones__codes">
+      <li class="app-phones__code">
+        <span class="app-phones__code-icon">
+          <svg-icon name="operator_1" original />
+        </span>
+        <span class="app-phones__code-text">
+          093 <span class="app-phone d-md-none">670 4320</span>
+        </span>
+      </li>
 
-        <li class="app-phones__code">
-          <span class="app-phones__code-icon">
-            <svg-icon name="operator_2" original />
-          </span>
-          <span class="app-phones__code-text">097</span>
-        </li>
+      <li class="app-phones__code">
+        <span class="app-phones__code-icon">
+          <svg-icon name="operator_2" original />
+        </span>
+        <span class="app-phones__code-text">
+          097 <span class="app-phone">670 4320</span>
+        </span>
+      </li>
 
-        <li class="app-phones__code">
-          <span class="app-phones__code-icon">
-            <svg-icon name="operator_3" original />
-          </span>
-          <span class="app-phones__code-text">095</span>
-        </li>
-      </ul>
-    </div>
-
-    <div class="app-phones__text">670 4320</div>
+      <li class="app-phones__code">
+        <span class="app-phones__code-icon">
+          <svg-icon name="operator_3" original />
+        </span>
+        <span class="app-phones__code-text">
+          095 <span class="app-phone d-md-none">670 4320</span>
+        </span>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -72,12 +74,21 @@ export default {
   &__code-text {
     line-height: 1.29;
   }
+}
 
-  &__text {
-    font-size: rem(18);
-    color: $colors-accent;
-    letter-spacing: .4px;
-    padding-bottom: 1px;
+.app-phone {
+  font-size: rem(18);
+  color: $colors-accent;
+  letter-spacing: .4px;
+  padding-bottom: 1px;
+  vertical-align: top;
+}
+
+@include media-breakpoint-down(md) {
+  .app-phones {
+    &__code-text {
+      font-size: rem(18);
+    }
   }
 }
 </style>

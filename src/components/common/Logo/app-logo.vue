@@ -16,41 +16,44 @@ export default {
 </script>
 
 <style lang="scss">
-  $logo-separator-color: #e6e6e6;
+$logo-separator-color: #e6e6e6;
 
-  .app-logo {
-    display: flex;
-    align-items: center;
-    letter-spacing: .3px;
+.app-logo {
+  display: flex;
+  align-items: center;
+  letter-spacing: .3px;
 
-    // &__title {
-    //   color: $colors-text--primary;
-    //   font: 900 rem(36) $font-family--secondary;
-    //   text-transform: lowercase;
-    //   padding-bottom: 4px;
+  &__icon {
+    display: block;
+    @include size(110px, 22px);
 
-    //   &:hover {
-    //     color: $colors-text--primary;
-    //   }
-    // }
+    svg {
+      vertical-align: top;
+    }
+  }
 
+  &__subtitle {
+    font-weight: 500;
+    color: $colors-text--secondary;
+
+    &::before {
+      content: '';
+      background-color: $logo-separator-color;
+      display: inline-block;
+      @include size(2px, 28px);
+      margin: 0 1rem;
+      vertical-align: middle;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
     &__icon {
-      display: block;
-      @include size(110px, 22px);
+      @include size(90px, 18px);
     }
 
     &__subtitle {
-      font-weight: 500;
-      color: $colors-text--secondary;
-
-      &::before {
-        content: '';
-        background-color: $logo-separator-color;
-        display: inline-block;
-        @include size(2px, 28px);
-        margin: 0 1rem;
-        vertical-align: middle;
-      }
+      display: none;
     }
   }
+}
 </style>

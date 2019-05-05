@@ -65,12 +65,6 @@ export default {
 
 <style lang="scss">
 .nav-item {
-  display: inline-block;
-
-  &:not(:last-child) {
-    margin-right: -15px;
-  }
-
   &__link {
     display: block;
     padding: 7px rem(24) 8px;
@@ -82,11 +76,6 @@ export default {
 
     &:hover {
       color: $colors-text--primary;
-
-      .nav-item__bg::before {
-        width: 100%;
-        left: 0;
-      }
 
       .nav-inner {
         display: block;
@@ -101,13 +90,13 @@ export default {
 
   &__icon {
     display: inline-block;
-    @include size(26px);
+    @include size(22px);
     margin-right: 6px;
   }
 
   &__chevron {
     border: 4px solid transparent;
-    border-top-color: $white;
+    border-top-color: $colors-text--primary;
     display: inline-block;
     margin-left: 5px;
     transform: translate(0, 2px);
@@ -119,11 +108,10 @@ export default {
 
   &__bg {
     position: absolute;
-    bottom: 2px; left: 0;
+    bottom: 0; left: 0;
     @include size(100%);
     overflow: hidden;
-    // transform: translate(0, 0) skew(25deg);
-    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 20px 100%);
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0 100%);
 
     &::before {
       content: '';
@@ -137,7 +125,7 @@ export default {
   }
 
   .nav-inner {
-    background-color: $colors-accent;
+    background-color: $colors-grey-200;
     padding: 10px;
     position: absolute;
     top: 100%;
@@ -148,22 +136,13 @@ export default {
     &__link {
       display: block;
       padding: 9px 10px;
-      color: $white;
+      color: $colors-text--primary;
       font-weight: 500;
       letter-spacing: .3px;
       transition: background-color .15s ease-in-out;
 
       &:hover {
-        background-color: rgba($white, .2);
-      }
-    }
-  }
-
-  &.nav-item--visited {
-    .nav-item {
-      &__bg::before {
-        background-color: $colors-grey-200;
-        width: 100%;
+        background-color: rgba($black, .05);
       }
     }
   }
@@ -186,11 +165,77 @@ export default {
         }
       }
 
+      &__chevron {
+        border-top-color: $white;
+      }
+
       &__bg::before {
         background-color: $colors-accent;
         width: 100%;
         left: 0;
       }
+    }
+
+    .nav-inner {
+      background-color: $colors-accent;
+
+      &__link {
+        color: $white;
+
+        &:hover {
+          background-color: rgba($white, .2);
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    display: inline-block;
+
+    &:not(:last-child) {
+      margin-right: -15px;
+    }
+
+    &__link {
+      &:hover {
+        .nav-item__bg::before {
+          width: 100%;
+          left: 0;
+        }
+      }
+    }
+
+    &__bg {
+      bottom: 2px;
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 20px 100%);
+    }
+
+    &__icon {
+      @include size(26px);
+    }
+
+    &.nav-item--visited {
+      .nav-item {
+        &__bg::before {
+          background-color: $colors-grey-200;
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    &__link {
+      padding: 7px rem(24) 7px;
+      max-width: 300px;
+    }
+
+    &__chevron {
+      display: none !important;
+    }
+
+    .nav-inner {
+      display: none !important;
     }
   }
 }
