@@ -1,5 +1,5 @@
 <template>
-  <div class="app-page app-page--main page-main">
+  <div class="app-page app-page--main page-main" ref="page">
     <div class="page-main__inner">
       <div class="page-main__sections" ref="sectionsWrapper" id="sections">
         <section
@@ -101,7 +101,7 @@ export default {
 
 
       this.ScrollMagicController = new ScrollMagic.Controller({
-        addIndicators: process.env.NODE_ENV === 'development',
+        // addIndicators: process.env.NODE_ENV === 'development',
       });
 
       // SECTION 1
@@ -114,6 +114,7 @@ export default {
         new ScrollMagic.Scene({
           duration: pageWidth,
         })
+          .setPin(this.$refs.page)
           .setTween(tween1)
           .setClassToggle('#section-1', 'active')
           .addTo(this.ScrollMagicController),
@@ -132,6 +133,7 @@ export default {
           duration: pageWidth,
           offset: pageWidth,
         })
+          .setPin(this.$refs.page)
           .setTween(tween2)
           .setClassToggle('#section-2', 'active')
           .addTo(this.ScrollMagicController),
@@ -150,6 +152,7 @@ export default {
           duration: pageWidth,
           offset: pageWidth * 2,
         })
+          .setPin(this.$refs.page)
           .setTween(tween3)
           .setClassToggle('#section-3', 'active')
           .addTo(this.ScrollMagicController),
@@ -167,6 +170,7 @@ export default {
           duration: pageWidth,
           offset: pageWidth * 3,
         })
+          .setPin(this.$refs.page)
           .setTween(tween4)
           .setClassToggle('#section-4', 'active')
           .addTo(this.ScrollMagicController),
