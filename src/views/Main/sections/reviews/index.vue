@@ -126,8 +126,9 @@ export default {
       spaceBetween: 70,
       breakpoints: {
         576: {
-          slidesPerView: 1,
           spaceBetween: 0,
+          centeredSlides: false,
+          slidesPerView: 1,
         },
       },
     },
@@ -331,6 +332,10 @@ export default {
       &::after {
         display: none;
       }
+    }
+
+    &__slide {
+      width: 100%;
     }
 
     &__swiper-button {

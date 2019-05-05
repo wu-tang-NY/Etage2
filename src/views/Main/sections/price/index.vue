@@ -408,7 +408,7 @@ export default {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 10000;
+    z-index: 100000;
     padding: 65px 16px;
 
     h3 {
