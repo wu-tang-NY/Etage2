@@ -26,5 +26,10 @@ export default new Router({
         },
       ],
     },
+    {
+      path: '/popup',
+      name: 'ModalInfo',
+      component: () => import('@/views/modal'),
+    },
   ],
 });
