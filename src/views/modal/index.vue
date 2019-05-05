@@ -1,20 +1,22 @@
 <template>
   <div class="modal-info">
-    <svg-icon name="bg" class="modal-info__bg" original/>
+    <svg-icon name="bg_dark" class="modal-info__bg" original/>
     <div class="container">
       <div class="row">
-        <div class="col-lg-3">
+        <div class="sticky">
           <svg-icon name="logo_dark" class="modal-info__logo"/>
           <div class="modal-info__nav">
             <div class="modal-info__panel" @click="toggleActive" v-for="item in nav" :key="item.header">
-              <div class="modal-info__panel-header">{{item.header}}</div>
+              <div class="modal-info__panel-header">{{item.header}}
+                <svg-icon name="modal_dropdown" original/>
+              </div>
               <div class="modal-info__panel-content" v-for="link in item.links" :key="link.name">
                 <a href="http://" class="modal-info__panel-link">{{link}}</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-9 offset-lg-3">
           <div class="modal-info__header-wrapper">
             <div class="modal-info__header">Информация</div>
             <div class="modal-info__close" />
@@ -82,11 +84,20 @@ export default {
   overflow: hidden;
   position: relative;
 
+  .sticky {
+    position: fixed;
+    overflow: auto;
+    max-height: 80vh;
+    width: 15%;
+    max-width: 15%;
+    flex-shrink: 0;
+  }
+
   &__bg {
     position: fixed;
     left: 0;
     bottom: 0;
-    width: 400vw;
+    width: 100%;
   }
 
   &__logo {
@@ -104,6 +115,10 @@ export default {
     &--active {
       .modal-info__panel-header {
         background-color: rgba(#fff, .1);
+
+        svg {
+          transform: rotateZ(0);
+        }
       }
       .modal-info__panel-content {
         max-height: 300px;
@@ -112,19 +127,31 @@ export default {
       .modal-info__panel-link {
         max-height: 36px;
       }
-
     }
   }
 
   &__panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     height: 36px;
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 0.3px;
     color: #ffffff;
-    padding-left: 16px;
+    padding: 0 16px;
     line-height: 36px;
     transition: .3s ease-in-out;
+
+    &:hover {
+      background-color: rgba(#fff, .1);
+    }
+
+    svg {
+      @include size(8px, 5px);
+      transform: rotateZ(180deg);
+      transition: .3s ease-in-out;
+    }
   }
 
   &__panel-content {
