@@ -57,6 +57,7 @@ export default {
   &__input {
     border: none;
     border-bottom: 1px solid $colors-grey-200;
+    background-color: transparent;
     width: 100%;
     font-size: rem(12);
     line-height: 2;

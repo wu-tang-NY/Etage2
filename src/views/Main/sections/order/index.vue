@@ -80,7 +80,7 @@ export default {
 
 <style lang="scss">
 .section-order {
-  padding-top: 30px;
+  padding-top: 40px;
 
   h2 {
     margin-bottom: 16px;

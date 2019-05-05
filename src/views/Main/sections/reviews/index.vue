@@ -2,7 +2,7 @@
   <section class="reviews">
     <h2>Почему нам доверяют?</h2>
 
-    <div class="subheading dark-gray">В первый раз - потому что с нами легко и надежно, во все последующие - по опыту и дружбе.</div>
+    <div class="subtitle dark-gray">В первый раз - потому что с нами легко и надежно, во все последующие - по опыту и дружбе.</div>
 
     <div class="reviews__list">
       <div v-for="item in items" :key="item.feature" class="reviews__block">
@@ -137,13 +137,13 @@ export default {
 
 <style lang="scss">
 .reviews {
-  padding-top: 30px;
+  padding-top: 40px;
 
   h2 {
     margin-bottom: 16px;
   }
 
-  .subheading {
+  .subtitle {
     margin-bottom: 50px;
   }
 
@@ -284,7 +284,7 @@ export default {
       margin-bottom: 10px;
     }
 
-    .subheading {
+    .subtitle {
       margin-bottom: 20px;
     }
 

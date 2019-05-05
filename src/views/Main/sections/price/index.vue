@@ -12,7 +12,7 @@
       <a href="javascript:void(0)">упаковочных материалов</a>
     </div>
 
-    <div class="row">
+    <div class="row" v-if="!isMobile">
       <div class="col-xl-8">
         <div class="price__subtitle-wrapper">
           <div class="price__subtitle price__subtitle--tree">
@@ -29,15 +29,27 @@
         </div>
       </div>
     </div>
-
-    <div class="row">
-      <div v-for="category in categories" :key="category.name" class="col-xl-4">
-        <div class="price__category category">
+    <div class="row" v-if="isMobile">
+      <div v-for="category in categories" :key="category.name" class="col-12">
+        <div class="category-mini" @click="handleOpenFullSize(category)">
+          <svg-icon :name="category.iconName" class="category-mini__icon" original/>
+          <div class="category-mini__info">
+            <h3 class="category-mini__title">{{ category.name }}</h3>
+            <p class="category-mini__subtitle dark-gray">{{ category.subtitle }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-strech">
+      <div v-for="category in categories" :key="category.name" class="col-lg-4">
+        <div class="price__category category" v-if="!isMobile || category.opened">
           <h3 class="category__title">{{ category.name }}</h3>
 
           <p class="category__subtitle">{{ category.subtitle }}</p>
 
           <svg-icon :name="category.iconName" class="category__icon" original />
+
+          <div class="category__close" v-if="isMobile" @click="handleOpenFullSize(category)"></div>
 
           <div class="category__price-wrapper" v-for="item in category.items" :key="item.id">
             <div class="category__additional" v-if="item.additional">{{ item.additional }}</div>
@@ -56,14 +68,15 @@
               <p class="category__description">{{ item.description }}</p>
             </div>
           </div>
+          <p class="category__undertext">{{category.undertext}}</p>
         </div>
-
-        <p class="category__undertext">{{category.undertext}}</p>
       </div>
     </div>
 
     <div class="row justify-content-center">
-      <a href="#" class="price__examples">Мне нужны примеры</a>
+      <a href="#" class="price__examples">Мне нужны примеры
+        <svg-icon name="arrow-next"/>
+      </a>
     </div>
 
     <portal to="car-cloud" v-if="active">
@@ -94,6 +107,7 @@ export default {
         subtitle: 'Мебель, бытовая техника, стройматериалы, сейфы и тд.',
         undertext: 'В стоимость включены: прокладочные материалы, стяжные стропы.',
         iconName: 'price_transport',
+        opened: false,
         items: [
           {
             id: 1,
@@ -113,6 +127,7 @@ export default {
         subtitle: 'Квартирный, офисный переезды, переезд коммерческих помещений',
         undertext: 'В стоимость включены: прокладочные материалы, стяжные стропы.',
         iconName: 'price_moving',
+        opened: false,
         items: [
           {
             id: 1,
@@ -134,6 +149,7 @@ export default {
         subtitle: 'Для транспортировки личных вещей, стройматериалов, и т.д.',
         undertext: 'В стоимость включены: упаковка и маркировка имущества, разборка и сборка мебели, полный цикл ручной транспортировки.',
         iconName: 'price_workers',
+        opened: false,
         items: [
           {
             id: 1,
@@ -151,12 +167,22 @@ export default {
       },
     ],
   }),
+  computed: {
+    isMobile() {
+      return window.innerWidth < 577;
+    },
+  },
+  methods: {
+    handleOpenFullSize(e) {
+      e.opened = !e.opened;
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 .price {
-  padding-top: 30px;
+  padding-top: 40px;
 
   h2 {
     margin-bottom: 16px;
@@ -229,6 +255,7 @@ export default {
       @include size(18px);
       margin-left: 14px;
       transition: .3s ease-in-out;
+      fill: #fff;
     }
 
     &:hover {
@@ -246,6 +273,7 @@ export default {
   background-color: $colors-grey-100;
   padding: 10px 20px 20px 20px;
   position: relative;
+  height: 100%;
 
   &__subtitle {
     letter-spacing: .3px;
@@ -295,8 +323,7 @@ export default {
   }
 
   &__undertext {
-    padding: 0 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     color: $colors-text--secondary;
   }
 
@@ -348,6 +375,91 @@ export default {
       background-color: $colors-text--primary;
       left: 50%;
       transform: translateX(-50%) rotateZ(45deg);
+    }
+  }
+}
+
+.category-mini {
+  height: 100px;
+  background-color: #f6f6f6;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+
+  &:hover {
+    .category-mini__icon {
+      transform: scale(1.2)
+    }
+  }
+
+  &__icon {
+    @include size(40px);
+    margin-right: 16px;
+    flex-shrink: 0;
+    transition: .3s ease-in-out;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .category {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    padding: 65px 16px;
+
+    h3 {
+      font-size: rem(22);
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+    }
+
+    &__subtitle {
+      color: $colors-text--primary;
+      max-width: 250px;
+    }
+
+    &__undertext {
+      margin-top: 20px;
+      padding: 0;
+    }
+
+    &__close {
+      @include size(16px);
+      overflow: hidden;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotateZ(-45deg);
+        @include size(20px, 2px);
+        background-color: $colors-text--primary;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotateZ(45deg);
+        @include size(20px, 2px);
+        background-color: $colors-text--primary;
+      }
+    }
+
+    &__icon {
+      @include size(50px);
+      top: 75px;
+      right: 26px;
     }
   }
 }
