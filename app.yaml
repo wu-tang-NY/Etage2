@@ -13,4 +13,13 @@
 #
 # [START runtime]
 runtime: nodejs10
+api_version: 1
+threadsafe: true
+handlers:
+- url: /(.*\.(js|css|png|jpg|svg|ttf))$
+  static_files: dist/\1
+  upload: dist/.*\.(js|css|png|jpg|svg|ttf)$
+- url: /.*
+  static_files: dist/index.html
+  upload: dist/index.html
 # [END runtime]
