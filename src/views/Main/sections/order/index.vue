@@ -13,7 +13,7 @@
     <div class="section-order__tab-wrapper">
       <div class="section-order__tab-block">
         <button
-          class="section-order__tab order__tab--left"
+          class="section-order__tab section-order__tab--left"
           :class="{ 'section-order__tab--active': tabs[activeTab] === 'order' }"
           @click="activeTab = 0"
         >
@@ -36,7 +36,7 @@
 
       <div class="section-order__tab-block">
         <button
-          class="section-order__tab order__tab--right"
+          class="section-order__tab section-order__tab--right"
           :class="{ 'section-order__tab--active': tabs[activeTab] === 'call' }"
           @click="activeTab = 1"
         >
@@ -45,7 +45,7 @@
 
         <div
           class="section-order__tab-description section-order__tab-description--right"
-          :class="{ 'section-order__tab-description--active': !active }"
+          :class="{ 'section-order__tab-description--active': tabs[activeTab] === 'call' }"
         >
           чтобы узнать все и сразу
         </div>

@@ -1,72 +1,87 @@
 <template>
   <form class="order-form">
-    <div class="order-form__wrapper">
-      <app-input
-        label="Как к вам обращаться"
-        type="text"
-        placeholder="Имя"
-      />
+    <div class="row">
+      <div class="col-lg-3">
+        <app-input
+          label="Как к вам обращаться"
+          type="text"
+          placeholder="Имя"
+        />
+      </div>
 
-      <app-input
-        label="Ваш номер телефона"
-        type="text"
-        placeholder="09Х ХХХ ХХ ХХ"
-      />
+      <div class="col-lg-3">
+        <app-input
+          label="Ваш номер телефона"
+          type="text"
+          placeholder="09Х ХХХ ХХ ХХ"
+        />
+      </div>
 
-      <app-input
-        label="Планируемая дата"
-        type="text"
-        placeholder="Введите дату"
-      />
+      <div class="col-lg-3">
+        <app-input
+          label="Планируемая дата"
+          type="text"
+          placeholder="Введите дату"
+        />
+      </div>
 
-      <!-- Заменить на селект 2 инпута -->
-      <app-input
-        label="Планируемая дата"
-        type="text"
-        placeholder="Введите дату"
-      />
+      <div class="col-lg-3">
+        <app-select
+          label="Тип транспортировки"
+          placeholder="Выберите"
+          :options="transport.options"
+          :value="transport.value"
+        ></app-select>
+      </div>
 
-      <app-input
-        label="Планируемая дата"
-        type="text"
-        placeholder="Введите дату"
-      />
+      <div class="col-lg-3">
+        <app-select
+          label="Грузчики"
+          placeholder="Выберите"
+          :options="transport.options"
+          :value="transport.value"
+        ></app-select>
+      </div>
 
-      <app-input
-        label="Откуда"
-        type="text"
-        placeholder="Введите адресс"
-      />
+      <div class="col-lg-3">
+        <app-input
+          label="Откуда"
+          type="text"
+          placeholder="Введите адресс"
+        />
+      </div>
 
-      <app-input
-        label="Куда"
-        type="text"
-        placeholder="Введите адресс"
-      />
-    </div>
+      <div class="col-lg-3">
+        <app-input
+          label="Куда"
+          type="text"
+          placeholder="Введите адресс"
+        />
+      </div>
+      </div>
 
     <button class="order-form__button" type="submit">Отправить</button>
   </form>
 </template>
 
 <script>
+
 export default {
   name: 'SectionOrderFormComponent',
+  data() {
+    return {
+      transport: {
+        options: ['Позиция1', 'Позиция2', 'Позиция2', 'Позиция3'],
+        value: null,
+      },
+    };
+  },
 };
 </script>
 
 <style lang="scss">
 .order-form {
   margin-top: 30px;
-
-  &__wrapper {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .app-form {
-    margin-right: 40px;
-  }
 
   &__button {
     display: inline-flex;

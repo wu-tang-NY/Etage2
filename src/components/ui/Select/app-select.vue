@@ -1,42 +1,37 @@
 <template>
-  <div class="app-form">
-    <label class="app-form__label" v-if="label">
+  <div class="app-select">
+    <label class="app-select__label" v-if="label">
       {{ label }}
     </label>
-
-    <div class="app-form__control">
-      <input
-        :type="type"
-        class="app-form__input"
+    <div class="app-select__control">
+      <multiselect
         :placeholder="placeholder"
-      />
+        v-model="value"
+        :options="options">
+      </multiselect>
 
-      <div class="app-form__line"></div>
+      <div class="app-select__line"></div>
     </div>
   </div>
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect';
+
 export default {
-  name: 'AppInput',
+  name: 'AppSelect',
+  components: { Multiselect },
   props: {
-    label: {
-      type: String,
-    },
-
-    type: {
-      type: String,
-    },
-
-    placeholder: {
-      type: String,
-    },
+    options: Array,
+    value: null,
+    label: String,
+    placeholder: String,
   },
 };
 </script>
 
 <style lang="scss">
-.app-form {
+.app-select {
   width: 100%;
   display: inline-block;
   margin-bottom: 20px;
@@ -53,25 +48,11 @@ export default {
     overflow: hidden;
     width: 100%;
   }
-
-  &__input {
-    border: none;
-    border-bottom: 1px solid $colors-grey-200;
-    width: 100%;
-    font-size: rem(12);
-    line-height: 2;
-    letter-spacing: 0.2px;
-    padding: 4px 0;
-
-    &::placeholder {
-      color: $colors-text--secondary;
-    }
+  .multiselect {
 
     &:hover,
-    &:focus,
-    &:active {
-      outline: none;
-
+    &:active,
+    &:focus {
       & + .app-form__line {
         width: 100%;
         left: 0;
