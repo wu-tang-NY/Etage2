@@ -124,6 +124,12 @@ export default {
       centeredSlides: true,
       loop: true,
       spaceBetween: 70,
+      breakpoints: {
+        576: {
+          slidesPerView: 1,
+          spaceBetween: 0,
+        },
+      },
     },
   }),
 };
@@ -266,6 +272,84 @@ export default {
       svg {
         transform: translateX(6px);
       }
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .reviews {
+    padding-top: 50px;
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .subheading {
+      margin-bottom: 20px;
+    }
+
+    &__list {
+      flex-wrap: wrap;
+    }
+
+    &__block {
+      width: calc(50% - 16px);
+      margin-right: 16px;
+      margin-bottom: 16px;
+      height: 120px;
+      background-color: #f6f6f6;
+      padding: 14px 9px 16px 9px;
+      justify-content: center;
+
+      &:nth-of-type(2n) {
+        margin-right: 0;
+      }
+    }
+
+    &__icon {
+      @include size (39px);
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    &__title {
+      font-size: rem(12);
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      color: $colors-text--primary;
+    }
+
+    &__chevron {
+      display: none;
+    }
+
+    &__swiper {
+      margin-top: 50px;
+      margin-bottom: 88px;
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+
+    &__swiper-button {
+      top: auto;
+      bottom: -48px;
+      transform: translateY(0);
+
+      &.swiper-button-next {
+        right: 20%;
+      }
+
+      &.swiper-button-prev {
+        left: 20%;
+      }
+    }
+
+    &__next {
+      margin-top: 0;
+      clip-path: none;
     }
   }
 }
