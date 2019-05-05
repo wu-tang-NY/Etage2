@@ -183,6 +183,7 @@ export default {
 @media screen and (max-width: 576px) {
   .section-order {
     padding-top: 50px;
+    padding-bottom: 20px;
 
     h2 {
       margin-bottom: 10px;

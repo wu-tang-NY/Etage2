@@ -22,8 +22,9 @@
         />
       </div>
     </div>
-
-    <button class="call-form__button">Отправить</button>
+    <div class="call-form__btn-wrapper">
+      <button class="call-form__button">Отправить</button>
+    </div>
   </div>
 </template>
 
