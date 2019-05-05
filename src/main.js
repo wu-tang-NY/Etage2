@@ -7,6 +7,7 @@ import 'bootstrap';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueSvgIcon from 'vue-svgicon';
 import PortalVue from 'portal-vue';
+import Multiselect from 'vue-multiselect';
 
 import './styles/index.scss';
 
@@ -19,6 +20,8 @@ import router from './router';
 import EventBus from './eventbus';
 
 Vue.config.productionTip = false;
+
+Vue.component('multiselect', Multiselect);
 
 Vue.use(VueAwesomeSwiper);
 Vue.use(PortalVue);

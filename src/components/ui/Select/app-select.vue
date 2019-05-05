@@ -3,12 +3,13 @@
     <label class="app-select__label" v-if="label">
       {{ label }}
     </label>
+
     <div class="app-select__control">
       <multiselect
-        :placeholder="placeholder"
         v-model="value"
-        :options="options">
-      </multiselect>
+        :options="options"
+        :placeholder="placeholder"
+      ></multiselect>
 
       <div class="app-select__line"></div>
     </div>
@@ -16,16 +17,19 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect';
-
 export default {
   name: 'AppSelect',
-  components: { Multiselect },
   props: {
-    options: Array,
-    value: null,
+    // options: Array,
+    // value: null,
     label: String,
     placeholder: String,
+  },
+  data() {
+    return {
+      value: null,
+      options: ['list', 'of', 'options'],
+    };
   },
 };
 </script>
@@ -45,7 +49,6 @@ export default {
 
   &__control {
     position: relative;
-    overflow: hidden;
     width: 100%;
   }
   .multiselect {

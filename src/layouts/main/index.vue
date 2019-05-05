@@ -20,7 +20,7 @@
           </ul>
 
           <div class="menu-toggle">
-            <button type="button" class="menu-toggle__btn" @click="handleOpenMenu">
+            <button type="button" class="menu-toggle__btn" @click="handleToggleMenu">
               <span class="menu-toggle__line"></span>
               <span class="menu-toggle__line"></span>
               <span class="menu-toggle__line"></span>
@@ -36,7 +36,7 @@
               <app-logo />
             </div>
 
-            <layout-main-nav />
+            <layout-main-nav @click="handleCloseMenu" />
 
             <div class="d-md-none">
               <ul class="nav-wrapper__blocks">
@@ -109,10 +109,16 @@ export default {
     mobile: false,
   }),
   methods: {
-    handleOpenMenu() {
+    handleToggleMenu() {
       this.navOpen = !this.navOpen;
 
       document.body.style.overflow = this.navOpen ? 'hidden' : 'auto';
+    },
+
+    handleCloseMenu() {
+      this.navOpen = false;
+
+      document.body.style.overflow = 'auto';
     },
 
     isMobile() {
@@ -151,6 +157,12 @@ export default {
 $footer-height: 65px;
 
 .app-header {
+  background-color: $white;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+
   &__inner {
     display: flex;
     align-items: center;
@@ -173,6 +185,7 @@ $footer-height: 65px;
 .app-content {
   padding: 0;
   position: relative;
+  top: 50px;
 }
 
 .app-footer {
@@ -231,7 +244,6 @@ $footer-height: 65px;
 
 
 @include media-breakpoint-up(md) {
-  .app-header,
   .app-footer {
     position: fixed;
     left: 0;

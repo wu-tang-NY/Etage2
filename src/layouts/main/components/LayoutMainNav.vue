@@ -54,6 +54,7 @@ export default {
     handleClick(index) {
       this.activePage = index;
 
+      this.$emit('click');
       this.$eventbus.$emit('section:change', index);
     },
   },

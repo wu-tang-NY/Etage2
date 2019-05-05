@@ -94,7 +94,17 @@ export default {
     },
 
     onSectionChange(index) {
-      this.ScrollMagicController.scrollTo(this.scrollMagicScenes[index]);
+      let top = document.documentElement.clientHeight * index + 458 * index;
+
+      if (this.mobile) {
+        const section = document.getElementById(`section-${index + 1}`);
+
+        if (section) {
+          top = section.getBoundingClientRect().top + window.pageYOffset - 50;
+        }
+      }
+
+      document.documentElement.scrollTo({ top, behavior: 'smooth' });
     },
 
     initAnimations() {
