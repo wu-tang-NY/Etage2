@@ -1,5 +1,6 @@
 <template>
   <form class="order-form">
+    <div class="order-form__close" v-if="isMobile" @click="$emit('closeModal')"></div>
     <div class="order-form__title" v-if="isMobile">
       <h2>Заполните форму</h2>
       <div class="subtitle">и мы перезвоним вам в течение 15 минут и огласим примерную стоимость</div>
@@ -63,8 +64,9 @@
         />
       </div>
       </div>
-
-    <button class="order-form__button" type="submit">Отправить</button>
+    <div class="order-form__btn-wrapper">
+      <button class="order-form__button" type="submit">Отправить</button>
+    </div>
   </form>
 </template>
 
@@ -96,7 +98,7 @@ export default {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 20px;
+    padding: 13px 20px;
     font-size: rem(14);
     font-weight: bold;
     line-height: 1;
@@ -120,10 +122,46 @@ export default {
     top: 0;
     left: 0;
     width: 100vw;
-    min-height: 100vh;
-    z-index: 99;
+    max-height: 100vh;
+    overflow: auto;
+    z-index: 999999;
     padding: 65px 16px 40px 16px;
     background-color: #fff;
+    margin-top: 0;
+
+    &__close {
+      @include size(16px);
+      overflow: hidden;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotateZ(-45deg);
+        @include size(20px, 2px);
+        background-color: $colors-text--primary;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotateZ(45deg);
+        @include size(20px, 2px);
+        background-color: $colors-text--primary;
+      }
+    }
+
+    &__btn-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
   }
 }
 </style>

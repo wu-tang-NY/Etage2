@@ -15,7 +15,7 @@
         <button
           class="section-order__tab section-order__tab--left"
           :class="{ 'section-order__tab--active': tabs[activeTab] === 'order' }"
-          @click="activeTab = 0"
+          @click="handleOpenOrderComponent"
         >
           Заполните форму
         </button>
@@ -38,7 +38,7 @@
         <button
           class="section-order__tab section-order__tab--right"
           :class="{ 'section-order__tab--active': tabs[activeTab] === 'call' }"
-          @click="activeTab = 1"
+          @click="handleOpenPhoneComponent"
         >
           Оставьте номер
         </button>
@@ -53,8 +53,9 @@
     </div>
 
 
-    <transition name="component-fade" mode="out-in" >
-      <component :is="tabs[activeTab]" />
+    <transition name="component-fade" mode="out-in" v-if="!isMobile || isModalOpen">
+      <component :is="tabs[activeTab]"
+      @closeModal="closeModal"/>
     </transition>
   </div>
 </template>
@@ -72,9 +73,28 @@ export default {
     },
   },
   data: () => ({
-    tabs: ['order', 'call', 'none'],
+    tabs: ['order', 'call'],
     activeTab: 0,
+    isModalOpen: false,
   }),
+  methods: {
+    handleOpenOrderComponent() {
+      this.activeTab = 0;
+      this.isModalOpen = true;
+    },
+    handleOpenPhoneComponent() {
+      this.activeTab = 1;
+      this.isModalOpen = true;
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    },
+  },
+  computed: {
+    isMobile() {
+      return window.innerWidth < 577;
+    },
+  },
 };
 </script>
 
@@ -163,6 +183,7 @@ export default {
 @media screen and (max-width: 576px) {
   .section-order {
     padding-top: 50px;
+    padding-bottom: 20px;
 
     h2 {
       margin-bottom: 10px;
