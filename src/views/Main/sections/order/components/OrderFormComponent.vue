@@ -1,5 +1,9 @@
 <template>
   <form class="order-form">
+    <div class="order-form__title" v-if="isMobile">
+      <h2>Заполните форму</h2>
+      <div class="subtitle">и мы перезвоним вам в течение 15 минут и огласим примерную стоимость</div>
+    </div>
     <div class="row">
       <div class="col-lg-3">
         <app-input
@@ -76,6 +80,11 @@ export default {
       },
     };
   },
+  computed: {
+    isMobile() {
+      return window.innerWidth < 577;
+    },
+  },
 };
 </script>
 
@@ -102,6 +111,19 @@ export default {
     &:active {
       outline: none;
     }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .order-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vh;
+    min-height: 100vh;
+    z-index: 99;
+    padding: 65px 16px 40px 16px;
+    background-color: #fff;
   }
 }
 </style>

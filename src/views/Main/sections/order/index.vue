@@ -72,7 +72,7 @@ export default {
     },
   },
   data: () => ({
-    tabs: ['order', 'call'],
+    tabs: ['order', 'call', 'none'],
     activeTab: 0,
   }),
 };
@@ -156,6 +156,53 @@ export default {
 
     &--right {
       padding-left: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .section-order {
+    padding-top: 50px;
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      margin-bottom: 30px;
+    }
+
+    &__tab-wrapper {
+      flex-wrap: wrap;
+    }
+
+    &__tab-block {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    &__tab {
+      margin-bottom: 10px;
+      text-transform: none;
+      font-size: rem(14);
+      font-weight: bold;
+      height: 40px;
+      line-height: 40px;
+
+      &--left,
+      &--right {
+        clip-path: none;
+        padding: 0 20px;
+      }
+    }
+
+    &__tab-description {
+      font-size: rem(10);
+      line-height: 2;
+      letter-spacing: 0.2px;
+      text-align: center;
+      margin: 0 auto;
     }
   }
 }
