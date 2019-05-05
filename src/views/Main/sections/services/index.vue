@@ -30,7 +30,7 @@ export default {
 
 <style lang="scss">
 .services {
-  padding-top: 60px;
+  padding-top: 70px;
 
   h1 {
     margin-bottom: 32px;
