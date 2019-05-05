@@ -41,4 +41,19 @@ export default {
     max-width: 680px;
   }
 }
+
+@media screen and (max-width: 576px) {
+  .services {
+    padding-top: 40px;
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+}
 </style>
