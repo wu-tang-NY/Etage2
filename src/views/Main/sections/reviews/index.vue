@@ -86,32 +86,28 @@ export default {
 
     slides: [
       {
-        title: 'Gleb Ivanovich',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+        title: 'Илья, Одесса',
+        desc: 'Мы с женой уже второй раз обратились к ребятам. Первый был случайно, увидели объявление и решили не заморачиваться, если бы сломали наш старый диван, мы бы не расстроились)) Но не сломали. Сейчас переезжали в новый дом, тоже все круто. Спасибо!',
       },
       {
-        title: 'Gleb Ivanovich',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+        title: 'Алена Александровна, Одесса',
+        desc: 'Добрый день! Передаю большую благодарность грузчику Александру за его внимательность и заботу о кровати. Разобрал, все упаковал, подписал. Потом собрал все на новом месте, ни тебе царапинки, ни пылинки. Буду к вам обращаться еще!!',
       },
       {
-        title: 'Gleb Ivanovich',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+        title: 'Евгения, Николаев',
+        desc: 'Сначала отнеслась с настороженностью, боялась что грузчики будут нетрезвые, или машина грязная. Всякое раньше  бывало… Тем более, переезжать пришлось не на соседнюю улицу. Зря переживала. В один момент пришлось даже идти пить кофе, потому что не знала, куда себя деть, пока ребята трудились :) Как-то все у них легко так получалось, спасибо!',
       },
       {
-        title: 'Gleb Ivanovich',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+        title: 'Андрей, Киев',
+        desc: 'Я не доверяю почтам, только частным транспортникам. Пришлось передавать ребятами в Киев важный предмет….Все люкс',
       },
       {
-        title: 'Gleb Ivanovich',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+        title: 'Пётр, пгт Авангард, Одесская обл.',
+        desc: 'Быстро справились, молодцы',
       },
       {
-        title: 'Gleb Ivanovich',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
-      },
-      {
-        title: 'Gleb Ivanovich',
-        desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+        title: 'Марія, Одесса',
+        desc: 'Перевозили увесь офіс з підсопками. Все супер!! Але я б радила ще зробити аплікацію, щоб відстежувати машину, як у таксі. Дякую!! (Іван та Саша були грузчики - ніяких нарікань)',
       },
     ],
 
@@ -235,6 +231,16 @@ export default {
     text-align: center;
     width: 400px;
   }
+
+  &__slide-desc {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      line-height: 16px;
+      max-height: 48px;
+      -webkit-line-clamp: 3; 
+      -webkit-box-orient: vertical;
+    }
 
   &__slide-title {
     color: $colors-accent;
