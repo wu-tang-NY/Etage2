@@ -238,7 +238,7 @@ export default {
       display: -webkit-box;
       line-height: 16px;
       max-height: 48px;
-      -webkit-line-clamp: 3; 
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     }
 

@@ -79,3 +79,13 @@ p {
     letter-spacing: 0.2px;
   }
 }
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity .4s ease;
+}
+
+.component-fade-enter,
+.component-fade-leave-to {
+  opacity: 0;
+}

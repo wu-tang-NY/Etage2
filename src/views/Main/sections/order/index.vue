@@ -61,6 +61,8 @@
 </template>
 
 <script>
+import eventBus from '@/eventbus';
+
 export default {
   name: 'AppPageMainSectionOrder',
   components: {
@@ -94,6 +96,11 @@ export default {
     isMobile() {
       return window.innerWidth < 577;
     },
+  },
+  created() {
+    eventBus.$on('openFormModal', () => {
+      this.handleOpenOrderComponent();
+    });
   },
 };
 </script>
@@ -226,15 +233,5 @@ export default {
       margin: 0 auto;
     }
   }
-}
-
-.component-fade-enter-active,
-.component-fade-leave-active {
-  transition: opacity .4s ease;
-}
-
-.component-fade-enter,
-.component-fade-leave-to {
-  opacity: 0;
 }
 </style>
