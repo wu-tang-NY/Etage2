@@ -6,12 +6,17 @@
         <div class="sticky">
           <svg-icon name="logo_dark" class="modal-info__logo"/>
           <div class="modal-info__nav">
-            <div class="modal-info__panel" @click="toggleActive" v-for="item in nav" :key="item.header">
+            <div class="modal-info__panel"
+              :class="{'modal-info__panel--active': item.isActive}"
+              @click="toggleActive(index)"
+              v-for="(item, index) in nav"
+              :key="item.header"
+            >
               <div class="modal-info__panel-header">{{item.header}}
                 <svg-icon name="modal_dropdown" original/>
               </div>
               <div class="modal-info__panel-content" v-for="link in item.links" :key="link.name">
-                <a href="http://" class="modal-info__panel-link">{{link}}</a>
+                <a href="" @click.prevent class="modal-info__panel-link">{{link}}</a>
               </div>
             </div>
           </div>
@@ -22,7 +27,7 @@
             <div class="modal-info__close" />
           </div>
           <div class="modal-info__content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+            <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
               ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
               laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
               velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
@@ -37,7 +42,8 @@
               ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
               laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
               velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              sunt in culpa qui officia deserunt mollit anim id est laborum.</p> -->
+              <popup-content-feedback></popup-content-feedback>
           </div>
         </div>
       </div>
@@ -46,29 +52,76 @@
 </template>
 
 <script>
+import PopupContentAboutUs from '../Main/pages/PopupContentAboutUs';
+import PopupContentHistory from '../Main/pages/PopupContentHistory';
+import PopupContentOurGoal from '../Main/pages/PopupContentOurGoal';
+import PopupContentFacts from '../Main/pages/PopupContentFacts';
+import PopupContentFlatMove from '../Main/pages/PopupContentFlatMove';
+import PopupContentOfficeMove from '../Main/pages/PopupContentOfficeMove';
+import PopupContentStuffMove from '../Main/pages/PopupContentStuffMove';
+import PopupContentSpecialists from '../Main/pages/PopupContentSpecialists';
+import PopupContentPayment from '../Main/pages/PopupContentPayment';
+import PopupContentSpecialOffers from '../Main/pages/PopupContentSpecialOffers';
+import PopupContentAuto from '../Main/pages/PopupContentAuto';
+import PopupContentPackage from '../Main/pages/PopupContentPackage';
+import PopupContentContacts from '../Main/pages/PopupContentContacts';
+import PopupContentJobs from '../Main/pages/PopupContentJobs';
+import PopupContentFeedback from '../Main/pages/PopupContentFeedback';
+import PopupContentPartners from '../Main/pages/PopupContentPartners';
+
 export default {
+  components: {
+    PopupContentAboutUs,
+    PopupContentHistory,
+    PopupContentOurGoal,
+    PopupContentFacts,
+    PopupContentFlatMove,
+    PopupContentOfficeMove,
+    PopupContentStuffMove,
+    PopupContentAuto,
+    PopupContentPackage,
+    PopupContentSpecialists,
+    PopupContentPayment,
+    PopupContentSpecialOffers,
+    PopupContentContacts,
+    PopupContentJobs,
+    PopupContentFeedback,
+    PopupContentPartners,
+  },
   name: 'ModalInfo',
   data() {
     return {
       nav: [{
-        header: 'NavItem1',
-        links: ['Name1', 'Name2', 'Name3', 'Name4'],
+        header: 'Общая информация',
+        links: ['О нас', 'История', 'Наша цель', 'Факты и цифры'],
+        isActive: false,
       }, {
-        header: 'NavItem2',
-        links: ['Name1', 'Name2', 'Name3', 'Name4'],
+        header: 'Перевозки',
+        links: ['Квартирный переезд', 'Офисный переезд', 'Перевозка имущества'],
+        isActive: false,
       }, {
-        header: 'NavItem3',
-        links: ['Name1', 'Name2', 'Name3', 'Name4'],
+        header: 'Рабочий процесс',
+        links: ['Специалисты', 'Оплата', 'Акции', 'Упаковка', 'Автопарк'],
+        isActive: false,
       }, {
-        header: 'NavItem4',
-        links: ['Name1', 'Name2', 'Name3', 'Name4'],
+        header: 'Дополнительно',
+        links: ['Партнеры', 'Вакансии', 'Отзывы', 'Контакты'],
+        isActive: false,
       },
       ],
     };
   },
   methods: {
-    toggleActive(e) {
-      e.target.parentNode.classList.toggle('modal-info__panel--active');
+    toggleActive(index) {
+      let prev = null;
+
+      this.nav.forEach((item, i) => {
+        if (item.isActive) prev = i;
+
+        item.isActive = false;
+      });
+
+      this.nav[index].isActive = prev !== index;
     },
   },
 };
@@ -90,6 +143,7 @@ export default {
     max-height: 80vh;
     width: 15%;
     max-width: 15%;
+    min-width: 300px;
     flex-shrink: 0;
   }
 
@@ -121,7 +175,7 @@ export default {
         }
       }
       .modal-info__panel-content {
-        max-height: 300px;
+        max-height: 10000px;
       }
 
       .modal-info__panel-link {
@@ -226,7 +280,7 @@ export default {
       margin-top: 20px;
     }
 
-    p {
+    p, li {
       font-size: rem(15);
       line-height: 1.6;
       letter-spacing: 0.3px;
