@@ -112,7 +112,13 @@ export default {
     handleToggleMenu() {
       this.navOpen = !this.navOpen;
 
-      document.body.style.overflow = this.navOpen ? 'hidden' : 'auto';
+      const navOpenClassName = 'menu-open';
+
+      if (this.navOpen) {
+        document.body.classList.add(navOpenClassName);
+      } else {
+        document.body.classList.remove(navOpenClassName);
+      }
     },
 
     handleCloseMenu() {
@@ -239,6 +245,27 @@ $footer-height: 65px;
     background-color: $colors-text--primary;
     display: block;
     @include size(18px, 2px);
+    transform-origin: 0 50%;
+    transition: .2s ease-in-out;
+  }
+}
+
+.menu-open {
+  .menu-toggle {
+    &__line {
+      &:nth-child(1) {
+        transform: translate(0, 0) rotate(45deg);
+      }
+
+      &:nth-child(2) {
+        transform: translate(100%, 0);
+        opacity: 0;
+      }
+
+      &:nth-child(3) {
+        transform: translate(0, 0) rotate(-45deg);
+      }
+    }
   }
 }
 
@@ -267,6 +294,11 @@ $footer-height: 65px;
 
 
 @include media-breakpoint-down(md) {
+  .menu-open {
+    @include fixed(0, 0, 0, 0);
+    overflow-y: scroll;
+  }
+
   .app-header {
     &__blocks {
       display: none;
@@ -292,8 +324,8 @@ $footer-height: 65px;
       display: flex;
       flex-direction: column;
       height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
+      // overflow-y: auto;
+      // overflow-x: hidden;
     }
 
     .app-nav {

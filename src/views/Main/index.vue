@@ -23,12 +23,7 @@
 
           <div class="page-main__bg-car bg-car" ref="car">
             <div class="bg-car__cloud" ref="cloud">
-              <portal-target name="car-cloud">
-                <!--
-                This component can be located anwhere in your App.
-                The slot content of the above portal component will be rendered here.
-                -->
-              </portal-target>
+              <portal-target name="car-cloud" />
             </div>
 
             <div class="bg-car__image">

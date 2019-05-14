@@ -1,12 +1,22 @@
-<template functional>
+<template>
   <div class="app-callback">
-    <span class="app-callback__text">Обратный звонок</span>
+    <span class="app-callback__text" @click="modal = !modal">Обратный звонок</span>
+
+    <callback-modal v-model="modal" />
   </div>
 </template>
 
 <script>
+import CallbackModal from './app-callback-modal';
+
 export default {
   name: 'AppCallback',
+  data: () => ({
+    modal: false,
+  }),
+  components: {
+    CallbackModal,
+  },
 };
 </script>
 

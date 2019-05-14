@@ -4,9 +4,16 @@
     :class="{
       'nav-item--active': active,
       'nav-item--visited': visited,
+      'nav-item--hovered': hovered,
     }"
   >
-    <a href="" class="nav-item__link" @click.prevent>
+    <a
+      href=""
+      class="nav-item__link"
+      @mouseenter="hovered = true"
+      @mouseleave="hovered = false"
+      @click.prevent="hovered = false"
+    >
       <div class="nav-item__inner">
         <slot>
           <span class="nav-item__icon" v-if="icon">
@@ -60,6 +67,9 @@ export default {
       type: Array,
     },
   },
+  data: () => ({
+    hovered: false,
+  }),
 };
 </script>
 
@@ -73,14 +83,6 @@ export default {
     font-size: rem(14);
     letter-spacing: .2px;
     position: relative;
-
-    &:hover {
-      color: $colors-text--primary;
-
-      .nav-inner {
-        display: block;
-      }
-    }
   }
 
   &__inner {
@@ -144,6 +146,18 @@ export default {
       &:hover {
         background-color: rgba($black, .05);
       }
+    }
+  }
+
+  &.nav-item--hovered {
+    .nav-item {
+      &__link {
+        color: $colors-text--primary;
+      }
+    }
+
+    .nav-inner {
+      display: block;
     }
   }
 
