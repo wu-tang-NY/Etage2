@@ -3,19 +3,19 @@
     <h2>Как формируется стоимость?</h2>
 
     <div class="subtitle dark-gray">
-      <a href="javascript:void(0)">Объем автомобиля</a>
+      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">Объем автомобиля</a>
       и время его работы + Количество и время занятости
 
-      <a href="javascript:void(0)">грузчиков</a>
+      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">грузчиков</a>
         + Количество
 
-      <a href="javascript:void(0)">упаковочных материалов</a>
+      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных материалов</a>
     </div>
 
     <div class="row" v-if="!isMobile">
       <div class="col-xl-8">
         <div class="price__subtitle-wrapper">
-          <div class="price__subtitle price__subtitle--tree">
+          <div class="price__subtitle price__subtitle--tree" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">
             Аренда автомобиля
             <svg-icon name="link" original />
           </div>
@@ -23,7 +23,7 @@
       </div>
 
       <div class="col-xl-4">
-        <div class="price__subtitle">
+        <div class="price__subtitle" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">
           Услуги специалистов
           <svg-icon name="link" original />
         </div>
@@ -79,7 +79,7 @@
     </div>
 
     <div class="row justify-content-center">
-      <div class="price__examples">Мне нужны примеры
+      <div class="price__examples" @click="$eventbus.$emit('openPopup', 'PopupContentFlatMove')">Мне нужны примеры
         <svg-icon name="arrow-next"/>
       </div>
     </div>
@@ -260,6 +260,7 @@ export default {
     line-height: 1;
     letter-spacing: 0.3px;
     transition: .3s ease-in-out;
+    cursor: pointer;
 
     &--mobile {
       padding: 12px 38px;

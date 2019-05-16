@@ -28,7 +28,10 @@
     </div>
 
     <div class="row justify-content-center">
-      <div class="reviews__next">Отзывы о нашей работе
+      <div
+        @click="$eventbus.$emit('openPopup', 'PopupContentFeedback')"
+        class="reviews__next"
+      >Отзывы о нашей работе
         <svg-icon name="arrow-next" original/>
       </div>
     </div>
@@ -65,10 +68,12 @@ export default {
       {
         feature: 'Индивидуальный <br> подход',
         svg: 'individual_feature',
+        component: 'PopupContentAboutUs',
       },
       {
         feature: 'Команда <br> специалистов',
         svg: 'team_feature',
+        component: 'PopupContentSpecialists',
       },
       {
         feature: 'Профессиональные упаковочные материалы',
@@ -78,10 +83,12 @@ export default {
       {
         feature: 'Современный <br> грузовой автопарк',
         svg: 'auto_feature',
+        component: 'PopupContentAuto',
       },
       {
         feature: 'Прозрачность ценообразования',
         svg: 'price_feature',
+        component: 'PopupContentPayment',
       },
     ],
 

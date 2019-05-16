@@ -23,16 +23,16 @@ export default {
         icon: 'icon_1_c',
         children: [{
           title: 'Основная информация',
-          path: '',
+          path: 'PopupContentAboutUs',
         }, {
           title: 'Другая информация 1',
-          path: '',
+          path: 'PopupContentHistory',
         }, {
           title: 'Другая информация 2',
-          path: '',
+          path: 'PopupContentOurGoal',
         }, {
           title: 'Другая информация 3',
-          path: '',
+          path: 'PopupContentFacts',
         }],
       },
       {

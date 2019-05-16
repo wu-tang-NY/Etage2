@@ -30,11 +30,11 @@
 
       <ul class="nav-inner" v-if="children">
         <template v-for="(child, index) in children">
-          <router-link class="nav-inner__item" :to="child.path" tag="li" :key="index">
+          <li class="nav-inner__item" tag="li" @click="$eventbus.$emit('openPopup', child.path)" :key="index">
             <a href="" class="nav-inner__link">
               {{ child.title }}
             </a>
-          </router-link>
+          </li>
         </template>
       </ul>
     </a>
