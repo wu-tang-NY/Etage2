@@ -89,7 +89,7 @@ export default {
     },
 
     onSectionChange(index) {
-      let top = document.documentElement.clientHeight * index + 458 * index;
+      let top = window.innerWidth * index;
 
       if (this.mobile) {
         const section = document.getElementById(`section-${index + 1}`);
@@ -118,7 +118,7 @@ export default {
 
         const tween1 = new TimelineMax()
           .set(car, { left: 150, x: 0, immediateRender: true })
-          .to(sectionsWrapper, 0.2, { x: -pageWidth }, 1);
+          .to(sectionsWrapper, 1, { x: -pageWidth });
 
         this.scrollMagicScenes.push(
           new ScrollMagic.Scene({
@@ -135,8 +135,8 @@ export default {
 
         const tween2 = new TimelineMax()
           .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
-          .to(cloud, 0.15, { opacity: 0, y: -20 }, 1)
-          .to(sectionsWrapper, 0.2, { x: -pageWidth * 2 });
+          .to(cloud, 0.15, { opacity: 0, y: -20 })
+          .to(sectionsWrapper, 1, { x: -pageWidth * 2 });
 
         this.scrollMagicScenes.push(
           new ScrollMagic.Scene({
@@ -154,8 +154,8 @@ export default {
 
         const tween3 = new TimelineMax()
           .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
-          .to(cloud, 0.15, { opacity: 0, y: -20 }, 1)
-          .to(sectionsWrapper, 0.2, { x: -pageWidth * 3 });
+          .to(cloud, 0.15, { opacity: 0, y: -20 })
+          .to(sectionsWrapper, 1, { x: -pageWidth * 3 });
 
         this.scrollMagicScenes.push(
           new ScrollMagic.Scene({
@@ -172,7 +172,7 @@ export default {
         // SECTION 4
 
         const tween4 = new TimelineMax()
-          .to(car, 1, { x: pageWidth })
+          .to(car, 0.1, { x: pageWidth - (pageWidth / 4) })
           .set(car, { opacity: 0, x: -carWidth, immediateRender: true });
 
         this.scrollMagicScenes.push(

@@ -95,7 +95,6 @@
 </template>
 
 <script>
-import eventBus from '@/eventbus';
 import CarCloud from '../../components/PageMainCarCloud';
 
 export default {
@@ -185,7 +184,7 @@ export default {
 
     openForm(e) {
       this.handleOpenFullSize(e);
-      eventBus.$emit('openFormModal');
+      this.$eventbus.$emit('openFormModal');
     },
   },
 };

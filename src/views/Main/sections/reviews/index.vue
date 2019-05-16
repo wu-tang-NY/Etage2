@@ -5,7 +5,7 @@
     <div class="subtitle dark-gray">В первый раз - потому что с нами легко и надежно, во все последующие - по опыту и дружбе.</div>
 
     <div class="reviews__list">
-      <div v-for="item in items" :key="item.feature" class="reviews__block">
+      <div v-for="item in items" :key="item.feature" class="reviews__block" @click="openPopup(item.component)">
         <svg-icon :name="item.svg" original class="reviews__icon" />
 
         <div class="reviews__title" v-html="item.feature"></div>
@@ -73,6 +73,7 @@ export default {
       {
         feature: 'Профессиональные упаковочные материалы',
         svg: 'pack_feature',
+        component: 'PopupContentPackage',
       },
       {
         feature: 'Современный <br> грузовой автопарк',
@@ -129,6 +130,11 @@ export default {
       },
     },
   }),
+  methods: {
+    openPopup(e) {
+      this.$eventbus.$emit('openPopup', e);
+    },
+  },
 };
 </script>
 
@@ -155,6 +161,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
   }
 
   &__title {

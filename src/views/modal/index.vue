@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-info">
+  <div class="modal-info" v-if="openModal">
     <svg-icon name="bg_dark" class="modal-info__bg" original/>
     <div class="container">
       <div class="row">
@@ -8,42 +8,28 @@
           <div class="modal-info__nav">
             <div class="modal-info__panel"
               :class="{'modal-info__panel--active': item.isActive}"
-              @click="toggleActive(index)"
               v-for="(item, index) in nav"
               :key="item.header"
             >
-              <div class="modal-info__panel-header">{{item.header}}
+              <div
+                class="modal-info__panel-header"
+                @click="toggleActive(index)"
+              >{{item.header}}
                 <svg-icon name="modal_dropdown" original/>
               </div>
               <div class="modal-info__panel-content" v-for="link in item.links" :key="link.name">
-                <a href="" @click.prevent class="modal-info__panel-link">{{link}}</a>
+                <a href="" @click.prevent="activeTab = link" class="modal-info__panel-link">{{link.title}}</a>
               </div>
             </div>
           </div>
         </div>
         <div class="col-lg-9 offset-lg-3">
           <div class="modal-info__header-wrapper">
-            <div class="modal-info__header">Информация</div>
-            <div class="modal-info__close" />
+            <div class="modal-info__header">{{activeTab.title}}</div>
+            <div class="modal-info__close" @click="closeModal"/>
           </div>
           <div class="modal-info__content">
-            <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-              ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <img src="http://stroibloger.com/wp-content/uploads/2016/03/upakovki23456789876321.jpg" alt="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-              ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-              ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.</p> -->
-              <popup-content-feedback></popup-content-feedback>
+            <component :is="activeTab.component"></component>
           </div>
         </div>
       </div>
@@ -52,60 +38,80 @@
 </template>
 
 <script>
-import PopupContentAboutUs from '../Main/pages/PopupContentAboutUs';
-import PopupContentHistory from '../Main/pages/PopupContentHistory';
-import PopupContentOurGoal from '../Main/pages/PopupContentOurGoal';
-import PopupContentFacts from '../Main/pages/PopupContentFacts';
-import PopupContentFlatMove from '../Main/pages/PopupContentFlatMove';
-import PopupContentOfficeMove from '../Main/pages/PopupContentOfficeMove';
-import PopupContentStuffMove from '../Main/pages/PopupContentStuffMove';
-import PopupContentSpecialists from '../Main/pages/PopupContentSpecialists';
-import PopupContentPayment from '../Main/pages/PopupContentPayment';
-import PopupContentSpecialOffers from '../Main/pages/PopupContentSpecialOffers';
-import PopupContentAuto from '../Main/pages/PopupContentAuto';
-import PopupContentPackage from '../Main/pages/PopupContentPackage';
-import PopupContentContacts from '../Main/pages/PopupContentContacts';
-import PopupContentJobs from '../Main/pages/PopupContentJobs';
-import PopupContentFeedback from '../Main/pages/PopupContentFeedback';
-import PopupContentPartners from '../Main/pages/PopupContentPartners';
+import pages from '../Main/pages';
 
 export default {
   components: {
-    PopupContentAboutUs,
-    PopupContentHistory,
-    PopupContentOurGoal,
-    PopupContentFacts,
-    PopupContentFlatMove,
-    PopupContentOfficeMove,
-    PopupContentStuffMove,
-    PopupContentAuto,
-    PopupContentPackage,
-    PopupContentSpecialists,
-    PopupContentPayment,
-    PopupContentSpecialOffers,
-    PopupContentContacts,
-    PopupContentJobs,
-    PopupContentFeedback,
-    PopupContentPartners,
+    ...pages,
   },
   name: 'ModalInfo',
   data() {
     return {
+      openModal: false,
+      activeTab: 'PopupContentAboutUs',
       nav: [{
         header: 'Общая информация',
-        links: ['О нас', 'История', 'Наша цель', 'Факты и цифры'],
+        links: [{
+          title: 'О нас',
+          component: 'PopupContentAboutUs',
+        }, {
+          title: 'История',
+          component: 'PopupContentHistory',
+        }, {
+          title: 'Наша цель',
+          component: 'PopupContentOurGoal',
+        }, {
+          title: 'Факты и цифры',
+          component: 'PopupContentFacts',
+        }],
         isActive: false,
       }, {
         header: 'Перевозки',
-        links: ['Квартирный переезд', 'Офисный переезд', 'Перевозка имущества'],
+        links: [{
+          title: 'Квартирный переезд',
+          component: 'PopupContentFlatMove',
+        }, {
+          title: 'Офисный переезд',
+          component: 'PopupContentOfficeMove',
+        }, {
+          title: 'Перевозка имущества',
+          component: 'PopupContentStuffMove',
+        }],
         isActive: false,
       }, {
         header: 'Рабочий процесс',
-        links: ['Специалисты', 'Оплата', 'Акции', 'Упаковка', 'Автопарк'],
+        links: [{
+          title: 'Специалисты',
+          component: 'PopupContentSpecialists',
+        }, {
+          title: 'Оплата',
+          component: 'PopupContentPayment',
+        }, {
+          title: 'Акции',
+          component: 'PopupContentSpecialOffers',
+        }, {
+          title: 'Упаковка',
+          component: 'PopupContentPackage',
+        }, {
+          title: 'Автопарк',
+          component: 'PopupContentAuto',
+        }],
         isActive: false,
       }, {
         header: 'Дополнительно',
-        links: ['Партнеры', 'Вакансии', 'Отзывы', 'Контакты'],
+        links: [{
+          title: 'Партнеры',
+          component: 'PopupContentPartners',
+        }, {
+          title: 'Вакансии',
+          component: 'PopupContentJobs',
+        }, {
+          title: 'Отзывы',
+          component: 'PopupContentFeedback',
+        }, {
+          title: 'Контакты',
+          component: 'PopupContentContacts',
+        }],
         isActive: false,
       },
       ],
@@ -123,6 +129,24 @@ export default {
 
       this.nav[index].isActive = prev !== index;
     },
+    closeModal() {
+      this.openModal = false;
+      document.body.classList.remove('modal-open');
+    },
+  },
+  mounted() {
+    this.$eventbus.$on('openPopup', component => {
+      this.nav.some(nav => {
+        return nav.links.some(item => {
+          if (item.component === component) {
+            this.activeTab = item;
+          }
+          return item.component === component;
+        });
+      });
+      this.openModal = true;
+      document.body.classList.add('modal-open');
+    });
   },
 };
 </script>
@@ -135,7 +159,10 @@ export default {
   background-color: #0e1a28;
   padding: 50px 0;
   overflow: hidden;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 
   .sticky {
     position: fixed;

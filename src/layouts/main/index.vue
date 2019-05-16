@@ -93,15 +93,19 @@
         </div>
       </div>
     </footer>
+    <transition name="component-fade">
+      <modal-info></modal-info>
+    </transition>
   </div>
 </template>
 
 <script>
 import components from './components';
+import ModalInfo from '../../views/modal';
 
 export default {
   name: 'AppMainLayout',
-  components: { ...components },
+  components: { ...components, ModalInfo },
   data: () => ({
     navOpen: false,
 

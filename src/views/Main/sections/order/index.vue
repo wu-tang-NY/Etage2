@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import eventBus from '@/eventbus';
 
 export default {
   name: 'AppPageMainSectionOrder',
@@ -98,7 +97,7 @@ export default {
     },
   },
   created() {
-    eventBus.$on('openFormModal', () => {
+    this.$eventbus.$on('openFormModal', () => {
       this.handleOpenOrderComponent();
     });
   },
