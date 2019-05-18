@@ -263,7 +263,7 @@ $footer-height: 65px;
   .menu-toggle {
     &__line {
       &:nth-child(1) {
-        transform: translate(0, 0) rotate(45deg);
+        transform: translate(0, 0) rotate(43deg);
       }
 
       &:nth-child(2) {
@@ -272,7 +272,7 @@ $footer-height: 65px;
       }
 
       &:nth-child(3) {
-        transform: translate(0, 0) rotate(-45deg);
+        transform: translate(0, 0) rotate(-43deg);
       }
     }
   }
