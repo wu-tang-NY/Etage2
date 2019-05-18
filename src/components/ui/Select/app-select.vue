@@ -20,16 +20,10 @@
 export default {
   name: 'AppSelect',
   props: {
-    // options: Array,
-    // value: null,
+    options: Array,
+    value: null,
     label: String,
     placeholder: String,
-  },
-  data() {
-    return {
-      value: null,
-      options: ['list', 'of', 'options'],
-    };
   },
 };
 </script>

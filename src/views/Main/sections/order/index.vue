@@ -93,7 +93,7 @@ export default {
   },
   computed: {
     isMobile() {
-      return window.innerWidth < 577;
+      return window.innerWidth < 993;
     },
   },
   created() {
@@ -186,7 +186,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 992px) {
   .section-order {
     padding-top: 50px;
     padding-bottom: 20px;

@@ -52,6 +52,7 @@ export default {
   components: { ...sectionsComponents },
   props: {
     mobile: Boolean,
+    tablet: Boolean,
   },
   data: () => ({
     windowWidth: 0,
@@ -88,10 +89,25 @@ export default {
       this.totalWidth = Object.keys(sectionsComponents).length * this.windowWidth;
     },
 
+    onSpacePress(e) {
+      if (e.keyCode === 32) {
+        e.preventDefault();
+        const sections = document.querySelector('#sections');
+        const el = sections.querySelector('section.active');
+
+        this.activeSectionIndex = Array.from(sections.children).indexOf(el);
+
+        if (this.activeSectionIndex < 4) {
+          const top = window.innerWidth * (this.activeSectionIndex + 1);
+          document.documentElement.scrollTo({ top, behavior: 'smooth' });
+        }
+      }
+    },
+
     onSectionChange(index) {
       let top = window.innerWidth * index;
 
-      if (this.mobile) {
+      if (this.mobile || this.tablet) {
         const section = document.getElementById(`section-${index + 1}`);
 
         if (section) {
@@ -103,8 +119,7 @@ export default {
     },
 
     initAnimations() {
-      if (!this.mobile) {
-        console.log('+++', this.mobile);
+      if (!this.mobile && !this.tablet) {
         const { sectionsWrapper, bg, car, cloud } = this.$refs;
         const carWidth = car.offsetWidth;
         const pageWidth = document.documentElement.clientWidth;
@@ -207,6 +222,7 @@ export default {
     }
 
     window.addEventListener('resize', this.onResize);
+    document.addEventListener('keypress', this.onSpacePress);
 
     this.$eventbus.$on('section:change', this.onSectionChange);
   },
@@ -272,7 +288,7 @@ export default {
 }
 
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-up(lg) {
   .page-main {
     &__inner {
       position: fixed;

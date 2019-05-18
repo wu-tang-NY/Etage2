@@ -297,7 +297,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 992px) {
   .reviews {
     padding-top: 50px;
 

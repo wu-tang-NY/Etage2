@@ -31,6 +31,14 @@
       </div>
 
       <div class="col-lg-3">
+        <app-input
+          label="Откуда"
+          type="text"
+          placeholder="Введите адресс"
+        />
+      </div>
+
+      <div class="col-lg-3">
         <app-select
           label="Тип транспортировки"
           placeholder="Выберите"
@@ -50,9 +58,9 @@
 
       <div class="col-lg-3">
         <app-input
-          label="Откуда"
+          label="Комментарий или пожелание"
           type="text"
-          placeholder="Введите адресс"
+          placeholder="Введите комментарий или пожелание"
         />
       </div>
 
@@ -84,7 +92,7 @@ export default {
   },
   computed: {
     isMobile() {
-      return window.innerWidth < 577;
+      return window.innerWidth < 993;
     },
   },
 };
@@ -116,12 +124,13 @@ export default {
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 992px) {
   .order-form {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
+    min-height: 100vh;
     max-height: 100vh;
     overflow: auto;
     z-index: 999999;

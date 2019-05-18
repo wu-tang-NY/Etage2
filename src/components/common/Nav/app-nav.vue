@@ -29,7 +29,7 @@ export default {
     padding: 0;
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     &::before {
       content: '';
       background-image: linear-gradient(to right, #e6e6e6, rgba(230, 230, 230, 0));

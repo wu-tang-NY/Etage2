@@ -54,7 +54,7 @@ $schedule-text-color: rgba($colors-text--primary, .8);
   }
 }
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-up(lg) {
   .app-schedule {
     font-size: rem(12);
   }

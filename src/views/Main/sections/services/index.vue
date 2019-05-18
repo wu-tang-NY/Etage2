@@ -42,7 +42,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 992px) {
   .services {
     padding-top: 40px;
 
