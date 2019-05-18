@@ -1,25 +1,27 @@
 <template>
   <portal to="modal" v-if="show">
-    <div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal" tabindex="-1" role="dialog" @click.self="handleCloseModal">
       <div :class="modalDialogClasses" role="document">
-        <div class="modal-content">
+        <div class="modal-content" v-if="show">
           <div class="modal-header" v-if="title">
             <h5 class="modal-title">{{ title }}</h5>
-            <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close">
-              <svg-icon name="x" />
+
+            <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close" @click="handleCloseModal">
+              <span class="modal-close__line"></span>
+              <span class="modal-close__line"></span>
             </button>
           </div>
+
           <div class="modal-body">
             <slot></slot>
           </div>
+
           <div class="modal-footer" v-if="$slots.footer">
-            <slot name="footer">
-            </slot>
+            <slot name="footer"></slot>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal-backdrop show"></div>
   </portal>
 </template>
 
@@ -61,18 +63,59 @@ export default {
       };
     },
   },
+  methods: {
+    handleCloseModal() {
+      this.$emit('input', false);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-  .modal {
-    &-header {
-      align-items: center;
+.modal {
+  background-color: rgba($black, .5);
+  display: block;
+
+  &-header {
+    align-items: center;
+  }
+
+  &-title {
+    font-size: rem(20);
+    font-weight: 900;
+  }
+
+  &-content {
+    width: 400px;
+  }
+
+  &-close {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: -1rem -1rem -1rem 0;
+    color: rgba($black, .5);
+    position: relative;
+    @include size(20px);
+    margin-right: 0px;
+
+    &::before,
+    &::after {
+      content: '';
+      background-color: $colors-text--primary;
+      @include absolute(0, 0);
+      @include size(100%, 2px);
+      transform-origin: 50% 50%;
+      margin-top: 10px;
     }
 
-    &-close {
-      padding: 0;
-      margin: -1rem -1rem -1rem 0;
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
     }
   }
+}
 </style>

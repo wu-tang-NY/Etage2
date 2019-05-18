@@ -93,6 +93,7 @@
         </div>
       </div>
     </footer>
+
     <transition name="component-fade">
       <modal-info></modal-info>
     </transition>

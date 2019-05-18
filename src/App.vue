@@ -2,7 +2,10 @@
   <div id="app">
     <router-view/>
 
-    <portal-target name="modal" />
+
+    <transition name="modal">
+      <portal-target name="modal" slim />
+    </transition>
   </div>
 </template>
 
@@ -11,3 +14,17 @@ export default {
   name: 'App',
 };
 </script>
+
+<style lang="scss">
+  .modal {
+    &-enter,
+    &-leave-to {
+      opacity: 0;
+    }
+
+    &-enter-active,
+    &-leave-active {
+      transition: .25s ease-in-out;
+    }
+  }
+</style>
