@@ -52,6 +52,7 @@ export default {
   components: { ...sectionsComponents },
   props: {
     mobile: Boolean,
+    tablet: Boolean,
   },
   data: () => ({
     windowWidth: 0,
@@ -106,7 +107,7 @@ export default {
     onSectionChange(index) {
       let top = window.innerWidth * index;
 
-      if (this.mobile) {
+      if (this.mobile || this.tablet) {
         const section = document.getElementById(`section-${index + 1}`);
 
         if (section) {
@@ -118,8 +119,7 @@ export default {
     },
 
     initAnimations() {
-      if (!this.mobile) {
-        console.log('+++', this.mobile);
+      if (!this.mobile && !this.tablet) {
         const { sectionsWrapper, bg, car, cloud } = this.$refs;
         const carWidth = car.offsetWidth;
         const pageWidth = document.documentElement.clientWidth;
@@ -288,7 +288,7 @@ export default {
 }
 
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-up(lg) {
   .page-main {
     &__inner {
       position: fixed;

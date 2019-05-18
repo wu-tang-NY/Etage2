@@ -13,7 +13,7 @@
     </div>
 
     <div class="row" v-if="!isMobile">
-      <div class="col-xl-8">
+      <div class="col-lg-8">
         <div class="price__subtitle-wrapper">
           <div class="price__subtitle price__subtitle--tree" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">
             Аренда автомобиля
@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <div class="col-xl-4">
+      <div class="col-lg-4">
         <div class="price__subtitle" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">
           Услуги специалистов
           <svg-icon name="link" original />
@@ -174,7 +174,7 @@ export default {
   }),
   computed: {
     isMobile() {
-      return window.innerWidth < 577;
+      return window.innerWidth < 993;
     },
   },
   methods: {
@@ -417,7 +417,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 992px) {
   .category {
     position: fixed;
     top: 0;
@@ -425,7 +425,7 @@ export default {
     width: 100vw;
     height: 100vh;
     z-index: 100000;
-    padding: 65px 16px;
+    padding: 95px 36px;
 
     h3 {
       font-size: rem(22);
@@ -448,8 +448,8 @@ export default {
       @include size(16px);
       overflow: hidden;
       position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 36px;
+      right: 36px;
 
       &::before {
         content: '';
@@ -470,6 +470,23 @@ export default {
         @include size(20px, 2px);
         background-color: $colors-text--primary;
       }
+    }
+
+    &__icon {
+      @include size(50px);
+      top: 105px;
+      right: 56px;
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .category {
+    padding: 65px 16px;
+
+    &__close {
+      top: 16px;
+      right: 16px;
     }
 
     &__icon {

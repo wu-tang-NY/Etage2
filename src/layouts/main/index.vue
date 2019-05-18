@@ -32,13 +32,13 @@
       <div class="nav-wrapper" :class="{ 'nav-wrapper--open': navOpen }">
         <div class="container">
           <div class="nav-wrapper__inner">
-            <div class="d-md-none">
+            <div class="d-lg-none">
               <app-logo />
             </div>
 
             <layout-main-nav @click="handleCloseMenu" />
 
-            <div class="d-md-none">
+            <div class="d-lg-none">
               <ul class="nav-wrapper__blocks">
                 <li class="nav-wrapper__block nav-block">
                   <div class="nav-block__title">
@@ -65,7 +65,7 @@
               </ul>
             </div>
 
-            <div class="app-copyright mt-auto d-md-none">
+            <div class="app-copyright mt-auto d-lg-none">
               &copy; 2019 Etage. All Rights Reserved.
             </div>
           </div>
@@ -74,10 +74,13 @@
     </header>
 
     <main class="app-content">
-      <router-view :mobile="mobile" />
+      <router-view
+        :mobile="mobile"
+        :tablet="tablet"
+      />
     </main>
 
-    <footer class="app-footer" v-if="!mobile">
+    <footer class="app-footer" v-if="!mobile && !tablet">
       <div class="container">
         <div class="app-footer__inner">
           <div class="app-copyright mr-auto">
@@ -111,6 +114,7 @@ export default {
 
     device: 'desktop',
     mobile: false,
+    tablet: false,
   }),
   methods: {
     handleToggleMenu() {
@@ -146,7 +150,7 @@ export default {
           this.mobile = true;
         } else if (this.isTablet()) {
           this.device = 'tablet';
-          this.mobile = true;
+          this.tablet = true;
         } else {
           this.device = 'desktop';
         }
@@ -274,7 +278,7 @@ $footer-height: 65px;
 }
 
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-up(lg) {
   .app-footer {
     position: fixed;
     left: 0;

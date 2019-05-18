@@ -35,6 +35,14 @@ export default {
   position: relative;
   user-select: none;
 
+  span {
+    font-family: $font-family--secondary;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: $colors-accent;
+  }
+
   &__title {
     font-weight: 700;
     font-size: rem(14);

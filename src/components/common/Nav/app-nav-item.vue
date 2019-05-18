@@ -203,7 +203,7 @@ export default {
     }
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     display: inline-block;
 
     &:not(:last-child) {

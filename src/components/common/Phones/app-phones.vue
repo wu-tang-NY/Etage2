@@ -6,7 +6,7 @@
           <svg-icon name="operator_1" original />
         </span>
         <span class="app-phones__code-text">
-          093 <span class="app-phone d-md-none">670 4320</span>
+          093 <span class="app-phone d-lg-none">670 4320</span>
         </span>
       </li>
 
@@ -24,7 +24,7 @@
           <svg-icon name="operator_3" original />
         </span>
         <span class="app-phones__code-text">
-          095 <span class="app-phone d-md-none">670 4320</span>
+          095 <span class="app-phone d-lg-none">670 4320</span>
         </span>
       </li>
     </ul>

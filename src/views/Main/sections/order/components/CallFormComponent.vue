@@ -33,7 +33,7 @@ export default {
   name: 'CallFormComponent',
   computed: {
     isMobile() {
-      return window.innerWidth < 577;
+      return window.innerWidth < 993;
     },
   },
 };
@@ -65,7 +65,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 992px) {
   .call-form {
     position: fixed;
     top: 0;
