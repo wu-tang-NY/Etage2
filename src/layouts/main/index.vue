@@ -299,6 +299,13 @@ $footer-height: 65px;
   .app-content {
     top: 140px;
   }
+
+  .modal-open {
+    .app-header,
+    .app-footer {
+      padding-right: 17px;
+    }
+  }
 }
 
 

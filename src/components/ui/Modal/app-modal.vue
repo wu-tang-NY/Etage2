@@ -118,4 +118,26 @@ export default {
     }
   }
 }
+
+@include media-breakpoint-up(lg) {
+  .modal-open {
+    padding-right: 17px;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .modal {
+    &-dialog {
+      background-color: $white;
+      margin: 0;
+      height: 100%;
+      align-items: flex-start;
+    }
+
+    &-content {
+      border: none;
+      @include size(100%);
+    }
+  }
+}
 </style>

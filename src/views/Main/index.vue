@@ -5,7 +5,6 @@
         <section
           class="app-section"
           v-for="(section, index) in Object.keys(sectionsComponents)"
-          :style="{ width: `${windowWidth}px` }"
           :key="section"
           :id="`section-${index + 1}`"
         >
@@ -18,7 +17,9 @@
       <div class="page-main__bg">
         <div class="page-main__bg-inner">
           <div class="page-main__bg-image" :style="{ width: `${totalWidth}px` }" ref="bg">
-            <!-- <svg-icon name="bg" original /> -->
+            <div class="page-main__bg-home">
+              <svg-icon name="home" class="page-main" original />
+            </div>
           </div>
 
           <div class="page-main__bg-car bg-car" ref="car">
@@ -124,7 +125,6 @@ export default {
         const carWidth = car.offsetWidth;
         const pageWidth = document.documentElement.clientWidth;
 
-
         this.ScrollMagicController = new ScrollMagic.Controller({
           // addIndicators: process.env.NODE_ENV === 'development',
         });
@@ -132,7 +132,7 @@ export default {
         // SECTION 1
 
         const tween1 = new TimelineMax()
-          .set(car, { left: 150, x: 0, immediateRender: true })
+          .set(car, { left: 350, x: 0, immediateRender: true })
           .to(sectionsWrapper, 1, { x: -pageWidth });
 
         this.scrollMagicScenes.push(
@@ -150,8 +150,8 @@ export default {
 
         const tween2 = new TimelineMax()
           .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
-          .to(cloud, 0.15, { opacity: 0, y: -20 })
-          .to(sectionsWrapper, 1, { x: -pageWidth * 2 });
+          .to(sectionsWrapper, 1, { x: -pageWidth * 2 }, 0.5)
+          .to(cloud, 0.15, { opacity: 0, y: -20 });
 
         this.scrollMagicScenes.push(
           new ScrollMagic.Scene({
@@ -169,8 +169,8 @@ export default {
 
         const tween3 = new TimelineMax()
           .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
-          .to(cloud, 0.15, { opacity: 0, y: -20 })
-          .to(sectionsWrapper, 1, { x: -pageWidth * 3 });
+          .to(sectionsWrapper, 1, { x: -pageWidth * 3 }, 0.5)
+          .to(cloud, 0.15, { opacity: 0, y: -20 });
 
         this.scrollMagicScenes.push(
           new ScrollMagic.Scene({
@@ -238,6 +238,11 @@ export default {
   position: relative;
 }
 
+.app-section {
+  width: 100vw;
+  padding-right: 17px;
+}
+
 .page-main {
   &__sections {
     display: flex;
@@ -254,6 +259,12 @@ export default {
       background: url('/static/icons/bg.svg') -100px 12px repeat-x;
       background-size: auto 150px;
       height: 150px;
+      position: relative;
+    }
+
+    &-home {
+      @include size(240px, 95px);
+      @include absolute(null, 120px, 56px);
     }
 
     &-car {
@@ -297,12 +308,18 @@ export default {
 
     &__bg {
       position: fixed;
-      left: 0; bottom: 40px;
+      left: 0; bottom: 60px;
 
       &-image {
         background-size: auto 275px;
         height: 275px;
       }
+    }
+  }
+
+  .modal-open {
+    .app-section {
+      padding-right: 34px;
     }
   }
 }

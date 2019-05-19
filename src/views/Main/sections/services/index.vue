@@ -12,19 +12,29 @@
     </div>
 
     <div class="subtitle dark-gray">
-      Если это то, чего вы хотите, мы будем рады <a href="#">перезвонить вам</a>  уже сейчас.
+      Если это то, чего вы хотите, мы будем рады <a href="" @click.prevent="modalCallbackOpen = true">перезвонить вам</a>  уже сейчас.
     </div>
+
+    <callback-modal v-model="modalCallbackOpen" />
   </div>
 </template>
 
 <script>
+import CallbackModal from '@/components/common/Callback/app-callback-modal';
+
 export default {
   name: 'AppPageMainSectionServices',
+  components: {
+    CallbackModal,
+  },
   props: {
     active: {
       type: Boolean,
     },
   },
+  data: () => ({
+    modalCallbackOpen: false,
+  }),
 };
 </script>
 
