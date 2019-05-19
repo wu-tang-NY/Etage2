@@ -84,7 +84,7 @@
       </div>
     </div>
 
-    <portal to="car-cloud" v-if="active">
+    <portal to="car-cloud" :order="2">
       <car-cloud
         title="При необходимости - выезжает оценщик!"
         icon="cloud_small"

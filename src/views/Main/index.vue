@@ -39,6 +39,7 @@
 
 <script>
 import TimelineMax from 'gsap/TimelineMax';
+import TweenMax from 'gsap/TweenMax';
 
 // eslint-disable-next-line
 import ScrollMagic from 'ScrollMagic';
@@ -148,10 +149,16 @@ export default {
 
         // SECTION 2
 
-        const tween2 = new TimelineMax()
-          .fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 })
-          .to(sectionsWrapper, 1, { x: -pageWidth * 2 }, 0.5)
-          .to(cloud, 0.15, { opacity: 0, y: -20 });
+        const timeline2 = new TimelineMax();
+
+        const tween2_1 = TweenMax.fromTo(cloud, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 });
+        const tween2_2 = TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2 }, 0.5);
+        const tween2_3 = TweenMax.to(cloud, 0.15, { opacity: 0, y: -20 });
+
+        timeline2
+        .add(tween2_1)
+        .add(tween2_2)
+        .add(tween2_3);
 
         this.scrollMagicScenes.push(
           new ScrollMagic.Scene({
@@ -159,7 +166,7 @@ export default {
             offset: pageWidth,
           })
             .setPin(this.$refs.page)
-            .setTween(tween2)
+            .setTween(timeline2)
             .setClassToggle('#section-2', 'active')
             .addTo(this.ScrollMagicController),
         );

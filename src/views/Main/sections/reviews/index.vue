@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <portal to="car-cloud" v-if="active">
+    <portal to="car-cloud" :order="1">
       <car-cloud
         icon="cloud_large"
         icon-width="433"
