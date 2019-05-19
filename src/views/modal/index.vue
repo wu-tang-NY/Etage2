@@ -248,7 +248,7 @@ export default {
       margin-left: auto;
       margin-right: 16px;
       margin-top: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 31px;
 
       &::before {
         content: '';
@@ -438,7 +438,7 @@ export default {
     padding-top: 0;
 
     .modal-conent {
-      margin-top: 120px;
+      margin-top: 140px;
     }
 
     &__nav {
