@@ -3,9 +3,20 @@
     <svg-icon name="bg_dark" class="modal-info__bg" original/>
     <div class="container">
       <div class="row">
-        <div class="sticky">
-          <svg-icon name="logo_dark" class="modal-info__logo"/>
-          <div class="modal-info__nav">
+        <div class="sticky" :class="{'sticky--large':toggledNav}">
+          <div class="sticky__nav">
+            <div class="sticky__back" @click="closeModal" v-if="isMobile && !toggledNav">
+              <svg-icon name="arrow-next"/>
+              Назад
+            </div>
+            <button class="sticky__ham menu-toggle__btn" @click="openMobileAccordion">
+              <span class="menu-toggle__line sticky__ham-item"></span>
+              <span class="menu-toggle__line sticky__ham-item"></span>
+              <span class="menu-toggle__line sticky__ham-item"></span>
+            </button>
+          </div>
+          <svg-icon name="logo_dark" class="modal-info__logo" v-if="!isMobile"/>
+          <div class="modal-info__nav" v-if="!isMobile || toggledNav">
             <div class="modal-info__panel"
               :class="{'modal-info__panel--active': item.isActive}"
               v-for="(item, index) in nav"
@@ -23,10 +34,10 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-9 offset-lg-3">
+        <div class="col-lg-9 offset-lg-3 modal-conent">
           <div class="modal-info__header-wrapper">
             <div class="modal-info__header">{{activeTab.title}}</div>
-            <div class="modal-info__close" @click="closeModal"/>
+            <div class="modal-info__close" @click="closeModal" v-if="!isMobile"/>
           </div>
           <div class="modal-info__content">
             <component :is="activeTab.component"></component>
@@ -49,6 +60,7 @@ export default {
     return {
       openModal: false,
       activeTab: 'PopupContentAboutUs',
+      toggledNav: false,
       nav: [{
         header: 'Общая информация',
         links: [{
@@ -117,7 +129,18 @@ export default {
       ],
     };
   },
+  computed: {
+    isMobile() {
+      return window.innerWidth < 993;
+    },
+  },
   methods: {
+    openMobileAccordion() {
+      if (this.isMobile) {
+        this.toggledNav = !this.toggledNav;
+        document.body.classList.toggle('menu-open');
+      }
+    },
     toggleActive(index) {
       let prev = null;
 
@@ -253,6 +276,10 @@ export default {
     color: #ffffff;
     max-height: 0;
     transition: .3s ease-in-out;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   &__header-wrapper {
@@ -319,6 +346,81 @@ export default {
       height: auto;
       object-fit: cover;
       object-position: center;
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .modal-info {
+    overflow: scroll;
+    max-height: 100vh;
+    padding-top: 0;
+
+    .modal-conent {
+      margin-top: 60px;
+    }
+
+    &__nav {
+      margin-top: 20px;
+    }
+
+    &__panel {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .sticky {
+      max-width: 100%;
+      width: 100%;
+      min-width: 100%;
+      max-height: 100vh;
+      background-color: #0e1a28;
+      z-index: 2;
+
+      &--large {
+        min-height: 100vh;
+      }
+
+      &__nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        background-color: #0e1a28;
+        height: 56px;
+      }
+
+      &__ham {
+        margin-left: auto;
+      }
+
+      &__ham-item {
+        background: white;
+      }
+
+      &__back {
+        font-size: rem(16);
+        text-transform: uppercase;
+        color: white;
+        font-weight: 600;
+        font-family: $font-family--secondary;
+        display: inline-flex;
+        align-items: center;
+
+        svg {
+          @include size(16px);
+          fill: white;
+          transform: rotateZ(180deg);
+          margin-right: 8px;
+          transition: .3s ease-in-out;
+        }
+
+        &:hover {
+          svg {
+            transform: rotateZ(180deg) translateX(4px);
+          }
+        }
+      }
     }
   }
 }
