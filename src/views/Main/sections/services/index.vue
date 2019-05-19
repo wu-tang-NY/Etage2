@@ -1,7 +1,7 @@
 <template>
   <div class="services">
     <h1>Переезжайте и перевозите легко,
-      <br>
+      <br v-if="!isMobile">
       все заботы мы берем на себя!
     </h1>
 
@@ -35,6 +35,11 @@ export default {
   data: () => ({
     modalCallbackOpen: false,
   }),
+  computed: {
+    isMobile() {
+      return window.innerWidth < 993;
+    },
+  },
 };
 </script>
 
