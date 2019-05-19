@@ -134,6 +134,7 @@ export default {
     left: 0;
     width: 230px;
     display: none;
+    list-style: none;
 
     &__link {
       display: block;
