@@ -37,7 +37,7 @@ export default {
 
   span {
     font-family: $font-family--secondary;
-    font-size: 20px;
+    font-size: rem(18);
     font-weight: 800;
     letter-spacing: 0.4px;
     color: $colors-accent;
@@ -45,8 +45,8 @@ export default {
 
   &__title {
     font-weight: 700;
-    font-size: rem(14);
-    line-height: 1;
+    font-size: rem(13);
+    line-height: 1.25;
     @include absolute(50%, 0);
     margin-top: -4px;
     padding: 0 30px;

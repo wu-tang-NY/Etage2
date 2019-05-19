@@ -35,31 +35,12 @@
         <svg-icon name="arrow-next" original/>
       </div>
     </div>
-
-    <portal to="car-cloud" :order="1">
-      <car-cloud
-        icon="cloud_large"
-        icon-width="433"
-      >
-        <p>
-          <span>123 семьи</span> переселились с нашей помощью в новое жилище в этом году
-        </p>
-        <p>
-          <span>123 тонны</span> личных вещей уже перевезено в этом году
-        </p>
-      </car-cloud>
-    </portal>
   </section>
 </template>
 
 <script>
-import CarCloud from '../../components/PageMainCarCloud';
-
 export default {
   name: 'AppPageMainSectionReviews',
-  components: {
-    CarCloud,
-  },
   props: {
     active: Boolean,
   },

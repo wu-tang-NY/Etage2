@@ -85,25 +85,12 @@
         <svg-icon name="arrow-next"/>
       </div>
     </div>
-
-    <portal to="car-cloud" :order="2">
-      <car-cloud
-        title="При необходимости - выезжает оценщик!"
-        icon="cloud_small"
-        icon-width="315"
-      />
-    </portal>
   </div>
 </template>
 
 <script>
-import CarCloud from '../../components/PageMainCarCloud';
-
 export default {
   name: 'AppPageMainSectionPrice',
-  components: {
-    CarCloud,
-  },
   props: {
     active: Boolean,
   },
