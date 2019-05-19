@@ -27,6 +27,8 @@ export default {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: space-between;
   }
 
   @include media-breakpoint-up(lg) {
@@ -48,6 +50,16 @@ export default {
           clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0% 100%);
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 992px){
+  .app-nav {
+    &__list {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
   }
 }

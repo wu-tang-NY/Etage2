@@ -1,79 +1,82 @@
 <template>
   <form class="order-form">
-    <div class="order-form__close" v-if="isMobile" @click="$emit('closeModal')"></div>
-    <div class="order-form__title" v-if="isMobile">
-      <h2>Заполните форму</h2>
-      <div class="subtitle">и мы перезвоним вам в течение 15 минут и огласим примерную стоимость</div>
-    </div>
-    <div class="row">
-      <div class="col-lg-3">
-        <app-input
-          label="Как к вам обращаться"
-          type="text"
-          placeholder="Имя"
-        />
-      </div>
+    <div class="mobile-wrapper">
 
-      <div class="col-lg-3">
-        <app-input
-          label="Ваш номер телефона"
-          type="text"
-          placeholder="09Х ХХХ ХХ ХХ"
-        />
+      <div class="order-form__close" v-if="isMobile" @click="$emit('closeModal')"></div>
+      <div class="order-form__title" v-if="isMobile">
+        <h2>Заполните форму</h2>
+        <div class="subtitle">и мы перезвоним вам в течение 15 минут и огласим примерную стоимость</div>
       </div>
+      <div class="row">
+        <div class="col-lg-3">
+          <app-input
+            label="Как к вам обращаться"
+            type="text"
+            placeholder="Имя"
+          />
+        </div>
 
-      <div class="col-lg-3">
-        <app-input
-          label="Планируемая дата"
-          type="text"
-          placeholder="Введите дату"
-        />
-      </div>
+        <div class="col-lg-3">
+          <app-input
+            label="Ваш номер телефона"
+            type="text"
+            placeholder="09Х ХХХ ХХ ХХ"
+          />
+        </div>
 
-      <div class="col-lg-3">
-        <app-input
-          label="Откуда"
-          type="text"
-          placeholder="Введите адресс"
-        />
-      </div>
+        <div class="col-lg-3">
+          <app-input
+            label="Планируемая дата"
+            type="text"
+            placeholder="Введите дату"
+          />
+        </div>
 
-      <div class="col-lg-3">
-        <app-select
-          label="Тип транспортировки"
-          placeholder="Выберите"
-          :options="transport.options"
-          :value="transport.value"
-        ></app-select>
-      </div>
+        <div class="col-lg-3">
+          <app-input
+            label="Откуда"
+            type="text"
+            placeholder="Введите адресс"
+          />
+        </div>
 
-      <div class="col-lg-3">
-        <app-select
-          label="Грузчики"
-          placeholder="Выберите"
-          :options="transport.options"
-          :value="transport.value"
-        ></app-select>
-      </div>
+        <div class="col-lg-3">
+          <app-select
+            label="Тип транспортировки"
+            placeholder="Выберите"
+            :options="transport.options"
+            :value="transport.value"
+          ></app-select>
+        </div>
 
-      <div class="col-lg-3">
-        <app-input
-          label="Комментарий или пожелание"
-          type="text"
-          placeholder="Введите комментарий или пожелание"
-        />
-      </div>
+        <div class="col-lg-3">
+          <app-select
+            label="Грузчики"
+            placeholder="Выберите"
+            :options="transport.options"
+            :value="transport.value"
+          ></app-select>
+        </div>
 
-      <div class="col-lg-3">
-        <app-input
-          label="Куда"
-          type="text"
-          placeholder="Введите адресс"
-        />
+        <div class="col-lg-3">
+          <app-input
+            label="Комментарий или пожелание"
+            type="text"
+            placeholder="Введите комментарий или пожелание"
+          />
+        </div>
+
+        <div class="col-lg-3">
+          <app-input
+            label="Куда"
+            type="text"
+            placeholder="Введите адресс"
+          />
+        </div>
+        </div>
+      <div class="order-form__btn-wrapper">
+        <button class="order-form__button" type="submit">Отправить</button>
       </div>
-      </div>
-    <div class="order-form__btn-wrapper">
-      <button class="order-form__button" type="submit">Отправить</button>
     </div>
   </form>
 </template>
@@ -134,16 +137,16 @@ export default {
     max-height: 100vh;
     overflow: auto;
     z-index: 999999;
-    padding: 65px 16px 40px 16px;
     background-color: #fff;
     margin-top: 0;
+    padding: 0 16px;
 
     &__close {
       @include size(16px);
       overflow: hidden;
       position: absolute;
       top: 16px;
-      right: 16px;
+      right: 0;
 
       &::before {
         content: '';
