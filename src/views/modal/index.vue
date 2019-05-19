@@ -4,8 +4,11 @@
     <div class="container">
       <div class="row">
         <div class="sticky" :class="{'sticky--large':toggledNav}">
-          <div class="sticky__nav">
-            <div class="sticky__back" @click="closeModal" v-if="isMobile && !toggledNav">
+          <div class="sticky__close" v-if="isMobile" @click="closeModal"/>
+          <div class="sticky__nav" @click="openMobileAccordion" v-if="isMobile">
+            Навигация
+            <svg-icon original name="icon_nav-modal"/>
+            <!-- <div class="sticky__back" @click="closeModal" v-if="isMobile && !toggledNav">
               <svg-icon name="arrow-next"/>
               Назад
             </div>
@@ -13,9 +16,9 @@
               <span class="menu-toggle__line sticky__ham-item"></span>
               <span class="menu-toggle__line sticky__ham-item"></span>
               <span class="menu-toggle__line sticky__ham-item"></span>
-            </button>
+            </button> -->
           </div>
-          <svg-icon name="logo_dark" class="modal-info__logo" v-if="!isMobile"/>
+          <svg-icon name="logo_white" original class="modal-info__logo" v-if="!isMobile"/>
           <div class="modal-info__nav" v-if="!isMobile || toggledNav">
             <div class="modal-info__panel"
               :class="{'modal-info__panel--active': item.isActive}"
@@ -29,7 +32,7 @@
                 <svg-icon name="modal_dropdown" original/>
               </div>
               <div class="modal-info__panel-content" v-for="link in item.links" :key="link.name">
-                <a href="" @click.prevent="activeTab = link" class="modal-info__panel-link">{{link.title}}</a>
+                <a href="" @click.prevent="openSelectedInfo(link)" :class="{'modal-info__panel-link--active':link.activeLink}" class="modal-info__panel-link">{{link.title}}</a>
               </div>
             </div>
           </div>
@@ -66,15 +69,19 @@ export default {
         links: [{
           title: 'О нас',
           component: 'PopupContentAboutUs',
+          activeLink: false,
         }, {
           title: 'История',
           component: 'PopupContentHistory',
+          activeLink: false,
         }, {
           title: 'Наша цель',
           component: 'PopupContentOurGoal',
+          activeLink: false,
         }, {
           title: 'Факты и цифры',
           component: 'PopupContentFacts',
+          activeLink: false,
         }],
         isActive: false,
       }, {
@@ -82,12 +89,15 @@ export default {
         links: [{
           title: 'Квартирный переезд',
           component: 'PopupContentFlatMove',
+          activeLink: false,
         }, {
           title: 'Офисный переезд',
           component: 'PopupContentOfficeMove',
+          activeLink: false,
         }, {
           title: 'Перевозка имущества',
           component: 'PopupContentStuffMove',
+          activeLink: false,
         }],
         isActive: false,
       }, {
@@ -95,18 +105,23 @@ export default {
         links: [{
           title: 'Специалисты',
           component: 'PopupContentSpecialists',
+          activeLink: false,
         }, {
           title: 'Оплата',
           component: 'PopupContentPayment',
+          activeLink: false,
         }, {
           title: 'Акции',
           component: 'PopupContentSpecialOffers',
+          activeLink: false,
         }, {
           title: 'Упаковка',
           component: 'PopupContentPackage',
+          activeLink: false,
         }, {
           title: 'Автопарк',
           component: 'PopupContentAuto',
+          activeLink: false,
         }],
         isActive: false,
       }, {
@@ -114,15 +129,19 @@ export default {
         links: [{
           title: 'Партнеры',
           component: 'PopupContentPartners',
+          activeLink: false,
         }, {
           title: 'Вакансии',
           component: 'PopupContentJobs',
+          activeLink: false,
         }, {
           title: 'Отзывы',
           component: 'PopupContentFeedback',
+          activeLink: false,
         }, {
           title: 'Контакты',
           component: 'PopupContentContacts',
+          activeLink: false,
         }],
         isActive: false,
       },
@@ -135,6 +154,27 @@ export default {
     },
   },
   methods: {
+    openSelectedInfo(link) {
+      this.handeRemoveAllColoredLinks();
+      this.activeTab = link;
+      link.activeLink = true;
+      this.openMobileAccordion();
+    },
+
+    handeRemoveAllColoredLinks() {
+      this.nav.forEach(item => {
+        item.links.forEach(componentLink => {
+          componentLink.activeLink = false;
+        });
+      });
+    },
+
+    handeRemoveAllToggledPanels() {
+      this.nav.forEach(item => {
+        item.isActive = false;
+      });
+    },
+
     openMobileAccordion() {
       if (this.isMobile) {
         this.toggledNav = !this.toggledNav;
@@ -153,6 +193,8 @@ export default {
       this.nav[index].isActive = prev !== index;
     },
     closeModal() {
+      this.handeRemoveAllColoredLinks();
+      this.handeRemoveAllToggledPanels();
       this.openModal = false;
       document.body.classList.remove('modal-open');
     },
@@ -163,11 +205,14 @@ export default {
         return nav.links.some(item => {
           if (item.component === component) {
             this.activeTab = item;
+            nav.isActive = true;
+            item.activeLink = true;
           }
           return item.component === component;
         });
       });
       this.openModal = true;
+
       document.body.classList.add('modal-open');
     });
   },
@@ -195,6 +240,38 @@ export default {
     max-width: 15%;
     min-width: 300px;
     flex-shrink: 0;
+
+    &__close {
+      position: relative;
+      @include size(18px);
+      overflow: hidden;
+      margin-left: auto;
+      margin-right: 16px;
+      margin-top: 16px;
+      margin-bottom: 20px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 25px;
+        height: 2px;
+        transform: translate(-50%, -50%) rotateZ(-45deg);
+        background-color: #fff;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 25px;
+        height: 2px;
+        transform: translate(-50%, -50%) rotateZ(45deg);
+        background-color: #fff;
+      }
+    }
   }
 
   &__bg {
@@ -205,7 +282,6 @@ export default {
   }
 
   &__logo {
-    fill: #ffffff;
     width: 130px;
     margin-top: 14px;
     margin-bottom: 70px;
@@ -276,6 +352,11 @@ export default {
     color: #ffffff;
     max-height: 0;
     transition: .3s ease-in-out;
+
+    &--active {
+      color: $colors-accent;
+      opacity: 1;
+    }
 
     &:hover {
       opacity: 1;
@@ -357,11 +438,11 @@ export default {
     padding-top: 0;
 
     .modal-conent {
-      margin-top: 60px;
+      margin-top: 120px;
     }
 
     &__nav {
-      margin-top: 20px;
+      margin-top: 40px;
     }
 
     &__panel {
@@ -370,12 +451,15 @@ export default {
     }
 
     .sticky {
+      top: 0;
+      left: 0;
       max-width: 100%;
       width: 100%;
       min-width: 100%;
       max-height: 100vh;
       background-color: #0e1a28;
       z-index: 2;
+      padding-bottom: 16px;
 
       &--large {
         min-height: 100vh;
@@ -385,9 +469,18 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 16px;
-        background-color: #0e1a28;
-        height: 56px;
+        margin: 0 16px;
+        padding: 0 16px;
+        background-color: rgba(255, 255, 255, 0.05);
+        height: 44px;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        color: #ffffff;
+
+        svg {
+          @include size(18px);
+        }
       }
 
       &__ham {
