@@ -82,13 +82,16 @@ export default {
     handleOpenOrderComponent() {
       this.activeTab = 0;
       this.isModalOpen = true;
+      document.body.classList.add('modal-open');
     },
     handleOpenPhoneComponent() {
       this.activeTab = 1;
       this.isModalOpen = true;
+      document.body.classList.add('modal-open');
     },
     closeModal() {
       this.isModalOpen = false;
+      document.body.classList.remove('modal-open');
     },
   },
   computed: {

@@ -40,38 +40,40 @@
         </div>
       </div>
     </div>
-    <div class="row align-items-strech">
+    <div class="row align-items-stretch">
       <div v-for="category in categories" :key="category.name" class="col-lg-4">
         <transition  name="component-fade">
           <div class="price__category category" v-if="!isMobile || category.opened">
-            <h3 class="category__title">{{ category.name }}</h3>
+            <div class="mobile-wrapper">
+              <h3 class="category__title">{{ category.name }}</h3>
 
-            <p class="category__subtitle">{{ category.subtitle }}</p>
+              <p class="category__subtitle">{{ category.subtitle }}</p>
 
-            <svg-icon :name="category.iconName" class="category__icon" original />
+              <svg-icon :name="category.iconName" class="category__icon" original />
 
-            <div class="category__close" v-if="isMobile" @click="handleOpenFullSize(category)"></div>
+              <div class="category__close" v-if="isMobile" @click="handleOpenFullSize(category)"></div>
 
-            <div class="category__price-wrapper" v-for="item in category.items" :key="item.id">
-              <div class="category__additional" v-if="item.additional">{{ item.additional }}</div>
+              <div class="category__price-wrapper" v-for="item in category.items" :key="item.id">
+                <div class="category__additional" v-if="item.additional">{{ item.additional }}</div>
 
-              <div class="category__price">
-                <div class="category__tooltip-wrapper">
-                  <span class="category__price-value">{{ item.time }}&nbsp;</span>
-                  <span class="category__price-value category__price-value--highlighted">{{ item.price }}</span>
+                <div class="category__price">
+                  <div class="category__tooltip-wrapper">
+                    <span class="category__price-value">{{ item.time }}&nbsp;</span>
+                    <span class="category__price-value category__price-value--highlighted">{{ item.price }}</span>
 
-                  <div class="category__tooltip" v-if="item.info">
-                    <svg-icon name="info" />
-                    <div class="category__info">{{ item.info }}</div>
+                    <div class="category__tooltip" v-if="item.info">
+                      <svg-icon name="info" />
+                      <div class="category__info">{{ item.info }}</div>
+                    </div>
                   </div>
-                </div>
 
-                <p class="category__description">{{ item.description }}</p>
+                  <p class="category__description">{{ item.description }}</p>
+                </div>
               </div>
-            </div>
-            <p class="category__undertext">{{category.undertext}}</p>
-            <div class="row justify-content-center">
-              <div v-if="isMobile" @click="openForm(category)" class="price__examples price__examples--mobile">Заказать</div>
+              <p class="category__undertext">{{category.undertext}}</p>
+              <div class="row justify-content-center">
+                <div v-if="isMobile" @click="openForm(category)" class="price__examples price__examples--mobile">Заказать</div>
+              </div>
             </div>
           </div>
         </transition>
@@ -180,6 +182,7 @@ export default {
   methods: {
     handleOpenFullSize(e) {
       e.opened = !e.opened;
+      document.body.classList.toggle('modal-open');
     },
 
     openForm(e) {
@@ -425,7 +428,7 @@ export default {
     width: 100vw;
     height: 100vh;
     z-index: 100000;
-    padding: 95px 36px;
+    padding: 0 16px 0 16px;
 
     h3 {
       font-size: rem(22);
@@ -448,8 +451,8 @@ export default {
       @include size(16px);
       overflow: hidden;
       position: absolute;
-      top: 36px;
-      right: 36px;
+      top: 16px;
+      right: 0;
 
       &::before {
         content: '';
@@ -475,24 +478,24 @@ export default {
     &__icon {
       @include size(50px);
       top: 105px;
-      right: 56px;
+      right: 10px;
     }
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 767px) {
   .category {
-    padding: 65px 16px;
+    padding: 0 16px 0 16px;
 
     &__close {
       top: 16px;
-      right: 16px;
+      right: 0;
     }
 
     &__icon {
       @include size(50px);
       top: 75px;
-      right: 26px;
+      right: 10px;
     }
   }
 }

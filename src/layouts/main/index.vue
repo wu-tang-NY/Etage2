@@ -133,7 +133,7 @@ export default {
     handleCloseMenu() {
       this.navOpen = false;
 
-      document.body.style.overflow = 'auto';
+      document.body.classList.remove('menu-open');
     },
 
     isMobile() {

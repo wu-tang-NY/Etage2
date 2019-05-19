@@ -78,6 +78,12 @@ p {
     line-height: rem(20);
     letter-spacing: 0.2px;
   }
+  .mobile-wrapper {
+    position: relative;
+    margin: 0 auto;
+    max-width: 690px;
+    padding: 85px 0;
+  }
 }
 
 .component-fade-enter-active,
@@ -88,4 +94,11 @@ p {
 .component-fade-enter,
 .component-fade-leave-to {
   opacity: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .mobile-wrapper {
+    max-width: 510px;
+    padding: 65px 0;
+  }
 }

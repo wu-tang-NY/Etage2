@@ -1,29 +1,31 @@
 <template>
   <div class="call-form">
-    <div class="call-form__close" v-if="isMobile" @click="$emit('closeModal')"></div>
-    <div class="call-form__title" v-if="isMobile">
-      <h2>Оставьте номер</h2>
-      <div class="subtitle">чтобы узнать все и сразу</div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4">
-        <app-input
-          label="Как к вам обращаться"
-          type="text"
-          placeholder="Имя"
-        />
+    <div class="mobile-wrapper">
+      <div class="call-form__close" v-if="isMobile" @click="$emit('closeModal')"></div>
+      <div class="call-form__title" v-if="isMobile">
+        <h2>Оставьте номер</h2>
+        <div class="subtitle">чтобы узнать все и сразу</div>
       </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <app-input
+            label="Как к вам обращаться"
+            type="text"
+            placeholder="Имя"
+          />
+        </div>
 
-      <div class="col-lg-4">
-        <app-input
-          label="Номер телефона"
-          type="text"
-          placeholder="0ХХ ХХХ ХХХХ"
-        />
+        <div class="col-lg-4">
+          <app-input
+            label="Номер телефона"
+            type="text"
+            placeholder="0ХХ ХХХ ХХХХ"
+          />
+        </div>
       </div>
-    </div>
-    <div class="call-form__btn-wrapper">
-      <button class="call-form__button">Отправить</button>
+      <div class="call-form__btn-wrapper">
+        <button class="call-form__button">Отправить</button>
+      </div>
     </div>
   </div>
 </template>
@@ -75,7 +77,7 @@ export default {
     min-height: 100vh;
     overflow: auto;
     z-index: 999999;
-    padding: 65px 16px 40px 16px;
+    padding: 0 16px;
     background-color: #fff;
     margin-top: 0;
 
@@ -84,7 +86,7 @@ export default {
       overflow: hidden;
       position: absolute;
       top: 16px;
-      right: 16px;
+      right: 0;
 
       &::before {
         content: '';

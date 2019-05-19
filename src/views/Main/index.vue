@@ -106,6 +106,7 @@ export default {
     },
 
     onSectionChange(index) {
+      document.body.classList.remove('menu-open');
       let top = window.innerWidth * index;
 
       if (this.mobile || this.tablet) {
@@ -238,11 +239,6 @@ export default {
   position: relative;
 }
 
-.app-section {
-  width: 100vw;
-  padding-right: 17px;
-}
-
 .page-main {
   &__sections {
     display: flex;
@@ -321,6 +317,11 @@ export default {
     .app-section {
       padding-right: 34px;
     }
+  }
+
+  .app-section {
+    width: 100vw;
+    padding-right: 17px;
   }
 }
 
