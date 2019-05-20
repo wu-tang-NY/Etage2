@@ -239,7 +239,7 @@ export default {
     }
   }
 
-  @media screen and (min-width: 993px) and (max-height: 970px) {
+  @media screen and (min-width: 993px) and (max-height: 920px) {
     display: block;
     margin: 0 !important;
 
