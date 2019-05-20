@@ -33,7 +33,14 @@ export default {
   }
 }
 
-@media screen and (max-width: 992px){
+@media screen and (min-width: 993px) and (max-height: 970px) {
+  .nav-info {
+    height: 36px;
+    padding-left: 24px;
+  }
+}
+
+@media screen and (max-width: 992px) {
   .nav-info {
     height: 36px;
     padding-left: 24px;

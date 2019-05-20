@@ -239,6 +239,37 @@ export default {
     }
   }
 
+  @media screen and (min-width: 993px) and (max-height: 970px) {
+    display: block;
+    margin: 0 !important;
+
+    &__link {
+      padding: 0 rem(24) !important;
+      max-width: 300px;
+      width: 300px;
+      height: 36px;
+      line-height: 36px;
+      margin-bottom: 10px;
+    }
+
+    &__icon {
+      @include size(20px);
+    }
+
+    &__bg {
+      bottom: 0;
+      clip-path: none !important;
+    }
+
+    &__chevron {
+      display: none !important;
+    }
+
+    .nav-inner {
+      display: none !important;
+    }
+  }
+
   @include media-breakpoint-down(md) {
     &__link {
       padding: 7px rem(24) 7px;

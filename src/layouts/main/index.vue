@@ -32,42 +32,56 @@
       <div class="nav-wrapper" :class="{ 'nav-wrapper--open': navOpen }">
         <div class="container">
           <div class="nav-wrapper__inner">
-            <div class="d-lg-none">
-              <app-logo />
-            </div>
+            <div class="nav-wrapper__container">
+              <div class="d-lg-none">
+                <app-logo />
+              </div>
 
-            <layout-main-nav @click="handleCloseMenu" />
-
-            <div class="d-lg-none">
-              <ul class="nav-wrapper__blocks">
-                <li class="nav-wrapper__block nav-block">
-                  <div class="nav-block__title">
-                    <span>Контакты:</span>
-                    <div class="ml-auto">
-                      <app-callback />
+                <ul class="nav-wrapper__blocks nav-wrapper__menu">
+                  <li class="nav-wrapper__block nav-block">
+                    <div class="nav-block__title">
+                      <span>Меню:</span>
                     </div>
-                  </div>
 
-                  <div class="nav-block__content">
-                    <app-phones />
-                  </div>
-                </li>
+                    <div class="nav-block__content">
+                      <layout-main-nav @click="handleCloseMenu" />
+                    </div>
+                  </li>
+                </ul>
 
-                <li class="nav-wrapper__block nav-block">
-                  <div class="nav-block__title">
-                    <span>Наш график:</span>
-                  </div>
+              <div class="nav-wrapper__mobile-only">
+                <ul class="nav-wrapper__blocks">
+                  <li class="nav-wrapper__block nav-block">
+                    <div class="nav-block__title">
+                      <span>Контакты:</span>
+                      <div class="ml-auto">
+                        <app-callback />
+                      </div>
+                    </div>
 
-                  <div class="nav-block__content">
-                    <app-schedule without-label />
-                  </div>
-                </li>
-              </ul>
+                    <div class="nav-block__content">
+                      <app-phones />
+                    </div>
+                  </li>
+
+                  <li class="nav-wrapper__block nav-block">
+                    <div class="nav-block__title">
+                      <span>Наш график:</span>
+                    </div>
+
+                    <div class="nav-block__content">
+                      <app-schedule without-label />
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="app-copyright mt-auto d-lg-none">
+                &copy; 2019 Etage. All Rights Reserved.
+              </div>
             </div>
 
-            <div class="app-copyright mt-auto d-lg-none">
-              &copy; 2019 Etage. All Rights Reserved.
-            </div>
+            <layout-main-footer class="nav-wrapper__footer-mobile" />
           </div>
         </div>
       </div>
@@ -80,22 +94,7 @@
       />
     </main>
 
-    <footer class="app-footer" v-if="!mobile && !tablet">
-      <div class="container">
-        <div class="app-footer__inner">
-          <div class="app-copyright mr-auto">
-            &copy; 2019 Etage. All Rights Reserved.
-          </div>
-
-          <div class="app-designedby">
-            <span class="app-designedby__text">Designed by:</span>
-            <a href="#" class="app-designedby__icon">
-              <svg-icon name="logotype" original />
-            </a>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <layout-main-footer v-if="!mobile && !tablet" />
 
     <transition name="component-fade">
       <modal-info></modal-info>
@@ -197,6 +196,12 @@ $footer-height: 65px;
   }
 }
 
+.nav-wrapper {
+  &__footer-mobile {
+    display: none;
+  }
+}
+
 .app-content {
   padding: 0;
   position: relative;
@@ -260,6 +265,9 @@ $footer-height: 65px;
 }
 
 .menu-open {
+  // overflow-y: scroll;
+  // @include fixed(0, 0, 0, 0);
+
   .menu-toggle {
     &__line {
       &:nth-child(1) {
@@ -290,6 +298,20 @@ $footer-height: 65px;
   .nav-wrapper {
     margin-top: 10px;
     flex: 0 0 auto;
+
+    &__mobile-only {
+      display: none;
+    }
+
+    &__menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      .nav-block__title {
+        display: none;
+      }
+    }
   }
 
   .menu-toggle {
@@ -305,6 +327,123 @@ $footer-height: 65px;
     .app-footer {
       padding-right: 17px;
     }
+  }
+}
+
+@media screen and (min-width: 993px) and (max-height: 970px) {
+  .app-header {
+    &__blocks {
+      display: none;
+    }
+  }
+
+  .app-content {
+    top: 50px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-wrapper {
+    display: none;
+    padding: 18px 0;
+    @include fixed(0, 0, 0, 0);
+    z-index: $zindex-modal;
+
+    &__inner {
+      justify-content: center;
+    }
+
+    &__menu {
+      .nav-block__title {
+        display: flex;
+      }
+      .nav-block__content {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+
+    &__footer-mobile {
+      border-top: 1px solid $colors-grey-100;
+      display: block !important;
+      position: static;
+      width: 700px;
+      margin: 20px auto 0;
+
+      .container {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    &__container {
+      display: flex;
+      justify-content: space-between;
+      width: 700px;
+      margin: 0 auto;
+    }
+
+    &__mobile-only {
+      display: block;
+    }
+
+    &--open {
+      background-color: $white;
+      display: block;
+    }
+
+    .container {
+      height: 100%;
+    }
+
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      // overflow-y: auto;
+      // overflow-x: hidden;
+    }
+
+    .app-nav {
+      margin: 0;
+    }
+
+    &__blocks {
+      list-style: none;
+      margin: 0 -15px;
+      padding: 0;
+    }
+
+    .app-copyright {
+      text-align: center;
+      font-size: rem(12);
+    }
+  }
+
+  .nav-block {
+    margin-bottom: 30px;
+
+    &__title {
+      background-color: $colors-grey-200;
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0% 100%);
+      width: 300px;
+      display: flex;
+      align-items: center;
+      height: 42px;
+      padding: 0 35px 0 15px;
+      font-weight: 900;
+      font-size: rem(20);
+    }
+
+    &__content {
+      padding: 21px 15px 0;
+    }
+  }
+
+  .app-footer {
+    display: none;
   }
 }
 
@@ -332,6 +471,12 @@ $footer-height: 65px;
       display: block;
     }
 
+    &__container {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+    }
+
     .container {
       height: 100%;
     }
@@ -345,7 +490,7 @@ $footer-height: 65px;
     }
 
     .app-nav {
-      margin: 30px -15px 0;
+      margin: 0 -15px 0;
     }
 
     &__blocks {

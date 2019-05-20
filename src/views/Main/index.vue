@@ -363,6 +363,14 @@ export default {
   }
 }
 
+@media screen and (min-width: 993px) and (max-height: 970px) {
+  .page-main {
+    &__bg {
+      bottom: -3px;
+    }
+  }
+}
+
 
 @include media-breakpoint-down(md) {
   .page-main {
@@ -372,6 +380,10 @@ export default {
 
     &__bg {
       &-car {
+        display: none;
+      }
+
+      &-home {
         display: none;
       }
     }

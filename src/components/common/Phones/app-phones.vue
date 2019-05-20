@@ -6,7 +6,7 @@
           <svg-icon name="operator_1" original />
         </span>
         <span class="app-phones__code-text">
-          093 <span class="app-phone d-lg-none">670 4320</span>
+          093 <span class="app-phone app-phone--mobile-only">670 4320</span>
         </span>
       </li>
 
@@ -24,7 +24,7 @@
           <svg-icon name="operator_3" original />
         </span>
         <span class="app-phones__code-text">
-          095 <span class="app-phone d-lg-none">670 4320</span>
+          095 <span class="app-phone app-phone--mobile-only">670 4320</span>
         </span>
       </li>
     </ul>
@@ -82,6 +82,28 @@ export default {
   letter-spacing: .4px;
   padding-bottom: 1px;
   vertical-align: top;
+}
+
+@include media-breakpoint-up(lg) {
+  .app-phone {
+    &--mobile-only {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: 993px) and (max-height: 970px) {
+  .app-phone {
+    &--mobile-only {
+      display: inline-block;
+    }
+  }
+
+  .app-phones {
+    &__code-text {
+      font-size: rem(18);
+    }
+  }
 }
 
 @include media-breakpoint-down(md) {
