@@ -54,7 +54,21 @@ export default {
   }
 }
 
-@media screen and (max-width: 992px){
+@media screen and (min-width: 993px) and (max-height: 970px) {
+  .app-nav {
+    &::before {
+      display: none;
+    }
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
   .app-nav {
     &__list {
       display: flex;
