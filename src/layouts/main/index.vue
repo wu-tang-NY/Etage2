@@ -335,6 +335,10 @@ $footer-height: 65px;
     &__inner {
       padding: 10px 0;
     }
+
+    &__block {
+      margin-left: 30px;
+    }
   }
 
   .nav-wrapper {
