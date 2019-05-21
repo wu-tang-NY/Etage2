@@ -189,6 +189,26 @@ export default {
   }
 }
 
+@media screen and (min-width: 993px) and (max-height: 920px) {
+  .section-order {
+    padding-top: 0;
+
+    &__tab-description {
+      display: none;
+    }
+
+    .order-form__button {
+      height: 38px;
+    }
+  }
+}
+
+@media screen and (min-width: 993px) and (max-height: 767px) {
+  .section-order {
+    padding-top: 40px;
+  }
+}
+
 @media screen and (max-width: 992px) {
   .section-order {
     padding-top: 50px;

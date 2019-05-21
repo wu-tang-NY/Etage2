@@ -45,7 +45,13 @@
         <transition  name="component-fade">
           <div class="price__category category" v-if="!isMobile || category.opened">
             <div class="mobile-wrapper">
-              <h3 class="category__title">{{ category.name }}</h3>
+              <div class="category__header-wrapper">
+                <h3 class="category__title">{{ category.name }}</h3>
+                <div class="category__tooltip category__tooltip--small-screens">
+                  <svg-icon name="info" />
+                  <div class="category__info">{{ category.undertext }}</div>
+                </div>
+              </div>
 
               <p class="category__subtitle">{{ category.subtitle }}</p>
 
@@ -247,6 +253,7 @@ export default {
     background-color: $colors-accent;
     color: $white;
     font-size: rem(14);
+    font-weight: 600;
     line-height: 1;
     letter-spacing: 0.3px;
     transition: .3s ease-in-out;
@@ -333,6 +340,15 @@ export default {
     color: $colors-text--secondary;
   }
 
+  &__header-wrapper {
+    display: flex;
+    align-items: center;
+
+    .category__tooltip {
+      margin-top: -3px;
+    }
+  }
+
   &__tooltip-wrapper {
     display: flex;
     align-items: center;
@@ -342,6 +358,11 @@ export default {
     position: relative;
     margin-left: 8px;
     cursor: pointer;
+    display: inline;
+
+    &--small-screens {
+      display: none;
+    }
 
     svg {
       @include size(16px);
@@ -404,6 +425,64 @@ export default {
     margin-right: 16px;
     flex-shrink: 0;
     transition: .3s ease-in-out;
+  }
+}
+
+@media screen and (min-width: 993px) and (max-height: 920px) {
+  .price {
+    padding-top: 0;
+
+    &__subtitle {
+      font-size: rem(16);
+    }
+
+    &__examples {
+      height: 38px;
+    }
+  }
+
+  .category {
+    &__price-value {
+      font-size: rem(17);
+    }
+
+    &__price-wrapper {
+      margin-bottom: 0!important;
+
+      & + & {
+        margin-top: 14px;
+      }
+    }
+
+    &__icon {
+      @include size(35px);
+      top: 16px;
+      right: 16px;
+    }
+
+    &__subtitle {
+      max-width: calc(100% - 20px);
+    }
+
+    &__undertext {
+      display: none;
+    }
+
+    &__tooltip {
+      &--small-screens {
+        display: block;
+
+        .category__info {
+          width: 250px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 993px) and (max-height: 767px) {
+  .price {
+    padding-top: 40px;
   }
 }
 

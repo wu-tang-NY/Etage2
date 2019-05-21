@@ -330,7 +330,19 @@ $footer-height: 65px;
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 920px) {
+@media screen and (min-width: 993px) and (min-height: 767px) and (max-height: 920px) {
+  .app-header {
+    &__inner {
+      padding: 10px 0;
+    }
+  }
+
+  .nav-wrapper {
+    margin-top: 0;
+  }
+}
+
+@media screen and (min-width: 993px) and (max-height: 767px) {
   .app-header {
     &__blocks {
       display: none;

@@ -290,6 +290,56 @@ export default {
   }
 }
 
+@media screen and (min-width: 993px) and (max-height: 920px) {
+  .reviews {
+    padding-top: 0;
+
+    .subtitle {
+      margin-bottom: 30px;
+    }
+
+    &__icon {
+      @include size(36px);
+    }
+
+    &__title {
+      font-size: rem(14);
+    }
+
+    &__chevron {
+      display: none;
+    }
+
+    &__swiper {
+      margin-top: 60px;
+      margin-bottom: 30px;
+    }
+
+    &__swiper-button {
+      @include size(24px);
+      background-size: 7px 12px;
+
+      &.swiper-button-next {
+        right: -26px;
+      }
+
+      &.swiper-button-prev {
+        left: -26px;
+      }
+    }
+
+    &__next {
+      height: 38px;
+    }
+  }
+}
+
+@media screen and (min-width: 993px) and (max-height: 767px) {
+  .reviews {
+    padding-top: 40px;
+  }
+}
+
 @media screen and (max-width: 992px) {
   .reviews {
     padding-top: 50px;
@@ -370,6 +420,11 @@ export default {
     &__next {
       margin-top: 0;
       clip-path: none;
+
+      & + & {
+        margin-left: 0;
+        margin-top: 16px;
+      }
     }
   }
 }

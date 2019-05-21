@@ -102,3 +102,27 @@ p {
     padding: 65px 0;
   }
 }
+
+@media screen and (min-width: 993px) and (max-height: 920px) {
+  h1 {
+    font-size: rem(38);
+  }
+  
+  h2 {
+    font-size: rem(28);
+  }
+  
+  h3 {
+    font-size: rem(18);
+  }
+  
+  p {
+    font-size: rem(13);
+    line-height: rem(17);
+  }
+  
+  .subtitle {
+    font-size: rem(14);
+    line-height: rem(20);
+  }  
+}

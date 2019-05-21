@@ -54,7 +54,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 920px) {
+@media screen and (min-width: 993px) and (max-height: 767px) {
   .app-nav {
     &::before {
       display: none;

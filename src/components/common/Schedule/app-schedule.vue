@@ -60,7 +60,7 @@ $schedule-text-color: rgba($colors-text--primary, .8);
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 920px) {
+@media screen and (min-width: 993px) and (max-height: 767px) {
   .app-schedule {
     font-size: rem(14);
   }
