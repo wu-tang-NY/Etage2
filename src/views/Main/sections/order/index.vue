@@ -75,19 +75,19 @@ export default {
   },
   data: () => ({
     tabs: ['order', 'call'],
-    activeTab: 0,
+    activeTab: 1,
     isModalOpen: false,
   }),
   methods: {
     handleOpenOrderComponent() {
       this.activeTab = 0;
       this.isModalOpen = true;
-      document.body.classList.add('modal-open');
+      if (this.isMobile) document.body.classList.add('modal-open');
     },
     handleOpenPhoneComponent() {
       this.activeTab = 1;
       this.isModalOpen = true;
-      document.body.classList.add('modal-open');
+      if (this.isMobile) document.body.classList.add('modal-open');
     },
     closeModal() {
       this.isModalOpen = false;
@@ -101,7 +101,7 @@ export default {
   },
   created() {
     this.$eventbus.$on('openFormModal', () => {
-      this.handleOpenOrderComponent();
+      this.handleOpenPhoneComponent();
     });
   },
 };

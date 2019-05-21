@@ -224,9 +224,10 @@ export default {
   width: 100%;
   min-height: 100vh;
   max-width: 100vw;
+  height: 100vh;
   background-color: #0e1a28;
   padding: 50px 0;
-  overflow: hidden;
+  overflow: auto;
   position: fixed;
   top: 0;
   left: 0;

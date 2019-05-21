@@ -28,6 +28,7 @@
     </div>
 
     <div class="row justify-content-center">
+      <div class="reviews__next" @click.prevent="modalFeedbackOpen = true">Оставьте отзыв</div>
       <div
         @click="$eventbus.$emit('openPopup', 'PopupContentFeedback')"
         class="reviews__next"
@@ -35,16 +36,23 @@
         <svg-icon name="arrow-next" original/>
       </div>
     </div>
+    <feedback-modal v-model="modalFeedbackOpen" />
   </section>
 </template>
 
 <script>
+import FeedbackModal from '@/components/common/Feedback/app-feedback-modal';
+
 export default {
   name: 'AppPageMainSectionReviews',
+  components: {
+    FeedbackModal,
+  },
   props: {
     active: Boolean,
   },
   data: () => ({
+    modalFeedbackOpen: false,
     items: [
       {
         feature: 'Индивидуальный <br> подход',
@@ -57,7 +65,7 @@ export default {
         component: 'PopupContentSpecialists',
       },
       {
-        feature: 'Профессиональные упаковочные материалы',
+        feature: 'Профессиональные <br> упаковочные материалы',
         svg: 'pack_feature',
         component: 'PopupContentPackage',
       },
@@ -67,7 +75,7 @@ export default {
         component: 'PopupContentAuto',
       },
       {
-        feature: 'Прозрачность ценообразования',
+        feature: 'Прозрачность <br> ценообразования',
         svg: 'price_feature',
         component: 'PopupContentPayment',
       },
@@ -162,7 +170,7 @@ export default {
 
   &__icon {
     @include size(39px);
-    margin-bottom: 18px;
+    margin-bottom: 10px;
   }
 
   &__chevron {
@@ -180,7 +188,7 @@ export default {
       z-index: 10;
       display: block;
       position: absolute;
-      left: 0;
+      left: -2px;
       top: 0;
       width: 200px;
       height: 100%;
@@ -192,7 +200,7 @@ export default {
       z-index: 10;
       display: block;
       position: absolute;
-      right: 0;
+      right: -2px;
       top: 0;
       width: 200px;
       height: 100%;
@@ -230,7 +238,7 @@ export default {
   &__slide-desc {
       overflow: hidden;
       text-overflow: ellipsis;
-      display: -webkit-box;
+      display: block;
       line-height: 16px;
       max-height: 48px;
       -webkit-line-clamp: 3;
@@ -261,6 +269,10 @@ export default {
     font-weight: bold;
     cursor: pointer;
     transition: .3s ease-in-out;
+
+    & + & {
+      margin-left: 10px;
+    }
 
     svg {
       @include size(18px);
@@ -295,16 +307,18 @@ export default {
     }
 
     &__block {
-      width: calc(50% - 16px);
+      width: calc(50% - 8px);
       margin-right: 16px;
       margin-bottom: 16px;
       height: 120px;
       background-color: #f6f6f6;
       padding: 14px 9px 16px 9px;
       justify-content: center;
+      margin-right: 0;
 
-      &:nth-of-type(2n) {
-        margin-right: 0;
+      &:nth-child(2) {
+        order: -1;
+        width: 100%;
       }
     }
 
