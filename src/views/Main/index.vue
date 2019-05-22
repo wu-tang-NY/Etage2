@@ -156,7 +156,6 @@ export default {
         const timeline1 = new TimelineMax()
           .set(car, { left: 320, x: 0, immediateRender: true })
           .set(cloud2, { opacity: 0, immediateRender: true })
-          .set(sections[0], { opacity: 1, immediateRender: true })
           .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth }), 0.1)
           .add(TweenMax.to(sections[0], 0.5, { opacity: 0 }), 0.2)
           .add(TweenMax.fromTo(sections[1], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
@@ -324,7 +323,6 @@ export default {
 .app-section {
   height: 100%;
   flex: 0 0 auto;
-  opacity: 0;
 }
 
 
