@@ -149,96 +149,66 @@ export default {
         const pageWidth = document.documentElement.clientWidth;
 
         this.ScrollMagicController = new ScrollMagic.Controller({
-          // addIndicators: process.env.NODE_ENV === 'development',
+          addIndicators: process.env.NODE_ENV === 'development',
         });
 
         // SECTION 1
 
-        const timeline1 = new TimelineMax()
-          .set(car, { left: 320, x: 0, immediateRender: true })
-          .set(cloud2, { opacity: 0, immediateRender: true })
-          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth }), 0.1)
-          .add(TweenMax.to(sections[0], 0.5, { opacity: 0 }), 0.2)
+        const tween1 = new TimelineMax()
+          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth }))
+          .add(TweenMax.to(sections[0], 0.5, { opacity: 0 }), 0.1)
           .add(TweenMax.fromTo(sections[1], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
           .add(TweenMax.fromTo(cloud1, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.7);
-
-        this.scrollMagicScenes.push(
-          new ScrollMagic.Scene({
-            duration: pageWidth,
-          })
-            .setPin(this.$refs.page)
-            .setTween(timeline1)
-            .setClassToggle('#section-1', 'active')
-            .addTo(this.ScrollMagicController),
-        );
 
 
         // SECTION 2
 
-        const timeline2 = new TimelineMax()
-          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2 }), 0)
+        const tween2 = new TimelineMax()
+          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2, delay: 0.5 }))
           .add(TweenMax.to(sections[1], 0.5, { opacity: 0 }), 0.6)
           .add(TweenMax.fromTo(sections[2], 0.5, { opacity: 0 }, { opacity: 1 }), 0.7)
           .add(TweenMax.to(cloud1, 0.15, { opacity: 0, y: -20 }), 0.7)
           .add(TweenMax.fromTo(cloud2, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 1);
 
-        this.scrollMagicScenes.push(
-          new ScrollMagic.Scene({
-            duration: pageWidth,
-            offset: pageWidth,
-          })
-            .setPin(this.$refs.page)
-            .setTween(timeline2)
-            .setClassToggle('#section-2', 'active')
-            .addTo(this.ScrollMagicController),
-        );
-
 
         // SECTION 3
 
-        const timeline3 = new TimelineMax()
-          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 3 }), 0)
+        const tween3 = new TimelineMax()
+          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 3, delay: 0.5 }))
           .add(TweenMax.to(sections[2], 0.5, { opacity: 0 }), 0.6)
           .add(TweenMax.fromTo(sections[3], 0.5, { opacity: 0 }, { opacity: 1 }), 0.7)
           .add(TweenMax.to(cloud2, 0.15, { opacity: 0, y: -20 }), 0.7);
 
-        this.scrollMagicScenes.push(
-          new ScrollMagic.Scene({
-            duration: pageWidth,
-            offset: pageWidth * 2,
-          })
-            .setPin(this.$refs.page)
-            .setTween(timeline3)
-            .setClassToggle('#section-3', 'active')
-            .addTo(this.ScrollMagicController),
-        );
-
 
         // SECTION 4
 
-        const timeline4 = new TimelineMax()
-          .to(car, 0.1, { x: pageWidth - (pageWidth / 4) });
+        const tween4 = new TimelineMax()
+          .to(car, 1, { x: pageWidth - (pageWidth / 4) });
+
+
+        const tweenSections = new TimelineMax()
+          .add([tween1, tween2, tween3, tween4], 0, 'sequence', 0);
+
+        // BG
+
+        const tweenBg = TweenMax.to(bg, 1, { ease: 'linear', x: -pageWidth * 3 });
+
+        // TIMELINE
+
+        const timeline = new TimelineMax()
+          .set(car, { left: 320, x: 0, immediateRender: true })
+          .set(cloud2, { opacity: 0, immediateRender: true })
+          .add([tweenBg, tweenSections], 0, 'start', 0);
 
         this.scrollMagicScenes.push(
           new ScrollMagic.Scene({
-            duration: pageWidth,
-            offset: pageWidth * 3,
+            duration: pageWidth * 4,
           })
             .setPin(this.$refs.page)
-            .setTween(timeline4)
-            .setClassToggle('#section-4', 'active')
+            .setTween(timeline)
+            .setClassToggle('#section-1', 'active')
             .addTo(this.ScrollMagicController),
         );
-
-
-        const bgTween = new TimelineMax()
-          .to(bg, 1, { ease: 'linear', x: -(pageWidth * 3) });
-
-        new ScrollMagic.Scene({
-          duration: pageWidth * 4,
-        })
-          .setTween(bgTween)
-          .addTo(this.ScrollMagicController);
       }
       this.isScrollPresent();
     },
@@ -336,7 +306,15 @@ export default {
   .page-main {
     &__inner {
       position: fixed;
-      overflow: hidden;
+      top: 0;
+      @include size(100%);
+      // overflow: hidden;
+    }
+
+    &__sections {
+      position: fixed;
+      left: 0;
+      top: 140px !important;
     }
 
     &__bg {
@@ -366,6 +344,10 @@ export default {
 
 @media screen and (min-width: 993px) and (max-height: 760px) {
   .page-main {
+    &__sections {
+      top: 50px !important;
+    }
+
     &__bg {
       bottom: -3px;
     }
