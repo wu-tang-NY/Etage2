@@ -4,6 +4,7 @@
       <div class="page-main__sections" ref="sectionsWrapper" id="sections">
         <section
           class="app-section"
+          :class="{'app-section--scroll': isScrollPresent()}"
           v-for="(section, index) in Object.keys(sectionsComponents)"
           :key="section"
           :id="`section-${index + 1}`"
@@ -239,10 +240,15 @@ export default {
           .setTween(bgTween)
           .addTo(this.ScrollMagicController);
       }
+      this.isScrollPresent();
+    },
+    isScrollPresent() {
+      return window.innerWidth > document.body.clientWidth;
     },
   },
   mounted() {
     this.onResize();
+    this.isScrollPresent();
 
     if (!this.mobile) {
       this.initAnimations();
@@ -352,7 +358,9 @@ export default {
 
   .app-section {
     width: 100vw;
-    padding-right: 17px;
+    &--scroll {
+      padding-right: 17px;
+    }
   }
 }
 
