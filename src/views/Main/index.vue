@@ -175,7 +175,7 @@ export default {
         // SECTION 2
 
         const timeline2 = new TimelineMax()
-          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2 }), 0.5)
+          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2 }), 0)
           .add(TweenMax.to(sections[1], 0.5, { opacity: 0 }), 0.6)
           .add(TweenMax.fromTo(sections[2], 0.5, { opacity: 0 }, { opacity: 1 }), 0.7)
           .add(TweenMax.to(cloud1, 0.15, { opacity: 0, y: -20 }), 0.7)
@@ -196,7 +196,7 @@ export default {
         // SECTION 3
 
         const timeline3 = new TimelineMax()
-          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 3 }), 0.5)
+          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 3 }), 0)
           .add(TweenMax.to(sections[2], 0.5, { opacity: 0 }), 0.6)
           .add(TweenMax.fromTo(sections[3], 0.5, { opacity: 0 }, { opacity: 1 }), 0.7)
           .add(TweenMax.to(cloud2, 0.15, { opacity: 0, y: -20 }), 0.7);
