@@ -144,16 +144,16 @@ export default {
     },
 
     resizeHandler() {
-      if (!document.hidden) {
-        if (this.isMobile()) {
-          this.device = 'mobile';
-          this.mobile = true;
-        } else if (this.isTablet()) {
-          this.device = 'tablet';
-          this.tablet = true;
-        } else {
-          this.device = 'desktop';
-        }
+      this.mobile = false;
+      this.tablet = false;
+      if (this.isMobile()) {
+        this.device = 'mobile';
+        this.mobile = true;
+      } else if (this.isTablet()) {
+        this.device = 'tablet';
+        this.tablet = true;
+      } else {
+        this.device = 'desktop';
       }
     },
   },

@@ -107,6 +107,11 @@ export default {
     onResize() {
       this.windowWidth = document.documentElement.clientWidth;
       this.totalWidth = Object.keys(sectionsComponents).length * this.windowWidth;
+        console.log(this.mobile, this.tablet)
+      if (this.ScrollMagicController) {
+        this.ScrollMagicController.destroy(true);
+        this.initAnimations();
+      }
     },
 
     onSpacePress(e) {
@@ -151,6 +156,7 @@ export default {
         this.ScrollMagicController = new ScrollMagic.Controller({
           // addIndicators: process.env.NODE_ENV === 'development',
         });
+        console.log('--==')
 
         // SECTION 1
 
@@ -248,7 +254,6 @@ export default {
   },
   mounted() {
     this.onResize();
-    this.isScrollPresent();
 
     if (!this.mobile) {
       this.initAnimations();
