@@ -330,7 +330,7 @@ $footer-height: 65px;
   }
 }
 
-@media screen and (min-width: 993px) and (min-height: 767px) and (max-height: 920px) {
+@media screen and (min-width: 993px) and (min-height: 760px) and (max-height: 920px) {
   .app-header {
     &__inner {
       padding: 10px 0;
@@ -346,7 +346,7 @@ $footer-height: 65px;
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 767px) {
+@media screen and (min-width: 993px) and (max-height: 760px) {
   .app-header {
     &__blocks {
       display: none;

@@ -63,7 +63,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 767px) {
+@media screen and (min-width: 993px) and (max-height: 760px) {
   .services {
     padding-top: 70px;
   }
