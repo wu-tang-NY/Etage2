@@ -1,8 +1,8 @@
 <template>
   <div class="call-form">
     <div class="mobile-wrapper">
-      <div class="call-form__close" v-if="isMobile" @click="$emit('closeModal')"></div>
-      <div class="call-form__title" v-if="isMobile">
+      <div class="call-form__close" v-if="isMobile()" @click="$emit('closeModal')"></div>
+      <div class="call-form__title" v-if="isMobile()">
         <h2>Оставьте номер</h2>
         <div class="subtitle">чтобы узнать все и сразу</div>
       </div>
@@ -33,10 +33,17 @@
 <script>
 export default {
   name: 'CallFormComponent',
-  computed: {
+  methods: {
     isMobile() {
       return window.innerWidth < 993;
     },
+  },
+  beforeMount() {
+    this.isMobile();
+    window.addEventListener('resize', this.isMobile);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.isMobile);
   },
 };
 </script>

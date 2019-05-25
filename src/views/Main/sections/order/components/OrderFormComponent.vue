@@ -2,8 +2,8 @@
   <form class="order-form">
     <div class="mobile-wrapper">
 
-      <div class="order-form__close" v-if="isMobile" @click="$emit('closeModal')"></div>
-      <div class="order-form__title" v-if="isMobile">
+      <div class="order-form__close" v-if="isMobile()" @click="$emit('closeModal')"></div>
+      <div class="order-form__title" v-if="isMobile()">
         <h2>Заполните форму</h2>
         <div class="subtitle">и мы перезвоним вам в течение 15 минут и огласим примерную стоимость</div>
       </div>
@@ -93,10 +93,17 @@ export default {
       },
     };
   },
-  computed: {
+  methods: {
     isMobile() {
       return window.innerWidth < 993;
     },
+  },
+  beforeMount() {
+    this.isMobile();
+    window.addEventListener('resize', this.isMobile);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.isMobile);
   },
 };
 </script>

@@ -4,8 +4,8 @@
     <div class="container">
       <div class="row">
         <div class="sticky" :class="{'sticky--large':toggledNav}">
-          <div class="sticky__close" v-if="isMobile" @click="closeModal"/>
-          <div class="sticky__nav" @click="openMobileAccordion" v-if="isMobile">
+          <div class="sticky__close" v-if="isMobile()" @click="closeModal"/>
+          <div class="sticky__nav" @click="openMobileAccordion" v-if="isMobile()">
             Навигация
             <svg-icon original name="icon_nav-modal"/>
             <!-- <div class="sticky__back" @click="closeModal" v-if="isMobile && !toggledNav">
@@ -18,8 +18,8 @@
               <span class="menu-toggle__line sticky__ham-item"></span>
             </button> -->
           </div>
-          <svg-icon name="logo_white" original class="modal-info__logo" v-if="!isMobile"/>
-          <div class="modal-info__nav" v-if="!isMobile || toggledNav">
+          <svg-icon name="logo_white" original class="modal-info__logo" v-if="!isMobile()"/>
+          <div class="modal-info__nav" v-if="!isMobile() || toggledNav">
             <div class="modal-info__panel"
               :class="{'modal-info__panel--active': item.isActive}"
               v-for="(item, index) in nav"
@@ -40,7 +40,7 @@
         <div class="col-lg-9 offset-lg-3 modal-conent">
           <div class="modal-info__header-wrapper">
             <div class="modal-info__header">{{activeTab.title}}</div>
-            <div class="modal-info__close" @click="closeModal" v-if="!isMobile"/>
+            <div class="modal-info__close" @click="closeModal" v-if="!isMobile()"/>
           </div>
           <div class="modal-info__content">
             <component :is="activeTab.component"></component>
@@ -148,12 +148,11 @@ export default {
       ],
     };
   },
-  computed: {
+  methods: {
     isMobile() {
       return window.innerWidth < 993;
     },
-  },
-  methods: {
+
     openSelectedInfo(link) {
       this.handeRemoveAllColoredLinks();
       this.activeTab = link;
@@ -176,7 +175,7 @@ export default {
     },
 
     openMobileAccordion() {
-      if (this.isMobile) {
+      if (this.isMobile()) {
         this.toggledNav = !this.toggledNav;
         document.body.classList.toggle('menu-open');
       }
@@ -198,6 +197,13 @@ export default {
       this.openModal = false;
       document.body.classList.remove('modal-open');
     },
+  },
+  beforeMount() {
+    this.isMobile();
+    window.addEventListener('resize', this.isMobile);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.isMobile);
   },
   mounted() {
     this.$eventbus.$on('openPopup', component => {

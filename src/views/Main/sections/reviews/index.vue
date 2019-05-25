@@ -15,7 +15,7 @@
     </div>
 
     <div class="reviews__swiper">
-      <swiper :options="options">
+      <swiper :options="options" ref="swiper">
         <swiper-slide v-for="(slide, index) in slides" :key="index" class="reviews__slide">
           <div class="reviews__slide-title">{{ slide.title }}</div>
 
@@ -24,17 +24,18 @@
       </swiper>
 
       <div class="swiper-button-prev reviews__swiper-button swiper-button-white" slot="button-prev"></div>
+      <svg-icon name="divider" original v-if="isMobile()" class="reviews__swiper-divider"></svg-icon>
       <div class="swiper-button-next reviews__swiper-button swiper-button-white" slot="button-next"></div>
     </div>
 
-    <div class="row justify-content-center">
-      <div class="reviews__next" @click.prevent="modalFeedbackOpen = true">Оставьте отзыв</div>
+    <div class="reviews__btnholder">
       <div
         @click="$eventbus.$emit('openPopup', 'PopupContentFeedback')"
         class="reviews__next"
       >Отзывы о нашей работе
         <svg-icon name="arrow-next" original/>
       </div>
+      <div class="reviews__next reviews__next--feedback" @click.prevent="modalFeedbackOpen = true">Оставьте отзыв</div>
     </div>
     <feedback-modal v-model="modalFeedbackOpen" />
   </section>
@@ -130,6 +131,20 @@ export default {
     openPopup(e) {
       this.$eventbus.$emit('openPopup', e);
     },
+    reinitSwiper() {
+      this.$refs.swiper.swiper.update();
+      this.isMobile();
+    },
+
+    isMobile() {
+      return window.innerWidth < 993;
+    },
+  },
+  beforeMount() {
+    window.addEventListener('resize', this.reinitSwiper);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.reinitSwiper);
   },
 };
 </script>
@@ -208,6 +223,15 @@ export default {
     }
   }
 
+  &__swiper-divider {
+    position: absolute;
+    bottom: -48px;
+    height: 28px;
+    left: 50%;
+    width: 35%;
+    transform: translateX(-50%);
+  }
+
   &__swiper-button {
     @include size(28px);
     background-color: $colors-accent;
@@ -238,7 +262,7 @@ export default {
   &__slide-desc {
       overflow: hidden;
       text-overflow: ellipsis;
-      display: block;
+      display: -webkit-box;
       line-height: 16px;
       max-height: 48px;
       -webkit-line-clamp: 3;
@@ -252,6 +276,11 @@ export default {
     letter-spacing: .3px;
     font-weight: bold;
     margin-bottom: 7px;
+  }
+
+  &__btnholder {
+    display: flex;
+    justify-content: center;
   }
 
   &__next {
@@ -269,6 +298,16 @@ export default {
     font-weight: bold;
     cursor: pointer;
     transition: .3s ease-in-out;
+
+    &--feedback {
+      background-color: $colors-grey-200;
+      color: $colors-text--primary;
+
+      &:hover {
+        color: $white;
+        background-color: $colors-text--primary;
+      }
+    }
 
     & + & {
       margin-left: 10px;
@@ -340,7 +379,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 768px) {
   .reviews {
     padding-top: 50px;
 
@@ -415,6 +454,11 @@ export default {
       &.swiper-button-prev {
         left: 20%;
       }
+    }
+
+    &__btnholder {
+      flex-direction: column;
+      align-items: center;
     }
 
     &__next {

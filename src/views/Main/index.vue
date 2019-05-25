@@ -9,6 +9,7 @@
           :key="section"
           :id="`section-${index + 1}`"
         >
+          <!-- <svg-icon name="mobile_bg" original v-if="section.id === 1" class="services__bg"></svg-icon> -->
           <div class="container">
             <component :is="section" :active="activeSectionIndex === index" />
           </div>

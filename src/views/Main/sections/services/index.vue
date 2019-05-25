@@ -1,7 +1,8 @@
 <template>
   <div class="services">
+    <svg-icon name="mobile_bg" original v-if="isMobile()" class="services__bg"></svg-icon>
     <h1>Переезжайте и перевозите легко,
-      <br v-if="!isMobile">
+      <br v-if="!isMobile()">
       все заботы мы берем на себя!
     </h1>
 
@@ -35,10 +36,17 @@ export default {
   data: () => ({
     modalCallbackOpen: false,
   }),
-  computed: {
+  methods: {
     isMobile() {
       return window.innerWidth < 993;
     },
+  },
+  beforeMount() {
+    this.isMobile();
+    window.addEventListener('resize', this.isMobile);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.isMobile);
   },
 };
 </script>
@@ -54,6 +62,12 @@ export default {
   .subtitle {
     margin-bottom: 20px;
     max-width: 680px;
+  }
+
+  &__bg {
+    margin: 0 -15px;
+    margin-bottom: 36px;
+    width: calc(100% + 30px);
   }
 }
 
