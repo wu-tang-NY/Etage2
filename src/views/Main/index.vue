@@ -21,11 +21,29 @@
         </section>
       </div>
 
-      <div class="page-main__bg">
+      <div class="page-main__bg bg">
         <div class="page-main__bg-inner">
           <div class="page-main__bg-image" :style="{ width: `${totalWidth}px` }" ref="bg">
             <div class="page-main__bg-home">
               <svg-icon name="home" class="page-main" original />
+            </div>
+
+            <div class="bg__from">
+              <div class="bg__home">
+                <svg-icon name="home_1" original />
+              </div>
+              <div class="bg__workers">
+                <svg-icon name="workers_1" original />
+              </div>
+            </div>
+
+            <div class="bg__to">
+              <div class="bg__home">
+                <svg-icon name="home_2" original />
+              </div>
+              <div class="bg__workers">
+                <svg-icon name="workers_2" original />
+              </div>
             </div>
           </div>
 
@@ -228,7 +246,7 @@ export default {
           onReverseComplete: this.toggleActiveSectionClass,
           onReverseCompleteParams: [2],
         })
-          .to(car, 1, { x: pageWidth });
+          .to(car, 1, { x: pageWidth - pageWidth / 4 });
 
 
         // TIMELINE
@@ -325,6 +343,46 @@ export default {
   }
 
   &__image {
+    svg {
+      @include size(100%);
+    }
+  }
+}
+
+.bg {
+  &__from {
+    .bg__home {
+      left: 50%;
+    }
+  }
+
+  &__to {
+    position: absolute;
+    bottom: 22px;
+    right: 300px;
+    @include size(160px, 100px);
+
+    .bg__home {
+      right: 0;
+    }
+  }
+
+  &__home {
+    position: absolute;
+    bottom: 0;
+    @include size(90px);
+
+    svg {
+      @include size(100%);
+    }
+  }
+
+  &__workers {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    @include size(70px, 35px);
+
     svg {
       @include size(100%);
     }
