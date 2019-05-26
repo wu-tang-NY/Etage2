@@ -1,6 +1,6 @@
 <template>
   <div class="services">
-    <svg-icon name="mobile_bg" original v-if="mobile || tablet" class="services__bg" />
+    <!-- <svg-icon name="mobile_bg" original v-if="mobile || tablet" class="services__bg" /> -->
     <h1>Переезжайте и перевозите легко,
       <br v-if="(!mobile && !tablet)">
       все заботы мы берем на себя!
@@ -55,9 +55,8 @@ export default {
   }
 
   &__bg {
-    margin: 0 -15px;
-    margin-bottom: 36px;
-    width: calc(100% + 30px);
+    width: 100%;
+    margin-top: 10px;
   }
 }
 

@@ -349,6 +349,12 @@ $footer-height: 65px;
     }
   }
 
+  .app-footer {
+    &__inner {
+      height: 40px;
+    }
+  }
+
   .nav-wrapper {
     margin-top: 0;
   }
