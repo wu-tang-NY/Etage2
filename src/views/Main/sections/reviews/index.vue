@@ -16,7 +16,7 @@
 
     <div class="reviews__swiper">
       <swiper :options="options" ref="swiper">
-        <swiper-slide v-for="(slide, index) in slides" :key="index" class="reviews__slide">
+        <swiper-slide v-for="(slide, index) in slides" :key="index" class="reviews__slide" @click.native="$eventbus.$emit('openPopup', 'PopupContentFeedback')">
           <div class="reviews__slide-title">{{ slide.title }}</div>
 
           <p class="reviews__slide-desc dark-gray">{{ slide.desc }}</p>
@@ -248,6 +248,7 @@ export default {
   &__slide {
     text-align: center;
     width: 400px;
+    cursor: pointer;
   }
 
   &__slide-desc {

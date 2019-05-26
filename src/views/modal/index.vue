@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-info" v-if="openModal">
+  <div class="modal-info" v-show="openModal">
     <svg-icon name="bg_dark" class="modal-info__bg" original/>
     <div class="container">
       <div class="row">
@@ -32,18 +32,22 @@
                 <svg-icon name="modal_dropdown" original/>
               </div>
               <div class="modal-info__panel-content" v-for="link in item.links" :key="link.name">
-                <a href="" @click.prevent="openSelectedInfo(link)" :class="{'modal-info__panel-link--active':link.activeLink}" class="modal-info__panel-link">{{link.title}}</a>
+                <!-- <a href="" @click.prevent="openSelectedInfo(item)" :class="{'modal-info__panel-link--active':link.activeLink}" class="modal-info__panel-link">{{link.title}}</a> -->
+                <a href="" @click.prevent="scrollTo(link, item.header)" :class="{'modal-info__panel-link--active':link.activeLink}" class="modal-info__panel-link">{{link.title}}</a>
               </div>
             </div>
           </div>
         </div>
         <div class="col-lg-9 offset-lg-3 modal-conent">
           <div class="modal-info__header-wrapper">
-            <div class="modal-info__header">{{activeTab.title}}</div>
+            <div class="modal-info__header">{{activeTab}}</div>
             <div class="modal-info__close" @click="closeModal" v-if="(!mobile && !tablet)" />
           </div>
-          <div class="modal-info__content">
-            <component :is="activeTab.component" />
+          <div class="modal-info__content" ref="sections">
+            <!-- <component :is="activeTab.component" /> -->
+            <div class="modal-info__component-group" v-for="item in nav" :key="item.header">
+              <component :is="link.component" v-for="link in item.links" :key="link.title" :id="link.component" />
+           </div>
           </div>
         </div>
       </div>
@@ -153,11 +157,23 @@ export default {
     };
   },
   methods: {
-    openSelectedInfo(link) {
+    openSelectedInfo(link, header) {
       this.handeRemoveAllColoredLinks();
-      this.activeTab = link;
+      this.activeTab = header;
       link.activeLink = true;
       this.openMobileAccordion();
+    },
+
+    async scrollTo(link, header) {
+      await this.$nextTick();
+      const elem = document.getElementById(link.component);
+      const elemGroupOffset = elem.parentNode.offsetTop;
+      const top = elem.offsetTop + elemGroupOffset - 60;
+      this.$refs.sections.scrollTo({
+        top,
+        behavior: 'smooth',
+      });
+      this.openSelectedInfo(link, header);
     },
 
     handeRemoveAllColoredLinks() {
@@ -203,9 +219,10 @@ export default {
       this.nav.some(nav => {
         return nav.links.some(item => {
           if (item.component === component) {
-            this.activeTab = item;
+            this.activeTab = nav.header;
             nav.isActive = true;
             item.activeLink = true;
+            this.scrollTo(item, nav.header);
           }
           return item.component === component;
         });
@@ -270,6 +287,43 @@ export default {
         height: 2px;
         transform: translate(-50%, -50%) rotateZ(45deg);
         background-color: #fff;
+      }
+    }
+  }
+
+  &__component-group {
+    position: relative;
+
+    & > div {
+      position: relative;
+
+      h2 {
+        color: $colors-accent;
+        margin-bottom: 20px;
+      }
+    }
+
+    & > div + div {
+      margin-top: 80px;
+      &::before {
+        content: '';
+        position: absolute;
+        top: -40px;
+        @include size(100%, 2px);
+        left: 0;
+        background-color: rgba(#fff, .4);
+      }
+    }
+
+    & + & {
+      margin-top: 120px;
+      &::before {
+        content: '';
+        position: absolute;
+        top: -60px;
+        @include size(100%, 2px);
+        left: 0;
+        background-color: rgba($colors-accent, .4);
       }
     }
   }
@@ -368,6 +422,8 @@ export default {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 40px;
+    position: absolute;
+    width: calc(100% - 30px);
   }
 
   &__header {
@@ -408,6 +464,9 @@ export default {
     }
   }
   &__content {
+    height: calc(100vh - 160px);
+    overflow: auto;
+    margin-top: 60px;
     p + p,
     img + p,
     img + img,
@@ -436,6 +495,14 @@ export default {
     overflow: scroll;
     max-height: 100vh;
     padding-top: 0;
+
+    &__header-wrapper {
+      width: 100%;
+    }
+
+    &__content {
+      margin-top: 60px;
+    }
 
     .modal-conent {
       margin-top: 140px;

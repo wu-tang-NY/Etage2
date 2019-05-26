@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>Партнеры</h2>
   </div>
 </template>
 

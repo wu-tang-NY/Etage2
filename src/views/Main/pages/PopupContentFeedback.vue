@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>Отзывы</h2>
     <div class="popup-feedback__comment" v-for="comment in comments" :key="comment.name">
       <h5>{{comment.name}}</h5>
       <div class="popup-feedback__category">{{comment.category}}</div>
