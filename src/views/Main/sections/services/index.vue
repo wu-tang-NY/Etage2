@@ -31,6 +31,8 @@ export default {
     active: {
       type: Boolean,
     },
+    mobile: Boolean,
+    tablet: Boolean,
   },
   data: () => ({
     modalCallbackOpen: false,

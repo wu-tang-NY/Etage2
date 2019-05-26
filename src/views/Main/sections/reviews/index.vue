@@ -50,6 +50,8 @@ export default {
   },
   props: {
     active: Boolean,
+    mobile: Boolean,
+    tablet: Boolean,
   },
   data: () => ({
     modalFeedbackOpen: false,

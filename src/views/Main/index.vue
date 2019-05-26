@@ -4,13 +4,19 @@
       <div class="page-main__sections" ref="sectionsWrapper" id="sections">
         <section
           class="app-section"
-          :class="{'app-section--scroll': isScrollPresent()}"
+          :class="{ 'app-section--scroll': isScrollPresent() }"
+          :style="{ 'width': !mobile && !tablet ? `${windowWidth}px` : '100%' }"
           v-for="(section, index) in Object.keys(sectionsComponents)"
           :key="section"
           :id="`section-${index + 1}`"
         >
           <div class="container">
-            <component :is="section" :active="activeSectionIndex === index" />
+            <component
+              :is="section"
+              :active="activeSectionIndex === index"
+              :mobile="mobile"
+              :tablet="tablet"
+            />
           </div>
         </section>
       </div>
@@ -81,7 +87,6 @@ export default {
     activeSectionIndex: 0,
 
     ScrollMagicController: null,
-    scrollMagicScenes: [],
   }),
   computed: {
     sectionsComponents() {
@@ -105,8 +110,16 @@ export default {
     },
 
     onResize() {
-      this.windowWidth = document.documentElement.clientWidth;
+      this.windowWidth = window.innerWidth;
       this.totalWidth = Object.keys(sectionsComponents).length * this.windowWidth;
+
+      if (this.ScrollMagicController) {
+        this.ScrollMagicController.destroy(true);
+      }
+
+      this.initAnimations();
+
+      console.log(this.ScrollMagicController);
     },
 
     onSpacePress(e) {
@@ -139,6 +152,9 @@ export default {
       document.documentElement.scrollTo({ top, behavior: 'smooth' });
     },
 
+    toggleActiveSectionClass() {
+    },
+
     initAnimations() {
       if (!this.mobile && !this.tablet) {
         const { sectionsWrapper, bg, car, clouds } = this.$refs;
@@ -149,15 +165,16 @@ export default {
         const pageWidth = document.documentElement.clientWidth;
 
         this.ScrollMagicController = new ScrollMagic.Controller({
-          addIndicators: process.env.NODE_ENV === 'development',
+          // addIndicators: process.env.NODE_ENV === 'development',
         });
 
         // SECTION 1
 
         const tween1 = new TimelineMax()
+          .set(sections[0], { opacity: 1, immediateRender: true })
           .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth }))
           .add(TweenMax.to(sections[0], 0.5, { opacity: 0 }), 0.1)
-          .add(TweenMax.fromTo(sections[1], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
+          .add(TweenMax.to(sections[1], 0.5, { opacity: 1 }), 0.4)
           .add(TweenMax.fromTo(cloud1, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.7);
 
 
@@ -166,7 +183,7 @@ export default {
         const tween2 = new TimelineMax()
           .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2, delay: 0.5 }))
           .add(TweenMax.to(sections[1], 0.5, { opacity: 0 }), 0.6)
-          .add(TweenMax.fromTo(sections[2], 0.5, { opacity: 0 }, { opacity: 1 }), 0.7)
+          .add(TweenMax.to(sections[2], 0.5, { opacity: 1 }), 0.7)
           .add(TweenMax.to(cloud1, 0.15, { opacity: 0, y: -20 }), 0.7)
           .add(TweenMax.fromTo(cloud2, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 1);
 
@@ -176,7 +193,7 @@ export default {
         const tween3 = new TimelineMax()
           .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 3, delay: 0.5 }))
           .add(TweenMax.to(sections[2], 0.5, { opacity: 0 }), 0.6)
-          .add(TweenMax.fromTo(sections[3], 0.5, { opacity: 0 }, { opacity: 1 }), 0.7)
+          .add(TweenMax.to(sections[3], 0.5, { opacity: 1 }), 0.7)
           .add(TweenMax.to(cloud2, 0.15, { opacity: 0, y: -20 }), 0.7);
 
 
@@ -198,17 +215,14 @@ export default {
         const timeline = new TimelineMax()
           .set(car, { left: 320, x: 0, immediateRender: true })
           .set(cloud2, { opacity: 0, immediateRender: true })
-          .add([tweenBg, tweenSections], 0, 'start', 0);
+          .add([tweenSections, tweenBg], 0, 'start', 0);
 
-        this.scrollMagicScenes.push(
-          new ScrollMagic.Scene({
-            duration: pageWidth * 4,
-          })
-            .setPin(this.$refs.page)
-            .setTween(timeline)
-            .setClassToggle('#section-1', 'active')
-            .addTo(this.ScrollMagicController),
-        );
+        new ScrollMagic.Scene({
+          duration: pageWidth * 4,
+        })
+          .setPin(this.$refs.page)
+          .setTween(timeline)
+          .addTo(this.ScrollMagicController);
       }
       this.isScrollPresent();
     },
@@ -221,7 +235,6 @@ export default {
     this.isScrollPresent();
 
     if (!this.mobile) {
-      this.initAnimations();
       window.addEventListener('scroll', this.onScroll);
     }
 
@@ -306,15 +319,7 @@ export default {
   .page-main {
     &__inner {
       position: fixed;
-      top: 0;
-      @include size(100%);
-      // overflow: hidden;
-    }
-
-    &__sections {
-      position: fixed;
-      left: 0;
-      top: 140px !important;
+      overflow: hidden;
     }
 
     &__bg {
@@ -335,7 +340,8 @@ export default {
   }
 
   .app-section {
-    width: 100vw;
+    opacity: 0;
+
     &--scroll {
       padding-right: 17px;
     }
@@ -344,12 +350,17 @@ export default {
 
 @media screen and (min-width: 993px) and (max-height: 760px) {
   .page-main {
-    &__sections {
-      top: 50px !important;
-    }
-
     &__bg {
       bottom: -3px;
+    }
+  }
+}
+
+
+@include media-breakpoint-down(lg) {
+  .page-main {
+    .app-section {
+      opacity: 1 !important;
     }
   }
 }

@@ -145,14 +145,17 @@ export default {
 
     resizeHandler() {
       if (!document.hidden) {
+        this.mobile = false;
+        this.tablet = false;
+
         if (this.isMobile()) {
           this.device = 'mobile';
           this.mobile = true;
-        } else if (this.isTablet()) {
+        }
+
+        if (this.isTablet()) {
           this.device = 'tablet';
           this.tablet = true;
-        } else {
-          this.device = 'desktop';
         }
       }
     },
@@ -174,6 +177,7 @@ $footer-height: 65px;
   background-color: $white;
   position: fixed;
   left: 0;
+  top: 0;
   width: 100%;
   z-index: 100;
 

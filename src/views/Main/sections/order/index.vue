@@ -53,7 +53,7 @@
     </div>
 
 
-    <transition name="component-fade" mode="out-in" v-if="!isMobile || isModalOpen">
+    <transition name="component-fade" mode="out-in" v-if="(!this.mobile && !this.tablet) || isModalOpen">
       <component :is="tabs[activeTab]"
       @closeModal="closeModal"/>
     </transition>
@@ -72,6 +72,8 @@ export default {
     active: {
       type: Boolean,
     },
+    mobile: Boolean,
+    tablet: Boolean,
   },
   data: () => ({
     tabs: ['order', 'call'],
@@ -82,27 +84,20 @@ export default {
     handleOpenOrderComponent() {
       this.activeTab = 0;
       this.isModalOpen = true;
-      if (this.isMobile) document.body.classList.add('modal-open');
+      if (this.mobile || this.tablet) document.body.classList.add('modal-open');
     },
     handleOpenPhoneComponent() {
       this.activeTab = 1;
       this.isModalOpen = true;
-      if (this.isMobile) document.body.classList.add('modal-open');
+      if (this.mobile || this.tablet) document.body.classList.add('modal-open');
     },
     closeModal() {
       this.isModalOpen = false;
       document.body.classList.remove('modal-open');
     },
   },
-  computed: {
-    isMobile() {
-      return window.innerWidth < 993;
-    },
-  },
   created() {
-    this.$eventbus.$on('openFormModal', () => {
-      this.handleOpenPhoneComponent();
-    });
+    this.$eventbus.$on('openFormModal', this.handleOpenPhoneComponent);
   },
 };
 </script>

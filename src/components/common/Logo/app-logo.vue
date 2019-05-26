@@ -46,6 +46,12 @@ $logo-separator-color: #e6e6e6;
     }
   }
 
+  @include media-breakpoint-down(xl) {
+    &__subtitle {
+      display: none;
+    }
+  }
+
   @include media-breakpoint-down(md) {
     &__icon {
       @include size(90px, 18px);

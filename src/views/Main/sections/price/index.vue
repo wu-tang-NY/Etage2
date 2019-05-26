@@ -12,7 +12,7 @@
       <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных материалов</a>
     </div>
 
-    <div class="row" v-if="!isMobile">
+    <div class="row" v-if="!mobile && !tablet">
       <div class="col-lg-8">
         <div class="price__subtitle-wrapper">
           <div class="price__subtitle price__subtitle--tree" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div class="row" v-if="isMobile">
+    <div class="row" v-if="(mobile || tablet)">
       <div v-for="category in categories" :key="category.name" class="col-12">
         <div class="category-mini" @click="handleOpenFullSize(category)">
           <svg-icon :name="category.iconName" class="category-mini__icon" original/>
@@ -43,7 +43,7 @@
     <div class="row align-items-stretch">
       <div v-for="category in categories" :key="category.name" class="col-lg-4">
         <transition  name="component-fade">
-          <div class="price__category category" v-if="!isMobile || category.opened">
+          <div class="price__category category" v-if="(!mobile && !tablet) || category.opened">
             <div class="mobile-wrapper">
               <div class="category__header-wrapper">
                 <h3 class="category__title">{{ category.name }}</h3>
@@ -57,7 +57,7 @@
 
               <svg-icon :name="category.iconName" class="category__icon" original />
 
-              <div class="category__close" v-if="isMobile" @click="handleOpenFullSize(category)"></div>
+              <div class="category__close" v-if="mobile || tablet" @click="handleOpenFullSize(category)"></div>
 
               <div class="category__price-wrapper" v-for="item in category.items" :key="item.id">
                 <div class="category__additional" v-if="item.additional">{{ item.additional }}</div>
@@ -78,7 +78,7 @@
               </div>
               <p class="category__undertext">{{category.undertext}}</p>
               <div class="row justify-content-center">
-                <div v-if="isMobile" @click="openForm(category)" class="price__examples price__examples--mobile">Заказать</div>
+                <div v-if="mobile" @click="openForm(category)" class="price__examples price__examples--mobile">Заказать</div>
               </div>
             </div>
           </div>
@@ -99,6 +99,8 @@ export default {
   name: 'AppPageMainSectionPrice',
   props: {
     active: Boolean,
+    mobile: Boolean,
+    tablet: Boolean,
   },
   data: () => ({
     categories: [
@@ -167,11 +169,6 @@ export default {
       },
     ],
   }),
-  computed: {
-    isMobile() {
-      return window.innerWidth < 993;
-    },
-  },
   methods: {
     handleOpenFullSize(e) {
       e.opened = !e.opened;
