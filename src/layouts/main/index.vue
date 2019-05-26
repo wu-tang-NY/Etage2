@@ -91,6 +91,7 @@
       <router-view
         :mobile="mobile"
         :tablet="tablet"
+        :device="device"
       />
     </main>
 
@@ -154,11 +155,11 @@ export default {
         if (this.isMobile()) {
           this.device = 'mobile';
           this.mobile = true;
-        }
-
-        if (this.isTablet()) {
+        } else if (this.isTablet()) {
           this.device = 'tablet';
           this.tablet = true;
+        } else {
+          this.device = 'desktop';
         }
       }
     },
