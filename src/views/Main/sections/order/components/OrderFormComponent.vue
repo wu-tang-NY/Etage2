@@ -2,11 +2,15 @@
   <form class="order-form">
     <div class="mobile-wrapper">
 
-      <div class="order-form__close" v-if="isMobile" @click="$emit('closeModal')"></div>
-      <div class="order-form__title" v-if="isMobile">
-        <h2>Заполните форму</h2>
-        <div class="subtitle">и мы перезвоним вам в течение 15 минут и огласим примерную стоимость</div>
-      </div>
+      <template v-if="mobile || tablet">
+        <div class="order-form__close" @click="$emit('closeModal')"></div>
+
+        <div class="order-form__title">
+          <h2>Заполните форму</h2>
+          <div class="subtitle">и мы перезвоним вам в течение 15 минут и огласим примерную стоимость</div>
+        </div>
+      </template>
+
       <div class="row">
         <div class="col-lg-3">
           <app-input
@@ -85,6 +89,10 @@
 
 export default {
   name: 'SectionOrderFormComponent',
+  props: {
+    mobile: Boolean,
+    tablet: Boolean,
+  },
   data() {
     return {
       transport: {
@@ -92,11 +100,6 @@ export default {
         value: null,
       },
     };
-  },
-  computed: {
-    isMobile() {
-      return window.innerWidth < 993;
-    },
   },
 };
 </script>

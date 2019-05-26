@@ -14,17 +14,17 @@
       <div class="section-order__tab-block">
         <button
           class="section-order__tab section-order__tab--left"
-          :class="{ 'section-order__tab--active': tabs[activeTab] === 'order' }"
+          :class="{ 'section-order__tab--active': tabs[activeTab] === 'call' }"
           @click="handleOpenOrderComponent"
         >
-          Заполните форму
+          Оставьте номер
         </button>
 
         <div
           class="section-order__tab-description"
-          :class="{ 'section-order__tab-description--active': tabs[activeTab] === 'order' }"
+          :class="{ 'section-order__tab-description--active': tabs[activeTab] === 'call' }"
         >
-          и мы перезвоним вам в течение 15 минут и огласим примерную стоимость
+          чтобы узнать все и сразу
         </div>
       </div>
 
@@ -37,25 +37,29 @@
       <div class="section-order__tab-block">
         <button
           class="section-order__tab section-order__tab--right"
-          :class="{ 'section-order__tab--active': tabs[activeTab] === 'call' }"
+          :class="{ 'section-order__tab--active': tabs[activeTab] === 'order' }"
           @click="handleOpenPhoneComponent"
         >
-          Оставьте номер
+          Заполните форму
         </button>
 
         <div
           class="section-order__tab-description section-order__tab-description--right"
-          :class="{ 'section-order__tab-description--active': tabs[activeTab] === 'call' }"
+          :class="{ 'section-order__tab-description--active': tabs[activeTab] === 'order' }"
         >
-          чтобы узнать все и сразу
+          и мы перезвоним вам в течение 15 минут и огласим примерную стоимость
         </div>
       </div>
     </div>
 
 
-    <transition name="component-fade" mode="out-in" v-if="(!this.mobile && !this.tablet) || isModalOpen">
-      <component :is="tabs[activeTab]"
-      @closeModal="closeModal"/>
+    <transition name="component-fade" mode="out-in" v-if="(!mobile && !tablet) || isModalOpen">
+      <component
+        :is="tabs[activeTab]"
+        @closeModal="closeModal"
+        :mobile="mobile"
+        :tablet="tablet"
+      />
     </transition>
   </div>
 </template>
@@ -76,10 +80,18 @@ export default {
     tablet: Boolean,
   },
   data: () => ({
-    tabs: ['order', 'call'],
-    activeTab: 1,
+    tabs: ['call', 'order'],
+    activeTab: 0,
     isModalOpen: false,
   }),
+  watch: {
+    mobile() {
+      this.isModalOpen = false;
+    },
+    tablet() {
+      this.isModalOpen = false;
+    },
+  },
   methods: {
     handleOpenOrderComponent() {
       this.activeTab = 0;

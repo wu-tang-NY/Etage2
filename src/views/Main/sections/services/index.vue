@@ -1,7 +1,8 @@
 <template>
   <div class="services">
+    <svg-icon name="mobile_bg" original v-if="mobile || tablet" class="services__bg" />
     <h1>Переезжайте и перевозите легко,
-      <br v-if="!isMobile">
+      <br v-if="(!mobile && !tablet)">
       все заботы мы берем на себя!
     </h1>
 
@@ -37,11 +38,6 @@ export default {
   data: () => ({
     modalCallbackOpen: false,
   }),
-  computed: {
-    isMobile() {
-      return window.innerWidth < 993;
-    },
-  },
 };
 </script>
 
@@ -56,6 +52,12 @@ export default {
   .subtitle {
     margin-bottom: 20px;
     max-width: 680px;
+  }
+
+  &__bg {
+    margin: 0 -15px;
+    margin-bottom: 36px;
+    width: calc(100% + 30px);
   }
 }
 

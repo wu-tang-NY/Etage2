@@ -97,7 +97,10 @@
     <layout-main-footer v-if="!mobile && !tablet" />
 
     <transition name="component-fade">
-      <modal-info></modal-info>
+      <modal-info
+        :mobile="mobile"
+        :tablet="tablet"
+      />
     </transition>
   </div>
 </template>

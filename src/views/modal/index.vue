@@ -4,11 +4,11 @@
     <div class="container">
       <div class="row">
         <div class="sticky" :class="{'sticky--large':toggledNav}">
-          <div class="sticky__close" v-if="isMobile" @click="closeModal"/>
-          <div class="sticky__nav" @click="openMobileAccordion" v-if="isMobile">
+          <div class="sticky__close" v-if="mobile || tablet" @click="closeModal" />
+          <div class="sticky__nav" @click="openMobileAccordion" v-if="mobile || tablet">
             Навигация
             <svg-icon original name="icon_nav-modal"/>
-            <!-- <div class="sticky__back" @click="closeModal" v-if="isMobile && !toggledNav">
+            <!-- <div class="sticky__back" @click="closeModal" v-if="(mobile || tablet) && !toggledNav">
               <svg-icon name="arrow-next"/>
               Назад
             </div>
@@ -18,8 +18,8 @@
               <span class="menu-toggle__line sticky__ham-item"></span>
             </button> -->
           </div>
-          <svg-icon name="logo_white" original class="modal-info__logo" v-if="!isMobile"/>
-          <div class="modal-info__nav" v-if="!isMobile || toggledNav">
+          <svg-icon name="logo_white" original class="modal-info__logo" v-if="(!mobile && !tablet)"/>
+          <div class="modal-info__nav" v-if="(!mobile && !tablet) || toggledNav">
             <div class="modal-info__panel"
               :class="{'modal-info__panel--active': item.isActive}"
               v-for="(item, index) in nav"
@@ -40,10 +40,10 @@
         <div class="col-lg-9 offset-lg-3 modal-conent">
           <div class="modal-info__header-wrapper">
             <div class="modal-info__header">{{activeTab.title}}</div>
-            <div class="modal-info__close" @click="closeModal" v-if="!isMobile"/>
+            <div class="modal-info__close" @click="closeModal" v-if="(!mobile && !tablet)" />
           </div>
           <div class="modal-info__content">
-            <component :is="activeTab.component"></component>
+            <component :is="activeTab.component" />
           </div>
         </div>
       </div>
@@ -55,10 +55,14 @@
 import pages from '../Main/pages';
 
 export default {
+  name: 'ModalInfo',
   components: {
     ...pages,
   },
-  name: 'ModalInfo',
+  props: {
+    mobile: Boolean,
+    tablet: Boolean,
+  },
   data() {
     return {
       openModal: false,
@@ -148,11 +152,6 @@ export default {
       ],
     };
   },
-  computed: {
-    isMobile() {
-      return window.innerWidth < 993;
-    },
-  },
   methods: {
     openSelectedInfo(link) {
       this.handeRemoveAllColoredLinks();
@@ -176,7 +175,7 @@ export default {
     },
 
     openMobileAccordion() {
-      if (this.isMobile) {
+      if (this.mobile || this.tablet) {
         this.toggledNav = !this.toggledNav;
         document.body.classList.toggle('menu-open');
       }
