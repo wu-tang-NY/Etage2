@@ -118,8 +118,6 @@ export default {
       }
 
       this.initAnimations();
-
-      console.log(this.ScrollMagicController);
     },
 
     onSpacePress(e) {
@@ -152,7 +150,16 @@ export default {
       document.documentElement.scrollTo({ top, behavior: 'smooth' });
     },
 
-    toggleActiveSectionClass() {
+    toggleActiveSectionClass(index) {
+      const sections = this.$refs.sectionsWrapper.children;
+
+      const className = 'active';
+
+      Array.from(sections).forEach(section => {
+        section.classList.remove(className);
+      });
+
+      sections[index].classList.add(className);
     },
 
     initAnimations() {
@@ -162,7 +169,7 @@ export default {
         const [cloud1, cloud2] = clouds.children;
         const sections = sectionsWrapper.children;
 
-        const pageWidth = document.documentElement.clientWidth;
+        const pageWidth = window.innerWidth;
 
         this.ScrollMagicController = new ScrollMagic.Controller({
           // addIndicators: process.env.NODE_ENV === 'development',
@@ -170,9 +177,13 @@ export default {
 
         // SECTION 1
 
-        const tween1 = new TimelineMax()
+        const tween1 = new TimelineMax({
+          onComplete: this.toggleActiveSectionClass,
+          onCompleteParams: [0],
+        })
           .set(sections[0], { opacity: 1, immediateRender: true })
-          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth }))
+          .add(TweenMax.to(bg, 1, { ease: 'linear', xPercent: -25 }), 0)
+          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth }), 0)
           .add(TweenMax.to(sections[0], 0.5, { opacity: 0 }), 0.1)
           .add(TweenMax.to(sections[1], 0.5, { opacity: 1 }), 0.4)
           .add(TweenMax.fromTo(cloud1, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.7);
@@ -180,18 +191,30 @@ export default {
 
         // SECTION 2
 
-        const tween2 = new TimelineMax()
-          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2, delay: 0.5 }))
+        const tween2 = new TimelineMax({
+          onStart: this.toggleActiveSectionClass,
+          onStartParams: [1],
+          onReverseComplete: this.toggleActiveSectionClass,
+          onReverseCompleteParams: [0],
+        })
+          .add(TweenMax.to(bg, 1.5, { ease: 'linear', xPercent: -50 }), 0)
+          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2 }), 0.5)
           .add(TweenMax.to(sections[1], 0.5, { opacity: 0 }), 0.6)
           .add(TweenMax.to(sections[2], 0.5, { opacity: 1 }), 0.7)
           .add(TweenMax.to(cloud1, 0.15, { opacity: 0, y: -20 }), 0.7)
-          .add(TweenMax.fromTo(cloud2, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 1);
+          .add(TweenMax.fromTo(cloud2, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.9);
 
 
         // SECTION 3
 
-        const tween3 = new TimelineMax()
-          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 3, delay: 0.5 }))
+        const tween3 = new TimelineMax({
+          onStart: this.toggleActiveSectionClass,
+          onStartParams: [2],
+          onReverseComplete: this.toggleActiveSectionClass,
+          onReverseCompleteParams: [1],
+        })
+          .add(TweenMax.to(bg, 1.5, { ease: 'linear', xPercent: -75 }), 0)
+          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 3 }), 0.5)
           .add(TweenMax.to(sections[2], 0.5, { opacity: 0 }), 0.6)
           .add(TweenMax.to(sections[3], 0.5, { opacity: 1 }), 0.7)
           .add(TweenMax.to(cloud2, 0.15, { opacity: 0, y: -20 }), 0.7);
@@ -199,23 +222,21 @@ export default {
 
         // SECTION 4
 
-        const tween4 = new TimelineMax()
-          .to(car, 1, { x: pageWidth - (pageWidth / 4) });
+        const tween4 = new TimelineMax({
+          onStart: this.toggleActiveSectionClass,
+          onStartParams: [3],
+          onReverseComplete: this.toggleActiveSectionClass,
+          onReverseCompleteParams: [2],
+        })
+          .to(car, 1, { x: pageWidth });
 
-
-        const tweenSections = new TimelineMax()
-          .add([tween1, tween2, tween3, tween4], 0, 'sequence', 0);
-
-        // BG
-
-        const tweenBg = TweenMax.to(bg, 1, { ease: 'linear', x: -pageWidth * 3 });
 
         // TIMELINE
 
         const timeline = new TimelineMax()
           .set(car, { left: 320, x: 0, immediateRender: true })
           .set(cloud2, { opacity: 0, immediateRender: true })
-          .add([tweenSections, tweenBg], 0, 'start', 0);
+          .add([tween1, tween2, tween3, tween4], 0, 'sequence', 0);
 
         new ScrollMagic.Scene({
           duration: pageWidth * 4,
@@ -233,6 +254,7 @@ export default {
   mounted() {
     this.onResize();
     this.isScrollPresent();
+    this.toggleActiveSectionClass(0);
 
     if (!this.mobile) {
       window.addEventListener('scroll', this.onScroll);
