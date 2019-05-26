@@ -10,7 +10,7 @@
           :key="section"
           :id="`section-${index + 1}`"
         >
-          <!-- <svg-icon name="mobile_bg" original v-if="section.id === 1" class="services__bg"></svg-icon> -->
+          <svg-icon name="mobile_bg" original v-if="!index && (mobile || tablet)" class="services__bg"></svg-icon>
           <div class="container">
             <component
               :is="section"
@@ -425,6 +425,14 @@ export default {
 
     &--scroll {
       padding-right: 17px;
+    }
+  }
+}
+
+@media screen and (min-width: 993px) and (max-height: 920px) {
+  .page-main {
+    &__bg {
+      bottom: 40px;
     }
   }
 }
