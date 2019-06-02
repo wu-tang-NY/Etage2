@@ -24,15 +24,8 @@
           <app-input
             label="Ваш номер телефона"
             type="text"
-            placeholder="09Х ХХХ ХХ ХХ"
-          />
-        </div>
-
-        <div class="col-lg-3">
-          <app-input
-            label="Планируемая дата"
-            type="text"
-            placeholder="Введите дату"
+            placeholder="0ХХ ХХХ ХХ ХХ"
+            mask="### - ### - ## - ##"
           />
         </div>
 
@@ -41,6 +34,15 @@
             label="Откуда"
             type="text"
             placeholder="Введите адресс"
+          />
+        </div>
+
+        <div class="col-lg-3">
+          <app-input
+            label="Планируемая дата"
+            type="text"
+            placeholder="ДД/ММ/ГГГГ ЧЧ:ММ"
+            mask="##/##/#### ##:##"
           />
         </div>
 
@@ -57,17 +59,9 @@
           <app-select
             label="Грузчики"
             placeholder="Выберите"
-            :options="transport.options"
-            :value="transport.value"
+            :options="stuff.options"
+            :value="stuff.value"
           ></app-select>
-        </div>
-
-        <div class="col-lg-3">
-          <app-input
-            label="Комментарий или пожелание"
-            type="text"
-            placeholder="Введите комментарий или пожелание"
-          />
         </div>
 
         <div class="col-lg-3">
@@ -75,6 +69,14 @@
             label="Куда"
             type="text"
             placeholder="Введите адресс"
+          />
+        </div>
+
+        <div class="col-lg-3">
+          <app-input
+            label="Комментарий или пожелание"
+            type="text"
+            placeholder="Ваши пожелания"
           />
         </div>
         </div>
@@ -96,7 +98,11 @@ export default {
   data() {
     return {
       transport: {
-        options: ['Позиция1', 'Позиция2', 'Позиция2', 'Позиция3'],
+        options: ['Квартирный переезд', 'Оффисный переезд', 'Перевозка имущества'],
+        value: null,
+      },
+      stuff: {
+        options: ['1 грузчик', '2 грузчика', '3 грузчика', 'более 3 грузчиков'],
         value: null,
       },
     };

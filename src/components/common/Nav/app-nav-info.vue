@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-info" @click="openModal">
+  <div class="nav-info">
     <svg-icon name="icon_5_c" original/>
     Информация
   </div>

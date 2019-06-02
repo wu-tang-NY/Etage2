@@ -16,6 +16,7 @@
             label="Как к вам обращаться"
             type="text"
             placeholder="Имя"
+            mask=""
           />
         </div>
 
@@ -24,6 +25,7 @@
             label="Номер телефона"
             type="text"
             placeholder="0ХХ ХХХ ХХХХ"
+            mask="### - ### - ## - ##"
           />
         </div>
       </div>

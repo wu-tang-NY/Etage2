@@ -12,7 +12,7 @@
         @click.native="handleClick(index)"
       />
     </div>
-    <app-nav-info @action.native="openModal"/>
+    <app-nav-info @click.native="openModal"/>
   </app-nav>
 </template>
 
@@ -25,17 +25,20 @@ export default {
         title: 'Услуги',
         icon: 'icon_1_c',
         children: [{
-          title: 'Основная информация',
-          path: 'PopupContentAboutUs',
+          title: 'Квартирный переезд',
+          path: 'PopupContentFlatMove',
         }, {
-          title: 'Другая информация 1',
-          path: 'PopupContentHistory',
+          title: 'Оффисный переезд',
+          path: 'PopupContentOfficeMove',
         }, {
-          title: 'Другая информация 2',
-          path: 'PopupContentOurGoal',
+          title: 'Перевозка имущества',
+          path: 'PopupContentStuffMove',
         }, {
-          title: 'Другая информация 3',
-          path: 'PopupContentFacts',
+          title: 'Услуги грузчиков',
+          path: 'PopupContentSpecialists',
+        }, {
+          title: 'Упаковочные материалы',
+          path: 'PopupContentPackage',
         }],
       },
       {
@@ -59,6 +62,10 @@ export default {
 
       this.$emit('click');
       this.$eventbus.$emit('section:change', index);
+    },
+    openModal() {
+      this.$emit('click');
+      this.$eventbus.$emit('openPopup', 'PopupContentAboutUs');
     },
   },
   mounted() {

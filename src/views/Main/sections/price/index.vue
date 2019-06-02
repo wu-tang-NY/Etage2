@@ -106,7 +106,7 @@ export default {
     categories: [
       {
         name: 'ПЕРЕВОЗКИ',
-        subtitle: 'Мебель, бытовая техника, стройматериалы, сейфы и тд.',
+        subtitle: 'Мебель, бытовая техника, сейфы и тд.',
         undertext: 'В стоимость включены: прокладочные материалы, стяжные стропы.',
         iconName: 'price_transport',
         opened: false,
@@ -116,11 +116,11 @@ export default {
             time: '1 час -',
             price: '160 грн',
             description: 'Если у вас всего 1 предмет',
-            info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            info: 'Время миннимального заказа в черте Одессы - 2 часа, для Савиньона и поселка Котовского - 3 часа',
           }, {
             id: 2,
             time: '1 час -',
-            price: '160 грн',
+            price: '200+ грн',
             description: 'Межгород - 20 грн/км',
           },
         ],
@@ -134,10 +134,10 @@ export default {
           {
             id: 1,
             time: '1 час -',
-            price: '200 грн',
+            price: '220 грн',
             description: 'Межгород - 20 грн/км',
             additional: '1-3т',
-            info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            info: 'Время миннимального заказа в черте Одессы - 2 часа, для Савиньона и поселка Котовского - 3 часа',
           }, {
             id: 2,
             time: '1 час -',
@@ -148,7 +148,7 @@ export default {
         ],
       }, {
         name: 'ГРУЗЧИКИ',
-        subtitle: 'Для транспортировки личных вещей, стройматериалов, и т.д.',
+        subtitle: 'Для транспортировки личных вещей, мебели, и т.д.',
         undertext: 'В стоимость включены: упаковка и маркировка имущества, разборка и сборка мебели, полный цикл ручной транспортировки.',
         iconName: 'price_workers',
         opened: false,
@@ -156,14 +156,13 @@ export default {
           {
             id: 1,
             time: '1 час -',
-            price: '100 грн',
+            price: '150 грн',
             description: 'Если у вас всего 1 предмет',
-            info: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            info: 'Оплата транспортивки предмотов, весом свыше 100кг расчитываеться индивидуально',
           }, {
             id: 2,
             time: '>2 часов -',
-            price: '50 грн/полчаса',
-            description: 'Межгород - 20 грн/км',
+            price: '75 грн/полчаса',
           },
         ],
       },
@@ -468,6 +467,17 @@ export default {
     &__tooltip {
       &--small-screens {
         display: block;
+
+        svg {
+          fill: $colors-accent;
+          animation: pulse .6s 2s 3;
+        }
+
+        &:hover {
+          svg {
+            animation: none;
+          }
+        }
 
         .category__info {
           width: 250px;

@@ -5,7 +5,7 @@
     </div>
 
     <div class="app-schedule__content">
-      <div class="app-schedule__label" v-if="!props.withoutLabel">Наш график:</div>
+      <div class="app-schedule__label" v-if="!props.withoutLabel">График работы:</div>
 
       <div class="app-schedule__text">
         <div>С <strong>8:30</strong> до <strong>20:00</strong></div>

@@ -1,6 +1,6 @@
 <template>
   <div class="app-callback">
-    <span class="app-callback__text" @click="modal = !modal">Обратный звонок</span>
+    <span class="app-callback__text" @click="modal = !modal">Перезвонить мне</span>
 
     <callback-modal v-model="modal" />
   </div>

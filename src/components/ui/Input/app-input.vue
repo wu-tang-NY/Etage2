@@ -6,10 +6,17 @@
 
     <div class="app-form__control">
       <input
+        v-if="!mask"
         :type="type"
         class="app-form__input"
         :placeholder="placeholder"
       />
+      <the-mask
+        v-else
+        class="app-form__input"
+        :mask="mask"
+        :type="type"
+        :placeholder="placeholder"></the-mask>
 
       <div class="app-form__line"></div>
     </div>
@@ -17,10 +24,19 @@
 </template>
 
 <script>
+import { TheMask } from 'vue-the-mask';
+
 export default {
   name: 'AppInput',
+  components: {
+    TheMask,
+  },
   props: {
     label: {
+      type: String,
+    },
+
+    mask: {
       type: String,
     },
 

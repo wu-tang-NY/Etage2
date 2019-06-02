@@ -1,8 +1,9 @@
 <template>
   <section class="reviews">
-    <h2>Почему нам доверяют?</h2>
-
-    <div class="subtitle dark-gray">В первый раз - потому что с нами легко и надежно, во все последующие - по опыту и дружбе.</div>
+    <div class="reviews__btnholder">
+      <h2>Почему нам доверяют?</h2>
+      <div class="reviews__next reviews__next" @click.prevent="modalFeedbackOpen = true" v-if="!mobile && !tablet">Оставьте отзыв</div>
+    </div>
 
     <div class="reviews__list">
       <div v-for="item in items" :key="item.feature" class="reviews__block" @click="openPopup(item.component)">
@@ -29,13 +30,7 @@
     </div>
 
     <div class="reviews__btnholder">
-      <div
-        @click="$eventbus.$emit('openPopup', 'PopupContentFeedback')"
-        class="reviews__next"
-      >Отзывы о нашей работе
-        <svg-icon name="arrow-next" original/>
-      </div>
-      <div class="reviews__next reviews__next--feedback" @click.prevent="modalFeedbackOpen = true">Оставьте отзыв</div>
+      <div class="reviews__next reviews__next" @click.prevent="modalFeedbackOpen = true" v-if="mobile || tablet">Оставьте отзыв</div>
     </div>
     <feedback-modal v-model="modalFeedbackOpen" />
   </section>
@@ -145,7 +140,7 @@ export default {
   padding-top: 40px;
 
   h2 {
-    margin-bottom: 16px;
+    margin-bottom: 36px;
   }
 
   .subtitle {
@@ -272,7 +267,8 @@ export default {
 
   &__btnholder {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 
   &__next {
@@ -282,9 +278,7 @@ export default {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    align-self: center;
     padding: 0 30px;
-    margin-top: 10px;
     clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
     letter-spacing: 0.3px;
     font-weight: bold;

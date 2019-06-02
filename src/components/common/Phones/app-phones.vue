@@ -5,27 +5,27 @@
         <span class="app-phones__code-icon">
           <svg-icon name="operator_1" original />
         </span>
-        <span class="app-phones__code-text">
+        <a href="tel:+380930970110" class="app-phones__code-text">
           093 <span class="app-phone">097-01-10</span>
-        </span>
+        </a>
       </li>
 
       <li class="app-phones__code">
         <span class="app-phones__code-icon">
           <svg-icon name="operator_2" original />
         </span>
-        <span class="app-phones__code-text">
+        <a href="tel:+380970970110" class="app-phones__code-text">
           097 <span class="app-phone">097-01-10</span>
-        </span>
+        </a>
       </li>
 
       <li class="app-phones__code">
         <span class="app-phones__code-icon">
           <svg-icon name="operator_3" original />
         </span>
-        <span class="app-phones__code-text">
+        <a href="tel:+380950970110" class="app-phones__code-text">
           095 <span class="app-phone">097-01-10</span>
-        </span>
+        </a>
       </li>
     </ul>
   </div>
@@ -73,6 +73,17 @@ export default {
 
   &__code-text {
     line-height: 1.29;
+    color: $colors-text--primary;
+
+    &:hover, &:active {
+      span {
+        color: $colors-accent;
+      }
+    }
+
+    span {
+      color: $colors-text--secondary;
+    }
   }
 }
 

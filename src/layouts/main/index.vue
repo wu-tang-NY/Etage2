@@ -66,7 +66,7 @@
 
                   <li class="nav-wrapper__block nav-block">
                     <div class="nav-block__title">
-                      <span>Наш график:</span>
+                      <span>График работы:</span>
                     </div>
 
                     <div class="nav-block__content">

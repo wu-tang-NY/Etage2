@@ -126,3 +126,22 @@ p {
     line-height: rem(20);
   }  
 }
+
+
+
+@keyframes pulse {
+  0% {
+    fill: $colors-grey-200;
+    transform: none;
+  }
+
+  50% {
+    fill: $colors-accent;
+    transform: scale(1.2);
+  }
+
+  100% {
+    fill: $colors-grey-200;
+    transform: none;
+  }
+}

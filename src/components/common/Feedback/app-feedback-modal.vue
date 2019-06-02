@@ -24,9 +24,10 @@
       <div class="row">
         <div class="col-lg-12">
           <app-input
-            label="Ваш почтовый адресс"
-            type="Email"
-            placeholder="Населенный пункт"
+            label="Номер телефона"
+            type="text"
+            placeholder="0ХХ ХХХ ХХХХ"
+            mask="### - ### - ## - ##"
           />
         </div>
       </div>

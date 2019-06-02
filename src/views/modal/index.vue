@@ -27,7 +27,7 @@
             >
               <div
                 class="modal-info__panel-header"
-                @click="toggleActive(index)"
+                @click="toggleActive(item, index)"
               >{{item.header}}
                 <svg-icon name="modal_dropdown" original/>
               </div>
@@ -40,12 +40,12 @@
         </div>
         <div class="col-lg-9 offset-lg-3 modal-conent">
           <div class="modal-info__header-wrapper">
-            <div class="modal-info__header">{{activeTab}}</div>
+            <!-- <div class="modal-info__header">{{activeTab}}</div> -->
             <div class="modal-info__close" @click="closeModal" v-if="(!mobile && !tablet)" />
           </div>
           <div class="modal-info__content" ref="sections">
             <!-- <component :is="activeTab.component" /> -->
-            <div class="modal-info__component-group" v-for="item in nav" :key="item.header">
+            <div class="modal-info__component-group" v-for="item in nav" :key="item.header" :id="item.header">
               <component :is="link.component" v-for="link in item.links" :key="link.title" :id="link.component" />
            </div>
           </div>
@@ -73,7 +73,7 @@ export default {
       activeTab: 'PopupContentAboutUs',
       toggledNav: false,
       nav: [{
-        header: 'Общая информация',
+        header: 'О компании',
         links: [{
           title: 'О нас',
           component: 'PopupContentAboutUs',
@@ -90,10 +90,14 @@ export default {
           title: 'Факты и цифры',
           component: 'PopupContentFacts',
           activeLink: false,
+        }, {
+          title: 'Автопарк',
+          component: 'PopupContentAuto',
+          activeLink: false,
         }],
         isActive: false,
       }, {
-        header: 'Перевозки',
+        header: 'Услуги',
         links: [{
           title: 'Квартирный переезд',
           component: 'PopupContentFlatMove',
@@ -106,34 +110,18 @@ export default {
           title: 'Перевозка имущества',
           component: 'PopupContentStuffMove',
           activeLink: false,
-        }],
-        isActive: false,
-      }, {
-        header: 'Рабочий процесс',
-        links: [{
+        }, {
           title: 'Специалисты',
           component: 'PopupContentSpecialists',
-          activeLink: false,
-        }, {
-          title: 'Оплата',
-          component: 'PopupContentPayment',
-          activeLink: false,
-        }, {
-          title: 'Акции',
-          component: 'PopupContentSpecialOffers',
           activeLink: false,
         }, {
           title: 'Упаковка',
           component: 'PopupContentPackage',
           activeLink: false,
-        }, {
-          title: 'Автопарк',
-          component: 'PopupContentAuto',
-          activeLink: false,
         }],
         isActive: false,
       }, {
-        header: 'Дополнительно',
+        header: 'Информация',
         links: [{
           title: 'Партнеры',
           component: 'PopupContentPartners',
@@ -152,8 +140,23 @@ export default {
           activeLink: false,
         }],
         isActive: false,
-      },
-      ],
+      }, {
+        header: 'Оплата',
+        links: [{
+          title: 'Оплата',
+          component: 'PopupContentPayment',
+          activeLink: false,
+        }],
+        isActive: false,
+      }, {
+        header: 'Акции',
+        links: [{
+          title: 'Акции',
+          component: 'PopupContentSpecialOffers',
+          activeLink: false,
+        }],
+        isActive: false,
+      }],
     };
   },
   methods: {
@@ -161,7 +164,9 @@ export default {
       this.handeRemoveAllColoredLinks();
       this.activeTab = header;
       link.activeLink = true;
-      this.openMobileAccordion();
+      if (this.toggledNav) {
+        this.openMobileAccordion();
+      }
     },
 
     async scrollTo(link, header) {
@@ -171,7 +176,6 @@ export default {
       const top = elem.offsetTop + elemGroupOffset - 60;
       this.$refs.sections.scrollTo({
         top,
-        behavior: 'smooth',
       });
       this.openSelectedInfo(link, header);
     },
@@ -193,10 +197,9 @@ export default {
     openMobileAccordion() {
       if (this.mobile || this.tablet) {
         this.toggledNav = !this.toggledNav;
-        document.body.classList.toggle('menu-open');
       }
     },
-    toggleActive(index) {
+    toggleActive(block, index) {
       let prev = null;
 
       this.nav.forEach((item, i) => {
@@ -206,7 +209,14 @@ export default {
       });
 
       this.nav[index].isActive = prev !== index;
+
+      const elem = document.getElementById(block.header);
+      const top = elem.offsetTop - 60;
+      this.$refs.sections.scrollTo({
+        top,
+      });
     },
+
     closeModal() {
       this.handeRemoveAllColoredLinks();
       this.handeRemoveAllToggledPanels();
@@ -420,7 +430,7 @@ export default {
   &__header-wrapper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-bottom: 40px;
     position: absolute;
     width: calc(100% - 30px);
@@ -464,7 +474,7 @@ export default {
     }
   }
   &__content {
-    height: calc(100vh - 160px);
+    height: calc(100vh - 200px);
     overflow: auto;
     margin-top: 60px;
     p + p,
@@ -501,11 +511,11 @@ export default {
     }
 
     &__content {
-      margin-top: 60px;
+      margin-top: 24px;
     }
 
     .modal-conent {
-      margin-top: 140px;
+      margin-top: 100px;
     }
 
     &__nav {

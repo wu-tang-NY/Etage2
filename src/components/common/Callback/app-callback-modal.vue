@@ -1,5 +1,5 @@
 <template>
-  <app-modal :show="open" @input="$emit('input', $event)" title="Обратный звонок">
+  <app-modal :show="open" @input="$emit('input', $event)" title="Перезвонить мне">
     <form>
       <div class="row">
         <div class="col-lg-12">
@@ -17,6 +17,7 @@
             label="Номер телефона"
             type="text"
             placeholder="0ХХ ХХХ ХХХХ"
+            mask="### - ### - ## - ##"
           />
         </div>
       </div>
