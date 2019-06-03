@@ -135,7 +135,6 @@ export default {
       this.$eventbus.$emit('openPopup', e);
     },
     reinitSwiper() {
-      console.log('++');
       this.$refs.swiper.swiper.update();
     },
     test() {
