@@ -182,6 +182,7 @@ export default {
       display: flex;
       justify-content: center;
       margin-top: 20px;
+      margin-bottom: 40px;
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="app-callback">
-    <span class="app-callback__text" @click="modal = !modal">Перезвонить мне</span>
+    <span class="app-callback__text" @click="openCallModal">Перезвонить мне</span>
 
     <callback-modal v-model="modal" />
   </div>
@@ -14,6 +14,12 @@ export default {
   data: () => ({
     modal: false,
   }),
+  methods: {
+    openCallModal() {
+      this.modal = !this.modal;
+      this.$emit('openModal');
+    },
+  },
   components: {
     CallbackModal,
   },

@@ -348,7 +348,7 @@ export default {
   &__logo {
     width: 130px;
     margin-top: 14px;
-    margin-bottom: 70px;
+    margin-bottom: 30px;
   }
 
   &__panel {
@@ -476,6 +476,7 @@ export default {
   &__content {
     height: calc(100vh - 200px);
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     margin-top: 60px;
     p + p,
     img + p,
