@@ -16,7 +16,7 @@
     </div>
 
     <div class="reviews__swiper">
-      <swiper :options="options" ref="swiper">
+      <swiper :options="options" ref="swiper" @init="reinitSwiper">
         <swiper-slide v-for="(slide, index) in slides" :key="index" class="reviews__slide" @click.native="$eventbus.$emit('openPopup', 'PopupContentFeedback')">
           <div class="reviews__slide-title">{{ slide.title }}</div>
 
@@ -24,9 +24,9 @@
         </swiper-slide>
       </swiper>
 
-      <div class="swiper-button-prev reviews__swiper-button swiper-button-white" slot="button-prev"></div>
+      <div class="swiper-button-prev reviews__swiper-button swiper-button-white" @click="test"></div>
       <svg-icon name="divider" original v-if="mobile || tablet" class="reviews__swiper-divider"></svg-icon>
-      <div class="swiper-button-next reviews__swiper-button swiper-button-white" slot="button-next"></div>
+      <div class="swiper-button-next reviews__swiper-button swiper-button-white"></div>
     </div>
 
     <div class="reviews__btnholder">
@@ -48,6 +48,12 @@ export default {
     active: Boolean,
     mobile: Boolean,
     tablet: Boolean,
+    desktop: Boolean,
+  },
+  watch: {
+    mobile: 'reinitSwiper',
+    tablet: 'reinitSwiper',
+    desktop: 'reinitSwiper',
   },
   data: () => ({
     modalFeedbackOpen: false,
@@ -129,8 +135,14 @@ export default {
       this.$eventbus.$emit('openPopup', e);
     },
     reinitSwiper() {
+      console.log('++');
       this.$refs.swiper.swiper.update();
     },
+    test() {
+    },
+  },
+  mounted() {
+    this.$forceUpdate();
   },
 };
 </script>

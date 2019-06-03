@@ -17,6 +17,7 @@
               :active="activeSectionIndex === index"
               :mobile="mobile"
               :tablet="tablet"
+              :desktop="desktop"
             />
           </div>
         </section>
@@ -26,7 +27,7 @@
         <div class="page-main__bg-inner">
           <div class="page-main__bg-image" :style="{ width: `${totalWidth}px` }" ref="bg">
             <div class="page-main__bg-home">
-              <svg-icon name="home" class="page-main" original />
+              <svg-icon name="home_3" class="page-main" original />
             </div>
 
             <div class="bg__from" ref="home1">
@@ -43,7 +44,7 @@
                 <svg-icon name="home_2" original />
               </div>
               <div class="bg__workers" ref="workers2">
-                <svg-icon name="workers_2" original />
+                <svg-icon name="workers_1" original />
               </div>
             </div>
           </div>
@@ -98,6 +99,7 @@ export default {
   props: {
     mobile: Boolean,
     tablet: Boolean,
+    desktop: Boolean,
     device: String,
   },
   data: () => ({
@@ -200,7 +202,7 @@ export default {
           .add(TweenMax.to(sections[1], 0.5, { opacity: 0 }), 0.1)
           .add(TweenMax.fromTo(sections[2], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
           .add(TweenMax.to(cloud1, 0.15, { opacity: 0, y: -20 }), 0.7)
-          .add(TweenMax.fromTo(cloud2, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.9);
+          .add(TweenMax.fromTo(cloud2, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.85);
 
 
         // SECTION 3
@@ -215,7 +217,8 @@ export default {
         // SECTION 4
 
         const tween4 = new TimelineMax()
-          .add(TweenMax.to(car, 0.5, { x: pageWidth }));
+          .add(TweenMax.to(car, 0.4, { x: 600 }))
+          .add(TweenMax.to(car, 0.6, { x: 600 }));
 
 
         // TIMELINE
@@ -245,15 +248,15 @@ export default {
 
         const bgTween = new TimelineMax()
           .set(home1, { x: pageWidth + 700, immediateRender: true })
-          .set(home2, { x: pageWidth * 3 + 100, immediateRender: true })
+          .set(home2, { x: pageWidth * 3 + 700, immediateRender: true })
           .set(workers2, { opacity: 0, immediateRender: true })
-          .to(bg, 1, { ease: 'linear', x: -pageWidth })
-          .to(workers1, 0.35, { x: -350 })
+          .to(bg, 0.8, { ease: 'linear', x: -pageWidth })
+          .to(workers1, 0.3, { x: -350 })
           .set(workers1, { opacity: 0, immediateRender: true })
-          .to(bg, 1, { ease: 'linear', x: -pageWidth * 2 })
-          .to(bg, 1, { ease: 'linear', x: -pageWidth * 3 })
-          .set(workers2, { opacity: 1, immediateRender: true })
-          .fromTo(workers2, 0.5, { x: 200 }, { x: -150 });
+          .to(bg, 0.8, { ease: 'linear', x: -pageWidth * 2 })
+          .to(bg, 0.8, { ease: 'linear', x: -pageWidth * 3 })
+          .set(workers2, { opacity: 1, x: 200, immediateRender: true })
+          .to(workers2, 0.3, { x: -100 });
 
         new ScrollMagic.Scene({
           duration: pageWidth * 4,
@@ -298,6 +301,8 @@ export default {
   }
 
   &__bg {
+    z-index: -1;
+
     &-inner {
       overflow: hidden;
     }
@@ -390,7 +395,6 @@ export default {
   .page-main {
     &__inner {
       position: fixed;
-      overflow: hidden;
     }
 
     &__bg {
