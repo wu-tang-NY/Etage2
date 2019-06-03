@@ -1,21 +1,21 @@
 <template>
   <div class="services">
     <!-- <svg-icon name="mobile_bg" original v-if="mobile || tablet" class="services__bg" /> -->
-    <h1>Переезжайте и перевозите легко,
+    <h1>Переезжайте и перевозите легко,
       <br v-if="(!mobile && !tablet)">
       <span>все заботы</span>
       мы берем на себя!
     </h1>
 
     <div class="subtitle light-gray">
-      «Этаж» - первый современный
+      «Этаж» - первый современный
       <span>сервис грузоперевозок</span>, главными ценностями которого являются
       не только имущество заказчика, но также его <span>время и комфорт</span>. Независимо от масштабов грузоперевозки
       или переезда - с нами все легко, своевременно и беззаботно.
     </div>
 
     <div class="subtitle dark-gray">
-      Если это то, чего вы хотите, мы будем рады <a href="" @click.prevent="modalCallbackOpen = true">перезвонить вам</a>  уже сейчас.
+      Если это то, чего вы хотите, мы будем рады <a href="" @click.prevent="modalCallbackOpen = true">перезвонить вам</a>  уже сейчас.
     </div>
 
     <callback-modal v-model="modalCallbackOpen" />

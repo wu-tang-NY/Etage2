@@ -55,7 +55,9 @@
                     <div class="nav-block__title">
                       <span>Контакты:</span>
                       <div class="ml-auto">
-                        <app-callback />
+                        <app-callback
+                          @openModal="handleCloseMenu"
+                        />
                       </div>
                     </div>
 

@@ -143,16 +143,18 @@ export default {
     },
 
     onSpacePress(e) {
-      if (e.keyCode === 32) {
-        e.preventDefault();
-        const sections = document.querySelector('#sections');
-        const el = sections.querySelector('section.active');
+      if (e.target.localName !== 'input') {
+        if (e.keyCode === 32) {
+          e.preventDefault();
+          const sections = document.querySelector('#sections');
+          const el = sections.querySelector('section.active');
 
-        this.activeSectionIndex = Array.from(sections.children).indexOf(el);
+          this.activeSectionIndex = Array.from(sections.children).indexOf(el);
 
-        if (this.activeSectionIndex < 4) {
-          const top = window.innerWidth * (this.activeSectionIndex + 1);
-          document.documentElement.scrollTo({ top, behavior: 'smooth' });
+          if (this.activeSectionIndex < 4) {
+            const top = window.innerWidth * (this.activeSectionIndex + 1);
+            document.documentElement.scrollTo({ top, behavior: 'smooth' });
+          }
         }
       }
     },

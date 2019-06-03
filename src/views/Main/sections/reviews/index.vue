@@ -59,7 +59,7 @@ export default {
     modalFeedbackOpen: false,
     items: [
       {
-        feature: 'Индивидуальный <br> подход',
+        feature: 'Индивидуальный <br> подход',
         svg: 'individual_feature',
         component: 'PopupContentAboutUs',
       },
@@ -74,7 +74,7 @@ export default {
         component: 'PopupContentPackage',
       },
       {
-        feature: 'Современный <br> грузовой автопарк',
+        feature: 'Современный <br> грузовой автопарк',
         svg: 'auto_feature',
         component: 'PopupContentAuto',
       },
@@ -262,10 +262,10 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
+      -webkit-box-orient: vertical !important;
       line-height: 16px;
       max-height: 48px;
       -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
     }
 
   &__slide-title {

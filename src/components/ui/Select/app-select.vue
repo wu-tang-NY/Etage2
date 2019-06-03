@@ -9,6 +9,7 @@
         v-model="value"
         :options="options"
         :placeholder="placeholder"
+        :searchable="false"
       ></multiselect>
 
       <div class="app-select__line"></div>

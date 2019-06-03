@@ -44,6 +44,7 @@ export default {
   .nav-info {
     height: 36px;
     padding-left: 24px;
+    font-weight: 600;
   }
 }
 </style>
