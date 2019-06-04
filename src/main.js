@@ -9,6 +9,7 @@ import VueSvgIcon from 'vue-svgicon';
 import PortalVue from 'portal-vue';
 import Multiselect from 'vue-multiselect';
 import VueTheMask from 'vue-the-mask';
+import lineClamp from 'vue-line-clamp';
 
 import './styles/index.scss';
 
@@ -27,6 +28,7 @@ Vue.component('multiselect', Multiselect);
 Vue.use(VueAwesomeSwiper);
 Vue.use(PortalVue);
 Vue.use(VueTheMask);
+Vue.use(lineClamp);
 
 Vue.use(VueSvgIcon, {
   tagName: 'svg-icon',

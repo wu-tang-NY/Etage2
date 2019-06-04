@@ -20,7 +20,7 @@
         <swiper-slide v-for="(slide, index) in slides" :key="index" class="reviews__slide" @click.native="$eventbus.$emit('openPopup', 'PopupContentFeedback')">
           <div class="reviews__slide-title">{{ slide.title }}</div>
 
-          <p class="reviews__slide-desc dark-gray">{{ slide.desc }}</p>
+          <p class="reviews__slide-desc dark-gray" v-line-clamp="3">{{ slide.desc }}</p>
         </swiper-slide>
       </swiper>
 
@@ -247,13 +247,7 @@ export default {
   }
 
   &__slide-desc {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical !important;
       line-height: 16px;
-      max-height: 48px;
-      -webkit-line-clamp: 3;
     }
 
   &__slide-title {
