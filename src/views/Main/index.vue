@@ -17,6 +17,7 @@
               :active="activeSectionIndex === index"
               :mobile="mobile"
               :tablet="tablet"
+              :desktop="desktop"
             />
           </div>
         </section>
@@ -29,21 +30,21 @@
               <svg-icon name="home" class="page-main" original />
             </div>
 
-            <div class="bg__from">
+            <div class="bg__from" ref="home1">
               <div class="bg__home">
                 <svg-icon name="home_1" original />
               </div>
-              <div class="bg__workers">
+              <div class="bg__workers" ref="workers1">
                 <svg-icon name="workers_1" original />
               </div>
             </div>
 
-            <div class="bg__to">
+            <div class="bg__to" ref="home2">
               <div class="bg__home">
                 <svg-icon name="home_2" original />
               </div>
-              <div class="bg__workers">
-                <svg-icon name="workers_2" original />
+              <div class="bg__workers" ref="workers2">
+                <svg-icon name="workers_1" original />
               </div>
             </div>
           </div>
@@ -98,6 +99,7 @@ export default {
   props: {
     mobile: Boolean,
     tablet: Boolean,
+    desktop: Boolean,
     device: String,
   },
   data: () => ({
@@ -169,12 +171,12 @@ export default {
         }
       }
 
-      document.documentElement.scrollTo({ top, behavior: 'smooth' });
+      window.scrollTo({ top, behavior: 'smooth' });
     },
 
     initAnimations() {
       if (!this.mobile && !this.tablet) {
-        const { sectionsWrapper, bg, car, clouds } = this.$refs;
+        const { sectionsWrapper, bg, car, clouds, workers1, workers2, home1, home2 } = this.$refs;
 
         const [cloud1, cloud2] = clouds.children;
         const sections = sectionsWrapper.children;
@@ -189,7 +191,7 @@ export default {
 
         const tween1 = new TimelineMax()
           .set(sections[0], { opacity: 1, immediateRender: true })
-          .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth }), 0)
+          .add(TweenMax.to(sectionsWrapper, 1.5, { x: -pageWidth }), 0)
           .add(TweenMax.to(sections[0], 0.5, { opacity: 0 }), 0.1)
           .add(TweenMax.fromTo(sections[1], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
           .add(TweenMax.fromTo(cloud1, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.7);
@@ -200,9 +202,9 @@ export default {
         const tween2 = new TimelineMax()
           .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2 }))
           .add(TweenMax.to(sections[1], 0.5, { opacity: 0 }), 0.1)
-          .add(TweenMax.to(sections[2], 0.5, { opacity: 1 }), 0.4)
+          .add(TweenMax.fromTo(sections[2], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
           .add(TweenMax.to(cloud1, 0.15, { opacity: 0, y: -20 }), 0.7)
-          .add(TweenMax.fromTo(cloud2, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.9);
+          .add(TweenMax.fromTo(cloud2, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.85);
 
 
         // SECTION 3
@@ -210,14 +212,15 @@ export default {
         const tween3 = new TimelineMax()
           .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 3 }))
           .add(TweenMax.to(sections[2], 0.5, { opacity: 0 }), 0.1)
-          .add(TweenMax.to(sections[3], 0.5, { opacity: 1 }), 0.4)
+          .add(TweenMax.fromTo(sections[3], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
           .add(TweenMax.to(cloud2, 0.15, { opacity: 0, y: -20 }), 0.7);
 
 
         // SECTION 4
 
         const tween4 = new TimelineMax()
-          .to(car, 1, { x: pageWidth - pageWidth / 2 });
+          .add(TweenMax.to(car, 0.4, { x: 600 }))
+          .add(TweenMax.to(car, 0.6, { x: 600 }));
 
 
         // TIMELINE
@@ -242,13 +245,20 @@ export default {
           })
             .setClassToggle(`#section-${index + 1}`, 'active')
             .addTo(this.ScrollMagicController);
-
-          console.log(`#section-${index + 1}`, pageWidth * index);
         });
 
 
         const bgTween = new TimelineMax()
-          .to(bg, 1, { ease: 'linear', x: -pageWidth * 3.25 });
+          .set(home1, { x: pageWidth + 700, immediateRender: true })
+          .set(home2, { x: pageWidth * 3 + 700, immediateRender: true })
+          .set(workers2, { opacity: 0, immediateRender: true })
+          .to(bg, 0.8, { ease: 'linear', x: -pageWidth })
+          .to(workers1, 0.3, { x: -350 })
+          .set(workers1, { opacity: 0, immediateRender: true })
+          .to(bg, 0.8, { ease: 'linear', x: -pageWidth * 2 })
+          .to(bg, 0.8, { ease: 'linear', x: -pageWidth * 3 })
+          .set(workers2, { opacity: 1, x: 200, immediateRender: true })
+          .to(workers2, 0.3, { x: -100 });
 
         new ScrollMagic.Scene({
           duration: pageWidth * 4,
@@ -348,27 +358,17 @@ export default {
     bottom: 22px;
   }
 
-  &__from {
-    left: 50%;
-
-    .bg__home {
-      left: 50%;
-    }
-  }
-
   &__to {
-    right: 300px;
-    @include size(160px, 100px);
-
-    .bg__home {
-      right: 0;
-    }
+    overflow: hidden;
+    width: 500px;
+    height: 100px;
   }
 
   &__home {
     position: absolute;
     bottom: 0;
     @include size(90px);
+    z-index: 1;
 
     svg {
       @include size(100%);
@@ -397,7 +397,6 @@ export default {
   .page-main {
     &__inner {
       position: fixed;
-      overflow: hidden;
     }
 
     &__bg {
@@ -464,6 +463,13 @@ export default {
       &-home {
         display: none;
       }
+    }
+  }
+
+  .bg {
+    &__from,
+    &__to {
+      display: none;
     }
   }
 }

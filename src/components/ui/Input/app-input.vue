@@ -24,13 +24,8 @@
 </template>
 
 <script>
-import { TheMask } from 'vue-the-mask';
-
 export default {
   name: 'AppInput',
-  components: {
-    TheMask,
-  },
   props: {
     label: {
       type: String,

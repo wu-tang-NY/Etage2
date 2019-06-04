@@ -94,6 +94,7 @@
         :mobile="mobile"
         :tablet="tablet"
         :device="device"
+        :desktop="desktop"
       />
     </main>
 
@@ -121,6 +122,7 @@ export default {
     device: 'desktop',
     mobile: false,
     tablet: false,
+    desktop: false,
   }),
   methods: {
     handleToggleMenu() {
@@ -153,6 +155,7 @@ export default {
       if (!document.hidden) {
         this.mobile = false;
         this.tablet = false;
+        this.desktop = false;
 
         if (this.isMobile()) {
           this.device = 'mobile';
@@ -161,6 +164,7 @@ export default {
           this.device = 'tablet';
           this.tablet = true;
         } else {
+          this.desktop = true;
           this.device = 'desktop';
         }
       }
