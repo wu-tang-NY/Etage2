@@ -139,6 +139,8 @@ export default {
         this.ScrollMagicController.destroy(true);
       }
 
+      document.body.classList.remove('modal-open');
+
       this.initAnimations();
     },
 
@@ -184,7 +186,7 @@ export default {
         const pageWidth = window.innerWidth;
 
         this.ScrollMagicController = new ScrollMagic.Controller({
-          // addIndicators: process.env.NODE_ENV === 'development',
+          addIndicators: process.env.NODE_ENV === 'development',
         });
 
         // SECTION 1
@@ -390,6 +392,10 @@ export default {
 .app-section {
   height: 100%;
   flex: 0 0 auto;
+}
+
+#app ~ div {
+  opacity: 0 !important;
 }
 
 
