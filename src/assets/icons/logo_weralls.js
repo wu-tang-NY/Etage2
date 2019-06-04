@@ -1,7 +1,7 @@
 /* eslint-disable */
 var icon = require('vue-svgicon')
 icon.register({
-  'weralls_logo': {
+  'logo_weralls': {
     width: 68,
     height: 14,
     viewBox: '0 0 68 14',

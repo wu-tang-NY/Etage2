@@ -128,7 +128,7 @@ export default {
     handleToggleMenu() {
       this.navOpen = !this.navOpen;
 
-      const navOpenClassName = 'menu-open';
+      const navOpenClassName = 'modal-open';
 
       if (this.navOpen) {
         document.body.classList.add(navOpenClassName);
@@ -140,7 +140,7 @@ export default {
     handleCloseMenu() {
       this.navOpen = false;
 
-      document.body.classList.remove('menu-open');
+      document.body.classList.remove('modal-open');
     },
 
     isMobile() {
@@ -278,7 +278,7 @@ $footer-height: 65px;
   }
 }
 
-.menu-open {
+.modal-open {
   // overflow-y: scroll;
   // @include fixed(0, 0, 0, 0);
 
@@ -485,7 +485,7 @@ $footer-height: 65px;
 
 
 @include media-breakpoint-down(md) {
-  .menu-open {
+  .modal-open {
     @include fixed(0, 0, 0, 0);
     overflow-y: scroll;
   }

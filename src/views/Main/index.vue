@@ -160,7 +160,7 @@ export default {
     },
 
     onSectionChange(index) {
-      document.body.classList.remove('menu-open');
+      document.body.classList.remove('modal-open');
       let top = window.innerWidth * index;
 
       if (this.mobile || this.tablet) {
@@ -184,7 +184,7 @@ export default {
         const pageWidth = window.innerWidth;
 
         this.ScrollMagicController = new ScrollMagic.Controller({
-          addIndicators: process.env.NODE_ENV === 'development',
+          // addIndicators: process.env.NODE_ENV === 'development',
         });
 
         // SECTION 1

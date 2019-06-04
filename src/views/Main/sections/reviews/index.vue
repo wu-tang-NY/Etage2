@@ -117,7 +117,7 @@ export default {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
-      slidesPerView: 'auto',
+      slidesPerView: 3,
       centeredSlides: true,
       loop: true,
       spaceBetween: 70,
@@ -259,6 +259,7 @@ export default {
 
   &__slide-desc {
       line-height: 16px;
+      word-break: normal!important;
     }
 
   &__slide-title {
@@ -366,7 +367,7 @@ export default {
 
 @media screen and (min-width: 993px) and (max-height: 760px) {
   .reviews {
-    padding-top: 40px;
+    padding-top: 10px;
   }
 }
 

@@ -11,7 +11,7 @@ export default {
   methods: {
     openModal() {
       this.$eventbus.$emit('openPopup', 'PopupContentAboutUs');
-      document.body.classList.remove('menu-open');
+      document.body.classList.remove('modal-open');
     },
   },
 };

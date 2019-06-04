@@ -2,7 +2,7 @@
   <div class="price">
     <h2>Как формируется стоимость?</h2>
 
-    <div class="subtitle dark-gray">
+    <div class="subtitle dark-gray" v-if="mobile || tablet">
       <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">Объем автомобиля</a>
       и время его работы + Количество и время занятости
 
@@ -10,6 +10,24 @@
         + Количество
 
       <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных материалов</a>
+    </div>
+
+    <div class="price__header" v-else>
+      <div class="price__header-block subtitle dark-gray">
+        <svg-icon name="icon_1" original/>
+        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">Объем автомобиля</a>
+        &nbsp;и время его работы
+      </div>
+      <div class="price__header-block subtitle dark-gray">
+        <svg-icon name="icon_2" original/>
+        Количество и время занятости&nbsp;
+        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">грузчиков</a>
+      </div>
+      <div class="price__header-block subtitle dark-gray">
+        <svg-icon name="icon_3" original/>
+        Количество&nbsp;
+        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных материалов</a>
+      </div>
     </div>
 
     <div class="row" v-if="!mobile && !tablet">
@@ -192,6 +210,40 @@ export default {
 
   .subtitle {
     margin-bottom: 16px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+
+    svg {
+      height: 18px;
+      margin-right: 6px;
+    }
+
+    .price__header-block + .price__header-block {
+      margin-left: 24px;
+      position: relative;
+
+      &::before {
+        content: '+';
+        position: absolute;
+        left: -12px;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  &__header-block {
+    margin-bottom: 0;
+    font-size: rem(13);
+    background-color: $colors-grey-200;
+    height: 36px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
   }
 
   &__subtitle-wrapper {
@@ -489,7 +541,11 @@ export default {
 
 @media screen and (min-width: 993px) and (max-height: 760px) {
   .price {
-    padding-top: 40px;
+    padding-top: 10px;
+
+    &__header {
+      margin-bottom: 0;
+    }
   }
 }
 

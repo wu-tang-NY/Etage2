@@ -8,8 +8,8 @@
 
         <div class="app-designedby">
           <span class="app-designedby__text">Designed by:</span>
-          <a href="#" class="app-designedby__icon">
-            <svg-icon name="logotype" original />
+          <a href="http://weralls.com" target="_blank" class="app-designedby__icon">
+            <svg-icon name="logo_weralls" original />
           </a>
         </div>
       </div>
