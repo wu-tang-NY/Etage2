@@ -27,7 +27,7 @@
         <div class="page-main__bg-inner">
           <div class="page-main__bg-image" :style="{ width: `${totalWidth}px` }" ref="bg">
             <div class="page-main__bg-home">
-              <svg-icon name="home_3" class="page-main" original />
+              <svg-icon name="home" class="page-main" original />
             </div>
 
             <div class="bg__from" ref="home1">
@@ -463,6 +463,13 @@ export default {
       &-home {
         display: none;
       }
+    }
+  }
+
+  .bg {
+    &__from,
+    &__to {
+      display: none;
     }
   }
 }
