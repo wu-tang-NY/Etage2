@@ -122,7 +122,7 @@ export default {
       loop: true,
       spaceBetween: 70,
       breakpoints: {
-        576: {
+        768: {
           spaceBetween: 0,
           centeredSlides: false,
           slidesPerView: 1,

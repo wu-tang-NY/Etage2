@@ -1,12 +1,12 @@
 <template>
-  <div class="app-form">
+  <div class="app-form app-form--textarea">
     <label class="app-form__label" v-if="label">
       {{ label }}
     </label>
 
     <div class="app-form__control">
       <textarea
-        class="app-form__input app-form-input--textarea"
+        class="app-form__input app-form__input--textarea"
         :placeholder="placeholder"
       />
 
@@ -61,6 +61,7 @@ export default {
 
     &--textarea {
       height: 80px;
+      resize: none;
     }
 
     &::placeholder {
@@ -79,12 +80,18 @@ export default {
     }
   }
 
+  &--textarea {
+    .app-form__line {
+      bottom: 5px;
+    }
+  }
+
   &__line {
     background-color: $colors-text--primary;
     position: absolute;
     left: auto;
     right: 0;
-    bottom: 0;
+    bottom: 0px;
     height: 1px;
     width: 0;
     transition: .3s ease-in-out;

@@ -75,7 +75,7 @@
 
               <svg-icon :name="category.iconName" class="category__icon" original />
 
-              <div class="category__close" v-if="mobile || tablet" @click="handleOpenFullSize(category)"></div>
+              <div class="category__close" v-if="mobile || tablet" @click="handleCloseFullSize(category)"></div>
 
               <div class="category__price-wrapper" v-for="item in category.items" :key="item.id">
                 <div class="category__additional" v-if="item.additional">{{ item.additional }}</div>
@@ -187,13 +187,19 @@ export default {
     ],
   }),
   methods: {
+    handleCloseFullSize(e) {
+      e.opened = false;
+      document.body.classList.remove('modal-open');
+    },
+
     handleOpenFullSize(e) {
-      e.opened = !e.opened;
-      document.body.classList.toggle('modal-open');
+      e.opened = true;
+      document.body.classList.add('modal-open');
     },
 
     openForm(e) {
       this.handleOpenFullSize(e);
+      e.opened = false;
       this.$eventbus.$emit('openFormModal');
     },
   },
@@ -623,8 +629,8 @@ export default {
 
     &__icon {
       @include size(50px);
-      top: 75px;
-      right: 10px;
+      top: 60px;
+      right: 0px;
     }
   }
 }

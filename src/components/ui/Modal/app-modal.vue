@@ -127,6 +127,8 @@ export default {
 
 @include media-breakpoint-down(sm) {
   .modal {
+    overflow: hidden;
+    height: 100vh;
     &-dialog {
       background-color: $white;
       margin: 0;
@@ -134,10 +136,16 @@ export default {
       align-items: flex-start;
     }
 
+    .btn {
+      margin-bottom: 40px;
+    }
+
     &-content {
       border: none;
       @include size(100%);
-    }
+      height: 100vh;
+      overflow: auto;
+     }
   }
 }
 </style>
