@@ -186,7 +186,7 @@ export default {
         const pageWidth = window.innerWidth;
 
         this.ScrollMagicController = new ScrollMagic.Controller({
-          addIndicators: process.env.NODE_ENV === 'development',
+          addIndicators: true,
         });
 
         // SECTION 1
