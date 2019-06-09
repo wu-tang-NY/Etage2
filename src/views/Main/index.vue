@@ -59,10 +59,10 @@
 
               <car-cloud icon="cloud_large" icon-width="370">
                 <div class="mb-2">
-                  <span>123 семьи</span> переселились с нашей помощью в новое жилище в этом году
+                  <span>3067 семей</span> переселились с нашей помощью в новое жилище в этом году
                 </div>
                 <div>
-                  <span>123 тонны</span> личных вещей уже перевезено в этом году
+                  <span>И более 572  тонн</span> личных вещей уже перевезено в этом году
                 </div>
               </car-cloud>
             </div>
@@ -418,7 +418,7 @@ export default {
 
   .modal-open {
     .app-section {
-      padding-right: 34px;
+      padding-right: 17px;
     }
   }
 

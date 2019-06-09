@@ -1,12 +1,14 @@
 <template>
   <app-modal :show="open" @input="$emit('input', $event)" title="Оставьте отзыв">
-    <form>
+    <form v-if="unsend">
       <div class="row">
         <div class="col-lg-12">
           <app-input
+            :requiredField="!name && name !== null"
             label="Как Вас зовут"
             type="text"
             placeholder="Имя"
+            v-model="name"
           />
         </div>
       </div>
@@ -14,9 +16,11 @@
       <div class="row">
         <div class="col-lg-12">
           <app-input
+            :requiredField="!from && from !== null"
             label="Откуда Вы"
             type="text"
             placeholder="Населенный пункт"
+            v-model="from"
           />
         </div>
       </div>
@@ -24,10 +28,12 @@
       <div class="row">
         <div class="col-lg-12">
           <app-input
+            :requiredField="!phone && phone !== null"
             label="Номер телефона"
             type="text"
             placeholder="0ХХ ХХХ ХХХХ"
             mask="### - ### - ## - ##"
+            v-model="phone"
           />
         </div>
       </div>
@@ -35,22 +41,31 @@
       <div class="row">
         <div class="col-lg-12">
           <app-textarea
+            :requiredField="!comment && comment !== null"
             label="Оставьте Ваш отзыв"
             placeholder="Комментарий"
+            v-model="comment"
           />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12 text-center pb-1">
-          <button type="button" class="btn">Отправить</button>
+          <button type="button" class="btn" :disabled="!phone || !name || !from || !comment" @click.prevent="handleSendEmail">Отправить</button>
         </div>
       </div>
     </form>
+    <div v-else>
+      <strong>Спасибо, запрос отправлен</strong>
+      <br>
+      Мы свяжемся с вами в ближайшее время
+    </div>
   </app-modal>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'AppFeedbackModal',
   model: {
@@ -71,7 +86,29 @@ export default {
         this.$emit('input', v);
       },
     },
+    name: null,
+    phone: null,
+    from: null,
+    comment: null,
+    unsend: true,
   }),
+  methods: {
+    handleSendEmail() {
+      if (this.phone && this.name && this.from && this.comment) {
+        axios({
+          url: 'http://etage.com.ua/api/feedback',
+          method: 'post',
+          data: {
+            name: this.name,
+            phone: this.phone,
+            from: this.from,
+            comment: this.comment,
+          },
+        });
+        this.unsend = false;
+      }
+    },
+  },
 };
 </script>
 

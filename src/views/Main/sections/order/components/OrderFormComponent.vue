@@ -1,6 +1,6 @@
 <template>
   <form class="order-form">
-    <div class="mobile-wrapper">
+    <div class="mobile-wrapper" >
 
       <template v-if="mobile || tablet">
         <div class="order-form__close" @click="$emit('closeModal')"></div>
@@ -11,9 +11,11 @@
         </div>
       </template>
 
-      <div class="row">
+      <div class="row" v-if="unsend">
         <div class="col-lg-3">
           <app-input
+            :requiredField="!name && name !== null"
+            v-model="name"
             label="Как к вам обращаться"
             type="text"
             placeholder="Имя"
@@ -22,6 +24,8 @@
 
         <div class="col-lg-3">
           <app-input
+            :requiredField="!phone && phone !== null"
+            v-model="phone"
             label="Ваш номер телефона"
             type="text"
             placeholder="0ХХ ХХХ ХХ ХХ"
@@ -31,6 +35,7 @@
 
         <div class="col-lg-3">
           <app-input
+            v-model="from"
             label="Откуда"
             type="text"
             placeholder="Введите адресс"
@@ -39,6 +44,7 @@
 
         <div class="col-lg-3">
           <app-input
+            v-model="date"
             label="Планируемая дата"
             type="text"
             placeholder="ДД/ММ/ГГГГ ЧЧ:ММ"
@@ -48,6 +54,7 @@
 
         <div class="col-lg-3">
           <app-select
+            v-model="type"
             label="Тип транспортировки"
             placeholder="Выберите"
             :options="transport.options"
@@ -57,6 +64,7 @@
 
         <div class="col-lg-3">
           <app-select
+            v-model="workers"
             label="Грузчики"
             placeholder="Выберите"
             :options="stuff.options"
@@ -66,6 +74,7 @@
 
         <div class="col-lg-3">
           <app-input
+            v-model="to"
             label="Куда"
             type="text"
             placeholder="Введите адресс"
@@ -74,20 +83,27 @@
 
         <div class="col-lg-3">
           <app-input
+            v-model="comment"
             label="Комментарий или пожелание"
             type="text"
             placeholder="Ваши пожелания"
           />
         </div>
         </div>
-      <div class="order-form__btn-wrapper">
-        <button class="order-form__button" type="submit">Отправить</button>
+      <div v-else>
+        <strong>Спасибо, запрос отправлен</strong>
+        <br>
+        Мы свяжемся с вами в ближайшее время
+      </div>
+      <div class="order-form__btn-wrapper" v-if="unsend">
+        <button class="order-form__button" :disabled="!phone || !name" @click.prevent="handleSendEmail">Отправить</button>
       </div>
     </div>
   </form>
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: 'SectionOrderFormComponent',
@@ -97,8 +113,18 @@ export default {
   },
   data() {
     return {
+      name: null,
+      phone: null,
+      from: '',
+      to: '',
+      workers: null,
+      type: null,
+      date: null,
+      comment: '',
+      unsend: true,
+
       transport: {
-        options: ['Квартирный переезд', 'Оффисный переезд', 'Перевозка имущества'],
+        options: ['Квартирный переезд', 'Офисный переезд', 'Перевозка имущества'],
         value: null,
       },
       stuff: {
@@ -106,6 +132,28 @@ export default {
         value: null,
       },
     };
+  },
+  methods: {
+    handleSendEmail() {
+      if (this.name && this.phone) {
+        axios({
+          url: 'http://etage.com.ua/api/order',
+          method: 'post',
+          data: {
+            name: this.name,
+            phone: this.phone,
+            from: this.from,
+            to: this.to,
+            workers: this.workers,
+            type: this.type,
+            date: this.date,
+            comment: this.comment,
+          },
+        });
+
+        this.unsend = false;
+      }
+    },
   },
 };
 </script>
@@ -133,6 +181,11 @@ export default {
     &:active {
       outline: none;
     }
+  }
+
+  &__after {
+    font-size: rem(14);
+    color: $colors-text--primary;
   }
 }
 

@@ -28,7 +28,7 @@ export default {
           title: 'Квартирный переезд',
           path: 'PopupContentFlatMove',
         }, {
-          title: 'Оффисный переезд',
+          title: 'Офисный переезд',
           path: 'PopupContentOfficeMove',
         }, {
           title: 'Перевозка имущества',

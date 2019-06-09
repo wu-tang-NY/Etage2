@@ -7,7 +7,9 @@
     <div class="app-form__control">
       <textarea
         class="app-form__input app-form__input--textarea"
+        :value="value"
         :placeholder="placeholder"
+        @input="$emit('input', $event.target.value)"
       />
 
       <div class="app-form__line"></div>
@@ -18,6 +20,9 @@
 <script>
 export default {
   name: 'AppTextarea',
+  model: {
+    prop: 'value',
+  },
   props: {
     label: {
       type: String,
@@ -25,6 +30,10 @@ export default {
 
     placeholder: {
       type: String,
+    },
+
+    value: {
+      required: false,
     },
   },
 };
@@ -47,6 +56,7 @@ export default {
     position: relative;
     overflow: hidden;
     width: 100%;
+    display: flex;
   }
 
   &__input {
@@ -84,17 +94,6 @@ export default {
     .app-form__line {
       bottom: 5px;
     }
-  }
-
-  &__line {
-    background-color: $colors-text--primary;
-    position: absolute;
-    left: auto;
-    right: 0;
-    bottom: 0px;
-    height: 1px;
-    width: 0;
-    transition: .3s ease-in-out;
   }
 }
 </style>

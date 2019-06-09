@@ -10,38 +10,72 @@
         </div>
       </template>
 
-      <div class="row">
+      <div class="row" v-if="unsend">
         <div class="col-lg-4">
           <app-input
+            :requiredField="!name && name !== null"
             label="Как к вам обращаться"
             type="text"
             placeholder="Имя"
             mask=""
+            v-model="name"
           />
         </div>
 
         <div class="col-lg-4">
           <app-input
+            :requiredField="!phone && phone !== null"
             label="Номер телефона"
             type="text"
             placeholder="0ХХ ХХХ ХХХХ"
             mask="### - ### - ## - ##"
+            v-model="phone"
           />
         </div>
       </div>
-      <div class="call-form__btn-wrapper">
-        <button class="call-form__button">Отправить</button>
+      <div v-else>
+        <strong>Спасибо, запрос отправлен</strong>
+        <br>
+        Мы свяжемся с вами в ближайшее время
+      </div>
+      <div class="call-form__btn-wrapper" v-if="unsend">
+        <button class="call-form__button" :disabled="!phone || !name" @click.prevent="handleSendEmail">Отправить</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'CallFormComponent',
   props: {
     mobile: Boolean,
     tablet: Boolean,
+  },
+  data() {
+    return {
+      name: null,
+      phone: null,
+      unsend: true,
+    };
+  },
+  methods: {
+    handleSendEmail() {
+      if (this.name && this.phone) {
+        axios({
+          url: 'http://etage.com.ua/api/callback',
+          method: 'post',
+          data: {
+            name: this.name,
+            phone: this.phone,
+          },
+        });
+
+        this.unsend = false;
+      }
+    },
   },
 };
 </script>

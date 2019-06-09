@@ -1,22 +1,28 @@
 <template>
-  <div class="app-form">
+  <div class="app-form" :class="{ 'app-form--required': requiredField }">
     <label class="app-form__label" v-if="label">
       {{ label }}
     </label>
 
     <div class="app-form__control">
       <input
-        v-if="!mask"
-        :type="type"
         class="app-form__input"
+        :type="type"
+        :value="value"
         :placeholder="placeholder"
+        @input="$emit('input', $event.target.value)"
+        v-if="!mask"
       />
       <the-mask
         v-else
         class="app-form__input"
+        :value="value"
         :mask="mask"
         :type="type"
-        :placeholder="placeholder"></the-mask>
+        :placeholder="placeholder"
+        masked
+        @input="$emit('input', $event)"
+      ></the-mask>
 
       <div class="app-form__line"></div>
     </div>
@@ -26,6 +32,9 @@
 <script>
 export default {
   name: 'AppInput',
+  model: {
+    prop: 'value',
+  },
   props: {
     label: {
       type: String,
@@ -41,6 +50,14 @@ export default {
 
     placeholder: {
       type: String,
+    },
+
+    requiredField: {
+      type: Boolean,
+    },
+
+    value: {
+      required: false,
     },
   },
 };
@@ -100,6 +117,16 @@ export default {
     height: 1px;
     width: 0;
     transition: .3s ease-in-out;
+  }
+
+  &--required {
+    .app-form__input {
+      border-color: #FF1E3A;
+
+      &::placeholder {
+        color: #FF1E3A;
+      }
+    }
   }
 }
 </style>
