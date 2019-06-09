@@ -94,7 +94,7 @@ export default {
   vertical-align: middle;
 }
 
-@media screen and (min-width: 993px) and (max-height: 760px) {
+@media screen and (min-width: 993px) and (max-height: 730px) {
   .app-phone {
     &--mobile-only {
       display: inline-block;

@@ -239,7 +239,7 @@ export default {
     }
   }
 
-  @media screen and (min-width: 993px) and (max-height: 920px) {
+  @media screen and (min-width: 993px) and (max-height: 890px) {
     .nav-item {
       &__link {
         padding: 4px rem(24) 6px;
@@ -251,7 +251,7 @@ export default {
     }
   }
 
-  @media screen and (min-width: 993px) and (max-height: 760px) {
+  @media screen and (min-width: 993px) and (max-height: 730px) {
     display: block;
     margin: 0 !important;
 

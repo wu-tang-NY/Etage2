@@ -60,7 +60,8 @@ export default {
     max-width: 680px;
 
     span {
-      color: $colors-accent;
+      color: $colors-text--primary;
+      font-weight: 800;
     }
   }
 
@@ -70,13 +71,13 @@ export default {
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 920px) {
+@media screen and (min-width: 993px) and (max-height: 890px) {
   .services {
     padding-top: 30px;
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 760px) {
+@media screen and (min-width: 993px) and (max-height: 730px) {
   .services {
     padding-top: 70px;
   }

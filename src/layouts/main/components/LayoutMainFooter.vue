@@ -7,7 +7,7 @@
         </div>
 
         <div class="app-designedby">
-          <span class="app-designedby__text">Designed by:</span>
+          <span class="app-designedby__text">Handcrafted by:</span>
           <a href="http://weralls.com" target="_blank" class="app-designedby__icon">
             <svg-icon name="logo_weralls" original />
           </a>

@@ -346,7 +346,7 @@ $footer-height: 65px;
   }
 }
 
-@media screen and (min-width: 993px) and (min-height: 760px) and (max-height: 920px) {
+@media screen and (min-width: 993px) and (min-height: 730px) and (max-height: 890px) {
   .app-header {
     &__inner {
       padding: 10px 0;
@@ -359,7 +359,7 @@ $footer-height: 65px;
 
   .app-footer {
     &__inner {
-      height: 40px;
+      height: 30px;
     }
   }
 
@@ -368,7 +368,7 @@ $footer-height: 65px;
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 760px) {
+@media screen and (min-width: 993px) and (max-height: 730px) {
   .app-header {
     &__blocks {
       display: none;

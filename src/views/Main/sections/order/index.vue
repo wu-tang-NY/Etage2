@@ -196,7 +196,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 920px) {
+@media screen and (min-width: 993px) and (max-height: 890px) {
   .section-order {
     padding-top: 0;
 
@@ -210,7 +210,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 993px) and (max-height: 760px) {
+@media screen and (min-width: 993px) and (max-height: 730px) {
   .section-order {
     padding-top: 10px;
   }

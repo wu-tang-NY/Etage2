@@ -1,4 +1,5 @@
 /* eslint-disable */
+require('./arrow_m')
 require('./arrow-next')
 require('./auto_feature')
 require('./bg_dark')

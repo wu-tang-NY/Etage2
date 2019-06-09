@@ -2,7 +2,7 @@
   <div class="price">
     <h2>Как формируется стоимость?</h2>
 
-    <div class="subtitle dark-gray" v-if="mobile || tablet">
+    <div class="subtitle dark-gray price__header--mobile">
       <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">Объем автомобиля</a>
       и время его работы + Количество и время занятости
 
@@ -12,7 +12,7 @@
       <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных материалов</a>
     </div>
 
-    <div class="price__header" v-else>
+    <div class="price__header">
       <div class="price__header-block subtitle dark-gray">
         <svg-icon name="icon_1" original/>
         <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">Объем автомобиля</a>
@@ -55,6 +55,7 @@
             <h3 class="category-mini__title">{{ category.name }}</h3>
             <p class="category-mini__subtitle dark-gray">{{ category.subtitle }}</p>
           </div>
+          <svg-icon class="category-mini__arrow" name="arrow_m" original/>
         </div>
       </div>
     </div>
@@ -132,7 +133,7 @@ export default {
           {
             id: 1,
             time: '1 час -',
-            price: '160 грн',
+            price: '180 грн',
             description: 'Если у вас всего 1 предмет',
             info: 'Время миннимального заказа в черте Одессы - 2 часа, для Савиньона и поселка Котовского - 3 часа',
           }, {
@@ -222,6 +223,10 @@ export default {
     display: flex;
     align-items: center;
     margin-bottom: 16px;
+
+    &--mobile {
+      display: none;
+    }
 
     svg {
       height: 18px;
@@ -480,9 +485,15 @@ export default {
     flex-shrink: 0;
     transition: .3s ease-in-out;
   }
+
+  &__arrow {
+    @include size(14px);
+    margin-left: auto;
+    flex-shrink: 0;
+  }
 }
 
-@media screen and (min-width: 993px) and (max-height: 920px) {
+@media screen and (min-width: 993px) and (max-height: 890px) {
   .price {
     padding-top: 0;
 
@@ -544,8 +555,30 @@ export default {
     }
   }
 }
+@media screen and (min-width: 993px) and (max-height: 770px) {
+  .price {
+    padding-top: 10px;
 
-@media screen and (min-width: 993px) and (max-height: 760px) {
+    &__header {
+      margin-bottom: 0;
+
+      svg {
+        height: 14px;
+      }
+    }
+
+    &__header-block {
+      height: 30px;
+      font-size: rem(11);
+    }
+
+    &__examples {
+      margin-top: 25px;
+    }
+  }
+}
+
+@media screen and (min-width: 993px) and (max-height: 730px) {
   .price {
     padding-top: 10px;
 
@@ -556,6 +589,15 @@ export default {
 }
 
 @media screen and (max-width: 992px) {
+  .price {
+    &__header {
+      display: none;
+
+      &--mobile {
+        display: block;
+      }
+    }
+  }
   .category {
     position: fixed;
     top: 0;
