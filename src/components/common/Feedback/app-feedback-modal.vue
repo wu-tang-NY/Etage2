@@ -7,6 +7,7 @@
             label="Как Вас зовут"
             type="text"
             placeholder="Имя"
+            v-model="name"
           />
         </div>
       </div>
@@ -17,6 +18,7 @@
             label="Откуда Вы"
             type="text"
             placeholder="Населенный пункт"
+            v-model="from"
           />
         </div>
       </div>
@@ -28,6 +30,7 @@
             type="text"
             placeholder="0ХХ ХХХ ХХХХ"
             mask="### - ### - ## - ##"
+            v-model="phone"
           />
         </div>
       </div>
@@ -37,13 +40,14 @@
           <app-textarea
             label="Оставьте Ваш отзыв"
             placeholder="Комментарий"
+            v-model="comment"
           />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12 text-center pb-1">
-          <button type="button" class="btn">Отправить</button>
+          <button type="button" class="btn" @click.prevent="">Отправить</button>
         </div>
       </div>
     </form>
@@ -51,6 +55,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'AppFeedbackModal',
   model: {
@@ -71,7 +77,56 @@ export default {
         this.$emit('input', v);
       },
     },
+    name: '',
+    phone: '',
+    from: '',
+    comment: '',
   }),
+  methods: {
+    handleSendEmail() {
+      const url = 'https://api.sendgrid.com/v3/mail/send';
+      const token = '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';
+
+      axios({
+        url,
+        method: 'post',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-type': 'application/json',
+        },
+        data: {
+          'personalizations': [{
+            'to': [{
+              'email': 'stoleurbike@gmail.com',
+              'name': 'Etage',
+            }],
+            'subject': 'Order Message!',
+          }],
+          'content': [{
+            'type': 'text/html',
+            'value': `
+              <strong>Имя:</strong> ${this.name},
+              Телефон: ${this.phone},
+              Откуда: ${this.from},
+              Куда: ${this.to},
+              Грузчики: ${this.workers},
+              Тип: ${this.type},
+              Дата: ${this.date},
+              Комментарий: ${this.comment},
+            `,
+          }],
+          'from': {
+            'email': 'stoleurbike@gmail.com',
+            'name': 'Sam Smith',
+          },
+          'reply_to': {
+            'email': 'stoleurbike@gmail.com',
+            'name': 'Sam Smith',
+          },
+        },
+      });
+    },
+  },
 };
 </script>
 

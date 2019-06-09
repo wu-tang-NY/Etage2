@@ -6,10 +6,11 @@
 
     <div class="app-select__control">
       <multiselect
-        v-model="value"
+        :value="value"
         :options="options"
         :placeholder="placeholder"
         :searchable="false"
+        @select="$emit('input', $event)"
       ></multiselect>
 
       <div class="app-select__line"></div>
@@ -20,6 +21,9 @@
 <script>
 export default {
   name: 'AppSelect',
+  model: {
+    prop: 'value',
+  },
   props: {
     options: Array,
     value: null,

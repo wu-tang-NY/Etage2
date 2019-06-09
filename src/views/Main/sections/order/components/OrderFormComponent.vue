@@ -14,6 +14,7 @@
       <div class="row">
         <div class="col-lg-3">
           <app-input
+            v-model="name"
             label="Как к вам обращаться"
             type="text"
             placeholder="Имя"
@@ -22,6 +23,7 @@
 
         <div class="col-lg-3">
           <app-input
+            v-model="phone"
             label="Ваш номер телефона"
             type="text"
             placeholder="0ХХ ХХХ ХХ ХХ"
@@ -31,6 +33,7 @@
 
         <div class="col-lg-3">
           <app-input
+            v-model="from"
             label="Откуда"
             type="text"
             placeholder="Введите адресс"
@@ -39,6 +42,7 @@
 
         <div class="col-lg-3">
           <app-input
+            v-model="date"
             label="Планируемая дата"
             type="text"
             placeholder="ДД/ММ/ГГГГ ЧЧ:ММ"
@@ -48,6 +52,7 @@
 
         <div class="col-lg-3">
           <app-select
+            v-model="type"
             label="Тип транспортировки"
             placeholder="Выберите"
             :options="transport.options"
@@ -57,6 +62,7 @@
 
         <div class="col-lg-3">
           <app-select
+            v-model="workers"
             label="Грузчики"
             placeholder="Выберите"
             :options="stuff.options"
@@ -66,6 +72,7 @@
 
         <div class="col-lg-3">
           <app-input
+            v-model="to"
             label="Куда"
             type="text"
             placeholder="Введите адресс"
@@ -74,6 +81,7 @@
 
         <div class="col-lg-3">
           <app-input
+            v-model="comment"
             label="Комментарий или пожелание"
             type="text"
             placeholder="Ваши пожелания"
@@ -81,13 +89,14 @@
         </div>
         </div>
       <div class="order-form__btn-wrapper">
-        <button class="order-form__button" type="submit">Отправить</button>
+        <button class="order-form__button" @click.prevent="handleSendEmail">Отправить</button>
       </div>
     </div>
   </form>
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: 'SectionOrderFormComponent',
@@ -97,8 +106,17 @@ export default {
   },
   data() {
     return {
+      name: '',
+      phone: '',
+      from: '',
+      to: '',
+      workers: null,
+      type: null,
+      date: null,
+      comment: '',
+
       transport: {
-        options: ['Квартирный переезд', 'Оффисный переезд', 'Перевозка имущества'],
+        options: ['Квартирный переезд', 'Офисный переезд', 'Перевозка имущества'],
         value: null,
       },
       stuff: {
@@ -106,6 +124,51 @@ export default {
         value: null,
       },
     };
+  },
+  methods: {
+    handleSendEmail() {
+      const url = 'https://api.sendgrid.com/v3/mail/send';
+      const token = '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';
+
+      axios({
+        url,
+        method: 'post',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-type': 'application/json',
+        },
+        data: {
+          'personalizations': [{
+            'to': [{
+              'email': 'stoleurbike@gmail.com',
+              'name': 'Etage',
+            }],
+            'subject': 'Order Message!',
+          }],
+          'content': [{
+            'type': 'text/html',
+            'value': `
+              <strong>Имя:</strong> ${this.name},
+              Телефон: ${this.phone},
+              Откуда: ${this.from},
+              Куда: ${this.to},
+              Грузчики: ${this.workers},
+              Тип: ${this.type},
+              Дата: ${this.date},
+              Комментарий: ${this.comment},
+            `,
+          }],
+          'from': {
+            'email': 'stoleurbike@gmail.com',
+            'name': 'Sam Smith',
+          },
+          'reply_to': {
+            'email': 'stoleurbike@gmail.com',
+            'name': 'Sam Smith',
+          },
+        },
+      });
+    },
   },
 };
 </script>
