@@ -139,7 +139,7 @@ export default {
           }, {
             id: 2,
             time: '1 час -',
-            price: '200+ грн',
+            price: '220+ грн',
             description: 'Межгород - 20 грн/км',
           },
         ],

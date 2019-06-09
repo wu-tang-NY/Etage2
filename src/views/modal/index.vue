@@ -122,23 +122,26 @@ export default {
         isActive: false,
       }, {
         header: 'Информация',
-        links: [{
-          title: 'Партнеры',
-          component: 'PopupContentPartners',
-          activeLink: false,
-        }, {
-          title: 'Вакансии',
-          component: 'PopupContentJobs',
-          activeLink: false,
-        }, {
-          title: 'Отзывы',
-          component: 'PopupContentFeedback',
-          activeLink: false,
-        }, {
-          title: 'Контакты',
-          component: 'PopupContentContacts',
-          activeLink: false,
-        }],
+        links: [
+        //   {
+        //   title: 'Партнеры',
+        //   component: 'PopupContentPartners',
+        //   activeLink: false,
+        // },
+          {
+            title: 'Вакансии',
+            component: 'PopupContentJobs',
+            activeLink: false,
+          }, {
+            title: 'Отзывы',
+            component: 'PopupContentFeedback',
+            activeLink: false,
+          }, {
+            title: 'Контакты',
+            component: 'PopupContentContacts',
+            activeLink: false,
+          },
+        ],
         isActive: false,
       }, {
         header: 'Оплата',
@@ -483,6 +486,11 @@ export default {
     img + img,
     p + img {
       margin-top: 20px;
+    }
+
+    h3 {
+      color: $colors-accent;
+      margin-bottom: 20px;
     }
 
     p, li {

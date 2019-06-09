@@ -35,6 +35,7 @@ $logo-separator-color: #e6e6e6;
   &__subtitle {
     font-weight: 500;
     color: $colors-text--secondary;
+    white-space: nowrap;
 
     &::before {
       content: '';
@@ -48,7 +49,7 @@ $logo-separator-color: #e6e6e6;
 
   @include media-breakpoint-down(xl) {
     &__subtitle {
-      display: none;
+      // display: none;
     }
   }
 

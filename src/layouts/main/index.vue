@@ -75,6 +75,17 @@
                       <app-schedule without-label />
                     </div>
                   </li>
+
+                  <li class="nav-wrapper__block nav-block">
+                    <div class="app-social">
+                      <a href="https://instagram.com/etage_odessa" class="app-social__link" target="_blank">
+                        <svg-icon name="icon_in" original/>
+                      </a>
+                      <a href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/" class="app-social__link" target="_blank">
+                        <svg-icon name="icon_fb" original/>
+                      </a>
+                    </div>
+                  </li>
                 </ul>
               </div>
 
@@ -208,6 +219,10 @@ $footer-height: 65px;
     display: inline-block;
     margin-left: 40px;
     vertical-align: middle;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
   }
 }
 
@@ -244,7 +259,7 @@ $footer-height: 65px;
   }
 
   &__icon {
-    @include size(87px, 16px);
+    @include size(70px, 16px);
     display: inline-block;
     flex-shrink: 0;
   }
@@ -556,7 +571,7 @@ $footer-height: 65px;
   }
 
   .nav-block {
-    margin-top: 30px;
+    margin-top: 25px;
 
     &__title {
       background-color: $colors-grey-200;
