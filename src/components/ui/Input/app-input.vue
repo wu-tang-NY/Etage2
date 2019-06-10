@@ -1,5 +1,5 @@
 <template>
-  <div class="app-form">
+  <div class="app-form" :class="{'app-form--required':requiredField}">
     <label class="app-form__label" v-if="label">
       {{ label }}
     </label>
@@ -50,6 +50,10 @@ export default {
 
     placeholder: {
       type: String,
+    },
+
+    requiredField: {
+      type: Boolean,
     },
 
     value: {
@@ -113,6 +117,16 @@ export default {
     height: 1px;
     width: 0;
     transition: .3s ease-in-out;
+  }
+
+  &--required {
+    .app-form__input {
+      border-color: #FF1E3A;
+
+      &::placeholder {
+        color: #FF1E3A;
+      }
+    }
   }
 }
 </style>

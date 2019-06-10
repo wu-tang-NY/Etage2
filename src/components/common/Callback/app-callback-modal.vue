@@ -1,9 +1,10 @@
 <template>
   <app-modal :show="open" @input="$emit('input', $event)" title="Перезвонить мне">
-    <form>
+    <form v-if="unsend">
       <div class="row">
         <div class="col-lg-12">
           <app-input
+            :requiredField="required"
             label="Как к вам обращаться"
             type="text"
             placeholder="Имя"
@@ -15,6 +16,7 @@
       <div class="row">
         <div class="col-lg-12">
           <app-input
+            :requiredField="required"
             label="Номер телефона"
             type="text"
             placeholder="0ХХ ХХХ ХХХХ"
@@ -30,6 +32,11 @@
         </div>
       </div>
     </form>
+    <div v-else>
+      <strong>Спасибо, запрос отправлен</strong>
+      <br>
+      Мы свяжемся с вами в ближайшее время
+    </div>
   </app-modal>
 </template>
 
@@ -59,50 +66,57 @@ export default {
 
     name: '',
     phone: '',
+    unsend: true,
+    required: null,
   }),
   methods: {
     handleSendEmail() {
       const url = 'https://api.sendgrid.com/v3/mail/send';
       const token = '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';
-
-      axios({
-        url,
-        method: 'post',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'content-type': 'application/json',
-        },
-        data: {
-          'personalizations': [{
-            'to': [{
-              'email': 'stoleurbike@gmail.com',
-              'name': 'Etage',
+      if (this.name || this.phone === '') {
+        this.required = true;
+      } else {
+        this.required = false;
+        axios({
+          url,
+          method: 'post',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'content-type': 'application/json',
+          },
+          data: {
+            'personalizations': [{
+              'to': [{
+                'email': 'stoleurbike@gmail.com',
+                'name': 'Etage',
+              }],
+              'subject': 'Order Message!',
             }],
-            'subject': 'Order Message!',
-          }],
-          'content': [{
-            'type': 'text/html',
-            'value': `
-              <strong>Имя:</strong> ${this.name},
-              Телефон: ${this.phone},
-              Откуда: ${this.from},
-              Куда: ${this.to},
-              Грузчики: ${this.workers},
-              Тип: ${this.type},
-              Дата: ${this.date},
-              Комментарий: ${this.comment},
-            `,
-          }],
-          'from': {
-            'email': 'stoleurbike@gmail.com',
-            'name': 'Sam Smith',
+            'content': [{
+              'type': 'text/html',
+              'value': `
+                <strong>Имя:</strong> ${this.name},
+                Телефон: ${this.phone},
+                Откуда: ${this.from},
+                Куда: ${this.to},
+                Грузчики: ${this.workers},
+                Тип: ${this.type},
+                Дата: ${this.date},
+                Комментарий: ${this.comment},
+              `,
+            }],
+            'from': {
+              'email': 'stoleurbike@gmail.com',
+              'name': 'Sam Smith',
+            },
+            'reply_to': {
+              'email': 'stoleurbike@gmail.com',
+              'name': 'Sam Smith',
+            },
           },
-          'reply_to': {
-            'email': 'stoleurbike@gmail.com',
-            'name': 'Sam Smith',
-          },
-        },
-      });
+        });
+        this.unsend = false;
+      }
     },
   },
 };

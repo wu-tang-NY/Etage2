@@ -10,7 +10,7 @@
         </div>
       </template>
 
-      <div class="row">
+      <div class="row" v-if="unsend">
         <div class="col-lg-4">
           <app-input
             label="Как к вам обращаться"
@@ -31,7 +31,12 @@
           />
         </div>
       </div>
-      <div class="call-form__btn-wrapper">
+      <div v-else>
+        <strong>Спасибо, запрос отправлен</strong>
+        <br>
+        Мы свяжемся с вами в ближайшее время
+      </div>
+      <div class="call-form__btn-wrapper" v-if="unsend">
         <button class="call-form__button" @click.prevent="handleSendEmail">Отправить</button>
       </div>
     </div>
@@ -51,6 +56,7 @@ export default {
     return {
       name: '',
       phone: '',
+      unsend: true,
     };
   },
   methods: {
@@ -96,6 +102,7 @@ export default {
           },
         },
       });
+      this.unsend = false;
     },
   },
 };

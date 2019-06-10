@@ -1,6 +1,6 @@
 <template>
   <app-modal :show="open" @input="$emit('input', $event)" title="Оставьте отзыв">
-    <form>
+    <form v-if="unsend">
       <div class="row">
         <div class="col-lg-12">
           <app-input
@@ -47,10 +47,15 @@
 
       <div class="row">
         <div class="col-lg-12 text-center pb-1">
-          <button type="button" class="btn" @click.prevent="">Отправить</button>
+          <button type="button" class="btn" @click.prevent="handleSendEmail">Отправить</button>
         </div>
       </div>
     </form>
+    <div v-else>
+      <strong>Спасибо, запрос отправлен</strong>
+      <br>
+      Мы свяжемся с вами в ближайшее время
+    </div>
   </app-modal>
 </template>
 
@@ -81,6 +86,7 @@ export default {
     phone: '',
     from: '',
     comment: '',
+    unsend: true,
   }),
   methods: {
     handleSendEmail() {
@@ -125,6 +131,7 @@ export default {
           },
         },
       });
+      this.unsend = false;
     },
   },
 };

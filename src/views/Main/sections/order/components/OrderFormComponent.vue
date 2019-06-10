@@ -1,6 +1,6 @@
 <template>
   <form class="order-form">
-    <div class="mobile-wrapper">
+    <div class="mobile-wrapper" >
 
       <template v-if="mobile || tablet">
         <div class="order-form__close" @click="$emit('closeModal')"></div>
@@ -11,7 +11,7 @@
         </div>
       </template>
 
-      <div class="row">
+      <div class="row" v-if="unsend">
         <div class="col-lg-3">
           <app-input
             v-model="name"
@@ -88,7 +88,12 @@
           />
         </div>
         </div>
-      <div class="order-form__btn-wrapper">
+      <div v-else>
+        <strong>Спасибо, запрос отправлен</strong>
+        <br>
+        Мы свяжемся с вами в ближайшее время
+      </div>
+      <div class="order-form__btn-wrapper" v-if="unsend">
         <button class="order-form__button" @click.prevent="handleSendEmail">Отправить</button>
       </div>
     </div>
@@ -114,6 +119,7 @@ export default {
       type: null,
       date: null,
       comment: '',
+      unsend: true,
 
       transport: {
         options: ['Квартирный переезд', 'Офисный переезд', 'Перевозка имущества'],
@@ -168,6 +174,7 @@ export default {
           },
         },
       });
+      this.unsend = false;
     },
   },
 };
@@ -196,6 +203,11 @@ export default {
     &:active {
       outline: none;
     }
+  }
+
+  &__after {
+    font-size: rem(14);
+    color: $colors-text--primary;
   }
 }
 

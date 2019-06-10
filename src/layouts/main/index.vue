@@ -76,7 +76,7 @@
                     </div>
                   </li>
 
-                  <li class="nav-wrapper__block nav-block">
+                  <li class="nav-wrapper__block nav-block nav-social">
                     <div class="app-social">
                       <a href="https://instagram.com/etage_odessa" class="app-social__link" target="_blank">
                         <svg-icon name="icon_in" original/>
@@ -478,6 +478,10 @@ $footer-height: 65px;
   .nav-block {
     margin-bottom: 30px;
 
+    &.nav-social {
+      display: none;
+    }
+
     &__title {
       background-color: $colors-grey-200;
       clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0% 100%);
@@ -572,6 +576,10 @@ $footer-height: 65px;
 
   .nav-block {
     margin-top: 25px;
+
+    &.nav-social {
+      display: block;
+    }
 
     &__title {
       background-color: $colors-grey-200;
