@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-lg-12">
           <app-input
-            :requiredField="required"
+            :requiredField="!name && name !== null"
             label="Как к вам обращаться"
             type="text"
             placeholder="Имя"
@@ -16,7 +16,7 @@
       <div class="row">
         <div class="col-lg-12">
           <app-input
-            :requiredField="required"
+            :requiredField="!phone && phone !== null"
             label="Номер телефона"
             type="text"
             placeholder="0ХХ ХХХ ХХХХ"
@@ -28,7 +28,7 @@
 
       <div class="row">
         <div class="col-lg-12 text-center pb-1">
-          <button type="button" class="btn" @click.prevent="handleSendEmail">Отправить</button>
+          <button type="button" class="btn" :disabled="!name || !phone" @click.prevent="handleSendEmail">Отправить</button>
         </div>
       </div>
     </form>
@@ -64,55 +64,20 @@ export default {
       },
     },
 
-    name: '',
-    phone: '',
+    name: null,
+    phone: null,
     unsend: true,
     required: null,
   }),
   methods: {
     handleSendEmail() {
-      const url = 'https://api.sendgrid.com/v3/mail/send';
-      const token = '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';
-      if (this.name || this.phone === '') {
-        this.required = true;
-      } else {
-        this.required = false;
+      if (this.phone && this.name) {
         axios({
-          url,
+          url: 'http://etage.com.ua/api/callback',
           method: 'post',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'content-type': 'application/json',
-          },
           data: {
-            'personalizations': [{
-              'to': [{
-                'email': 'stoleurbike@gmail.com',
-                'name': 'Etage',
-              }],
-              'subject': 'Order Message!',
-            }],
-            'content': [{
-              'type': 'text/html',
-              'value': `
-                <strong>Имя:</strong> ${this.name},
-                Телефон: ${this.phone},
-                Откуда: ${this.from},
-                Куда: ${this.to},
-                Грузчики: ${this.workers},
-                Тип: ${this.type},
-                Дата: ${this.date},
-                Комментарий: ${this.comment},
-              `,
-            }],
-            'from': {
-              'email': 'stoleurbike@gmail.com',
-              'name': 'Sam Smith',
-            },
-            'reply_to': {
-              'email': 'stoleurbike@gmail.com',
-              'name': 'Sam Smith',
-            },
+            name: this.name,
+            phone: this.phone,
           },
         });
         this.unsend = false;

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-form" :class="{'app-form--required':requiredField}">
+  <div class="app-form" :class="{ 'app-form--required': requiredField }">
     <label class="app-form__label" v-if="label">
       {{ label }}
     </label>
