@@ -117,6 +117,20 @@ export default {
       transform: rotate(-45deg);
     }
   }
+
+  .welcome-block {
+    text-align: center;
+
+    .svg-icon {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      margin-top: 24px;
+    }
+  }
 }
 
 @include media-breakpoint-up(lg) {

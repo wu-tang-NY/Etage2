@@ -33,11 +33,7 @@
           />
         </div>
       </div>
-      <div v-else>
-        <strong>Спасибо, запрос отправлен</strong>
-        <br>
-        Мы свяжемся с вами в ближайшее время
-      </div>
+      <welcome-modal v-model="modalWelcomeOpen" />
       <div class="call-form__btn-wrapper" v-if="unsend">
         <button class="call-form__button" :disabled="!phone || !name" @click.prevent="handleSendEmail">Отправить</button>
       </div>
@@ -47,9 +43,13 @@
 
 <script>
 import axios from 'axios';
+import WelcomeModal from '@/components/common/Welcome/app-welcome-modal';
 
 export default {
   name: 'CallFormComponent',
+  components: {
+    WelcomeModal,
+  },
   props: {
     mobile: Boolean,
     tablet: Boolean,
@@ -59,7 +59,11 @@ export default {
       name: null,
       phone: null,
       unsend: true,
+      modalWelcomeOpen: true,
     };
+  },
+  mounted() {
+    this.modalWelcomeOpen = false;
   },
   methods: {
     handleSendEmail() {
@@ -74,6 +78,7 @@ export default {
         });
 
         this.unsend = false;
+        this.modalWelcomeOpen = true;
       }
     },
   },

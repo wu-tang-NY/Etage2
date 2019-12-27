@@ -1,5 +1,5 @@
 <template>
-  <app-modal :show="open" @input="$emit('input', $event)" title="Перезвонить мне">
+  <app-modal :show="open" @input="$emit('input', $event)" :title="unsend ? 'Перезвонить мне' : false">
     <form v-if="unsend">
       <div class="row">
         <div class="col-lg-12">
@@ -32,10 +32,12 @@
         </div>
       </div>
     </form>
-    <div v-else>
-      <strong>Спасибо, запрос отправлен</strong>
-      <br>
-      Мы свяжемся с вами в ближайшее время
+
+    <div v-else class="welcome-block">
+      <svg-icon name="icon_thanks" original/>
+      <h4>Спасибо за запрос</h4>
+      <p>Мы скоро свяжемся с Вами</p>
+      <button type="button" class="btn"  @click="closeModal">Вернуться к сайту</button>
     </div>
   </app-modal>
 </template>
@@ -82,6 +84,9 @@ export default {
         });
         this.unsend = false;
       }
+    },
+    closeModal() {
+      this.open = false;
     },
   },
 };

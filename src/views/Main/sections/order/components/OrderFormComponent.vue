@@ -90,11 +90,7 @@
           />
         </div>
         </div>
-      <div v-else>
-        <strong>Спасибо, запрос отправлен</strong>
-        <br>
-        Мы свяжемся с вами в ближайшее время
-      </div>
+      <welcome-modal v-model="modalWelcomeOpen" />
       <div class="order-form__btn-wrapper" v-if="unsend">
         <button class="order-form__button" :disabled="!phone || !name" @click.prevent="handleSendEmail">Отправить</button>
       </div>
@@ -104,9 +100,13 @@
 
 <script>
 import axios from 'axios';
+import WelcomeModal from '@/components/common/Welcome/app-welcome-modal';
 
 export default {
   name: 'SectionOrderFormComponent',
+  components: {
+    WelcomeModal,
+  },
   props: {
     mobile: Boolean,
     tablet: Boolean,
@@ -131,7 +131,11 @@ export default {
         options: ['1 грузчик', '2 грузчика', '3 грузчика', 'более 3 грузчиков'],
         value: null,
       },
+      modalWelcomeOpen: true,
     };
+  },
+  mounted() {
+    this.modalWelcomeOpen = false;
   },
   methods: {
     handleSendEmail() {
@@ -152,6 +156,7 @@ export default {
         });
 
         this.unsend = false;
+        this.modalWelcomeOpen = true;
       }
     },
   },

@@ -2,6 +2,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  box-sizing: border-box;
 }
 
 h1, h2, h3 {
@@ -107,24 +108,24 @@ p {
   h1 {
     font-size: rem(38);
   }
-  
+
   h2 {
     font-size: rem(28);
   }
-  
+
   h3 {
     font-size: rem(18);
   }
-  
+
   p {
     font-size: rem(13);
     line-height: rem(17);
   }
-  
+
   .subtitle {
     font-size: rem(14);
     line-height: rem(20);
-  }  
+  }
 }
 
 
