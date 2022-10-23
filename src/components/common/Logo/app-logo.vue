@@ -5,7 +5,7 @@
         <svg-icon name="logo_dark" original />
       </span>
     </a>
-    <span class="app-logo__subtitle">Сервис переездов по Одессе и области</span>
+    <span class="app-logo__subtitle">Сервис переездов по Одессе и по всей Украине</span>
   </div>
 </template>
 

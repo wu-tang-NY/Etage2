@@ -6,7 +6,7 @@
           &copy; 2019 Etage. All Rights Reserved.
         </div>
         <div class="app-social">
-          <a href="https://instagram.com/etage_odessa" class="app-social__link" target="_blank">
+          <a href="https://instagram.com/etage.com.ua/" class="app-social__link" target="_blank">
             <svg-icon name="icon_in" original/>
           </a>
           <a href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/" class="app-social__link" target="_blank">

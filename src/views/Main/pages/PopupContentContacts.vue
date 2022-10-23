@@ -9,7 +9,7 @@
       <br>
       <a href="tel:+380950970110">+38 095 097 0110</a>
     </p>
-    <p>почта: <a href="mailto:office@etage.com.ua">office@etage.com.ua</a></p>
+    <p>почта: <a href="mailto:iodessa557@gmail.com">iodessa557@gmail.com</a></p>
     <p>Карта проезда</p>
     <!-- <p>Служба контроля качества</p>
     <ul>
