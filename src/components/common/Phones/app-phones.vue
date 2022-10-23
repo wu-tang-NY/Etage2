@@ -3,10 +3,10 @@
     <ul class="app-phones__codes">
       <li class="app-phones__code">
         <span class="app-phones__code-icon">
-          <svg-icon name="operator_1" original />
+          <svg-icon name="operator_3" original />
         </span>
-        <a href="tel:+380930970110" class="app-phones__code-text">
-          093 <span class="app-phone">097-01-10</span>
+        <a href="tel:+380669680944" class="app-phones__code-text">
+          066 <span class="app-phone">968-09-44</span>
         </a>
       </li>
 
@@ -15,16 +15,7 @@
           <svg-icon name="operator_2" original />
         </span>
         <a href="tel:+380970970110" class="app-phones__code-text">
-          097 <span class="app-phone">097-01-10</span>
-        </a>
-      </li>
-
-      <li class="app-phones__code">
-        <span class="app-phones__code-icon">
-          <svg-icon name="operator_3" original />
-        </span>
-        <a href="tel:+380950970110" class="app-phones__code-text">
-          095 <span class="app-phone">097-01-10</span>
+          097 <span class="app-phone">317-04-34</span>
         </a>
       </li>
     </ul>
@@ -42,7 +33,6 @@ export default {
   font-weight: 700;
   font-family: $font-family--secondary;
   display: flex;
-  align-items: center;
 
   &__codes-wrapper {
     margin-right: 5px;
