@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
-    <title>Path</title>
-    <desc>Created with Sketch.</desc>
-    <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="final_version" transform="translate(-3091.000000, -416.000000)" fill="#FFA600" fill-rule="nonzero">
-            <g id="Group-56" transform="translate(3026.000000, 301.000000)">
-                <g id="Group-33">
-                    <polygon id="Path" points="69.0651289 120.683068 65 116.402031 66.3313209 115 66.5959032 115.278635 71.3710346 120.307521 72 121 71.7567924 121.267767 71.3652724 121.698684 66.3313209 127 65 125.597969 65.2601542 125.323998 69.0821481 121.300102 69.3843664 121.01954"></polygon>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="7" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M4.065 5.683 0 1.402 1.331 0l.265.279L6.37 5.308 7 6l-.243.268-.392.43L1.331 12 0 10.598l.26-.274L4.082 6.3l.302-.28z" fill="#FFA600" fill-rule="nonzero"/></svg>

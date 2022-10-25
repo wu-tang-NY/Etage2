@@ -1,6 +1,6 @@
 <template>
   <form class="order-form">
-    <div class="mobile-wrapper" >
+    <div class="mobile-wrapper">
 
       <template v-if="mobile || tablet">
         <div class="order-form__close" @click="$emit('closeModal')"></div>
@@ -13,86 +13,46 @@
 
       <div class="row" v-if="unsend">
         <div class="col-lg-3">
-          <app-input
-            :requiredField="!name && name !== null"
-            v-model="name"
-            label="Как к вам обращаться"
-            type="text"
-            placeholder="Имя"
-          />
+          <app-input :requiredField="!name && name !== null" v-model="name" label="Как к вам обращаться" type="text"
+            placeholder="Имя" />
         </div>
 
         <div class="col-lg-3">
-          <app-input
-            :requiredField="!phone && phone !== null"
-            v-model="phone"
-            label="Ваш номер телефона"
-            type="text"
-            placeholder="0ХХ ХХХ ХХ ХХ"
-            mask="### - ### - ## - ##"
-          />
+          <app-input :requiredField="!phone && phone !== null" v-model="phone" label="Ваш номер телефона" type="text"
+            placeholder="0ХХ ХХХ ХХ ХХ" mask="###-###-##-##" />
         </div>
 
         <div class="col-lg-3">
-          <app-input
-            v-model="from"
-            label="Откуда"
-            type="text"
-            placeholder="Введите адресс"
-          />
+          <app-input v-model="from" label="Откуда" type="text" placeholder="Введите адресс" />
         </div>
 
         <div class="col-lg-3">
-          <app-input
-            v-model="date"
-            label="Планируемая дата"
-            type="text"
-            placeholder="ДД/ММ/ГГГГ ЧЧ:ММ"
-            mask="##/##/#### ##:##"
-          />
+          <app-input v-model="date" label="Планируемая дата" type="text" placeholder="ДД/ММ/ГГГГ ЧЧ:ММ"
+            mask="##/##/#### ##:##" />
         </div>
 
         <div class="col-lg-3">
-          <app-select
-            v-model="type"
-            label="Тип транспортировки"
-            placeholder="Выберите"
-            :options="transport.options"
-            :value="transport.value"
-          ></app-select>
+          <app-select v-model="type" label="Тип транспортировки" placeholder="Выберите" :options="transport.options"
+            :value="transport.value"></app-select>
         </div>
 
         <div class="col-lg-3">
-          <app-select
-            v-model="workers"
-            label="Грузчики"
-            placeholder="Выберите"
-            :options="stuff.options"
-            :value="stuff.value"
-          ></app-select>
+          <app-select v-model="workers" label="Грузчики" placeholder="Выберите" :options="stuff.options"
+            :value="stuff.value"></app-select>
         </div>
 
         <div class="col-lg-3">
-          <app-input
-            v-model="to"
-            label="Куда"
-            type="text"
-            placeholder="Введите адресс"
-          />
+          <app-input v-model="to" label="Куда" type="text" placeholder="Введите адресс" />
         </div>
 
         <div class="col-lg-3">
-          <app-input
-            v-model="comment"
-            label="Комментарий или пожелание"
-            type="text"
-            placeholder="Ваши пожелания"
-          />
+          <app-input v-model="comment" label="Комментарий или пожелание" type="text" placeholder="Ваши пожелания" />
         </div>
-        </div>
+      </div>
       <welcome-modal v-model="modalWelcomeOpen" />
       <div class="order-form__btn-wrapper" v-if="unsend">
-        <button class="order-form__button" :disabled="!phone || !name" @click.prevent="handleSendEmail">Отправить</button>
+        <button class="order-form__button" :disabled="!phone || !name"
+          @click.prevent="handleSendEmail">Отправить</button>
       </div>
     </div>
   </form>

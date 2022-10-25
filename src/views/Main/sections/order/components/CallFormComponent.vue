@@ -12,30 +12,19 @@
 
       <div class="row" v-if="unsend">
         <div class="col-lg-4">
-          <app-input
-            :requiredField="!name && name !== null"
-            label="Как к вам обращаться"
-            type="text"
-            placeholder="Имя"
-            mask=""
-            v-model="name"
-          />
+          <app-input :requiredField="!name && name !== null" label="Как к вам обращаться" type="text" placeholder="Имя"
+            mask="" v-model="name" />
         </div>
 
         <div class="col-lg-4">
-          <app-input
-            :requiredField="!phone && phone !== null"
-            label="Номер телефона"
-            type="text"
-            placeholder="0ХХ ХХХ ХХХХ"
-            mask="### - ### - ## - ##"
-            v-model="phone"
-          />
+          <app-input :requiredField="!phone && phone !== null" label="Номер телефона" type="text"
+            placeholder="0ХХ ХХХ ХХХХ" mask="###-###-##-##" v-model="phone" />
         </div>
       </div>
       <welcome-modal v-model="modalWelcomeOpen" />
       <div class="call-form__btn-wrapper" v-if="unsend">
-        <button class="call-form__button" :disabled="!phone || !name" @click.prevent="handleSendEmail">Отправить</button>
+        <button class="call-form__button" :disabled="!phone || !name"
+          @click.prevent="handleSendEmail">Отправить</button>
       </div>
     </div>
   </div>

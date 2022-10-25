@@ -3,55 +3,36 @@
     <form v-if="unsend">
       <div class="row">
         <div class="col-lg-12">
-          <app-input
-            :requiredField="!name && name !== null"
-            label="Как Вас зовут"
-            type="text"
-            placeholder="Имя"
-            v-model="name"
-          />
+          <app-input :requiredField="!name && name !== null" label="Как Вас зовут" type="text" placeholder="Имя"
+            v-model="name" />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12">
-          <app-input
-            :requiredField="!from && from !== null"
-            label="Откуда Вы"
-            type="text"
-            placeholder="Населенный пункт"
-            v-model="from"
-          />
+          <app-input :requiredField="!from && from !== null" label="Откуда Вы" type="text"
+            placeholder="Населенный пункт" v-model="from" />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12">
-          <app-input
-            :requiredField="!phone && phone !== null"
-            label="Номер телефона"
-            type="text"
-            placeholder="0ХХ ХХХ ХХХХ"
-            mask="### - ### - ## - ##"
-            v-model="phone"
-          />
+          <app-input :requiredField="!phone && phone !== null" label="Номер телефона" type="text"
+            placeholder="0ХХ ХХХ ХХХХ" mask="###-###-##-##" v-model="phone" />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12">
-          <app-textarea
-            :requiredField="!comment && comment !== null"
-            label="Оставьте Ваш отзыв"
-            placeholder="Комментарий"
-            v-model="comment"
-          />
+          <app-textarea :requiredField="!comment && comment !== null" label="Оставьте Ваш отзыв"
+            placeholder="Комментарий" v-model="comment" />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12 text-center pb-1">
-          <button type="button" class="btn" :disabled="!phone || !name || !from || !comment" @click.prevent="handleSendEmail">Отправить</button>
+          <button type="button" class="btn" :disabled="!phone || !name || !from || !comment"
+            @click.prevent="handleSendEmail">Отправить</button>
         </div>
       </div>
     </form>

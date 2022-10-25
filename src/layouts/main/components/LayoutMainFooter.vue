@@ -7,10 +7,11 @@
         </div>
         <div class="app-social">
           <a href="https://instagram.com/etage.com.ua/" class="app-social__link" target="_blank">
-            <svg-icon name="icon_in" original/>
+            <svg-icon name="icon_in" original />
           </a>
-          <a href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/" class="app-social__link" target="_blank">
-            <svg-icon name="icon_fb" original/>
+          <a href="https://www.facebook.com/groups/2522732927949314/?ref=share_group_link" class="app-social__link"
+            target="_blank">
+            <svg-icon name="icon_fb" original />
           </a>
         </div>
         <div class="app-designedby">
@@ -40,7 +41,7 @@ export default {
   align-items: center;
 
   &__link {
-    & + & {
+    &+& {
       margin-left: 15px;
     }
 
@@ -50,7 +51,7 @@ export default {
   }
 }
 
-@media screen  and (max-width: 992px) {
+@media screen and (max-width: 992px) {
   .app-social {
     margin-left: 20px;
     margin-bottom: 20px;

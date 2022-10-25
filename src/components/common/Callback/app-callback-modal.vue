@@ -3,41 +3,31 @@
     <form v-if="unsend">
       <div class="row">
         <div class="col-lg-12">
-          <app-input
-            :requiredField="!name && name !== null"
-            label="Как к вам обращаться"
-            type="text"
-            placeholder="Имя"
-            v-model="name"
-          />
+          <app-input :requiredField="!name && name !== null" label="Как к вам обращаться" type="text" placeholder="Имя"
+            v-model="name" />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12">
-          <app-input
-            :requiredField="!phone && phone !== null"
-            label="Номер телефона"
-            type="text"
-            placeholder="0ХХ ХХХ ХХХХ"
-            mask="### - ### - ## - ##"
-            v-model="phone"
-          />
+          <app-input :requiredField="!phone && phone !== null" label="Номер телефона" type="text"
+            placeholder="0ХХ ХХХ ХХХХ" mask="###-###-##-##" v-model="phone" />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12 text-center pb-1">
-          <button type="button" class="btn" :disabled="!name || !phone" @click.prevent="handleSendEmail">Отправить</button>
+          <button type="button" class="btn" :disabled="!name || !phone"
+            @click.prevent="handleSendEmail">Отправить</button>
         </div>
       </div>
     </form>
 
     <div v-else class="welcome-block">
-      <svg-icon name="icon_thanks" original/>
+      <svg-icon name="icon_thanks" original />
       <h4>Спасибо за запрос</h4>
       <p>Мы скоро свяжемся с Вами</p>
-      <button type="button" class="btn"  @click="closeModal">Вернуться к сайту</button>
+      <button type="button" class="btn" @click="closeModal">Вернуться к сайту</button>
     </div>
   </app-modal>
 </template>

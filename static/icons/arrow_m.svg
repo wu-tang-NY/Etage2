@@ -1,13 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
-    <title>Path</title>
-    <desc>Created with Sketch.</desc>
-    <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="m_home" transform="translate(-270.000000, -816.000000)" fill="#FFA511">
-            <g id="Group-2" transform="translate(16.000000, 773.000000)">
-                <polygon id="Path" transform="translate(261.000000, 50.000000) scale(-1, 1) translate(-261.000000, -50.000000) " points="260.917647 43 254.517647 49.4542373 254 50 254.517647 50.5457627 260.917647 57 262 55.9084746 256.894118 50.759322 268 50.759322 268 49.240678 256.894118 49.240678 262 44.0915254"></polygon>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"><path d="m7.082 0 6.4 6.454L14 7l-.518.546L7.082 14 6 12.908l5.106-5.149H0V6.241h11.106L6 1.09z" fill="#FFA511" fill-rule="evenodd"/></svg>
