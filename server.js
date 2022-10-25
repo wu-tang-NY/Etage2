@@ -10,7 +10,7 @@ const mailgun = require('mailgun-js')({ domain, apiKey });
 
 const app = express();
 
-const port = process.env.PORT || 8020;
+const port = process.env.PORT || 8080;
 
 const publicPath = path.join(__dirname, '..', 'dist');
 
