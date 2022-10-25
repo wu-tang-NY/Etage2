@@ -8,7 +8,7 @@
       <br>
       <a href="tel:+380669680944">+38 066 968 0944</a>
     </p>
-    <p>почта: <a href="mailto:iodessa557@gmail.com">iodessa557@gmail.com</a></p>
+    <p>почта: <a href="mailto:etage.pereezd@gmail.com">etage.pereezd@gmail.com</a></p>
     <p>Карта проезда</p>
     <!-- <p>Служба контроля качества</p>
     <ul>
@@ -21,7 +21,9 @@
     <p>Генеральный директор</p>
     <p>Реквизиты</p> -->
     <div class="modal-map">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2747.635342285657!2d30.719623415591563!3d46.4757305791259!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c6318e938e782b%3A0xff287e6aa12db202!2z0LLRg9C70LjRhtGPINCa0L7Qu9C-0L3RgtCw0ZfQstGB0YzQutCwLCA3LCDQntC00LXRgdCwLCDQntC00LXRgdGM0LrQsCDQvtCx0LvQsNGB0YLRjCwgNjUwMDA!5e0!3m2!1sru!2sua!4v1560112076644!5m2!1sru!2sua" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2747.635342285657!2d30.719623415591563!3d46.4757305791259!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c6318e938e782b%3A0xff287e6aa12db202!2z0LLRg9C70LjRhtGPINCa0L7Qu9C-0L3RgtCw0ZfQstGB0YzQutCwLCA3LCDQntC00LXRgdCwLCDQntC00LXRgdGM0LrQsCDQvtCx0LvQsNGB0YLRjCwgNjUwMDA!5e0!3m2!1sru!2sua!4v1560112076644!5m2!1sru!2sua"
+        width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
     </div>
   </div>
 </template>

@@ -14,7 +14,7 @@
               <app-schedule />
             </li>
 
-            <li class="app-header__block">
+            <li class="app-header__block" style="vertical-align: top;">
               <app-phones />
             </li>
           </ul>
@@ -37,17 +37,17 @@
                 <app-logo />
               </div>
 
-                <ul class="nav-wrapper__blocks nav-wrapper__menu">
-                  <li class="nav-wrapper__block nav-block">
-                    <div class="nav-block__title">
-                      <span>Меню:</span>
-                    </div>
+              <ul class="nav-wrapper__blocks nav-wrapper__menu">
+                <li class="nav-wrapper__block nav-block">
+                  <div class="nav-block__title">
+                    <span>Меню:</span>
+                  </div>
 
-                    <div class="nav-block__content">
-                      <layout-main-nav @click="handleCloseMenu" />
-                    </div>
-                  </li>
-                </ul>
+                  <div class="nav-block__content">
+                    <layout-main-nav @click="handleCloseMenu" />
+                  </div>
+                </li>
+              </ul>
 
               <div class="nav-wrapper__mobile-only">
                 <ul class="nav-wrapper__blocks">
@@ -55,9 +55,7 @@
                     <div class="nav-block__title">
                       <span>Контакты:</span>
                       <div class="ml-auto">
-                        <app-callback
-                          @openModal="handleCloseMenu"
-                        />
+                        <app-callback @openModal="handleCloseMenu" />
                       </div>
                     </div>
 
@@ -79,10 +77,11 @@
                   <li class="nav-wrapper__block nav-block nav-social">
                     <div class="app-social">
                       <a href="https://instagram.com/etage.com.ua/" class="app-social__link" target="_blank">
-                        <svg-icon name="icon_in" original/>
+                        <svg-icon name="icon_in" original />
                       </a>
-                      <a href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/" class="app-social__link" target="_blank">
-                        <svg-icon name="icon_fb" original/>
+                      <a href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/" class="app-social__link"
+                        target="_blank">
+                        <svg-icon name="icon_fb" original />
                       </a>
                     </div>
                   </li>
@@ -101,21 +100,13 @@
     </header>
 
     <main class="app-content">
-      <router-view
-        :mobile="mobile"
-        :tablet="tablet"
-        :device="device"
-        :desktop="desktop"
-      />
+      <router-view :mobile="mobile" :tablet="tablet" :device="device" :desktop="desktop" />
     </main>
 
     <layout-main-footer v-if="!mobile && !tablet" />
 
     <transition name="component-fade">
-      <modal-info
-        :mobile="mobile"
-        :tablet="tablet"
-      />
+      <modal-info :mobile="mobile" :tablet="tablet" />
     </transition>
   </div>
 </template>
@@ -354,6 +345,7 @@ $footer-height: 65px;
   }
 
   .modal-open {
+
     .app-header,
     .app-footer {
       padding-right: 17px;
@@ -412,6 +404,7 @@ $footer-height: 65px;
       .nav-block__title {
         display: flex;
       }
+
       .nav-block__content {
         padding-left: 0;
         padding-right: 0;
@@ -510,6 +503,7 @@ $footer-height: 65px;
     @include fixed(0, 0, 0, 0);
     overflow-y: scroll;
   }
+
   .modal-open {
     @include fixed(0, 0, 0, 0);
     overflow-y: scroll;
