@@ -65,7 +65,7 @@ export default {
     handleSendEmail() {
       if (this.phone && this.name) {
         axios({
-          url: 'http://etage.com.ua/api/callback',
+          url: 'https://etage.com.ua/api/callback',
           method: 'post',
           data: {
             name: this.name,

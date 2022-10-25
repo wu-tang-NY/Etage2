@@ -101,7 +101,7 @@ export default {
     handleSendEmail() {
       if (this.name && this.phone) {
         axios({
-          url: 'http://etage.com.ua/api/order',
+          url: 'https://etage.com.ua/api/order',
           method: 'post',
           data: {
             name: this.name,

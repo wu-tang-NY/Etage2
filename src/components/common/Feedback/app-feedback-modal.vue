@@ -77,7 +77,7 @@ export default {
     handleSendEmail() {
       if (this.phone && this.name && this.from && this.comment) {
         axios({
-          url: 'http://etage.com.ua/api/feedback',
+          url: 'https://etage.com.ua/api/feedback',
           method: 'post',
           data: {
             name: this.name,
