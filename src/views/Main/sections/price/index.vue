@@ -7,26 +7,28 @@
       и время его работы + Количество и время занятости
 
       <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">грузчиков</a>
-        + Количество
+      + Количество
 
-      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных материалов</a>
+      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных
+        материалов</a>
     </div>
 
     <div class="price__header">
       <div class="price__header-block subtitle dark-gray">
-        <svg-icon name="icon_1" original/>
+        <svg-icon name="icon_1" original />
         <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">Объем автомобиля</a>
         &nbsp;и время его работы
       </div>
       <div class="price__header-block subtitle dark-gray">
-        <svg-icon name="icon_2" original/>
+        <svg-icon name="icon_2" original />
         Количество и время занятости&nbsp;
         <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">грузчиков</a>
       </div>
       <div class="price__header-block subtitle dark-gray">
-        <svg-icon name="icon_3" original/>
+        <svg-icon name="icon_3" original />
         Количество&nbsp;
-        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных материалов</a>
+        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных
+          материалов</a>
       </div>
     </div>
 
@@ -50,18 +52,18 @@
     <div class="row" v-if="(mobile || tablet)">
       <div v-for="category in categories" :key="category.name" class="col-12">
         <div class="category-mini" @click="handleOpenFullSize(category)">
-          <svg-icon :name="category.iconName" class="category-mini__icon" original/>
+          <svg-icon :name="category.iconName" class="category-mini__icon" original />
           <div class="category-mini__info">
             <h3 class="category-mini__title">{{ category.name }}</h3>
             <p class="category-mini__subtitle dark-gray">{{ category.subtitle }}</p>
           </div>
-          <svg-icon class="category-mini__arrow" name="arrow_m" original/>
+          <svg-icon class="category-mini__arrow" name="arrow_m" original />
         </div>
       </div>
     </div>
     <div class="row align-items-stretch">
       <div v-for="category in categories" :key="category.name" class="col-lg-4">
-        <transition  name="component-fade">
+        <transition name="component-fade">
           <div class="price__category category" v-if="(!mobile && !tablet) || category.opened">
             <div class="mobile-wrapper">
               <div class="category__header-wrapper">
@@ -95,9 +97,10 @@
                   <p class="category__description">{{ item.description }}</p>
                 </div>
               </div>
-              <p class="category__undertext">{{category.undertext}}</p>
+              <p class="category__undertext">{{ category.undertext }}</p>
               <div class="row justify-content-center">
-                <div v-if="mobile" @click="openForm(category)" class="price__examples price__examples--mobile">Заказать</div>
+                <div v-if="mobile" @click="openForm(category)" class="price__examples price__examples--mobile">Заказать
+                </div>
               </div>
             </div>
           </div>
@@ -107,7 +110,7 @@
 
     <div class="row justify-content-center">
       <div class="price__examples" @click="$eventbus.$emit('openPopup', 'PopupContentFlatMove')">Мне нужны примеры
-        <svg-icon name="arrow-next"/>
+        <svg-icon name="arrow-next" />
       </div>
     </div>
   </div>
@@ -140,7 +143,7 @@ export default {
             id: 2,
             time: '1 час -',
             price: '300 грн',
-            description: 'Межгород - 39 грн/км',
+            description: 'Межгород - 37 грн/км',
           },
         ],
       }, {
@@ -154,7 +157,7 @@ export default {
             id: 1,
             time: '1 час -',
             price: '300 грн',
-            description: 'Межгород - 39 грн/км',
+            description: 'Межгород - 37 грн/км',
             additional: '1-3т',
             info: 'Время минимального заказа в черте Одессы - 2 часа, для Савиньона и поселка Котовского - 3 часа',
           }, {
@@ -175,13 +178,13 @@ export default {
           {
             id: 1,
             time: '1 час -',
-            price: '175 грн',
+            price: '180 грн',
             description: 'За одного грузчика',
             info: 'Оплата транспортивки предмотов, весом свыше 100кг расчитываеться индивидуально',
           }, {
             id: 2,
             time: '>2 часов -',
-            price: '80 грн/полчаса',
+            price: '90 грн/полчаса',
           },
         ],
       },
@@ -233,7 +236,7 @@ export default {
       margin-right: 6px;
     }
 
-    .price__header-block + .price__header-block {
+    .price__header-block+.price__header-block {
       margin-left: 24px;
       position: relative;
 
@@ -439,6 +442,7 @@ export default {
       }
     }
   }
+
   &__info {
     position: absolute;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
@@ -512,9 +516,9 @@ export default {
     }
 
     &__price-wrapper {
-      margin-bottom: 0!important;
+      margin-bottom: 0 !important;
 
-      & + & {
+      &+& {
         margin-top: 14px;
       }
     }
@@ -555,6 +559,7 @@ export default {
     }
   }
 }
+
 @media screen and (min-width: 993px) and (max-height: 770px) {
   .price {
     padding-top: 10px;
@@ -598,6 +603,7 @@ export default {
       }
     }
   }
+
   .category {
     position: fixed;
     top: 0;

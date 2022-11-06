@@ -3,19 +3,28 @@
     <ul class="app-phones__codes">
       <li class="app-phones__code">
         <span class="app-phones__code-icon">
-          <svg-icon name="operator_3" original />
+          <svg-icon name="operator_2" original />
         </span>
-        <a href="tel:+380669680944" class="app-phones__code-text">
-          066 <span class="app-phone">968-09-44</span>
+        <a href="tel:+380973560005" class="app-phones__code-text">
+          097 <span class="app-phone"> 356-00-05</span>
         </a>
       </li>
 
       <li class="app-phones__code">
         <span class="app-phones__code-icon">
-          <svg-icon name="operator_2" original />
+          <svg-icon name="operator_3" original />
         </span>
-        <a href="tel:+380970970110" class="app-phones__code-text">
-          097 <span class="app-phone">317-04-34</span>
+        <a href="tel:+380953560005" class="app-phones__code-text">
+          095 <span class="app-phone">356-00-05</span>
+        </a>
+      </li>
+
+      <li class="app-phones__code">
+        <span class="app-phones__code-icon">
+          <svg-icon name="operator_1" original />
+        </span>
+        <a href="tel:+380733560005" class="app-phones__code-text">
+          073 <span class="app-phone">356-00-05</span>
         </a>
       </li>
     </ul>
@@ -65,7 +74,8 @@ export default {
     line-height: 1.29;
     color: $colors-text--primary;
 
-    &:hover, &:active {
+    &:hover,
+    &:active {
       span {
         color: $colors-accent;
       }
