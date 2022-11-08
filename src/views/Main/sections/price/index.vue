@@ -163,7 +163,7 @@ export default {
           }, {
             id: 2,
             time: '1 час -',
-            price: '400 грн',
+            price: '500 грн',
             description: 'Межгород - 50 грн/км',
             additional: 'до 5т',
           },
