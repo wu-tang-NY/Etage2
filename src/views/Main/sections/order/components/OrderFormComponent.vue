@@ -51,7 +51,7 @@
       </div>
       <welcome-modal v-model="modalWelcomeOpen" />
       <div class="order-form__btn-wrapper" v-if="unsend">
-        <button class="order-form__button" :disabled="!phone || !name"
+        <button id="order-form-btn" class="order-form__button" :disabled="!phone || !name"
           @click.prevent="handleSendEmail">Отправить</button>
       </div>
     </div>

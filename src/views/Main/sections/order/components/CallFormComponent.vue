@@ -23,7 +23,7 @@
       </div>
       <welcome-modal v-model="modalWelcomeOpen" />
       <div class="call-form__btn-wrapper" v-if="unsend">
-        <button class="call-form__button" :disabled="!phone || !name"
+        <button id="callback-form-btn" class="call-form__button" :disabled="!phone || !name"
           @click.prevent="handleSendEmail">Отправить</button>
       </div>
     </div>

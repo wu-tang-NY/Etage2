@@ -2,7 +2,8 @@
   <section class="reviews">
     <div class="reviews__btnholder">
       <h2>Почему нам доверяют?</h2>
-      <div class="reviews__next reviews__next" @click.prevent="modalFeedbackOpen = true" v-if="!mobile && !tablet">Оставьте отзыв</div>
+      <div id="feedback-btn" class="reviews__next reviews__next" @click.prevent="modalFeedbackOpen = true"
+        v-if="!mobile && !tablet">Оставьте отзыв</div>
     </div>
 
     <div class="reviews__list">
@@ -17,7 +18,8 @@
 
     <div class="reviews__swiper">
       <swiper :options="options" ref="swiper" @init="reinitSwiper">
-        <swiper-slide v-for="(slide, index) in slides" :key="index" class="reviews__slide" @click.native="$eventbus.$emit('openPopup', 'PopupContentFeedback')">
+        <swiper-slide v-for="(slide, index) in slides" :key="index" class="reviews__slide"
+          @click.native="$eventbus.$emit('openPopup', 'PopupContentFeedback')">
           <div class="reviews__slide-title">{{ slide.title }}</div>
 
           <p class="reviews__slide-desc dark-gray" v-line-clamp="3">{{ slide.desc }}</p>
@@ -30,7 +32,9 @@
     </div>
 
     <div class="reviews__btnholder">
-      <div class="reviews__next reviews__next" @click.prevent="modalFeedbackOpen = true" v-if="mobile || tablet">Оставьте отзыв</div>
+      <div id="feedback-btn-mobile" class="reviews__next reviews__next" @click.prevent="modalFeedbackOpen = true"
+        v-if="mobile || tablet">
+        Оставьте отзыв</div>
     </div>
     <feedback-modal v-model="modalFeedbackOpen" />
   </section>
@@ -246,7 +250,9 @@ export default {
       left: -30px;
     }
 
-    &:hover, &:focus, &:active {
+    &:hover,
+    &:focus,
+    &:active {
       outline: none;
     }
   }
@@ -258,9 +264,9 @@ export default {
   }
 
   &__slide-desc {
-      line-height: 16px;
-      word-break: normal!important;
-    }
+    line-height: 16px;
+    word-break: normal !important;
+  }
 
   &__slide-title {
     color: $colors-accent;
@@ -301,7 +307,7 @@ export default {
       }
     }
 
-    & + & {
+    &+& {
       margin-left: 10px;
     }
 
@@ -457,7 +463,7 @@ export default {
       margin-top: 0;
       clip-path: none;
 
-      & + & {
+      &+& {
         margin-left: 0;
         margin-top: 16px;
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="app-callback">
-    <span class="app-callback__text" @click="openCallModal">Перезвонить мне</span>
+    <span id="callback-btn" class="app-callback__text" @click="openCallModal">Перезвонить мне</span>
 
     <callback-modal v-model="modal" />
   </div>
@@ -27,12 +27,12 @@ export default {
 </script>
 
 <style lang="scss">
-  .app-callback {
-    &__text {
-      @include underline();
-      font: 600 rem(12) $font-family--primary;
-      letter-spacing: .2px;
-      cursor: pointer;
-    }
+.app-callback {
+  &__text {
+    @include underline();
+    font: 600 rem(12) $font-family--primary;
+    letter-spacing: .2px;
+    cursor: pointer;
   }
+}
 </style>

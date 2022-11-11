@@ -1,18 +1,11 @@
 <template>
   <app-nav>
     <div class="app-nav__block">
-      <app-nav-item
-        v-for="({ title, icon, children }, index) in pages"
-        :key="title"
-        :title="title"
-        :icon="icon"
-        :children="children"
-        :active="index === activePage"
-        :visited="index < activePage"
-        @click.native="handleClick(index)"
-      />
+      <app-nav-item v-for="({ title, icon, children }, index) in pages" :key="title" :title="title" :icon="icon"
+        :children="children" :active="index === activePage" :visited="index < activePage"
+        @click.native="handleClick(index)" />
     </div>
-    <app-nav-info @click.native="openModal"/>
+    <app-nav-info @click.native="openModal" />
   </app-nav>
 </template>
 
@@ -22,6 +15,7 @@ export default {
   data: () => ({
     pages: [
       {
+        id: 'services_link',
         title: 'Услуги',
         icon: 'icon_1_c',
         children: [{
@@ -42,14 +36,17 @@ export default {
         }],
       },
       {
+        id: 'prices_link',
         title: 'Сколько стоит?',
         icon: 'icon_2_c',
       },
       {
+        id: 'reviews_link',
         title: 'Почему нам доверяют?',
         icon: 'icon_3_c',
       },
       {
+        id: 'order_link',
         title: 'Как заказать?',
         icon: 'icon_4_c',
       },

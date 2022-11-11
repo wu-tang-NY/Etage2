@@ -1,19 +1,11 @@
 <template>
-  <li
-    class="nav-item"
-    :class="{
-      'nav-item--active': active,
-      'nav-item--visited': visited,
-      'nav-item--hovered': hovered,
-    }"
-  >
-    <a
-      href=""
-      class="nav-item__link"
-      @mouseenter="hovered = true"
-      @mouseleave="hovered = false"
-      @click.prevent="hovered = false"
-    >
+  <li class="nav-item" :class="{
+    'nav-item--active': active,
+    'nav-item--visited': visited,
+    'nav-item--hovered': hovered,
+  }">
+    <a href="" :id="id" class="nav-item__link" @mouseenter="hovered = true" @mouseleave="hovered = false"
+      @click.prevent="hovered = false">
       <div class="nav-item__inner">
         <slot>
           <span class="nav-item__icon" v-if="icon">
@@ -45,6 +37,10 @@
 export default {
   name: 'AppNavItem',
   props: {
+    id: {
+      type: String,
+    },
+
     title: {
       type: String,
     },
@@ -110,7 +106,8 @@ export default {
 
   &__bg {
     position: absolute;
-    bottom: 0; left: 0;
+    bottom: 0;
+    left: 0;
     @include size(100%);
     overflow: hidden;
     clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0 100%);
@@ -121,7 +118,8 @@ export default {
       @include size(0, 100%);
       position: absolute;
       top: 0;
-      left: auto; right: 0;
+      left: auto;
+      right: 0;
       transition: width .3s linear;
     }
   }

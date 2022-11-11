@@ -1,6 +1,6 @@
 <template>
-  <div class="nav-info">
-    <svg-icon name="icon_5_c" original/>
+  <div id="information-modal-btn" class="nav-info">
+    <svg-icon name="icon_5_c" original />
     Информация
   </div>
 </template>
