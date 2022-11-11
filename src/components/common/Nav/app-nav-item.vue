@@ -4,7 +4,7 @@
     'nav-item--visited': visited,
     'nav-item--hovered': hovered,
   }">
-    <a href="" :id="id" class="nav-item__link" @mouseenter="hovered = true" @mouseleave="hovered = false"
+    <a href="" class="nav-item__link" @mouseenter="hovered = true" @mouseleave="hovered = false"
       @click.prevent="hovered = false">
       <div class="nav-item__inner">
         <slot>
@@ -12,7 +12,7 @@
             <svg-icon :name="icon" :original="!active" />
           </span>
 
-          <span class="nav-item__text">{{ title }}</span>
+          <span :id="id" class="nav-item__text">{{ title }}</span>
         </slot>
 
         <span class="nav-item__chevron" v-if="children"></span>
