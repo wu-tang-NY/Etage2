@@ -1,8 +1,8 @@
 <template>
   <app-nav>
     <div class="app-nav__block">
-      <app-nav-item v-for="({ title, icon, children }, index) in pages" :key="title" :title="title" :icon="icon"
-        :children="children" :active="index === activePage" :visited="index < activePage"
+      <app-nav-item v-for="({ id, title, icon, children }, index) in pages" :id="id" :key="title" :title="title"
+        :icon="icon" :children="children" :active="index === activePage" :visited="index < activePage"
         @click.native="handleClick(index)" />
     </div>
     <app-nav-info @click.native="openModal" />
