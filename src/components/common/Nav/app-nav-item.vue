@@ -5,7 +5,7 @@
     'nav-item--hovered': hovered,
   }">
     <a href="" :id="id" class="nav-item__link" @mouseenter="hovered = true" @mouseleave="hovered = false"
-      @click.stop.prevent="hovered = false">
+      @click.prevent="hovered = false">
       <div class="nav-item__inner">
         <slot>
           <span class="nav-item__icon" v-if="icon">
