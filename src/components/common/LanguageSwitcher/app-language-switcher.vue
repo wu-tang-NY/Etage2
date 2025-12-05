@@ -1,0 +1,75 @@
+<template>
+  <div class="app-language-switcher">
+    <button
+      v-for="lang in availableLanguages"
+      :key="lang.code"
+      type="button"
+      class="app-language-switcher__button"
+      :class="{
+        'app-language-switcher__button--active': currentLocale === lang.code
+      }"
+      @click="switchLanguage(lang.code)"
+    >
+      {{ lang.label }}
+    </button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "AppLanguageSwitcher",
+  data() {
+    return {
+      availableLanguages: [
+        { code: "ua", label: "UA" },
+        { code: "ru", label: "RU" }
+      ]
+    };
+  },
+  computed: {
+    currentLocale() {
+      return this.$i18n.locale;
+    }
+  },
+  methods: {
+    switchLanguage(locale) {
+      this.$i18n.locale = locale;
+      localStorage.setItem("locale", locale);
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.app-language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &__button {
+    background: transparent;
+    border: 1px solid $colors-text--primary;
+    color: $colors-text--primary;
+    padding: 4px 12px;
+    font-size: rem(12);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+
+    &:hover {
+      background-color: $colors-text--primary;
+      color: $white;
+    }
+
+    &--active {
+      background-color: $colors-text--primary;
+      color: $white;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+</style>

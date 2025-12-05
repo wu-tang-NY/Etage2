@@ -7,6 +7,10 @@
 
           <ul class="app-header__blocks">
             <li class="app-header__block">
+              <app-language-switcher />
+            </li>
+
+            <li class="app-header__block">
               <app-callback />
             </li>
 
@@ -20,7 +24,11 @@
           </ul>
 
           <div class="menu-toggle">
-            <button type="button" class="menu-toggle__btn" @click="handleToggleMenu">
+            <button
+              type="button"
+              class="menu-toggle__btn"
+              @click="handleToggleMenu"
+            >
               <span class="menu-toggle__line"></span>
               <span class="menu-toggle__line"></span>
               <span class="menu-toggle__line"></span>
@@ -40,7 +48,7 @@
               <ul class="nav-wrapper__blocks nav-wrapper__menu">
                 <li class="nav-wrapper__block nav-block">
                   <div class="nav-block__title">
-                    <span>Меню:</span>
+                    <span>{{ $t("common.menu") }}</span>
                   </div>
 
                   <div class="nav-block__content">
@@ -53,7 +61,7 @@
                 <ul class="nav-wrapper__blocks">
                   <li class="nav-wrapper__block nav-block">
                     <div class="nav-block__title">
-                      <span>Контакты:</span>
+                      <span>{{ $t("common.contacts") }}</span>
                       <div class="ml-auto">
                         <app-callback @openModal="handleCloseMenu" />
                       </div>
@@ -66,7 +74,7 @@
 
                   <li class="nav-wrapper__block nav-block">
                     <div class="nav-block__title">
-                      <span>График работы:</span>
+                      <span>{{ $t("common.schedule") }}</span>
                     </div>
 
                     <div class="nav-block__content">
@@ -76,11 +84,18 @@
 
                   <li class="nav-wrapper__block nav-block nav-social">
                     <div class="app-social">
-                      <a href="https://instagram.com/etage.com.ua/" class="app-social__link" target="_blank">
+                      <a
+                        href="https://instagram.com/etage.com.ua/"
+                        class="app-social__link"
+                        target="_blank"
+                      >
                         <svg-icon name="icon_in" original />
                       </a>
-                      <a href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/" class="app-social__link"
-                        target="_blank">
+                      <a
+                        href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/"
+                        class="app-social__link"
+                        target="_blank"
+                      >
                         <svg-icon name="icon_fb" original />
                       </a>
                     </div>
@@ -89,7 +104,7 @@
               </div>
 
               <div class="app-copyright mt-auto d-lg-none">
-                &copy; 2019 Etage. All Rights Reserved.
+                {{ $t("common.copyright") }}
               </div>
             </div>
 
@@ -100,7 +115,12 @@
     </header>
 
     <main class="app-content">
-      <router-view :mobile="mobile" :tablet="tablet" :device="device" :desktop="desktop" />
+      <router-view
+        :mobile="mobile"
+        :tablet="tablet"
+        :device="device"
+        :desktop="desktop"
+      />
     </main>
 
     <layout-main-footer v-if="!mobile && !tablet" />
@@ -151,7 +171,8 @@ export default {
     },
 
     isTablet() {
-      return window.matchMedia('(min-width: 768px) and (max-width: 992px)').matches;
+      return window.matchMedia('(min-width: 768px) and (max-width: 992px)')
+        .matches;
     },
 
     resizeHandler() {
@@ -192,6 +213,8 @@ $footer-height: 65px;
   left: 0;
   top: 0;
   width: 100%;
+  box-sizing: border-box;
+  overflow: visible;
   z-index: 100;
 
   &__inner {
@@ -232,7 +255,7 @@ $footer-height: 65px;
 .app-footer {
   font: 500 rem(12) $font-family--secondary;
   color: $colors-text--secondary;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
   bottom: 0;
 
   &__inner {
@@ -244,7 +267,7 @@ $footer-height: 65px;
 
 .app-designedby {
   &__text {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     line-height: 1;
     vertical-align: bottom;
   }
@@ -281,10 +304,9 @@ $footer-height: 65px;
     display: block;
     @include size(18px, 2px);
     transform-origin: 0 50%;
-    transition: .2s ease-in-out;
+    transition: 0.2s ease-in-out;
   }
 }
-
 
 .menu-open {
   // overflow-y: scroll;
@@ -308,18 +330,21 @@ $footer-height: 65px;
   }
 }
 
-
 @include media-breakpoint-up(lg) {
   .app-footer {
     position: fixed;
     left: 0;
     width: 100%;
+    box-sizing: border-box;
     z-index: 1;
   }
 
   .nav-wrapper {
     margin-top: 10px;
     flex: 0 0 auto;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 
     &__mobile-only {
       display: none;
@@ -334,6 +359,11 @@ $footer-height: 65px;
         display: none;
       }
     }
+
+    .container {
+      width: 100%;
+      box-sizing: border-box;
+    }
   }
 
   .menu-toggle {
@@ -345,10 +375,16 @@ $footer-height: 65px;
   }
 
   .modal-open {
+    .app-header {
+      padding-right: var(--scrollbar-width, 0px);
+    }
 
-    .app-header,
     .app-footer {
-      padding-right: 17px;
+      padding-right: var(--scrollbar-width, 0px);
+    }
+
+    .nav-wrapper {
+      margin-right: calc(-1 * var(--scrollbar-width, 0px));
     }
   }
 }
@@ -497,7 +533,6 @@ $footer-height: 65px;
   }
 }
 
-
 @include media-breakpoint-down(md) {
   .menu-open {
     @include fixed(0, 0, 0, 0);
@@ -514,7 +549,6 @@ $footer-height: 65px;
       z-index: 100;
     }
   }
-
 
   .app-header {
     &__blocks {

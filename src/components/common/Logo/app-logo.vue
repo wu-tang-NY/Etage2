@@ -1,17 +1,23 @@
-<template functional>
+<template>
   <div class="app-logo">
     <a href="/" class="app-logo__title">
       <span class="app-logo__icon">
-        <svg-icon name="logo_dark" original />
+        <svg-icon :name="logoIconName" original />
       </span>
     </a>
-    <span class="app-logo__subtitle">Сервис переездов по Одессе и по всей Украине</span>
+    <span class="app-logo__subtitle">{{ $t("logo.subtitle") }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AppLogo',
+  name: "AppLogo",
+  computed: {
+    logoIconName() {
+      // Use ru version for Russian locale, ua version for English/other locales
+      return this.$i18n.locale === "ru" ? "logo_dark_ru" : "logo_dark_ua";
+    }
+  }
 };
 </script>
 
@@ -21,7 +27,7 @@ $logo-separator-color: #e6e6e6;
 .app-logo {
   display: flex;
   align-items: center;
-  letter-spacing: .3px;
+  letter-spacing: 0.3px;
 
   &__icon {
     display: block;
@@ -38,7 +44,7 @@ $logo-separator-color: #e6e6e6;
     white-space: nowrap;
 
     &::before {
-      content: '';
+      content: "";
       background-color: $logo-separator-color;
       display: inline-block;
       @include size(2px, 28px);

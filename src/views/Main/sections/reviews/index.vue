@@ -1,13 +1,24 @@
 <template>
   <section class="reviews">
     <div class="reviews__btnholder">
-      <h2>Почему нам доверяют?</h2>
-      <div id="feedback-btn" class="reviews__next reviews__next" @click.prevent="modalFeedbackOpen = true"
-        v-if="!mobile && !tablet">Оставьте отзыв</div>
+      <h2>{{ $t("reviews.title") }}</h2>
+      <div
+        id="feedback-btn"
+        class="reviews__next reviews__next"
+        @click.prevent="modalFeedbackOpen = true"
+        v-if="!mobile && !tablet"
+      >
+        {{ $t("reviews.leaveReview") }}
+      </div>
     </div>
 
     <div class="reviews__list">
-      <div v-for="item in items" :key="item.feature" class="reviews__block" @click="openPopup(item.component)">
+      <div
+        v-for="item in items"
+        :key="item.feature"
+        class="reviews__block"
+        @click="openPopup(item.component)"
+      >
         <svg-icon :name="item.svg" original class="reviews__icon" />
 
         <div class="reviews__title" v-html="item.feature"></div>
@@ -18,108 +29,132 @@
 
     <div class="reviews__swiper">
       <swiper :options="options" ref="swiper" @init="reinitSwiper">
-        <swiper-slide v-for="(slide, index) in slides" :key="index" class="reviews__slide"
-          @click.native="$eventbus.$emit('openPopup', 'PopupContentFeedback')">
+        <swiper-slide
+          v-for="(slide, index) in slides"
+          :key="index"
+          class="reviews__slide"
+          @click.native="$eventbus.$emit('openPopup', 'PopupContentFeedback')"
+        >
           <div class="reviews__slide-title">{{ slide.title }}</div>
 
-          <p class="reviews__slide-desc dark-gray" v-line-clamp="3">{{ slide.desc }}</p>
+          <p class="reviews__slide-desc dark-gray" v-line-clamp="3">
+            {{ slide.desc }}
+          </p>
         </swiper-slide>
       </swiper>
 
-      <div class="swiper-button-prev reviews__swiper-button swiper-button-white" @click="test"></div>
-      <svg-icon name="divider" original v-if="mobile || tablet" class="reviews__swiper-divider"></svg-icon>
-      <div class="swiper-button-next reviews__swiper-button swiper-button-white"></div>
+      <div
+        class="swiper-button-prev reviews__swiper-button swiper-button-white"
+      ></div>
+      <svg-icon
+        name="divider"
+        original
+        v-if="mobile || tablet"
+        class="reviews__swiper-divider"
+      ></svg-icon>
+      <div
+        class="swiper-button-next reviews__swiper-button swiper-button-white"
+      ></div>
     </div>
 
     <div class="reviews__btnholder">
-      <div id="feedback-btn-mobile" class="reviews__next reviews__next" @click.prevent="modalFeedbackOpen = true"
-        v-if="mobile || tablet">
-        Оставьте отзыв</div>
+      <div
+        id="feedback-btn-mobile"
+        class="reviews__next reviews__next"
+        @click.prevent="modalFeedbackOpen = true"
+        v-if="mobile || tablet"
+      >
+        {{ $t("reviews.leaveReview") }}
+      </div>
     </div>
     <feedback-modal v-model="modalFeedbackOpen" />
   </section>
 </template>
 
 <script>
-import FeedbackModal from '@/components/common/Feedback/app-feedback-modal';
+import FeedbackModal from "@/components/common/Feedback/app-feedback-modal";
 
 export default {
-  name: 'AppPageMainSectionReviews',
+  name: "AppPageMainSectionReviews",
   components: {
-    FeedbackModal,
+    FeedbackModal
   },
   props: {
     active: Boolean,
     mobile: Boolean,
     tablet: Boolean,
-    desktop: Boolean,
+    desktop: Boolean
   },
   watch: {
-    mobile: 'reinitSwiper',
-    tablet: 'reinitSwiper',
-    desktop: 'reinitSwiper',
+    mobile: "reinitSwiper",
+    tablet: "reinitSwiper",
+    desktop: "reinitSwiper"
+  },
+  computed: {
+    items() {
+      return [
+        {
+          feature: this.$t("reviews.individualApproach"),
+          svg: "individual_feature",
+          component: "PopupContentAboutUs"
+        },
+        {
+          feature: this.$t("reviews.teamSpecialists"),
+          svg: "team_feature",
+          component: "PopupContentSpecialists"
+        },
+        {
+          feature: this.$t("reviews.professionalMaterials"),
+          svg: "pack_feature",
+          component: "PopupContentPackage"
+        },
+        {
+          feature: this.$t("reviews.modernFleet"),
+          svg: "auto_feature",
+          component: "PopupContentAuto"
+        },
+        {
+          feature: this.$t("reviews.transparentPricing"),
+          svg: "price_feature",
+          component: "PopupContentPayment"
+        }
+      ];
+    },
+    slides() {
+      return [
+        {
+          title: this.$t("reviews.slides.slide1.title"),
+          desc: this.$t("reviews.slides.slide1.desc")
+        },
+        {
+          title: this.$t("reviews.slides.slide2.title"),
+          desc: this.$t("reviews.slides.slide2.desc")
+        },
+        {
+          title: this.$t("reviews.slides.slide3.title"),
+          desc: this.$t("reviews.slides.slide3.desc")
+        },
+        {
+          title: this.$t("reviews.slides.slide4.title"),
+          desc: this.$t("reviews.slides.slide4.desc")
+        },
+        {
+          title: this.$t("reviews.slides.slide5.title"),
+          desc: this.$t("reviews.slides.slide5.desc")
+        },
+        {
+          title: this.$t("reviews.slides.slide6.title"),
+          desc: this.$t("reviews.slides.slide6.desc")
+        }
+      ];
+    }
   },
   data: () => ({
     modalFeedbackOpen: false,
-    items: [
-      {
-        feature: 'Индивидуальный <br> подход',
-        svg: 'individual_feature',
-        component: 'PopupContentAboutUs',
-      },
-      {
-        feature: 'Команда <br> специалистов',
-        svg: 'team_feature',
-        component: 'PopupContentSpecialists',
-      },
-      {
-        feature: 'Профессиональные <br> упаковочные материалы',
-        svg: 'pack_feature',
-        component: 'PopupContentPackage',
-      },
-      {
-        feature: 'Современный <br> грузовой автопарк',
-        svg: 'auto_feature',
-        component: 'PopupContentAuto',
-      },
-      {
-        feature: 'Прозрачность <br> ценообразования',
-        svg: 'price_feature',
-        component: 'PopupContentPayment',
-      },
-    ],
-
-    slides: [
-      {
-        title: 'Илья, Одесса',
-        desc: 'Мы с женой уже второй раз обратились к ребятам. Первый был случайно, увидели объявление и решили не заморачиваться, если бы сломали наш старый диван, мы бы не расстроились)) Но не сломали. Сейчас переезжали в новый дом, тоже все круто. Спасибо!',
-      },
-      {
-        title: 'Алена Александровна, Одесса',
-        desc: 'Добрый день! Передаю большую благодарность грузчику Александру за его внимательность и заботу о кровати. Разобрал, все упаковал, подписал. Потом собрал все на новом месте, ни тебе царапинки, ни пылинки. Буду к вам обращаться еще!!',
-      },
-      {
-        title: 'Евгения, Николаев',
-        desc: 'Сначала отнеслась с настороженностью, боялась что грузчики будут нетрезвые, или машина грязная. Всякое раньше  бывало… Тем более, переезжать пришлось не на соседнюю улицу. Зря переживала. В один момент пришлось даже идти пить кофе, потому что не знала, куда себя деть, пока ребята трудились :) Как-то все у них легко так получалось, спасибо!',
-      },
-      {
-        title: 'Андрей, Киев',
-        desc: 'Я не доверяю почтам, только частным транспортникам. Пришлось передавать ребятами в Киев важный предмет….Все люкс',
-      },
-      {
-        title: 'Пётр, пгт Авангард, Одесская обл.',
-        desc: 'Быстро справились, молодцы',
-      },
-      {
-        title: 'Марія, Одесса',
-        desc: 'Перевозили увесь офіс з підсопками. Все супер!! Але я б радила ще зробити аплікацію, щоб відстежувати машину, як у таксі. Дякую!! (Іван та Саша були грузчики - ніяких нарікань)',
-      },
-    ],
-
     options: {
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
       },
       slidesPerView: 3,
       centeredSlides: true,
@@ -129,24 +164,22 @@ export default {
         768: {
           spaceBetween: 0,
           centeredSlides: false,
-          slidesPerView: 1,
-        },
-      },
-    },
+          slidesPerView: 1
+        }
+      }
+    }
   }),
   methods: {
     openPopup(e) {
-      this.$eventbus.$emit('openPopup', e);
+      this.$eventbus.$emit("openPopup", e);
     },
     reinitSwiper() {
       this.$refs.swiper.swiper.update();
-    },
-    test() {
-    },
+    }
   },
   mounted() {
     this.$forceUpdate();
-  },
+  }
 };
 </script>
 
@@ -200,7 +233,7 @@ export default {
     position: relative;
 
     &::before {
-      content: '';
+      content: "";
       z-index: 10;
       display: block;
       position: absolute;
@@ -208,11 +241,15 @@ export default {
       top: 0;
       width: 200px;
       height: 100%;
-      background-image: linear-gradient(to right, #ffffff 10%, rgba(255, 255, 255, 0));
+      background-image: linear-gradient(
+        to right,
+        #ffffff 10%,
+        rgba(255, 255, 255, 0)
+      );
     }
 
     &::after {
-      content: '';
+      content: "";
       z-index: 10;
       display: block;
       position: absolute;
@@ -220,7 +257,11 @@ export default {
       top: 0;
       width: 200px;
       height: 100%;
-      background-image: linear-gradient(to left, #ffffff 10%, rgba(255, 255, 255, 0));
+      background-image: linear-gradient(
+        to left,
+        #ffffff 10%,
+        rgba(255, 255, 255, 0)
+      );
     }
   }
 
@@ -272,7 +313,7 @@ export default {
     color: $colors-accent;
     font-size: rem(16);
     line-height: 1;
-    letter-spacing: .3px;
+    letter-spacing: 0.3px;
     font-weight: bold;
     margin-bottom: 7px;
   }
@@ -295,7 +336,7 @@ export default {
     letter-spacing: 0.3px;
     font-weight: bold;
     cursor: pointer;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
 
     &--feedback {
       background-color: $colors-grey-200;
@@ -307,14 +348,14 @@ export default {
       }
     }
 
-    &+& {
+    & + & {
       margin-left: 10px;
     }
 
     svg {
       @include size(18px);
       margin-left: 14px;
-      transition: .3s ease-in-out;
+      transition: 0.3s ease-in-out;
     }
 
     &:hover {
@@ -410,7 +451,7 @@ export default {
     }
 
     &__icon {
-      @include size (39px);
+      @include size(39px);
       margin-bottom: 12px;
       flex-shrink: 0;
     }
@@ -463,7 +504,7 @@ export default {
       margin-top: 0;
       clip-path: none;
 
-      &+& {
+      & + & {
         margin-left: 0;
         margin-top: 16px;
       }

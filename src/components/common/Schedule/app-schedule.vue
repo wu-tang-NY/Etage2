@@ -1,15 +1,17 @@
-<template functional>
+<template>
   <div class="app-schedule">
-    <div class="app-schedule__icon" v-if="!props.withoutLabel">
+    <div class="app-schedule__icon" v-if="!withoutLabel">
       <svg-icon name="label_schedule" original />
     </div>
 
     <div class="app-schedule__content">
-      <div class="app-schedule__label" v-if="!props.withoutLabel">График работы:</div>
+      <div class="app-schedule__label" v-if="!withoutLabel">
+        {{ $t("schedule.label") }}
+      </div>
 
       <div class="app-schedule__text">
-        <div>С <strong>6:00</strong> до <strong>22:00</strong></div>
-        <div>Без выходных</div>
+        <div>{{ $t("schedule.time", { from: "6:00", to: "22:00" }) }}</div>
+        <div>{{ $t("schedule.noDaysOff") }}</div>
       </div>
     </div>
   </div>
@@ -25,12 +27,12 @@ export default {
 </script>
 
 <style lang="scss">
-$schedule-text-color: rgba($colors-text--primary, .8);
+$schedule-text-color: rgba($colors-text--primary, 0.8);
 
 .app-schedule {
   display: flex;
   font-size: rem(14);
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
 
   &__icon {
     color: $colors-accent;

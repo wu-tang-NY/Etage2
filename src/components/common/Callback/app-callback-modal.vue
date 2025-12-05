@@ -1,33 +1,56 @@
 <template>
-  <app-modal :show="open" @input="$emit('input', $event)" :title="unsend ? 'Перезвонить мне' : false">
+  <app-modal
+    :show="open"
+    @input="$emit('input', $event)"
+    :title="unsend ? $t('callback.title') : false"
+  >
     <form v-if="unsend">
       <div class="row">
         <div class="col-lg-12">
-          <app-input :requiredField="!name && name !== null" label="Как к вам обращаться" type="text" placeholder="Имя"
-            v-model="name" />
+          <app-input
+            :requiredField="!name && name !== null"
+            :label="$t('callback.nameLabel')"
+            type="text"
+            :placeholder="$t('callback.namePlaceholder')"
+            v-model="name"
+          />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12">
-          <app-input :requiredField="!phone && phone !== null" label="Номер телефона" type="text"
-            placeholder="0ХХ ХХХ ХХХХ" mask="###-###-##-##" v-model="phone" />
+          <app-input
+            :requiredField="!phone && phone !== null"
+            :label="$t('callback.phoneLabel')"
+            type="text"
+            :placeholder="$t('callback.phonePlaceholder')"
+            mask="###-###-##-##"
+            v-model="phone"
+          />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12 text-center pb-1">
-          <button type="button" class="btn" :disabled="!name || !phone"
-            @click.prevent="handleSendEmail">Отправить</button>
+          <button
+            type="button"
+            class="btn"
+            :disabled="!name || !phone"
+            @click.prevent="handleSendEmail"
+          >
+            {{ $t("common.submit") }}
+          </button>
         </div>
       </div>
     </form>
 
     <div v-else class="welcome-block">
       <svg-icon name="icon_thanks" original />
-      <h4>Спасибо за запрос</h4>
-      <p>Мы скоро свяжемся с Вами</p>
-      <button type="button" class="btn" @click="closeModal">Вернуться к сайту</button>
+      <h4>{{ $t("callback.thanks") }}</h4>
+      <p>{{ $t("callback.thanksMessage") }}</p>
+      <button type="button" class="btn" @click="closeModal">
+        {{ $t("common.backToSite") }}
+      </button>
     </div>
   </app-modal>
 </template>
@@ -93,7 +116,7 @@ export default {
   font-size: rem(14);
   line-height: 1;
   letter-spacing: 0.3px;
-  transition: .3s ease-in-out;
+  transition: 0.3s ease-in-out;
   cursor: pointer;
 
   &:hover {

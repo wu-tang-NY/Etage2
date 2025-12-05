@@ -1,21 +1,27 @@
 <template>
   <div class="services">
     <!-- <svg-icon name="mobile_bg" original v-if="mobile || tablet" class="services__bg" /> -->
-    <h1>Переезжайте и перевозите легко,
-      <br v-if="(!mobile && !tablet)">
-      <span>все заботы</span>
-      мы берем на себя!
+    <h1>
+      {{ $t("services.title") }}
+      <br v-if="!mobile && !tablet" />
+      <span>{{ $t("services.titleSpan") }}</span>
+      {{ $t("services.titleEnd") }}
     </h1>
 
     <div class="subtitle light-gray">
-      «Этаж» - первый современный
-      <span>сервис грузоперевозок</span>, главными ценностями которого являются
-      не только имущество заказчика, но также его <span>время и комфорт</span>. Независимо от масштабов грузоперевозки
-      или переезда - с нами все легко, своевременно и беззаботно.
+      {{ $t("services.subtitle1") }}
+      <span>{{ $t("services.subtitle1Span") }}</span
+      >{{ $t("services.subtitle1Middle") }}
+      <span>{{ $t("services.subtitle1Span2") }}</span
+      >{{ $t("services.subtitle1End") }}
     </div>
 
     <div class="subtitle dark-gray">
-      Если это то, чего вы хотите, мы будем рады <a href="" @click.prevent="modalCallbackOpen = true">перезвонить вам</a>  уже сейчас.
+      {{ $t("services.subtitle2") }}
+      <a href="" @click.prevent="modalCallbackOpen = true">{{
+        $t("services.subtitle2Link")
+      }}</a
+      >{{ $t("services.subtitle2End") }}
     </div>
 
     <callback-modal v-model="modalCallbackOpen" />

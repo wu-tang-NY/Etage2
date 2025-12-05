@@ -1,13 +1,9 @@
 <template>
   <div class="section-order">
-    <h2>Онлайн заказ</h2>
+    <h2>{{ $t("order.title") }}</h2>
 
     <div class="subtitle dark-gray">
-      Если вы впервые столкнулись с потребностью использования сервиса
-      грузоперевозок и точно не знаете, какого размера автомобиль вам нужен и необходимы ли грузчики вообще
-        - не отчаивайтесь. У превалирующего большинства наших постоянных заказчиков мы - их первый опыт.
-      Мы будем рады прояснить для вас все моменты, связанные с работой нашего сервиса или спецификой сферы перевозок в целом.
-      Просто оставьте свой номер ниже.
+      {{ $t("order.subtitle") }}
     </div>
 
     <div class="section-order__tab-wrapper">
@@ -17,20 +13,22 @@
           :class="{ 'section-order__tab--active': tabs[activeTab] === 'call' }"
           @click="handleOpenOrderComponent"
         >
-          Оставьте номер
+          {{ $t("order.leaveNumber") }}
         </button>
 
         <div
           class="section-order__tab-description"
-          :class="{ 'section-order__tab-description--active': tabs[activeTab] === 'call' }"
+          :class="{
+            'section-order__tab-description--active': tabs[activeTab] === 'call'
+          }"
         >
-          чтобы узнать все и сразу
+          {{ $t("order.leaveNumberDesc") }}
         </div>
       </div>
 
       <div class="section-order__tab-block">
         <div class="section-order__divider">
-          или
+          {{ $t("common.or") }}
         </div>
       </div>
 
@@ -40,20 +38,26 @@
           :class="{ 'section-order__tab--active': tabs[activeTab] === 'order' }"
           @click="handleOpenPhoneComponent"
         >
-          Заполните форму
+          {{ $t("order.fillForm") }}
         </button>
 
         <div
           class="section-order__tab-description section-order__tab-description--right"
-          :class="{ 'section-order__tab-description--active': tabs[activeTab] === 'order' }"
+          :class="{
+            'section-order__tab-description--active':
+              tabs[activeTab] === 'order'
+          }"
         >
-          и мы перезвоним вам в течение 15 минут и огласим примерную стоимость
+          {{ $t("order.fillFormDesc") }}
         </div>
       </div>
     </div>
 
-
-    <transition name="component-fade" mode="out-in" v-if="(!mobile && !tablet) || isModalOpen">
+    <transition
+      name="component-fade"
+      mode="out-in"
+      v-if="(!mobile && !tablet) || isModalOpen"
+    >
       <component
         :is="tabs[activeTab]"
         @closeModal="closeModal"
@@ -65,7 +69,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'AppPageMainSectionOrder',
   components: {
@@ -154,12 +157,14 @@ export default {
     font-family: $font-family--secondary;
     font-size: rem(18);
     font-weight: 800;
-    letter-spacing: .4px;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
     margin-bottom: 12px;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       outline: none;
     }
 
@@ -183,8 +188,8 @@ export default {
     max-width: 222px;
     font-size: rem(14);
     color: $colors-text--secondary;
-    transition: .3s ease-in-out;
-    letter-spacing: .3px;
+    transition: 0.3s ease-in-out;
+    letter-spacing: 0.3px;
 
     &--active {
       color: $colors-text--primary;

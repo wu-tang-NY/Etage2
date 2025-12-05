@@ -1,13 +1,21 @@
 <template>
   <div class="modal-info" v-show="openModal">
-    <svg-icon name="bg_dark" class="modal-info__bg" original/>
+    <svg-icon name="bg_dark" class="modal-info__bg" original />
     <div class="container">
       <div class="row">
-        <div class="sticky" :class="{'sticky--large':toggledNav}">
-          <div class="sticky__close" v-if="mobile || tablet" @click="closeModal" />
-          <div class="sticky__nav" @click="openMobileAccordion" v-if="mobile || tablet">
-            Навигация
-            <svg-icon original name="icon_nav-modal"/>
+        <div class="sticky" :class="{ 'sticky--large': toggledNav }">
+          <div
+            class="sticky__close"
+            v-if="mobile || tablet"
+            @click="closeModal"
+          />
+          <div
+            class="sticky__nav"
+            @click="openMobileAccordion"
+            v-if="mobile || tablet"
+          >
+            {{ $t("modal.navigation") }}
+            <svg-icon original name="icon_nav-modal" />
             <!-- <div class="sticky__back" @click="closeModal" v-if="(mobile || tablet) && !toggledNav">
               <svg-icon name="arrow-next"/>
               Назад
@@ -18,22 +26,42 @@
               <span class="menu-toggle__line sticky__ham-item"></span>
             </button> -->
           </div>
-          <svg-icon name="logo_white" original class="modal-info__logo" v-if="(!mobile && !tablet)"/>
-          <div class="modal-info__nav" v-if="(!mobile && !tablet) || toggledNav">
-            <div class="modal-info__panel"
-              :class="{'modal-info__panel--active': item.isActive}"
+          <svg-icon
+            name="logo_white"
+            original
+            class="modal-info__logo"
+            v-if="!mobile && !tablet"
+          />
+          <div
+            class="modal-info__nav"
+            v-if="(!mobile && !tablet) || toggledNav"
+          >
+            <div
+              class="modal-info__panel"
+              :class="{ 'modal-info__panel--active': item.isActive }"
               v-for="(item, index) in nav"
               :key="item.header"
             >
               <div
                 class="modal-info__panel-header"
                 @click="toggleActive(item, index)"
-              >{{item.header}}
-                <svg-icon name="modal_dropdown" original/>
+              >
+                {{ item.header }}
+                <svg-icon name="modal_dropdown" original />
               </div>
-              <div class="modal-info__panel-content" v-for="link in item.links" :key="link.name">
+              <div
+                class="modal-info__panel-content"
+                v-for="link in item.links"
+                :key="link.name"
+              >
                 <!-- <a href="" @click.prevent="openSelectedInfo(item)" :class="{'modal-info__panel-link--active':link.activeLink}" class="modal-info__panel-link">{{link.title}}</a> -->
-                <a href="" @click.prevent="scrollTo(link, item.header)" :class="{'modal-info__panel-link--active':link.activeLink}" class="modal-info__panel-link">{{link.title}}</a>
+                <a
+                  href=""
+                  @click.prevent="scrollTo(link, item.header)"
+                  :class="{ 'modal-info__panel-link--active': link.activeLink }"
+                  class="modal-info__panel-link"
+                  >{{ link.title }}</a
+                >
               </div>
             </div>
           </div>
@@ -41,13 +69,27 @@
         <div class="col-lg-9 offset-lg-3 modal-conent">
           <div class="modal-info__header-wrapper">
             <!-- <div class="modal-info__header">{{activeTab}}</div> -->
-            <div class="modal-info__close" @click="closeModal" v-if="(!mobile && !tablet)" />
+            <div
+              class="modal-info__close"
+              @click="closeModal"
+              v-if="!mobile && !tablet"
+            />
           </div>
           <div class="modal-info__content" ref="sections">
             <!-- <component :is="activeTab.component" /> -->
-            <div class="modal-info__component-group" v-for="item in nav" :key="item.header" :id="item.header">
-              <component :is="link.component" v-for="link in item.links" :key="link.title" :id="link.component" />
-           </div>
+            <div
+              class="modal-info__component-group"
+              v-for="item in nav"
+              :key="item.header"
+              :id="item.header"
+            >
+              <component
+                :is="link.component"
+                v-for="link in item.links"
+                :key="link.title"
+                :id="link.component"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -56,117 +98,171 @@
 </template>
 
 <script>
-import pages from '../Main/pages';
+import pages from "../Main/pages";
 
 export default {
-  name: 'ModalInfo',
+  name: "ModalInfo",
   components: {
-    ...pages,
+    ...pages
   },
   props: {
     mobile: Boolean,
-    tablet: Boolean,
+    tablet: Boolean
+  },
+  computed: {
+    nav() {
+      return this.navItems.map((item, index) => ({
+        ...item,
+        isActive: this.activeStates[index] || false,
+        links: item.links.map((link, linkIndex) => ({
+          ...link,
+          activeLink: this.activeLinkStates[`${index}-${linkIndex}`] || false
+        }))
+      }));
+    }
   },
   data() {
     return {
       openModal: false,
-      activeTab: 'PopupContentAboutUs',
+      activeTab: "PopupContentAboutUs",
       toggledNav: false,
-      nav: [{
-        header: 'О компании',
-        links: [{
-          title: 'О нас',
-          component: 'PopupContentAboutUs',
-          activeLink: false,
-        }, {
-          title: 'История',
-          component: 'PopupContentHistory',
-          activeLink: false,
-        }, {
-          title: 'Наша цель',
-          component: 'PopupContentOurGoal',
-          activeLink: false,
-        }, {
-          title: 'Факты и цифры',
-          component: 'PopupContentFacts',
-          activeLink: false,
-        }, {
-          title: 'Автопарк',
-          component: 'PopupContentAuto',
-          activeLink: false,
-        }],
-        isActive: false,
-      }, {
-        header: 'Услуги',
-        links: [{
-          title: 'Квартирный переезд',
-          component: 'PopupContentFlatMove',
-          activeLink: false,
-        }, {
-          title: 'Офисный переезд',
-          component: 'PopupContentOfficeMove',
-          activeLink: false,
-        }, {
-          title: 'Перевозка имущества',
-          component: 'PopupContentStuffMove',
-          activeLink: false,
-        }, {
-          title: 'Специалисты',
-          component: 'PopupContentSpecialists',
-          activeLink: false,
-        }, {
-          title: 'Упаковка',
-          component: 'PopupContentPackage',
-          activeLink: false,
-        }],
-        isActive: false,
-      }, {
-        header: 'Информация',
-        links: [
-        //   {
-        //   title: 'Партнеры',
-        //   component: 'PopupContentPartners',
-        //   activeLink: false,
-        // },
-          {
-            title: 'Вакансии',
-            component: 'PopupContentJobs',
-            activeLink: false,
-          }, {
-            title: 'Отзывы',
-            component: 'PopupContentFeedback',
-            activeLink: false,
-          }, {
-            title: 'Контакты',
-            component: 'PopupContentContacts',
-            activeLink: false,
-          },
-        ],
-        isActive: false,
-      }, {
-        header: 'Оплата',
-        links: [{
-          title: 'Оплата',
-          component: 'PopupContentPayment',
-          activeLink: false,
-        }],
-        isActive: false,
-      }, {
-        header: 'Акции',
-        links: [{
-          title: 'Акции',
-          component: 'PopupContentSpecialOffers',
-          activeLink: false,
-        }],
-        isActive: false,
-      }],
+      activeStates: {},
+      activeLinkStates: {},
+      navItems: []
     };
   },
+  created() {
+    this.initializeNav();
+  },
+  watch: {
+    "$i18n.locale": {
+      handler() {
+        this.initializeNav();
+      },
+      immediate: false
+    }
+  },
   methods: {
+    initializeNav() {
+      this.navItems = [
+        {
+          header: this.$t("modal.aboutCompany"),
+          links: [
+            {
+              title: this.$t("modal.aboutUs"),
+              component: "PopupContentAboutUs",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.history"),
+              component: "PopupContentHistory",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.ourGoal"),
+              component: "PopupContentOurGoal",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.facts"),
+              component: "PopupContentFacts",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.auto"),
+              component: "PopupContentAuto",
+              activeLink: false
+            }
+          ],
+          isActive: false
+        },
+        {
+          header: this.$t("modal.services"),
+          links: [
+            {
+              title: this.$t("modal.flatMove"),
+              component: "PopupContentFlatMove",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.officeMove"),
+              component: "PopupContentOfficeMove",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.stuffMove"),
+              component: "PopupContentStuffMove",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.specialists"),
+              component: "PopupContentSpecialists",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.package"),
+              component: "PopupContentPackage",
+              activeLink: false
+            }
+          ],
+          isActive: false
+        },
+        {
+          header: this.$t("modal.information"),
+          links: [
+            {
+              title: this.$t("modal.jobs"),
+              component: "PopupContentJobs",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.reviews"),
+              component: "PopupContentFeedback",
+              activeLink: false
+            },
+            {
+              title: this.$t("modal.contacts"),
+              component: "PopupContentContacts",
+              activeLink: false
+            }
+          ],
+          isActive: false
+        },
+        {
+          header: this.$t("modal.payment"),
+          links: [
+            {
+              title: this.$t("modal.payment"),
+              component: "PopupContentPayment",
+              activeLink: false
+            }
+          ],
+          isActive: false
+        },
+        {
+          header: this.$t("modal.specialOffers"),
+          links: [
+            {
+              title: this.$t("modal.specialOffers"),
+              component: "PopupContentSpecialOffers",
+              activeLink: false
+            }
+          ],
+          isActive: false
+        }
+      ];
+    },
     openSelectedInfo(link, header) {
       this.handeRemoveAllColoredLinks();
       this.activeTab = header;
-      link.activeLink = true;
+      // Find the link index and set it as active
+      this.navItems.forEach((item, itemIndex) => {
+        item.links.forEach((l, linkIndex) => {
+          if (l.component === link.component) {
+            this.$set(this.activeLinkStates, `${itemIndex}-${linkIndex}`, true);
+          }
+        });
+      });
       if (this.toggledNav) {
         this.openMobileAccordion();
       }
@@ -178,23 +274,17 @@ export default {
       const elemGroupOffset = elem.parentNode.offsetTop;
       const top = elem.offsetTop + elemGroupOffset - 60;
       this.$refs.sections.scrollTo({
-        top,
+        top
       });
       this.openSelectedInfo(link, header);
     },
 
     handeRemoveAllColoredLinks() {
-      this.nav.forEach(item => {
-        item.links.forEach(componentLink => {
-          componentLink.activeLink = false;
-        });
-      });
+      this.activeLinkStates = {};
     },
 
     handeRemoveAllToggledPanels() {
-      this.nav.forEach(item => {
-        item.isActive = false;
-      });
+      this.activeStates = {};
     },
 
     openMobileAccordion() {
@@ -205,36 +295,45 @@ export default {
     toggleActive(block, index) {
       let prev = null;
 
-      this.nav.forEach((item, i) => {
-        if (item.isActive) prev = i;
-
-        item.isActive = false;
+      // Find which panel is currently active
+      Object.keys(this.activeStates).forEach(key => {
+        if (this.activeStates[key]) {
+          prev = parseInt(key);
+        }
       });
 
-      this.nav[index].isActive = prev !== index;
+      // Close all panels
+      this.activeStates = {};
+
+      // Open the clicked panel if it wasn't already open
+      if (prev !== index) {
+        this.$set(this.activeStates, index, true);
+      }
 
       const elem = document.getElementById(block.header);
-      const top = elem.offsetTop - 60;
-      this.$refs.sections.scrollTo({
-        top,
-      });
+      if (elem) {
+        const top = elem.offsetTop - 60;
+        this.$refs.sections.scrollTo({
+          top
+        });
+      }
     },
 
     closeModal() {
       this.handeRemoveAllColoredLinks();
       this.handeRemoveAllToggledPanels();
       this.openModal = false;
-      document.body.classList.remove('modal-open');
-    },
+      document.body.classList.remove("modal-open");
+    }
   },
   mounted() {
-    this.$eventbus.$on('openPopup', component => {
-      this.nav.some(nav => {
-        return nav.links.some(item => {
+    this.$eventbus.$on("openPopup", component => {
+      this.navItems.some((nav, navIndex) => {
+        return nav.links.some((item, linkIndex) => {
           if (item.component === component) {
             this.activeTab = nav.header;
-            nav.isActive = true;
-            item.activeLink = true;
+            this.$set(this.activeStates, navIndex, true);
+            this.$set(this.activeLinkStates, `${navIndex}-${linkIndex}`, true);
             this.scrollTo(item, nav.header);
           }
           return item.component === component;
@@ -242,9 +341,9 @@ export default {
       });
       this.openModal = true;
 
-      document.body.classList.add('modal-open');
+      document.body.classList.add("modal-open");
     });
-  },
+  }
 };
 </script>
 
@@ -281,7 +380,7 @@ export default {
       margin-bottom: 31px;
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -292,7 +391,7 @@ export default {
       }
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -319,24 +418,24 @@ export default {
     & > div + div {
       margin-top: 80px;
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: -40px;
         @include size(100%, 2px);
         left: 0;
-        background-color: rgba(#fff, .4);
+        background-color: rgba(#fff, 0.4);
       }
     }
 
     & + & {
       margin-top: 120px;
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: -60px;
         @include size(100%, 2px);
         left: 0;
-        background-color: rgba($colors-accent, .4);
+        background-color: rgba($colors-accent, 0.4);
       }
     }
   }
@@ -361,7 +460,7 @@ export default {
 
     &--active {
       .modal-info__panel-header {
-        background-color: rgba(#fff, .1);
+        background-color: rgba(#fff, 0.1);
 
         svg {
           transform: rotateZ(0);
@@ -388,22 +487,22 @@ export default {
     color: #ffffff;
     padding: 0 16px;
     line-height: 36px;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
 
     &:hover {
-      background-color: rgba(#fff, .1);
+      background-color: rgba(#fff, 0.1);
     }
 
     svg {
       @include size(8px, 5px);
       transform: rotateZ(180deg);
-      transition: .3s ease-in-out;
+      transition: 0.3s ease-in-out;
     }
   }
 
   &__panel-content {
     max-height: 0;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
     overflow: hidden;
   }
 
@@ -418,7 +517,7 @@ export default {
     letter-spacing: 0.3px;
     color: #ffffff;
     max-height: 0;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
 
     &--active {
       color: $colors-accent;
@@ -457,7 +556,7 @@ export default {
     cursor: pointer;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       @include size(25px, 3px);
       background-color: #fff;
@@ -467,7 +566,7 @@ export default {
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       @include size(25px, 3px);
       background-color: #fff;
@@ -487,11 +586,11 @@ export default {
     }
 
     &::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: rgba($white, .2);
+      background-color: rgba($white, 0.2);
       border-radius: 100px;
     }
 
@@ -507,7 +606,8 @@ export default {
       margin-bottom: 20px;
     }
 
-    p, li {
+    p,
+    li {
       font-size: rem(15);
       line-height: 1.6;
       letter-spacing: 0.3px;
@@ -605,7 +705,7 @@ export default {
           fill: white;
           transform: rotateZ(180deg);
           margin-right: 8px;
-          transition: .3s ease-in-out;
+          transition: 0.3s ease-in-out;
         }
 
         &:hover {

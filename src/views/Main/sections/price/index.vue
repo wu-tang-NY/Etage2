@@ -1,34 +1,32 @@
 <template>
   <div class="price">
-    <h2>Как формируется стоимость?</h2>
+    <h2>{{ $t("price.title") }}</h2>
 
     <div class="subtitle dark-gray price__header--mobile">
-      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">Объем автомобиля</a>
-      и время его работы + Количество и время занятости
+      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">{{ $t("price.mobileSubtitle1") }}</a>
+      {{ $t("price.mobileSubtitle2") }}
 
-      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">грузчиков</a>
-      + Количество
+      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">{{ $t("price.mobileSubtitle3") }}</a>
+      {{ $t("price.mobileSubtitle4") }}
 
-      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных
-        материалов</a>
+      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">{{ $t("price.mobileSubtitle5") }}</a>
     </div>
 
     <div class="price__header">
       <div class="price__header-block subtitle dark-gray">
         <svg-icon name="icon_1" original />
-        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">Объем автомобиля</a>
-        &nbsp;и время его работы
+        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">{{ $t("price.desktopSubtitle1") }}</a>
+        &nbsp;{{ $t("price.desktopSubtitle2") }}
       </div>
       <div class="price__header-block subtitle dark-gray">
         <svg-icon name="icon_2" original />
-        Количество и время занятости&nbsp;
-        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">грузчиков</a>
+        {{ $t("price.desktopSubtitle3") }}&nbsp;
+        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">{{ $t("price.desktopSubtitle4") }}</a>
       </div>
       <div class="price__header-block subtitle dark-gray">
         <svg-icon name="icon_3" original />
-        Количество&nbsp;
-        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">упаковочных
-          материалов</a>
+        {{ $t("price.desktopSubtitle5") }}&nbsp;
+        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">{{ $t("price.desktopSubtitle6") }}</a>
       </div>
     </div>
 
@@ -36,7 +34,7 @@
       <div class="col-lg-8">
         <div class="price__subtitle-wrapper">
           <div class="price__subtitle price__subtitle--tree" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">
-            Аренда автомобиля
+            {{ $t("price.carRental") }}
             <svg-icon name="link" original />
           </div>
         </div>
@@ -44,7 +42,7 @@
 
       <div class="col-lg-4">
         <div class="price__subtitle" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">
-          Услуги специалистов
+          {{ $t("price.specialistsServices") }}
           <svg-icon name="link" original />
         </div>
       </div>
@@ -99,7 +97,7 @@
               </div>
               <p class="category__undertext">{{ category.undertext }}</p>
               <div class="row justify-content-center">
-                <div v-if="mobile" @click="openForm(category)" class="price__examples price__examples--mobile">Заказать
+                <div v-if="mobile" @click="openForm(category)" class="price__examples price__examples--mobile">{{ $t("price.orderButton") }}
                 </div>
               </div>
             </div>
@@ -109,7 +107,7 @@
     </div>
 
     <div class="row justify-content-center">
-      <div class="price__examples" @click="$eventbus.$emit('openPopup', 'PopupContentFlatMove')">Мне нужны примеры
+      <div class="price__examples" @click="$eventbus.$emit('openPopup', 'PopupContentFlatMove')">{{ $t("price.examplesButton") }}
         <svg-icon name="arrow-next" />
       </div>
     </div>
@@ -124,71 +122,78 @@ export default {
     mobile: Boolean,
     tablet: Boolean,
   },
+  computed: {
+    categories() {
+      return [
+        {
+          name: this.$t('price.categoryTransport'),
+          subtitle: 'Мебель, бытовая техника, сейфы и тд.',
+          undertext: this.$t('price.categoryTransportUndertext'),
+          iconName: 'price_transport',
+          opened: false,
+          items: [
+            {
+              id: 1,
+              time: this.$t('price.categoryTransportItem1Time'),
+              price: this.$t('price.categoryTransportItem1Price'),
+              description: this.$t('price.categoryTransportItem1Desc'),
+              info: this.$t('price.categoryTransportItem1Info'),
+            },
+            {
+              id: 2,
+              time: this.$t('price.categoryTransportItem2Time'),
+              price: this.$t('price.categoryTransportItem2Price'),
+              description: this.$t('price.categoryTransportItem2Desc'),
+            },
+          ],
+        }, {
+          name: this.$t('price.categoryMove'),
+          subtitle: 'Квартирный, офисный переезды, переезд коммерческих помещений',
+          undertext: this.$t('price.categoryTransportUndertext'),
+          iconName: 'price_moving',
+          opened: false,
+          items: [
+            {
+              id: 1,
+              time: this.$t('price.categoryMoveItem1Time'),
+              price: this.$t('price.categoryMoveItem1Price'),
+              description: this.$t('price.categoryMoveItem1Desc'),
+              additional: this.$t('price.categoryMoveItem1Additional'),
+              info: this.$t('price.categoryMoveItem1Info'),
+            },
+            {
+              id: 2,
+              time: this.$t('price.categoryMoveItem2Time'),
+              price: this.$t('price.categoryMoveItem2Price'),
+              description: this.$t('price.categoryMoveItem2Desc'),
+              additional: this.$t('price.categoryMoveItem2Additional'),
+            },
+          ],
+        }, {
+          name: this.$t('price.categoryWorkers'),
+          subtitle: 'Для транспортировки личных вещей, мебели, и т.д.',
+          undertext: 'В стоимость включены: упаковка и маркировка имущества, разборка и сборка мебели, полный цикл ручной транспортировки.',
+          iconName: 'price_workers',
+          opened: false,
+          items: [
+            {
+              id: 1,
+              time: this.$t('price.categoryWorkersItem1Time'),
+              price: this.$t('price.categoryWorkersItem1Price'),
+              description: this.$t('price.categoryWorkersItem1Desc'),
+              info: this.$t('price.categoryWorkersItem1Info'),
+            },
+            {
+              id: 2,
+              time: this.$t('price.categoryWorkersItem2Time'),
+              price: this.$t('price.categoryWorkersItem2Price'),
+            },
+          ],
+        },
+      ];
+    },
+  },
   data: () => ({
-    categories: [
-      {
-        name: 'ПЕРЕВОЗКИ',
-        subtitle: 'Мебель, бытовая техника, сейфы и тд.',
-        undertext: 'В стоимость включены: прокладочные материалы, стяжные стропы.',
-        iconName: 'price_transport',
-        opened: false,
-        items: [
-          {
-            id: 1,
-            time: '1 час -',
-            price: '275 грн',
-            description: 'Если у вас всего 1 предмет',
-            info: 'Время минимального заказа в черте Одессы - 2 часа, для Савиньона и поселка Котовского - 3 часа',
-          }, {
-            id: 2,
-            time: '1 час -',
-            price: '300 грн',
-            description: 'Межгород - 37 грн/км',
-          },
-        ],
-      }, {
-        name: 'ПЕРЕЕЗДЫ',
-        subtitle: 'Квартирный, офисный переезды, переезд коммерческих помещений',
-        undertext: 'В стоимость включены: прокладочные материалы, стяжные стропы.',
-        iconName: 'price_moving',
-        opened: false,
-        items: [
-          {
-            id: 1,
-            time: '1 час -',
-            price: '300 грн',
-            description: 'Межгород - 37 грн/км',
-            additional: '1-3т',
-            info: 'Время минимального заказа в черте Одессы - 2 часа, для Савиньона и поселка Котовского - 3 часа',
-          }, {
-            id: 2,
-            time: '1 час -',
-            price: '500 грн',
-            description: 'Межгород - 50 грн/км',
-            additional: 'до 5т',
-          },
-        ],
-      }, {
-        name: 'ГРУЗЧИКИ',
-        subtitle: 'Для транспортировки личных вещей, мебели, и т.д.',
-        undertext: 'В стоимость включены: упаковка и маркировка имущества, разборка и сборка мебели, полный цикл ручной транспортировки.',
-        iconName: 'price_workers',
-        opened: false,
-        items: [
-          {
-            id: 1,
-            time: '1 час -',
-            price: '180 грн',
-            description: 'За одного грузчика',
-            info: 'Оплата транспортивки предмотов, весом свыше 100кг расчитываеться индивидуально',
-          }, {
-            id: 2,
-            time: '>2 часов -',
-            price: '90 грн/полчаса',
-          },
-        ],
-      },
-    ],
   }),
   methods: {
     handleCloseFullSize(e) {

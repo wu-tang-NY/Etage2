@@ -1,7 +1,7 @@
 <template>
   <div id="information-modal-btn" class="nav-info">
     <svg-icon name="icon_5_c" original />
-    Информация
+    {{ $t("navInfo.information") }}
   </div>
 </template>
 

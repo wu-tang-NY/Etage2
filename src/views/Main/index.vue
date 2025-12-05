@@ -5,12 +5,17 @@
         <section
           class="app-section"
           :class="{ 'app-section--scroll': isScrollPresent() }"
-          :style="{ 'width': !mobile && !tablet ? `${windowWidth}px` : '100%' }"
+          :style="{ width: !mobile && !tablet ? `${windowWidth}px` : '100%' }"
           v-for="(section, index) in Object.keys(sectionsComponents)"
           :key="section"
           :id="`section-${index + 1}`"
         >
-          <svg-icon name="mobile_bg" original v-if="!index && (mobile || tablet)" class="services__bg"></svg-icon>
+          <svg-icon
+            name="mobile_bg"
+            original
+            v-if="!index && (mobile || tablet)"
+            class="services__bg"
+          ></svg-icon>
           <div class="container">
             <component
               :is="section"
@@ -25,7 +30,11 @@
 
       <div class="page-main__bg bg">
         <div class="page-main__bg-inner">
-          <div class="page-main__bg-image" :style="{ width: `${totalWidth}px` }" ref="bg">
+          <div
+            class="page-main__bg-image"
+            :style="{ width: `${totalWidth}px` }"
+            ref="bg"
+          >
             <div class="page-main__bg-home">
               <svg-icon name="home" class="page-main" original />
             </div>
@@ -52,17 +61,17 @@
           <div class="page-main__bg-car bg-car" ref="car">
             <div class="bg-car__cloud" ref="clouds">
               <car-cloud
-                title="При необходимости - выезжает оценщик!"
+                :title="$t('main.carCloud.appraiser')"
                 icon="cloud_small"
                 icon-width="270"
               />
 
               <car-cloud icon="cloud_large" icon-width="370">
                 <div class="mb-2">
-                  <span>3067 семей</span> переселились с нашей помощью в новое жилище в этом году
+                  {{ $t("main.carCloud.families", { count: "3067" }) }}
                 </div>
                 <div>
-                  <span>И более 572  тонн</span> личных вещей уже перевезено в этом году
+                  {{ $t("main.carCloud.tons", { count: "572" }) }}
                 </div>
               </car-cloud>
             </div>
@@ -78,29 +87,29 @@
 </template>
 
 <script>
-import TimelineMax from 'gsap/TimelineMax';
-import TweenMax from 'gsap/TweenMax';
+import TimelineMax from "gsap/TimelineMax";
+import TweenMax from "gsap/TweenMax";
 
 // eslint-disable-next-line
-import ScrollMagic from 'ScrollMagic';
+import ScrollMagic from "ScrollMagic";
 
-import 'animation.gsap';
-import 'debug.addIndicators';
+import "animation.gsap";
+import "debug.addIndicators";
 
-import sectionsComponents from './sections';
-import CarCloud from './components/PageMainCarCloud';
+import sectionsComponents from "./sections";
+import CarCloud from "./components/PageMainCarCloud";
 
 export default {
-  name: 'AppPageMain',
+  name: "AppPageMain",
   components: {
     CarCloud,
-    ...sectionsComponents,
+    ...sectionsComponents
   },
   props: {
     mobile: Boolean,
     tablet: Boolean,
     desktop: Boolean,
-    device: String,
+    device: String
   },
   data: () => ({
     windowWidth: 0,
@@ -109,6 +118,7 @@ export default {
     activeSectionIndex: 0,
 
     ScrollMagicController: null,
+    scrollbarWidth: 0
   }),
   computed: {
     sectionsComponents() {
@@ -117,52 +127,54 @@ export default {
 
     getCarPos() {
       return this.$refs.car.getBoundingClientRect();
-    },
+    }
   },
   methods: {
     onScroll() {
       setImmediate(() => {
-        const sections = document.querySelector('#sections');
-        const el = sections.querySelector('section.active');
+        const sections = document.querySelector("#sections");
+        const el = sections.querySelector("section.active");
 
         this.activeSectionIndex = Array.from(sections.children).indexOf(el);
 
-        this.$eventbus.$emit('section:scroll', this.activeSectionIndex);
+        this.$eventbus.$emit("section:scroll", this.activeSectionIndex);
       });
     },
 
     onResize() {
       this.windowWidth = window.innerWidth;
-      this.totalWidth = Object.keys(sectionsComponents).length * this.windowWidth;
+      this.totalWidth =
+        Object.keys(sectionsComponents).length * this.windowWidth;
 
       if (this.ScrollMagicController) {
         this.ScrollMagicController.destroy(true);
       }
 
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove("modal-open");
 
+      this.updateScrollbarWidth();
       this.initAnimations();
     },
 
     onSpacePress(e) {
-      if (e.target.localName !== 'input') {
+      if (e.target.localName !== "input") {
         if (e.keyCode === 32) {
           e.preventDefault();
-          const sections = document.querySelector('#sections');
-          const el = sections.querySelector('section.active');
+          const sections = document.querySelector("#sections");
+          const el = sections.querySelector("section.active");
 
           this.activeSectionIndex = Array.from(sections.children).indexOf(el);
 
           if (this.activeSectionIndex < 4) {
             const top = window.innerWidth * (this.activeSectionIndex + 1);
-            document.documentElement.scrollTo({ top, behavior: 'smooth' });
+            document.documentElement.scrollTo({ top, behavior: "smooth" });
           }
         }
       }
     },
 
     onSectionChange(index) {
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove("modal-open");
       let top = window.innerWidth * index;
 
       if (this.mobile || this.tablet) {
@@ -173,12 +185,21 @@ export default {
         }
       }
 
-      window.scrollTo({ top, behavior: 'smooth' });
+      window.scrollTo({ top, behavior: "smooth" });
     },
 
     initAnimations() {
       if (!this.mobile && !this.tablet) {
-        const { sectionsWrapper, bg, car, clouds, workers1, workers2, home1, home2 } = this.$refs;
+        const {
+          sectionsWrapper,
+          bg,
+          car,
+          clouds,
+          workers1,
+          workers2,
+          home1,
+          home2
+        } = this.$refs;
 
         const [cloud1, cloud2] = clouds.children;
         const sections = sectionsWrapper.children;
@@ -186,7 +207,7 @@ export default {
         const pageWidth = window.innerWidth;
 
         this.ScrollMagicController = new ScrollMagic.Controller({
-          addIndicators: true,
+          addIndicators: true
         });
 
         // SECTION 1
@@ -195,28 +216,49 @@ export default {
           .set(sections[0], { opacity: 1, immediateRender: true })
           .add(TweenMax.to(sectionsWrapper, 1.5, { x: -pageWidth }), 0)
           .add(TweenMax.to(sections[0], 0.5, { opacity: 0 }), 0.1)
-          .add(TweenMax.fromTo(sections[1], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
-          .add(TweenMax.fromTo(cloud1, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.7);
-
+          .add(
+            TweenMax.fromTo(sections[1], 0.5, { opacity: 0 }, { opacity: 1 }),
+            0.4
+          )
+          .add(
+            TweenMax.fromTo(
+              cloud1,
+              0.15,
+              { opacity: 0, y: -20 },
+              { opacity: 1, y: 0 }
+            ),
+            0.7
+          );
 
         // SECTION 2
 
         const tween2 = new TimelineMax()
           .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 2 }))
           .add(TweenMax.to(sections[1], 0.5, { opacity: 0 }), 0.1)
-          .add(TweenMax.fromTo(sections[2], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
+          .add(
+            TweenMax.fromTo(sections[2], 0.5, { opacity: 0 }, { opacity: 1 }),
+            0.4
+          )
           .add(TweenMax.to(cloud1, 0.15, { opacity: 0, y: -20 }), 0.7)
-          .add(TweenMax.fromTo(cloud2, 0.15, { opacity: 0, y: -20 }, { opacity: 1, y: 0 }), 0.85);
-
+          .add(
+            TweenMax.fromTo(
+              cloud2,
+              0.15,
+              { opacity: 0, y: -20 },
+              { opacity: 1, y: 0 }
+            ),
+            0.85
+          );
 
         // SECTION 3
-
         const tween3 = new TimelineMax()
           .add(TweenMax.to(sectionsWrapper, 1, { x: -pageWidth * 3 }))
           .add(TweenMax.to(sections[2], 0.5, { opacity: 0 }), 0.1)
-          .add(TweenMax.fromTo(sections[3], 0.5, { opacity: 0 }, { opacity: 1 }), 0.4)
+          .add(
+            TweenMax.fromTo(sections[3], 0.5, { opacity: 0 }, { opacity: 1 }),
+            0.4
+          )
           .add(TweenMax.to(cloud2, 0.15, { opacity: 0, y: -20 }), 0.7);
-
 
         // SECTION 4
 
@@ -224,46 +266,43 @@ export default {
           .add(TweenMax.to(car, 0.4, { x: 600 }))
           .add(TweenMax.to(car, 0.6, { x: 600 }));
 
-
         // TIMELINE
 
         const timeline = new TimelineMax()
           .set(car, { left: 320, x: 0, immediateRender: true })
           .set(cloud2, { opacity: 0, immediateRender: true })
-          .add([tween1, tween2, tween3, tween4], 0, 'sequence', 0.5);
+          .add([tween1, tween2, tween3, tween4], 0, "sequence", 0.5);
 
         new ScrollMagic.Scene({
-          duration: pageWidth * 4,
+          duration: pageWidth * 4
         })
           .setPin(this.$refs.page)
           .setTween(timeline)
           .addTo(this.ScrollMagicController);
 
-
         Array.from(sections).forEach((section, index) => {
           new ScrollMagic.Scene({
             duration: pageWidth,
-            offset: pageWidth * index,
+            offset: pageWidth * index
           })
-            .setClassToggle(`#section-${index + 1}`, 'active')
+            .setClassToggle(`#section-${index + 1}`, "active")
             .addTo(this.ScrollMagicController);
         });
-
 
         const bgTween = new TimelineMax()
           .set(home1, { x: pageWidth + 700, immediateRender: true })
           .set(home2, { x: pageWidth * 3 + 700, immediateRender: true })
           .set(workers2, { opacity: 0, immediateRender: true })
-          .to(bg, 0.8, { ease: 'linear', x: -pageWidth })
+          .to(bg, 0.8, { ease: "linear", x: -pageWidth })
           .to(workers1, 0.3, { x: -350 })
           .set(workers1, { opacity: 0, immediateRender: true })
-          .to(bg, 0.8, { ease: 'linear', x: -pageWidth * 2 })
-          .to(bg, 0.8, { ease: 'linear', x: -pageWidth * 3 })
+          .to(bg, 0.8, { ease: "linear", x: -pageWidth * 2 })
+          .to(bg, 0.8, { ease: "linear", x: -pageWidth * 3 })
           .set(workers2, { opacity: 1, x: 200, immediateRender: true })
           .to(workers2, 0.3, { x: -100 });
 
         new ScrollMagic.Scene({
-          duration: pageWidth * 4,
+          duration: pageWidth * 4
         })
           .setTween(bgTween)
           .addTo(this.ScrollMagicController);
@@ -273,24 +312,54 @@ export default {
     isScrollPresent() {
       return window.innerWidth > document.body.clientWidth;
     },
+    getScrollbarWidth() {
+      // Create a temporary div to measure scrollbar width
+      const outer = document.createElement("div");
+      outer.style.visibility = "hidden";
+      outer.style.overflow = "scroll";
+      outer.style.msOverflowStyle = "scrollbar"; // needed for WinJS apps
+      outer.style.width = "100px";
+      outer.style.position = "absolute";
+      outer.style.top = "-9999px";
+      document.body.appendChild(outer);
+
+      const inner = document.createElement("div");
+      inner.style.width = "100%";
+      outer.appendChild(inner);
+
+      const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+
+      outer.parentNode.removeChild(outer);
+
+      return scrollbarWidth;
+    },
+    updateScrollbarWidth() {
+      this.scrollbarWidth = this.getScrollbarWidth();
+      // Set CSS variable for dynamic padding (also updates global variable)
+      document.documentElement.style.setProperty(
+        "--scrollbar-width",
+        `${this.scrollbarWidth}px`
+      );
+    }
   },
   mounted() {
+    this.updateScrollbarWidth();
     this.onResize();
     this.isScrollPresent();
 
     if (!this.mobile) {
-      window.addEventListener('scroll', this.onScroll);
+      window.addEventListener("scroll", this.onScroll);
     }
 
-    window.addEventListener('resize', this.onResize);
-    document.addEventListener('keypress', this.onSpacePress);
+    window.addEventListener("resize", this.onResize);
+    document.addEventListener("keypress", this.onSpacePress);
 
-    this.$eventbus.$on('section:change', this.onSectionChange);
+    this.$eventbus.$on("section:change", this.onSectionChange);
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll);
-    window.removeEventListener('resize', this.onResize);
-  },
+    window.removeEventListener("scroll", this.onScroll);
+    window.removeEventListener("resize", this.onResize);
+  }
 };
 </script>
 
@@ -312,7 +381,7 @@ export default {
     }
 
     &-image {
-      background: url('/static/icons/bg.svg') -100px 12px repeat-x;
+      background: url("/static/icons/bg.svg") -100px 12px repeat-x;
       background-size: auto 150px;
       height: 150px;
       position: relative;
@@ -325,7 +394,8 @@ export default {
 
     &-car {
       position: absolute;
-      bottom: 10px; left: 0;
+      bottom: 10px;
+      left: 0;
       @include size(130px, 58px);
     }
   }
@@ -398,7 +468,6 @@ export default {
   opacity: 0 !important;
 }
 
-
 @include media-breakpoint-up(lg) {
   .page-main {
     &__inner {
@@ -407,7 +476,8 @@ export default {
 
     &__bg {
       position: fixed;
-      left: 0; bottom: 60px;
+      left: 0;
+      bottom: 60px;
 
       &-image {
         background-size: auto 200px;
@@ -418,13 +488,13 @@ export default {
 
   .modal-open {
     .app-section {
-      padding-right: 17px;
+      padding-right: var(--scrollbar-width, 0px);
     }
   }
 
   .app-section {
     &--scroll {
-      padding-right: 17px;
+      padding-right: var(--scrollbar-width, 0px);
     }
   }
 }
@@ -445,7 +515,6 @@ export default {
   }
 }
 
-
 @include media-breakpoint-down(lg) {
   .page-main {
     .app-section {
@@ -453,7 +522,6 @@ export default {
     }
   }
 }
-
 
 @include media-breakpoint-down(md) {
   .page-main {

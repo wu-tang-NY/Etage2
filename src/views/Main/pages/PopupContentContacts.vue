@@ -1,15 +1,15 @@
 <template>
   <div>
-    <h2>Контакты</h2>
-    <h3>ТОВ «Этаж»</h3>
-    <p>Украина, г. Одесса, ул. Колонтаевская 7</p>
+    <h2>{{ $t("contacts.title") }}</h2>
+    <h3>{{ $t("contacts.company") }}</h3>
+    <p>{{ $t("contacts.address") }}</p>
     <p>
       <a href="tel:+380973170434">+38 097 317 0434</a>
       <br>
       <a href="tel:+380669680944">+38 066 968 0944</a>
     </p>
-    <p>почта: <a href="mailto:etage.pereezd@gmail.com">etage.pereezd@gmail.com</a></p>
-    <p>Карта проезда</p>
+    <p>{{ $t("contacts.emailLabel") }} <a href="mailto:etage.pereezd@gmail.com">etage.pereezd@gmail.com</a></p>
+    <p>{{ $t("contacts.mapTitle") }}</p>
     <!-- <p>Служба контроля качества</p>
     <ul>
       <li>(отзывы о проделанной работе, предложения по улучшению качества оказанных услуг)</li>

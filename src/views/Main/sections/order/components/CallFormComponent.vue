@@ -5,26 +5,26 @@
         <div class="call-form__close" @click="$emit('closeModal')"></div>
 
         <div class="call-form__title">
-          <h2>Оставьте номер</h2>
-          <div class="subtitle">чтобы узнать все и сразу</div>
+          <h2>{{ $t('callForm.title') }}</h2>
+          <div class="subtitle">{{ $t('callForm.subtitle') }}</div>
         </div>
       </template>
 
       <div class="row" v-if="unsend">
         <div class="col-lg-4">
-          <app-input :requiredField="!name && name !== null" label="Как к вам обращаться" type="text" placeholder="Имя"
+          <app-input :requiredField="!name && name !== null" :label="$t('callForm.nameLabel')" type="text" :placeholder="$t('callForm.namePlaceholder')"
             mask="" v-model="name" />
         </div>
 
         <div class="col-lg-4">
-          <app-input :requiredField="!phone && phone !== null" label="Номер телефона" type="text"
-            placeholder="0ХХ ХХХ ХХХХ" mask="###-###-##-##" v-model="phone" />
+          <app-input :requiredField="!phone && phone !== null" :label="$t('callForm.phoneLabel')" type="text"
+            :placeholder="$t('callForm.phonePlaceholder')" mask="###-###-##-##" v-model="phone" />
         </div>
       </div>
       <welcome-modal v-model="modalWelcomeOpen" />
       <div class="call-form__btn-wrapper" v-if="unsend">
         <button id="callback-form-btn" class="call-form__button" :disabled="!phone || !name"
-          @click.prevent="handleSendEmail">Отправить</button>
+          @click.prevent="handleSendEmail">{{ $t('common.submit') }}</button>
       </div>
     </div>
   </div>

@@ -1,58 +1,104 @@
 <template>
   <form class="order-form">
     <div class="mobile-wrapper">
-
       <template v-if="mobile || tablet">
         <div class="order-form__close" @click="$emit('closeModal')"></div>
 
         <div class="order-form__title">
-          <h2>Заполните форму</h2>
-          <div class="subtitle">и мы перезвоним вам в течение 15 минут и огласим примерную стоимость</div>
+          <h2>{{ $t("orderForm.title") }}</h2>
+          <div class="subtitle">{{ $t("orderForm.subtitle") }}</div>
         </div>
       </template>
 
       <div class="row" v-if="unsend">
         <div class="col-lg-3">
-          <app-input :requiredField="!name && name !== null" v-model="name" label="Как к вам обращаться" type="text"
-            placeholder="Имя" />
+          <app-input
+            :requiredField="!name && name !== null"
+            v-model="name"
+            :label="$t('orderForm.nameLabel')"
+            type="text"
+            :placeholder="$t('orderForm.namePlaceholder')"
+          />
         </div>
 
         <div class="col-lg-3">
-          <app-input :requiredField="!phone && phone !== null" v-model="phone" label="Ваш номер телефона" type="text"
-            placeholder="0ХХ ХХХ ХХ ХХ" mask="###-###-##-##" />
+          <app-input
+            :requiredField="!phone && phone !== null"
+            v-model="phone"
+            :label="$t('orderForm.phoneLabel')"
+            type="text"
+            :placeholder="$t('orderForm.phonePlaceholder')"
+            mask="###-###-##-##"
+          />
         </div>
 
         <div class="col-lg-3">
-          <app-input v-model="from" label="Откуда" type="text" placeholder="Введите адресс" />
+          <app-input
+            v-model="from"
+            :label="$t('orderForm.fromLabel')"
+            type="text"
+            :placeholder="$t('orderForm.fromPlaceholder')"
+          />
         </div>
 
         <div class="col-lg-3">
-          <app-input v-model="date" label="Планируемая дата" type="text" placeholder="ДД/ММ/ГГГГ ЧЧ:ММ"
-            mask="##/##/#### ##:##" />
+          <app-input
+            v-model="date"
+            :label="$t('orderForm.dateLabel')"
+            type="text"
+            :placeholder="$t('orderForm.datePlaceholder')"
+            mask="##/##/#### ##:##"
+          />
         </div>
 
         <div class="col-lg-3">
-          <app-select v-model="type" label="Тип транспортировки" placeholder="Выберите" :options="transport.options"
-            :value="transport.value"></app-select>
+          <app-select
+            v-model="type"
+            :label="$t('orderForm.typeLabel')"
+            :placeholder="$t('orderForm.typePlaceholder')"
+            :options="transport.options"
+            :value="transport.value"
+          ></app-select>
         </div>
 
         <div class="col-lg-3">
-          <app-select v-model="workers" label="Грузчики" placeholder="Выберите" :options="stuff.options"
-            :value="stuff.value"></app-select>
+          <app-select
+            v-model="workers"
+            :label="$t('orderForm.workersLabel')"
+            :placeholder="$t('orderForm.workersPlaceholder')"
+            :options="stuff.options"
+            :value="stuff.value"
+          ></app-select>
         </div>
 
         <div class="col-lg-3">
-          <app-input v-model="to" label="Куда" type="text" placeholder="Введите адресс" />
+          <app-input
+            v-model="to"
+            :label="$t('orderForm.toLabel')"
+            type="text"
+            :placeholder="$t('orderForm.toPlaceholder')"
+          />
         </div>
 
         <div class="col-lg-3">
-          <app-input v-model="comment" label="Комментарий или пожелание" type="text" placeholder="Ваши пожелания" />
+          <app-input
+            v-model="comment"
+            :label="$t('orderForm.commentLabel')"
+            type="text"
+            :placeholder="$t('orderForm.commentPlaceholder')"
+          />
         </div>
       </div>
       <welcome-modal v-model="modalWelcomeOpen" />
       <div class="order-form__btn-wrapper" v-if="unsend">
-        <button id="order-form-btn" class="order-form__button" :disabled="!phone || !name"
-          @click.prevent="handleSendEmail">Отправить</button>
+        <button
+          id="order-form-btn"
+          class="order-form__button"
+          :disabled="!phone || !name"
+          @click.prevent="handleSendEmail"
+        >
+          {{ $t("common.submit") }}
+        </button>
       </div>
     </div>
   </form>
@@ -82,17 +128,31 @@ export default {
       date: null,
       comment: '',
       unsend: true,
-
-      transport: {
-        options: ['Квартирный переезд', 'Офисный переезд', 'Перевозка имущества'],
-        value: null,
-      },
-      stuff: {
-        options: ['1 грузчик', '2 грузчика', '3 грузчика', 'более 3 грузчиков'],
-        value: null,
-      },
       modalWelcomeOpen: true,
     };
+  },
+  computed: {
+    transport() {
+      return {
+        options: [
+          this.$t('orderForm.transportOptions.flat'),
+          this.$t('orderForm.transportOptions.office'),
+          this.$t('orderForm.transportOptions.stuff'),
+        ],
+        value: null,
+      };
+    },
+    stuff() {
+      return {
+        options: [
+          this.$t('orderForm.workersOptions.one'),
+          this.$t('orderForm.workersOptions.two'),
+          this.$t('orderForm.workersOptions.three'),
+          this.$t('orderForm.workersOptions.more'),
+        ],
+        value: null,
+      };
+    },
   },
   mounted() {
     this.modalWelcomeOpen = false;
@@ -176,7 +236,7 @@ export default {
       right: 0;
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -186,7 +246,7 @@ export default {
       }
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;

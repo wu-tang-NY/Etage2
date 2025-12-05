@@ -18,6 +18,7 @@ import './components';
 
 import App from './App';
 import router from './router';
+import i18n from './i18n';
 
 import EventBus from './eventbus';
 
@@ -40,6 +41,7 @@ Vue.prototype.$eventbus = EventBus;
 new Vue({
   el: '#app',
   router,
+  i18n,
   components: { App },
   template: '<App/>',
 });

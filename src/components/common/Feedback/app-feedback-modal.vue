@@ -1,45 +1,75 @@
 <template>
-  <app-modal :show="open" @input="$emit('input', $event)" title="Оставьте отзыв">
+  <app-modal
+    :show="open"
+    @input="$emit('input', $event)"
+    :title="$t('feedback.modalTitle')"
+  >
     <form v-if="unsend">
       <div class="row">
         <div class="col-lg-12">
-          <app-input :requiredField="!name && name !== null" label="Как Вас зовут" type="text" placeholder="Имя"
-            v-model="name" />
+          <app-input
+            :requiredField="!name && name !== null"
+            :label="$t('feedback.nameLabel')"
+            type="text"
+            :placeholder="$t('feedback.namePlaceholder')"
+            v-model="name"
+          />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12">
-          <app-input :requiredField="!from && from !== null" label="Откуда Вы" type="text"
-            placeholder="Населенный пункт" v-model="from" />
+          <app-input
+            :requiredField="!from && from !== null"
+            :label="$t('feedback.fromLabel')"
+            type="text"
+            :placeholder="$t('feedback.fromPlaceholder')"
+            v-model="from"
+          />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12">
-          <app-input :requiredField="!phone && phone !== null" label="Номер телефона" type="text"
-            placeholder="0ХХ ХХХ ХХХХ" mask="###-###-##-##" v-model="phone" />
+          <app-input
+            :requiredField="!phone && phone !== null"
+            :label="$t('feedback.phoneLabel')"
+            type="text"
+            :placeholder="$t('feedback.phonePlaceholder')"
+            mask="###-###-##-##"
+            v-model="phone"
+          />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12">
-          <app-textarea :requiredField="!comment && comment !== null" label="Оставьте Ваш отзыв"
-            placeholder="Комментарий" v-model="comment" />
+          <app-textarea
+            :requiredField="!comment && comment !== null"
+            :label="$t('feedback.commentLabel')"
+            :placeholder="$t('feedback.commentPlaceholder')"
+            v-model="comment"
+          />
         </div>
       </div>
 
       <div class="row">
         <div class="col-lg-12 text-center pb-1">
-          <button type="button" class="btn" :disabled="!phone || !name || !from || !comment"
-            @click.prevent="handleSendEmail">Отправить</button>
+          <button
+            type="button"
+            class="btn"
+            :disabled="!phone || !name || !from || !comment"
+            @click.prevent="handleSendEmail"
+          >
+            {{ $t("common.submit") }}
+          </button>
         </div>
       </div>
     </form>
     <div v-else>
-      <strong>Спасибо, запрос отправлен</strong>
-      <br>
-      Мы свяжемся с вами в ближайшее время
+      <strong>{{ $t("feedback.thanks") }}</strong>
+      <br />
+      {{ $t("feedback.thanksMessage") }}
     </div>
   </app-modal>
 </template>
@@ -104,7 +134,7 @@ export default {
   font-size: rem(14);
   line-height: 1;
   letter-spacing: 0.3px;
-  transition: .3s ease-in-out;
+  transition: 0.3s ease-in-out;
   cursor: pointer;
 
   &:hover {

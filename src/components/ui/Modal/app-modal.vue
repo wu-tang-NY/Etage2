@@ -1,12 +1,23 @@
 <template>
   <portal to="modal" v-if="show">
-    <div class="modal" tabindex="-1" role="dialog" @click.self="handleCloseModal">
+    <div
+      class="modal"
+      tabindex="-1"
+      role="dialog"
+      @click.self="handleCloseModal"
+    >
       <div :class="modalDialogClasses" role="document">
         <div class="modal-content" v-if="show">
           <div class="modal-header" v-if="title">
             <h5 class="modal-title">{{ title }}</h5>
 
-            <button type="button" class="modal-close" data-dismiss="modal" aria-label="Close" @click="handleCloseModal">
+            <button
+              type="button"
+              class="modal-close"
+              data-dismiss="modal"
+              aria-label="Close"
+              @click="handleCloseModal"
+            >
               <span class="modal-close__line"></span>
               <span class="modal-close__line"></span>
             </button>
@@ -73,7 +84,7 @@ export default {
 
 <style lang="scss">
 .modal {
-  background-color: rgba($black, .5);
+  background-color: rgba($black, 0.5);
   display: block;
 
   &-header {
@@ -94,14 +105,14 @@ export default {
     border: none;
     padding: 0;
     margin: -1rem -1rem -1rem 0;
-    color: rgba($black, .5);
+    color: rgba($black, 0.5);
     position: relative;
     @include size(20px);
     margin-right: 0px;
 
     &::before,
     &::after {
-      content: '';
+      content: "";
       background-color: $colors-text--primary;
       @include absolute(0, 0);
       @include size(100%, 2px);
@@ -135,7 +146,7 @@ export default {
 
 @include media-breakpoint-up(lg) {
   .modal-open {
-    padding-right: 17px;
+    padding-right: var(--scrollbar-width, 0px);
   }
 }
 
@@ -159,7 +170,7 @@ export default {
       @include size(100%);
       height: 100vh;
       overflow: auto;
-     }
+    }
   }
 }
 </style>
