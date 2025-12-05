@@ -11,9 +11,7 @@
     "start:all": "npm run start && npm run start:server",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "svg": "vsvg -s ./static/icons -t ./src/assets/icons",
-    "heroku-prebuild": "npm install --dev",
-    "heroku-postbuild": "npm run build"
+    "svg": "vsvg -s ./static/icons -t ./src/assets/icons"
   },
   "dependencies": {
     "axios": "^0.19.0",
