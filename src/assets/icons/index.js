@@ -65,6 +65,8 @@ require("./price_workers");
 require("./team_feature");
 require("./testimonials_arrow_left");
 require("./testimonials_arrow_right");
+require("./theme-dark");
+require("./theme-light");
 require("./weralls_logo");
 require("./workers_1");
 require("./workers_2");

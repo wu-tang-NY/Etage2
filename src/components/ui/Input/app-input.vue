@@ -31,35 +31,35 @@
 
 <script>
 export default {
-  name: 'AppInput',
+  name: "AppInput",
   model: {
-    prop: 'value',
+    prop: "value"
   },
   props: {
     label: {
-      type: String,
+      type: String
     },
 
     mask: {
-      type: String,
+      type: String
     },
 
     type: {
-      type: String,
+      type: String
     },
 
     placeholder: {
-      type: String,
+      type: String
     },
 
     requiredField: {
-      type: Boolean,
+      type: Boolean
     },
 
     value: {
-      required: false,
-    },
-  },
+      required: false
+    }
+  }
 };
 </script>
 
@@ -70,9 +70,8 @@ export default {
   margin-bottom: 20px;
 
   &__label {
-    font-size: rem(12);
+    font-size: rem(13);
     line-height: 2;
-    letter-spacing: 0.2px;
     cursor: pointer;
   }
 
@@ -84,16 +83,15 @@ export default {
 
   &__input {
     border: none;
-    border-bottom: 1px solid $colors-grey-200;
+    border-bottom: 1px solid var(--colors-grey-200);
     background-color: transparent;
     width: 100%;
-    font-size: rem(12);
+    font-size: rem(13);
     line-height: 2;
-    letter-spacing: 0.2px;
     padding: 4px 0;
 
     &::placeholder {
-      color: $colors-text--secondary;
+      color: var(--colors-text-secondary);
     }
 
     &:hover,
@@ -109,22 +107,22 @@ export default {
   }
 
   &__line {
-    background-color: $colors-text--primary;
+    background-color: var(--colors-text-primary);
     position: absolute;
     left: auto;
     right: 0;
     bottom: 0;
     height: 1px;
     width: 0;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
 
   &--required {
     .app-form__input {
-      border-color: #FF1E3A;
+      border-color: #ff1e3a;
 
       &::placeholder {
-        color: #FF1E3A;
+        color: #ff1e3a;
       }
     }
   }

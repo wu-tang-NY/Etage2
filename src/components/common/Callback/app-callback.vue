@@ -32,7 +32,7 @@ export default {
 .app-callback {
   &__text {
     @include underline();
-    font: 600 rem(12) $font-family--primary;
+    font: 600 rem(12) var(--font-family-primary);
     letter-spacing: 0.2px;
     cursor: pointer;
   }

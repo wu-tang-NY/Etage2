@@ -1,11 +1,20 @@
 <template>
-  <li class="nav-item" :class="{
-    'nav-item--active': active,
-    'nav-item--visited': visited,
-    'nav-item--hovered': hovered,
-  }">
-    <a href="" :id="id" class="nav-item__link" @mouseenter="hovered = true" @mouseleave="hovered = false"
-      @click.prevent="hovered = false">
+  <li
+    class="nav-item"
+    :class="{
+      'nav-item--active': active,
+      'nav-item--visited': visited,
+      'nav-item--hovered': hovered
+    }"
+  >
+    <a
+      href=""
+      :id="id"
+      class="nav-item__link"
+      @mouseenter="hovered = true"
+      @mouseleave="hovered = false"
+      @click.prevent="hovered = false"
+    >
       <div class="nav-item__inner">
         <slot>
           <span class="nav-item__icon" v-if="icon">
@@ -22,7 +31,12 @@
 
       <ul class="nav-inner" v-if="children">
         <template v-for="(child, index) in children">
-          <li class="nav-inner__item" tag="li" @click="$eventbus.$emit('openPopup', child.path)" :key="index">
+          <li
+            class="nav-inner__item"
+            tag="li"
+            @click="$eventbus.$emit('openPopup', child.path)"
+            :key="index"
+          >
             <a href="" class="nav-inner__link">
               {{ child.title }}
             </a>
@@ -35,37 +49,37 @@
 
 <script>
 export default {
-  name: 'AppNavItem',
+  name: "AppNavItem",
   props: {
     id: {
-      type: String,
+      type: String
     },
 
     title: {
-      type: String,
+      type: String
     },
 
     icon: {
-      type: String,
+      type: String
     },
 
     active: {
       type: Boolean,
-      required: true,
+      required: true
     },
 
     visited: {
       type: Boolean,
-      required: true,
+      required: true
     },
 
     children: {
-      type: Array,
-    },
+      type: Array
+    }
   },
   data: () => ({
-    hovered: false,
-  }),
+    hovered: false
+  })
 };
 </script>
 
@@ -74,10 +88,10 @@ export default {
   &__link {
     display: block;
     padding: 7px rem(24) 8px;
-    color: $colors-text--primary;
+    color: var(--colors-text-primary);
     font-weight: 600;
     font-size: rem(14);
-    letter-spacing: .2px;
+    letter-spacing: 0.2px;
     position: relative;
   }
 
@@ -94,7 +108,7 @@ export default {
 
   &__chevron {
     border: 4px solid transparent;
-    border-top-color: $colors-text--primary;
+    border-top-color: var(--colors-text-primary);
     display: inline-block;
     margin-left: 5px;
     transform: translate(0, 2px);
@@ -113,19 +127,19 @@ export default {
     clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0 100%);
 
     &::before {
-      content: '';
-      background-color: $colors-grey-200;
+      content: "";
+      background-color: var(--colors-grey-200);
       @include size(0, 100%);
       position: absolute;
       top: 0;
       left: auto;
       right: 0;
-      transition: width .3s linear;
+      transition: width 0.3s linear;
     }
   }
 
   .nav-inner {
-    background-color: $colors-grey-200;
+    background-color: var(--colors-grey-200);
     padding: 10px;
     position: absolute;
     top: 100%;
@@ -137,13 +151,13 @@ export default {
     &__link {
       display: block;
       padding: 9px 10px;
-      color: $colors-text--primary;
+      color: var(--colors-text-primary);
       font-weight: 500;
-      letter-spacing: .3px;
-      transition: background-color .15s ease-in-out;
+      letter-spacing: 0.3px;
+      transition: background-color 0.15s ease-in-out;
 
       &:hover {
-        background-color: rgba($black, .05);
+        background-color: rgba($black, 0.05);
       }
     }
   }
@@ -151,7 +165,7 @@ export default {
   &.nav-item--hovered {
     .nav-item {
       &__link {
-        color: $colors-text--primary;
+        color: var(--colors-text-primary);
       }
     }
 
@@ -183,20 +197,20 @@ export default {
       }
 
       &__bg::before {
-        background-color: $colors-accent;
+        background-color: var(--colors-accent);
         width: 100%;
         left: 0;
       }
     }
 
     .nav-inner {
-      background-color: $colors-accent;
+      background-color: var(--colors-accent);
 
       &__link {
         color: $white;
 
         &:hover {
-          background-color: rgba($white, .2);
+          background-color: rgba($white, 0.2);
         }
       }
     }
@@ -230,7 +244,6 @@ export default {
     &.nav-item--visited {
       .nav-item {
         &__bg::before {
-          background-color: $colors-grey-200;
           width: 100%;
         }
       }

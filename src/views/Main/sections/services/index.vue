@@ -57,7 +57,7 @@ export default {
     margin-bottom: 32px;
 
     span {
-      color: $colors-accent;
+      color: var(--colors-accent);
     }
   }
 
@@ -66,7 +66,7 @@ export default {
     max-width: 680px;
 
     span {
-      color: $colors-text--primary;
+      color: var(--colors-text-primary);
       font-weight: 800;
     }
   }

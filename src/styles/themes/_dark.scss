@@ -1,0 +1,2211 @@
+// Exclude elements that shouldn't transition
+svg,
+img,
+video,
+iframe,
+canvas,
+.christmas-lights,
+.snowflake,
+.sparkle,
+.confetti,
+::before,
+::after {
+  transition: none !important;
+}
+
+// Dark mode theme styles
+.theme-dark {
+  // Override CSS variables for dark mode
+  --colors-text-primary: var(--colors-dark-text-primary);
+  --colors-text-secondary: var(--colors-dark-text-secondary);
+  --colors-grey-100: var(--colors-dark-grey-100);
+  --colors-grey-200: var(--colors-dark-grey-200);
+  --colors-grey-300: var(--colors-dark-grey-300);
+
+  // Background colors
+  background-color: var(--colors-dark-bg);
+  color: var(--colors-dark-text-primary);
+
+  // Body and main content
+  body {
+    background-color: var(--colors-dark-bg);
+    color: var(--colors-dark-text-primary);
+  }
+
+  // Headers
+  h1,
+  h2,
+  h3 {
+    color: var(--colors-dark-text-primary);
+  }
+
+  // Text colors
+  .dark-gray {
+    color: var(--colors-dark-text-primary);
+  }
+
+  .light-gray {
+    color: var(--colors-dark-text-secondary);
+  }
+
+  // App header
+  .app-header {
+    background-color: var(--colors-dark-surface);
+    border-bottom: 1px solid var(--colors-dark-border);
+  }
+
+  // Navigation wrapper
+  .nav-wrapper {
+    &--open {
+      background-color: var(--colors-dark-surface);
+    }
+  }
+
+  // Menu toggle
+  .menu-toggle {
+    &__line {
+      background-color: var(--colors-dark-text-primary);
+    }
+  }
+
+  // Nav blocks
+  .nav-block {
+    &__title {
+      background-color: var(--colors-dark-grey-200);
+      color: var(--colors-dark-text-primary);
+    }
+  }
+
+  // Footer
+  .app-footer {
+    background-color: var(--colors-dark-surface);
+    border-top: 1px solid var(--colors-dark-border);
+    color: var(--colors-dark-text-secondary);
+  }
+
+  // App content
+  .app-content {
+    background-color: var(--colors-dark-bg);
+  }
+
+  // Page main
+  .page-main {
+    background-color: var(--colors-dark-bg);
+  }
+
+  // Inputs
+  input,
+  textarea,
+  select {
+    background-color: var(--colors-dark-surface);
+    border-color: var(--colors-dark-border);
+    color: var(--colors-dark-text-primary);
+
+    &::placeholder {
+      color: var(--colors-dark-text-secondary);
+    }
+  }
+
+  // Buttons
+  .btn {
+    &-primary {
+      background-color: var(--colors-accent);
+      border-color: var(--colors-accent);
+      color: var(--colors-dark-bg);
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--colors-accent) 90%, black);
+        border-color: color-mix(in srgb, var(--colors-accent) 90%, black);
+      }
+    }
+  }
+
+  // Links
+  a {
+    color: var(--colors-accent);
+
+    &:hover {
+      color: color-mix(in srgb, var(--colors-accent) 90%, white);
+    }
+  }
+
+  // Borders
+  .border,
+  [class*="border-"] {
+    border-color: var(--colors-dark-border) !important;
+  }
+
+  // Cards and modals
+  .card,
+  .modal-content {
+    background-color: var(--colors-dark-surface);
+    border-color: var(--colors-dark-border);
+    color: var(--colors-dark-text-primary);
+  }
+
+  // Modal overlay
+  .modal {
+    background-color: rgba(0, 0, 0, 0.7);
+
+    &-content {
+      background-color: var(--colors-dark-surface);
+      color: var(--colors-dark-text-primary);
+    }
+
+    &-header {
+      border-bottom-color: var(--colors-dark-border);
+    }
+
+    &-footer {
+      border-top-color: var(--colors-dark-border);
+    }
+
+    &-title {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &-close {
+      color: var(--colors-dark-text-secondary);
+
+      &::before,
+      &::after {
+        background-color: var(--colors-dark-text-primary);
+      }
+    }
+
+    &-dialog {
+      @include media-breakpoint-down(sm) {
+        background-color: var(--colors-dark-surface);
+      }
+    }
+  }
+
+  // Modal info (special modal)
+  .modal-info {
+    background-color: var(--colors-dark-bg);
+
+    .sticky {
+      background-color: var(--colors-dark-bg);
+
+      &__nav {
+        background-color: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 5%,
+          transparent
+        );
+      }
+
+      &__ham-item {
+        background: var(--colors-dark-text-primary);
+      }
+    }
+
+    &__panel-header {
+      color: var(--colors-dark-text-primary);
+
+      &:hover {
+        background-color: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 10%,
+          transparent
+        );
+      }
+    }
+
+    &__panel--active {
+      .modal-info__panel-header {
+        background-color: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 10%,
+          transparent
+        );
+      }
+    }
+
+    &__component-group {
+      & > div + div::before {
+        background-color: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 40%,
+          transparent
+        );
+      }
+
+      & + &::before {
+        background-color: color-mix(
+          in srgb,
+          var(--colors-accent) 40%,
+          transparent
+        );
+      }
+    }
+  }
+
+  // Form components
+  .order-form,
+  .call-form {
+    background-color: var(--colors-dark-surface);
+  }
+
+  // Input components
+  .app-input,
+  .app-form {
+    &__label {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__input {
+      border-bottom-color: var(--colors-dark-border);
+      color: var(--colors-dark-text-primary);
+
+      &::placeholder {
+        color: var(--colors-dark-text-secondary);
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        & + .app-form__line {
+          background-color: var(--colors-accent);
+        }
+      }
+    }
+
+    &__line {
+      background-color: var(--colors-accent);
+    }
+
+    &--required {
+      .app-form__input {
+        border-color: #ff1e3a;
+
+        &::placeholder {
+          color: #ff1e3a;
+        }
+      }
+    }
+  }
+
+  // Select components
+  .app-select {
+    &__label {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__line {
+      background-color: var(--colors-accent);
+    }
+
+    .multiselect {
+      &:hover,
+      &:active,
+      &:focus {
+        & + .app-select__line {
+          background-color: var(--colors-accent);
+        }
+      }
+    }
+  }
+
+  .multiselect {
+    background-color: transparent;
+    color: var(--colors-dark-text-primary);
+
+    &.multiselect--active {
+      color: var(--colors-dark-text-primary);
+    }
+
+    .multiselect__tags {
+      background-color: transparent;
+      border-bottom-color: var(--colors-dark-border);
+      color: var(--colors-dark-text-primary);
+    }
+
+    .multiselect__placeholder,
+    .multiselect__input,
+    .multiselect__single {
+      background-color: transparent;
+      color: var(--colors-dark-text-primary);
+    }
+
+    .multiselect__select {
+      background-color: transparent;
+
+      &::before {
+        border-top-color: var(--colors-dark-text-primary);
+      }
+    }
+
+    .multiselect__content-wrapper {
+      background-color: var(--colors-dark-surface);
+      border-color: var(--colors-dark-border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .multiselect__option {
+      background-color: var(--colors-dark-surface);
+      color: var(--colors-dark-text-primary);
+
+      &--highlight {
+        background-color: var(--colors-dark-grey-200);
+        color: var(--colors-dark-text-primary);
+      }
+
+      &--selected {
+        background-color: var(--colors-accent);
+        color: var(--colors-dark-bg);
+        font-weight: 600;
+
+        &.multiselect__option--highlight {
+          background-color: color-mix(in srgb, var(--colors-accent) 90%, white);
+        }
+      }
+    }
+
+    .multiselect__tag {
+      background-color: var(--colors-accent);
+      color: var(--colors-dark-bg);
+
+      .multiselect__tag-icon {
+        &:hover {
+          background-color: color-mix(in srgb, var(--colors-accent) 90%, black);
+        }
+
+        &::after {
+          color: var(--colors-dark-bg);
+        }
+      }
+    }
+
+    .multiselect__spinner {
+      border-color: var(--colors-accent) transparent transparent;
+    }
+  }
+
+  // Scrollbar styling for dark mode
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--colors-dark-surface);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--colors-dark-grey-300);
+    border-radius: 4px;
+
+    &:hover {
+      background: var(--colors-dark-grey-200);
+    }
+  }
+
+  // Dropdowns
+  .dropdown-menu {
+    background-color: var(--colors-dark-surface);
+    border-color: var(--colors-dark-border);
+
+    .dropdown-item {
+      color: var(--colors-dark-text-primary);
+
+      &:hover {
+        background-color: var(--colors-dark-grey-200);
+        color: var(--colors-dark-text-primary);
+      }
+    }
+  }
+
+  // Tables
+  .table {
+    color: var(--colors-dark-text-primary);
+
+    thead th {
+      border-color: var(--colors-dark-border);
+    }
+
+    tbody td {
+      border-color: var(--colors-dark-border);
+    }
+  }
+
+  // Language switcher
+  .app-language-switcher {
+    &__button {
+      background: var(--colors-dark-grey-200) !important;
+      border-color: var(--colors-dark-border) !important;
+      color: var(--colors-dark-text-primary) !important;
+
+      &:hover {
+        background-color: var(--colors-dark-border) !important;
+        color: var(--colors-dark-text-primary) !important;
+      }
+
+      &--active {
+        background-color: var(--colors-dark-text-primary) !important;
+        color: var(--colors-dark-bg) !important;
+        border-color: var(--colors-dark-text-primary) !important;
+      }
+
+      &:focus {
+        outline: 2px solid var(--colors-accent);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  // Theme toggle
+  .app-theme-toggle {
+    background: var(--colors-dark-grey-200);
+    border-color: var(--colors-dark-border);
+    color: var(--colors-dark-text-primary);
+
+    &:hover {
+      background-color: var(--colors-dark-border);
+      color: var(--colors-dark-text-primary);
+
+      svg {
+        fill: var(--colors-dark-text-primary);
+      }
+    }
+
+    &:focus {
+      outline: 2px solid var(--colors-accent);
+      outline-offset: 2px;
+    }
+
+    svg {
+      fill: var(--colors-dark-text-primary);
+    }
+  }
+
+  // Schedule component
+  .app-schedule {
+    color: var(--colors-dark-text-primary);
+
+    &__icon {
+      color: var(--colors-accent);
+
+      svg {
+        fill: var(--colors-accent);
+      }
+    }
+
+    &__label {
+      color: var(--colors-dark-text-primary);
+      font-weight: 900;
+    }
+
+    &__text {
+      color: color-mix(
+        in srgb,
+        var(--colors-dark-text-primary) 90%,
+        transparent
+      );
+
+      strong {
+        color: var(--colors-dark-text-primary);
+      }
+    }
+  }
+
+  // Phone component
+  .app-phones {
+    color: var(--colors-dark-text-primary);
+
+    &__code {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__code-icon {
+      svg {
+        fill: var(--colors-dark-text-primary);
+      }
+    }
+
+    &__code-text {
+      color: var(--colors-dark-text-primary);
+
+      span {
+        color: var(--colors-dark-text-secondary);
+      }
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: var(--colors-dark-text-primary);
+
+        span {
+          color: var(--colors-accent);
+        }
+      }
+    }
+  }
+
+  // Callback component
+  .app-callback {
+    &__text {
+      color: var(--colors-dark-text-primary);
+      text-decoration-color: var(--colors-dark-text-primary);
+
+      &:hover {
+        color: var(--colors-accent);
+        text-decoration-color: var(--colors-accent);
+      }
+
+      &:focus {
+        outline: 2px solid var(--colors-accent);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  // Menu toggle button
+  .menu-toggle {
+    &__btn {
+      background-color: transparent;
+      border-color: transparent;
+
+      &:hover {
+        .menu-toggle__line {
+          background-color: var(--colors-accent);
+        }
+      }
+
+      &:focus {
+        outline: 2px solid var(--colors-accent);
+        outline-offset: 2px;
+      }
+    }
+
+    &__line {
+      background-color: var(--colors-dark-text-primary);
+    }
+  }
+
+  // Header blocks container
+  .app-header {
+    &__blocks {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__block {
+      color: var(--colors-dark-text-primary);
+    }
+  }
+
+  // Background images - adjust for dark mode
+  .page-main__bg-image {
+    background-image: url("/static/icons/bg_dark.svg") !important;
+    background-size: auto 163px;
+  }
+
+  // Services background
+  .services__bg {
+    opacity: 0.3;
+  }
+
+  // Services section
+  .services {
+    .subtitle {
+      span {
+        color: var(--colors-dark-text-primary);
+      }
+    }
+  }
+
+  // Welcome block in modals
+  .welcome-block {
+    color: var(--colors-dark-text-primary);
+
+    h4 {
+      color: var(--colors-dark-text-primary);
+    }
+
+    p {
+      color: var(--colors-dark-text-secondary);
+    }
+  }
+
+  // Call form
+  .call-form {
+    &__title {
+      h2 {
+        color: var(--colors-dark-text-primary);
+      }
+
+      .subtitle {
+        color: var(--colors-dark-text-secondary);
+      }
+    }
+
+    &__close {
+      &::before,
+      &::after {
+        background-color: var(--colors-dark-text-primary);
+      }
+    }
+  }
+
+  // Order form
+  .order-form {
+    background-color: var(--colors-dark-surface);
+
+    &__wrapper {
+      background-color: var(--colors-dark-surface);
+    }
+
+    &__after {
+      color: var(--colors-dark-text-primary);
+    }
+
+    // Mobile view
+    @media screen and (max-width: 992px) {
+      background-color: var(--colors-dark-surface);
+
+      &__close {
+        &::before,
+        &::after {
+          background-color: var(--colors-dark-text-primary);
+        }
+      }
+    }
+  }
+
+  // Order form component
+  .order-form-component {
+    background-color: var(--colors-dark-surface);
+  }
+
+  // Call form component close button
+  .call-form__close {
+    &::before,
+    &::after {
+      background-color: var(--colors-dark-text-primary);
+    }
+  }
+
+  // New Year Decorations
+  .app-new-year-decorations {
+    // Snowflakes and sparkles work fine in dark mode
+    // Christmas lights wire color adjustment
+    .christmas-lights {
+      li:before,
+      li:after {
+        background: var(--colors-dark-grey-300);
+        border-bottom-color: var(--colors-dark-grey-300);
+      }
+    }
+  }
+
+  // Reviews section
+  .reviews-section,
+  .app-page-main-section-reviews,
+  .reviews {
+    h2 {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__block {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__title {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__swiper {
+      &::before {
+        background-image: linear-gradient(
+          to right,
+          var(--colors-dark-bg) 10%,
+          transparent
+        );
+      }
+
+      &::after {
+        background-image: linear-gradient(
+          to left,
+          var(--colors-dark-bg) 10%,
+          transparent
+        );
+      }
+    }
+
+    &__slide {
+      &-title {
+        color: var(--colors-dark-text-primary);
+      }
+
+      &-desc {
+        color: var(--colors-dark-text-secondary);
+      }
+    }
+
+    &__next {
+      background-color: var(--colors-accent);
+      color: $white;
+
+      &:hover {
+        filter: brightness(1.1);
+      }
+
+      &--feedback {
+        background-color: var(--colors-dark-grey-200);
+        color: var(--colors-dark-text-primary);
+
+        &:hover {
+          color: $white;
+          background-color: var(--colors-dark-text-primary);
+        }
+      }
+    }
+  }
+
+  // Swiper navigation buttons
+  .swiper-button-prev,
+  .swiper-button-next {
+    &.swiper-button-white {
+      // In dark mode, buttons should be visible
+      background-color: var(--colors-accent);
+    }
+  }
+
+  // Price section
+  .price-section,
+  .app-page-main-section-price,
+  .price {
+    h2 {
+      color: var(--colors-dark-text-primary);
+    }
+
+    .subtitle {
+      color: var(--colors-dark-text-secondary);
+
+      a {
+        color: var(--colors-accent);
+
+        &:hover {
+          color: color-mix(in srgb, var(--colors-accent) 90%, white);
+        }
+      }
+    }
+
+    &__header {
+      &-block {
+        background-color: var(--colors-dark-grey-200);
+        color: var(--colors-dark-text-primary);
+
+        &::before {
+          color: var(--colors-dark-text-primary);
+        }
+
+        a {
+          color: var(--colors-accent);
+
+          &:hover {
+            color: color-mix(in srgb, var(--colors-accent) 90%, white);
+          }
+        }
+      }
+    }
+
+    &__subtitle {
+      color: var(--colors-dark-text-secondary);
+
+      &--tree {
+        &::before,
+        &::after {
+          border-color: var(--colors-dark-border);
+        }
+      }
+
+      svg {
+        fill: var(--colors-dark-text-secondary);
+      }
+
+      &:hover {
+        color: var(--colors-dark-text-primary);
+
+        svg {
+          fill: var(--colors-accent);
+        }
+      }
+    }
+
+    &__examples {
+      background-color: var(--colors-accent);
+      color: $white;
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--colors-accent) 90%, white);
+      }
+    }
+  }
+
+  // Category components
+  .category {
+    background-color: var(--colors-dark-surface-elevated);
+    color: var(--colors-dark-text-primary);
+
+    &__title {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__subtitle {
+      color: var(--colors-dark-text-secondary);
+    }
+
+    &__price-value {
+      color: var(--colors-dark-text-primary);
+
+      &--highlighted {
+        color: var(--colors-accent);
+      }
+    }
+
+    &__description {
+      color: var(--colors-dark-text-secondary);
+    }
+
+    &__undertext {
+      color: var(--colors-dark-text-secondary);
+    }
+
+    &__additional {
+      background-color: var(--colors-dark-grey-200);
+      color: var(--colors-accent);
+    }
+
+    &__tooltip {
+      svg {
+        fill: var(--colors-dark-grey-300);
+
+        &:hover {
+          fill: var(--colors-accent);
+        }
+      }
+
+      &--small-screens {
+        svg {
+          fill: var(--colors-accent);
+        }
+      }
+    }
+
+    &__info {
+      background-color: var(--colors-dark-grey-200);
+      color: var(--colors-dark-text-primary);
+      box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
+
+      &::before {
+        background-color: var(--colors-dark-grey-200);
+      }
+    }
+
+    &__close {
+      &::before,
+      &::after {
+        background-color: var(--colors-dark-text-primary);
+      }
+    }
+  }
+
+  .category-mini {
+    background-color: var(--colors-dark-surface-elevated);
+    color: var(--colors-dark-text-primary);
+
+    &:hover {
+      background-color: var(--colors-dark-grey-200);
+
+      .category-mini__icon {
+        transform: scale(1.2);
+      }
+    }
+
+    &__info {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__title {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__subtitle {
+      color: var(--colors-dark-text-secondary);
+    }
+
+    &__icon {
+      svg {
+        fill: currentColor;
+      }
+    }
+
+    &__arrow {
+      // Arrow color should adapt via SVG fill
+      fill: var(--colors-dark-text-secondary);
+    }
+  }
+
+  // Mobile wrapper in price section
+  .price .mobile-wrapper {
+    background-color: transparent;
+    color: var(--colors-dark-text-primary);
+  }
+
+  // ============================================
+  // SVG ICONS - COMPREHENSIVE DARK MODE SUPPORT
+  // ============================================
+  // This section handles all SVG icons in the application to support dark mode.
+  // vue-svgicon renders SVGs with inline fill attributes, so we use !important
+  // and high-specificity selectors to override them.
+  //
+  // Color mappings:
+  // - Dark colors (#1B1B1B, #000) → White text
+  // - Light greys (#F6F6F6, #E6E6E6) → Dark grey backgrounds
+  // - Medium greys (#D0D0D0, #C6C6C6) → Lighter grey
+  // - White (#FFF) → Primary text color
+  // - Accent (#FFA511) → Unchanged
+  //
+  // SVG icons - comprehensive dark mode support
+  // Use high specificity to override inline fills from vue-svgicon
+  svg {
+    // Dark text colors -> white (with !important to override inline styles)
+    path[fill="#1B1B1B"],
+    path[fill="#1b1b1b"],
+    path[fill="#000"],
+    path[fill="#000000"],
+    rect[fill="#1B1B1B"],
+    rect[fill="#1b1b1b"],
+    rect[fill="#000"],
+    rect[fill="#000000"],
+    circle[fill="#1B1B1B"],
+    circle[fill="#1b1b1b"],
+    circle[fill="#000"],
+    circle[fill="#000000"],
+    polygon[fill="#1B1B1B"],
+    polygon[fill="#1b1b1b"],
+    polygon[fill="#000"],
+    polygon[fill="#000000"],
+    text[fill="#1B1B1B"],
+    text[fill="#1b1b1b"],
+    text[fill="#000"],
+    text[fill="#000000"] {
+      fill: var(--colors-dark-text-primary) !important;
+    }
+
+    // Light grey backgrounds -> dark grey
+    path[fill="#F6F6F6"],
+    path[fill="#f6f6f6"],
+    path[fill="#E6E6E6"],
+    path[fill="#e6e6e6"],
+    path[fill="#E8E8E8"],
+    path[fill="#e8e8e8"],
+    rect[fill="#F6F6F6"],
+    rect[fill="#f6f6f6"],
+    rect[fill="#E6E6E6"],
+    rect[fill="#e6e6e6"],
+    rect[fill="#E8E8E8"],
+    rect[fill="#e8e8e8"] {
+      fill: var(--colors-dark-grey-200) !important;
+    }
+
+    // Medium grey -> lighter grey
+    path[fill="#D0D0D0"],
+    path[fill="#d0d0d0"],
+    path[fill="#C6C6C6"],
+    path[fill="#c6c6c6"],
+    path[fill="#505050"],
+    rect[fill="#D0D0D0"],
+    rect[fill="#d0d0d0"],
+    rect[fill="#C6C6C6"],
+    rect[fill="#c6c6c6"],
+    rect[fill="#505050"] {
+      fill: var(--colors-dark-grey-300) !important;
+    }
+
+    // White -> primary text color
+    path[fill="#FFF"],
+    path[fill="#FFFFFF"],
+    path[fill="#fff"],
+    path[fill="#ffffff"],
+    rect[fill="#FFF"],
+    rect[fill="#FFFFFF"],
+    rect[fill="#fff"],
+    rect[fill="#ffffff"],
+    text[fill="#FFF"],
+    text[fill="#FFFFFF"],
+    text[fill="#fff"],
+    text[fill="#ffffff"] {
+      fill: var(--colors-dark-text-primary) !important;
+    }
+
+    // Strokes - dark colors -> white
+    path[stroke="#000"],
+    path[stroke="#000000"],
+    line[stroke="#000"],
+    line[stroke="#000000"],
+    line[stroke="#1B1B1B"],
+    line[stroke="#1b1b1b"] {
+      stroke: var(--colors-dark-text-primary) !important;
+    }
+
+    path[stroke="#1B1B1B"],
+    path[stroke="#1b1b1b"] {
+      stroke: rgba(255, 255, 255, 0.3) !important;
+    }
+  }
+
+  // SVG icon component wrapper
+  .svg-icon {
+    color: var(--colors-dark-text-primary);
+
+    svg {
+      // Set default fill to currentColor for icons that should inherit
+      fill: currentColor;
+
+      // Override for specific color patterns
+      path,
+      rect,
+      circle,
+      polygon,
+      text {
+        &[fill="#1B1B1B"],
+        &[fill="#1b1b1b"],
+        &[fill="#000"],
+        &[fill="#000000"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+
+        &[fill="#F6F6F6"],
+        &[fill="#f6f6f6"],
+        &[fill="#E6E6E6"],
+        &[fill="#e6e6e6"] {
+          fill: var(--colors-dark-grey-200) !important;
+        }
+
+        &[fill="#D0D0D0"],
+        &[fill="#d0d0d0"] {
+          fill: var(--colors-dark-grey-300) !important;
+        }
+      }
+    }
+  }
+
+  // Logo specific styles
+  .app-logo {
+    svg {
+      text {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+
+      rect[fill="#1B1B1B"],
+      rect[fill="#1b1b1b"],
+      rect[fill="#000"],
+      rect[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+
+    &__subtitle {
+      color: var(--colors-dark-text-secondary);
+
+      &::before {
+        background-color: var(--colors-dark-border);
+      }
+    }
+  }
+
+  // Icon components with specific styling needs
+  .nav-item__icon,
+  .category-mini__icon,
+  .category__icon,
+  .reviews__icon,
+  .app-phones__code-icon,
+  .app-schedule__icon {
+    svg {
+      fill: currentColor;
+
+      path,
+      rect,
+      circle {
+        &[fill="#1B1B1B"],
+        &[fill="#1b1b1b"],
+        &[fill="#000"],
+        &[fill="#000000"] {
+          fill: currentColor !important;
+        }
+      }
+    }
+  }
+
+  // Social media icons - specific handling for app-social__link
+  .app-social__link {
+    svg {
+      // Background fill (light grey) -> dark grey
+      path[fill="#F6F6F6"],
+      path[fill="#f6f6f6"],
+      path[fill="#E6E6E6"],
+      path[fill="#e6e6e6"] {
+        fill: var(--colors-dark-grey-200) !important;
+      }
+
+      // Icon fill (dark) -> white
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Feature icons
+  .individual_feature,
+  .team_feature,
+  .pack_feature,
+  .auto_feature,
+  .price_feature {
+    svg {
+      path[fill="#000"],
+      path[fill="#000000"],
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Info icon
+  .info {
+    svg {
+      path[fill="#D0D0D0"],
+      path[fill="#d0d0d0"] {
+        fill: var(--colors-dark-grey-300) !important;
+      }
+    }
+  }
+
+  // Operator icons (phone operators)
+  .operator_1,
+  .operator_2,
+  .operator_3 {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Workers icons
+  .workers_1,
+  .workers_2 {
+    svg {
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+
+      path[stroke="#000"],
+      path[stroke="#000000"] {
+        stroke: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Price icons
+  .price_transport,
+  .price_moving,
+  .price_workers {
+    svg {
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+
+      path[stroke="#000"],
+      path[stroke="#000000"] {
+        stroke: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Arrow and navigation icons
+  .arrow_m,
+  .arrow-next,
+  .chevron_feature,
+  .button_arrow,
+  .block_3_arrow,
+  .testimonials_arrow_left,
+  .testimonials_arrow_right {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: currentColor !important;
+      }
+    }
+  }
+
+  // Link icon
+  .link {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: currentColor !important;
+      }
+    }
+  }
+
+  // Divider icon
+  .divider {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Modal dropdown
+  .modal_dropdown {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Home icons
+  .home,
+  .home_1,
+  .home_2 {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Car icon - maintain orange appearance in dark mode (same as light mode)
+  .car {
+    svg {
+      // Override gradient fills (url(#id)) to white - these are dark gradients for wheels/details
+      path[fill^="url(#"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+
+      // White fills -> keep white for visibility
+      path[fill="#FFF"],
+      path[fill="#FFFFFF"],
+      path[fill="#fff"],
+      path[fill="#ffffff"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+
+      // Dark fills (wheels, details, text) -> white for visibility
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"],
+      path[fill="#0A0B09"],
+      path[fill="#0a0b09"],
+      path[fill="#010101"],
+      path[fill="#010201"],
+      rect[fill="#1B1B1B"],
+      rect[fill="#1b1b1b"],
+      rect[fill="#000"],
+      rect[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+
+      // Light blue windows -> keep light for visibility
+      path[fill="#E9EBFF"],
+      path[fill="#e9ebff"] {
+        fill: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 50%,
+          transparent
+        ) !important;
+      }
+
+      // Orange accent -> KEEP ORANGE (maintains car appearance)
+      path[fill="#FFA511"],
+      path[fill="#ffa511"],
+      rect[fill="#FFA511"],
+      rect[fill="#ffa511"] {
+        fill: var(--colors-accent) !important;
+      }
+
+      // Red color -> keep red for visibility
+      path[fill="#FF3939"],
+      path[fill="#ff3939"] {
+        fill: #ff3939 !important;
+      }
+
+      // Black strokes -> white for visibility against dark background
+      path[stroke="#000"],
+      path[stroke="#000000"],
+      path[stroke="#1B1B1B"],
+      path[stroke="#1b1b1b"] {
+        stroke: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Cloud icons - fix white fills and black strokes
+  .cloud_small,
+  .cloud_large {
+    svg {
+      // White fill -> adapt to dark mode (make it visible)
+      path[fill="#FFF"],
+      path[fill="#FFFFFF"],
+      path[fill="#fff"],
+      path[fill="#ffffff"] {
+        fill: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 90%,
+          transparent
+        ) !important;
+      }
+
+      // Dark fills -> white
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+
+      // Black strokes -> white
+      path[stroke="#000"],
+      path[stroke="#000000"],
+      path[stroke="#1B1B1B"],
+      path[stroke="#1b1b1b"] {
+        stroke: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Block icons
+  .block_2_1,
+  .block_2_2,
+  .block_2_3,
+  .block_2_info,
+  .block_3_1,
+  .block_3_2,
+  .block_3_3,
+  .block_3_4,
+  .block_3_5 {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Thanks icon
+  .icon_thanks {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Label schedule
+  .label_schedule {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-accent) !important;
+      }
+    }
+  }
+
+  // Reviews section icons
+  .reviews__icon,
+  .reviews__chevron {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: currentColor !important;
+      }
+    }
+  }
+
+  // Icon variants (colored versions)
+  .icon_1,
+  .icon_2,
+  .icon_3,
+  .icon_4,
+  .icon_6 {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Icon colored versions (should use currentColor)
+  .icon_1_c,
+  .icon_2_c,
+  .icon_3_c,
+  .icon_4_c,
+  .icon_5_c {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: currentColor !important;
+      }
+    }
+  }
+
+  // Icon white versions (should stay white or adapt)
+  .icon_1_w,
+  .icon_2_w,
+  .icon_3_w {
+    svg {
+      path[fill="#FFF"],
+      path[fill="#FFFFFF"],
+      path[fill="#fff"],
+      path[fill="#ffffff"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Social media icons - fix background and icon separately
+  .icon_fb,
+  .icon_in {
+    svg {
+      // Background fill (light grey) -> dark grey
+      path[fill="#F6F6F6"],
+      path[fill="#f6f6f6"],
+      path[fill="#E6E6E6"],
+      path[fill="#e6e6e6"] {
+        fill: var(--colors-dark-grey-200) !important;
+      }
+
+      // Icon fill (dark) -> white
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Nav modal icon
+  .icon_nav-modal {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Logotype
+  .logotype,
+  .logo_weralls,
+  .weralls_logo {
+    svg {
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"],
+      path[fill="#CFCFCF"],
+      path[fill="#cfcfcf"] {
+        fill: var(--colors-dark-text-secondary) !important;
+      }
+    }
+  }
+
+  // Footer designed by logo
+  .app-designedby {
+    &__icon {
+      svg {
+        path[fill="#CFCFCF"],
+        path[fill="#cfcfcf"],
+        path[fill="#1B1B1B"],
+        path[fill="#1b1b1b"],
+        path[fill="#000"],
+        path[fill="#000000"] {
+          fill: var(--colors-dark-text-secondary) !important;
+        }
+      }
+    }
+
+    &__text {
+      color: var(--colors-dark-text-secondary);
+    }
+  }
+
+  .page-main__bg-home {
+    svg {
+      g:first-child {
+        path[fill="#FFF"] {
+          fill: var(--colors-dark-bg) !important;
+        }
+      }
+    }
+  }
+
+  .bg__from,
+  .bg__to {
+    .bg__home {
+      svg {
+        path[fill="#FFF"] {
+          fill: var(--colors-dark-bg) !important;
+        }
+      }
+    }
+  }
+
+  // Background icons and decorative SVGs
+  .bg,
+  .bg_dark,
+  .mobile_bg,
+  .page-main__bg,
+  .page-main__bg-image,
+  .bg-car,
+  .bg__from,
+  .bg__to,
+  .bg__home,
+  .bg__workers,
+  .services__bg {
+    svg {
+      // Background SVGs - adapt dark fills to white for visibility
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"],
+      path[fill="#0A0B09"],
+      path[fill="#0a0b09"],
+      path[fill="#010101"] {
+        fill: var(--colors-dark-text-primary) !important;
+      }
+
+      // Light fills can stay or adapt to subtle grey
+      path[fill="#F6F6F6"],
+      path[fill="#f6f6f6"],
+      path[fill="#E6E6E6"],
+      path[fill="#e6e6e6"] {
+        fill: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 30%,
+          transparent
+        ) !important;
+      }
+
+      // White fills -> visible white
+      path[fill="#FFF"],
+      path[fill="#FFFFFF"],
+      path[fill="#fff"],
+      path[fill="#ffffff"] {
+        fill: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 90%,
+          transparent
+        ) !important;
+      }
+
+      // Strokes
+      path[stroke="#000"],
+      path[stroke="#000000"] {
+        stroke: var(--colors-dark-text-primary) !important;
+      }
+    }
+  }
+
+  // Car background container - ensure car and clouds are visible
+  .bg-car {
+    &__image {
+      svg {
+        // Car icon in background - maintain orange appearance (same as light mode)
+        // Override gradient fills (url(#id)) to white - these are dark gradients for wheels/details
+        path[fill^="url(#"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+
+        // White fills -> keep white for visibility
+        path[fill="#FFF"],
+        path[fill="#FFFFFF"],
+        path[fill="#fff"],
+        path[fill="#ffffff"] {
+          fill: var(--colors-dark-grey-100) !important;
+        }
+
+        // Dark fills (wheels, details, text) -> white for visibility
+        path[fill="#1B1B1B"],
+        path[fill="#1b1b1b"],
+        path[fill="#000"],
+        path[fill="#000000"],
+        path[fill="#0A0B09"],
+        path[fill="#0a0b09"],
+        path[fill="#010101"],
+        path[fill="#010201"],
+        rect[fill="#1B1B1B"],
+        rect[fill="#1b1b1b"],
+        rect[fill="#000"],
+        rect[fill="#000000"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+
+        // Light blue windows -> keep light for visibility
+        path[fill="#E9EBFF"],
+        path[fill="#e9ebff"] {
+          fill: color-mix(
+            in srgb,
+            var(--colors-dark-text-primary) 50%,
+            transparent
+          ) !important;
+        }
+
+        // Orange accent -> KEEP ORANGE (maintains car appearance)
+        path[fill="#FFA511"],
+        path[fill="#ffa511"],
+        rect[fill="#FFA511"],
+        rect[fill="#ffa511"] {
+          fill: var(--colors-accent) !important;
+        }
+
+        // Red color -> keep red for visibility
+        path[fill="#FF3939"],
+        path[fill="#ff3939"] {
+          fill: #ff3939 !important;
+        }
+
+        // Black strokes -> white for visibility against dark background
+        path[stroke="#000"],
+        path[stroke="#000000"] {
+          stroke: rgba(255, 255, 255, 1) !important;
+        }
+
+        path[fill="#0A0B09"],
+        path[fill="url(#svgicon_car_h)"],
+        path[fill="url(#svgicon_car_a)"] {
+          fill: #50626b !important;
+        }
+
+        path[fill="#010101"] {
+          fill: rgba(255, 255, 255, 0.5) !important;
+        }
+      }
+    }
+
+    &__cloud {
+      .cloud {
+        &__icon {
+          svg {
+            // Cloud icons in background
+            path[fill="#FFF"],
+            path[fill="#FFFFFF"],
+            path[fill="#fff"],
+            path[fill="#ffffff"] {
+              fill: color-mix(
+                in srgb,
+                var(--colors-dark-text-primary) 10%,
+                transparent
+              ) !important;
+            }
+
+            path[fill="#1B1B1B"],
+            path[fill="#1b1b1b"],
+            path[fill="#000"],
+            path[fill="#000000"] {
+              fill: var(--colors-dark-text-primary) !important;
+            }
+
+            path[stroke="#000"],
+            path[stroke="#000000"] {
+              stroke: color-mix(
+                in srgb,
+                var(--colors-dark-text-primary) 10%,
+                transparent
+              ) !important;
+            }
+          }
+        }
+
+        &__title {
+          color: var(--colors-dark-text-primary);
+        }
+      }
+    }
+  }
+
+  // Background SVG icons used in page-main
+  .page-main {
+    svg {
+      // Home icons
+      &.home,
+      &.home_1,
+      &.home_2 {
+        path[fill="#1B1B1B"],
+        path[fill="#1b1b1b"],
+        path[fill="#000"],
+        path[fill="#000000"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+      }
+
+      // Workers icons
+      &.workers_1,
+      &.workers_2 {
+        path[fill="#000"],
+        path[fill="#000000"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+
+        path[stroke="#000"],
+        path[stroke="#000000"] {
+          stroke: var(--colors-dark-text-primary) !important;
+        }
+      }
+
+      // Car icon - maintain orange appearance in dark mode (same as light mode)
+      &.car {
+        // Override gradient fills (url(#id)) to white - these are dark gradients for wheels/details
+        path[fill^="url(#"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+
+        // White fills -> keep white for visibility
+        path[fill="#FFF"],
+        path[fill="#FFFFFF"],
+        path[fill="#fff"],
+        path[fill="#ffffff"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+
+        // Dark fills (wheels, details, text) -> white for visibility
+        path[fill="#1B1B1B"],
+        path[fill="#1b1b1b"],
+        path[fill="#000"],
+        path[fill="#000000"],
+        path[fill="#0A0B09"],
+        path[fill="#0a0b09"],
+        path[fill="#010101"],
+        path[fill="#010201"],
+        rect[fill="#1B1B1B"],
+        rect[fill="#1b1b1b"],
+        rect[fill="#000"],
+        rect[fill="#000000"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+
+        // Light blue windows -> keep light for visibility
+        path[fill="#E9EBFF"],
+        path[fill="#e9ebff"] {
+          fill: color-mix(
+            in srgb,
+            var(--colors-dark-text-primary) 50%,
+            transparent
+          ) !important;
+        }
+
+        // Orange accent -> KEEP ORANGE (maintains car appearance)
+        path[fill="#FFA511"],
+        path[fill="#ffa511"],
+        rect[fill="#FFA511"],
+        rect[fill="#ffa511"] {
+          fill: var(--colors-accent) !important;
+        }
+
+        // Red color -> keep red for visibility
+        path[fill="#FF3939"],
+        path[fill="#ff3939"] {
+          fill: #ff3939 !important;
+        }
+
+        // Black strokes -> white for visibility against dark background
+        path[stroke="#000"],
+        path[stroke="#000000"] {
+          stroke: var(--colors-dark-text-primary) !important;
+        }
+      }
+
+      // Cloud icons - fix white fills and strokes
+      &.cloud_small,
+      &.cloud_large {
+        path[fill="#FFF"],
+        path[fill="#FFFFFF"],
+        path[fill="#fff"],
+        path[fill="#ffffff"] {
+          fill: color-mix(
+            in srgb,
+            var(--colors-dark-text-primary) 90%,
+            transparent
+          ) !important;
+        }
+
+        path[fill="#1B1B1B"],
+        path[fill="#1b1b1b"],
+        path[fill="#000"],
+        path[fill="#000000"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+
+        path[stroke="#000"],
+        path[stroke="#000000"] {
+          stroke: var(--colors-dark-text-primary) !important;
+        }
+      }
+
+      // Mobile background
+      &.mobile_bg {
+        path[fill="#1B1B1B"],
+        path[fill="#1b1b1b"],
+        path[fill="#000"],
+        path[fill="#000000"] {
+          fill: color-mix(
+            in srgb,
+            var(--colors-dark-text-primary) 20%,
+            transparent
+          ) !important;
+        }
+      }
+    }
+  }
+
+  // Modal background SVG
+  .modal-info__bg {
+    svg {
+      // bg_dark icon - ensure it's visible in dark mode
+      path[fill="#1B1B1B"],
+      path[fill="#1b1b1b"],
+      path[fill="#000"],
+      path[fill="#000000"] {
+        fill: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 10%,
+          transparent
+        ) !important;
+      }
+
+      path[fill="#F6F6F6"],
+      path[fill="#f6f6f6"],
+      path[fill="#E6E6E6"],
+      path[fill="#e6e6e6"] {
+        fill: color-mix(
+          in srgb,
+          var(--colors-dark-text-primary) 5%,
+          transparent
+        ) !important;
+      }
+    }
+  }
+
+  // Navigation - Main container
+  .app-nav {
+    &__item {
+      color: var(--colors-dark-text-primary);
+
+      &:hover {
+        color: var(--colors-accent);
+      }
+
+      &--active {
+        color: var(--colors-accent);
+      }
+    }
+
+    // Gradient line under navigation (desktop)
+    &::before {
+      background-image: linear-gradient(
+        to right,
+        var(--colors-dark-border),
+        transparent
+      );
+    }
+  }
+
+  // Navigation item component
+  .nav-item {
+    &__link {
+      color: var(--colors-dark-text-primary);
+
+      &:hover {
+        .nav-item__bg::before {
+          background-color: var(--colors-dark-grey-200);
+        }
+      }
+    }
+
+    &__text {
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__icon {
+      color: var(--colors-dark-text-primary);
+
+      svg {
+        fill: var(--colors-dark-text-primary);
+      }
+    }
+
+    &__chevron {
+      border-top-color: var(--colors-dark-text-primary);
+    }
+
+    &__bg {
+      &::before {
+        background-color: var(--colors-dark-grey-200);
+      }
+    }
+
+    &--visited {
+      .nav-item__link {
+        color: var(--colors-dark-text-primary);
+      }
+
+      .nav-item__text {
+        color: var(--colors-dark-text-primary);
+      }
+
+      .nav-item__icon {
+        color: var(--colors-dark-text-primary);
+
+        svg {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+      }
+
+      .nav-item__chevron {
+        border-top-color: var(--colors-dark-text-primary);
+      }
+
+      .nav-item__bg::before {
+        background-color: var(--colors-dark-grey-200);
+      }
+    }
+
+    &--hovered {
+      .nav-item__link {
+        color: var(--colors-dark-text-primary);
+      }
+
+      .nav-item__text {
+        color: var(--colors-dark-text-primary);
+      }
+
+      .nav-item__icon {
+        color: var(--colors-dark-text-primary);
+
+        svg {
+          fill: var(--colors-dark-text-primary);
+        }
+      }
+    }
+
+    &--active {
+      .nav-item__link {
+        color: $white;
+
+        &:hover {
+          color: $white;
+        }
+      }
+
+      .nav-item__text {
+        color: $white;
+      }
+
+      .nav-item__icon {
+        color: $white !important;
+
+        svg {
+          fill: $white !important;
+        }
+      }
+
+      .nav-item__chevron {
+        border-top-color: $white;
+      }
+
+      .nav-item__bg::before {
+        background-color: var(--colors-accent);
+      }
+    }
+
+    // Inner navigation (dropdown)
+    .nav-inner {
+      background-color: var(--colors-dark-grey-200);
+      border-color: var(--colors-dark-border);
+
+      &__item {
+        color: var(--colors-dark-text-primary);
+      }
+
+      &__link {
+        color: var(--colors-dark-text-primary);
+
+        &:hover {
+          background-color: color-mix(
+            in srgb,
+            var(--colors-dark-text-primary) 10%,
+            transparent
+          );
+          color: var(--colors-dark-text-primary);
+        }
+      }
+    }
+
+    &.nav-item--active .nav-inner {
+      background-color: var(--colors-accent);
+
+      &__item {
+        color: $white;
+      }
+
+      &__link {
+        color: $white;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+          color: $white;
+        }
+      }
+    }
+  }
+
+  // Navigation info button
+  .nav-info {
+    color: var(--colors-dark-text-primary);
+
+    &:hover {
+      color: var(--colors-accent);
+    }
+
+    svg {
+      fill: var(--colors-dark-text-primary);
+    }
+
+    &:hover svg {
+      fill: var(--colors-accent);
+    }
+  }
+
+  // Navigation wrapper (mobile menu)
+  .nav-wrapper {
+    background-color: var(--colors-dark-surface);
+
+    &--open {
+      background-color: var(--colors-dark-surface);
+    }
+
+    &__blocks {
+      background-color: transparent;
+    }
+
+    &__block {
+      background-color: transparent;
+    }
+  }
+
+  // Navigation block (mobile menu sections)
+  .nav-block {
+    &__title {
+      background-color: var(--colors-dark-grey-200);
+      color: var(--colors-dark-text-primary);
+    }
+
+    &__content {
+      background-color: transparent;
+      color: var(--colors-dark-text-primary);
+    }
+  }
+
+  // Footer links and text (consolidated with footer styles above)
+  .app-footer {
+    a {
+      color: var(--colors-dark-text-secondary);
+
+      &:hover {
+        color: var(--colors-dark-text-primary);
+      }
+    }
+
+    &__inner {
+      background-color: transparent;
+      color: var(--colors-dark-text-secondary);
+    }
+  }
+
+  // Social links
+  .app-social {
+    &__link {
+      color: var(--colors-dark-text-primary);
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.8;
+        color: var(--colors-dark-text-primary);
+
+        svg {
+          path[fill="#1B1B1B"],
+          path[fill="#1b1b1b"],
+          path[fill="#000"],
+          path[fill="#000000"] {
+            fill: var(--colors-accent) !important;
+          }
+        }
+      }
+
+      svg {
+        // Background stays dark grey
+        path[fill="#F6F6F6"],
+        path[fill="#f6f6f6"] {
+          fill: var(--colors-dark-grey-200) !important;
+        }
+
+        // Icon is white
+        path[fill="#1B1B1B"],
+        path[fill="#1b1b1b"],
+        path[fill="#000"],
+        path[fill="#000000"] {
+          fill: var(--colors-dark-text-primary) !important;
+        }
+      }
+    }
+  }
+
+  // Copyright text
+  .app-copyright {
+    color: var(--colors-dark-text-secondary);
+  }
+}

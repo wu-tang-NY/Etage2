@@ -66,7 +66,7 @@ $colors: map-merge(
   $colors
 );
 
-$primary:       $colors-accent;
+$primary:       var(--colors-accent);
 $secondary:     $gray-600 !default;
 $success:       $green !default;
 $info:          $cyan !default;
@@ -79,7 +79,7 @@ $theme-colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $theme-colors: map-merge(
   (
-    "primary":    $colors-accent,
+    "primary":    var(--colors-accent),
     "secondary":  $secondary,
     "success":    $success,
     "info":       $info,
@@ -162,16 +162,16 @@ $sizes: map-merge(
 // Settings for the `<body>` element.
 
 $body-bg:                   $white !default;
-$body-color:                $colors-text--primary;
+$body-color:                var(--colors-text-primary);
 
 
 // Links
 //
 // Style anchor elements.
 
-$link-color:                              $colors-accent;
+$link-color:                              var(--colors-accent);
 $link-decoration:                         none !default;
-$link-hover-color:                        darken($link-color, 5%);
+$link-hover-color:                        color-mix(in srgb, var(--colors-accent) 95%, black);
 $link-hover-decoration:                   none;
 // Darken percentage for links with `.text-*` class (e.g. `.text-success`)
 $emphasized-link-hover-darken-percentage: 15% !default;

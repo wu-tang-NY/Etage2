@@ -40,7 +40,7 @@ export default {
 <style lang="scss">
 .app-phones {
   font-weight: 700;
-  font-family: $font-family--secondary;
+  font-family: var(--font-family-secondary);
   display: flex;
 
   &__codes-wrapper {
@@ -72,24 +72,24 @@ export default {
 
   &__code-text {
     line-height: 1.29;
-    color: $colors-text--primary;
+    color: var(--colors-text-primary);
 
     &:hover,
     &:active {
       span {
-        color: $colors-accent;
+        color: var(--colors-accent);
       }
     }
 
     span {
-      color: $colors-text--secondary;
+      color: var(--colors-text-secondary);
     }
   }
 }
 
 .app-phone {
   font-size: inherit;
-  color: $colors-accent;
+  color: var(--colors-accent);
   letter-spacing: .4px;
   vertical-align: middle;
 }

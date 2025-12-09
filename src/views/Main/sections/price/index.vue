@@ -258,7 +258,7 @@ export default {
   &__header-block {
     margin-bottom: 0;
     font-size: rem(13);
-    background-color: $colors-grey-200;
+    background-color: var(--colors-grey-200);
     height: 36px;
     padding: 0 10px;
     display: flex;
@@ -271,8 +271,8 @@ export default {
   }
 
   &__subtitle {
-    color: $colors-text--secondary;
-    font-family: $font-family--secondary;
+    color: var(--colors-text-secondary);
+    font-family: var(--font-family-secondary);
     font-size: rem(18);
     font-weight: bold;
     letter-spacing: 0.4px;
@@ -317,7 +317,7 @@ export default {
     align-items: center;
     justify-content: center;
     padding: 13px 20px;
-    background-color: $colors-accent;
+    background-color: var(--colors-accent);
     color: $white;
     font-size: rem(14);
     font-weight: 600;
@@ -350,7 +350,7 @@ export default {
 }
 
 .category {
-  background-color: $colors-grey-100;
+  background-color: var(--colors-grey-100);
   padding: 10px 20px 20px 20px;
   position: relative;
   height: 100%;
@@ -384,27 +384,27 @@ export default {
     clip-path: polygon(79% 0, 100% 50%, 80% 100%, 0 100%, 0 0);
     padding-left: 9px;
     line-height: 37px;
-    font-family: $font-family--secondary;
+    font-family: var(--font-family-secondary);
     font-size: rem(18);
     font-weight: 800;
     letter-spacing: 0.4px;
-    color: $colors-accent;
+    color: var(--colors-accent);
   }
 
   &__price-value {
-    font-family: $font-family--secondary;
+    font-family: var(--font-family-secondary);
     font-size: rem(19);
     font-weight: bold;
     letter-spacing: 0.4px;
 
     &--highlighted {
-      color: $colors-accent;
+      color: var(--colors-accent);
     }
   }
 
   &__undertext {
     margin-top: 20px;
-    color: $colors-text--secondary;
+    color: var(--colors-text-secondary);
   }
 
   &__header-wrapper {
@@ -439,7 +439,7 @@ export default {
 
     &:hover {
       svg {
-        fill: $colors-accent;
+        fill: var(--colors-accent);
       }
 
       .category__info {
@@ -451,7 +451,7 @@ export default {
   &__info {
     position: absolute;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-    background-color: $colors-text--primary;
+    background-color: var(--colors-text-primary);
     color: $white;
     border-radius: 4px;
     width: 184px;
@@ -467,7 +467,7 @@ export default {
       position: absolute;
       bottom: -5px;
       @include size(10px);
-      background-color: $colors-text--primary;
+      background-color: var(--colors-text-primary);
       left: 50%;
       transform: translateX(-50%) rotateZ(45deg);
     }
@@ -547,7 +547,7 @@ export default {
         display: block;
 
         svg {
-          fill: $colors-accent;
+          fill: var(--colors-accent);
           animation: pulse .6s 2s 3;
         }
 
@@ -626,7 +626,7 @@ export default {
     }
 
     &__subtitle {
-      color: $colors-text--primary;
+      color: var(--colors-text-primary);
       max-width: 250px;
     }
 
@@ -649,7 +649,7 @@ export default {
         left: 50%;
         transform: translate(-50%, -50%) rotateZ(-45deg);
         @include size(20px, 2px);
-        background-color: $colors-text--primary;
+        background-color: var(--colors-text-primary);
       }
 
       &::after {
@@ -659,7 +659,7 @@ export default {
         left: 50%;
         transform: translate(-50%, -50%) rotateZ(45deg);
         @include size(20px, 2px);
-        background-color: $colors-text--primary;
+        background-color: var(--colors-text-primary);
       }
     }
 

@@ -20,16 +20,16 @@
 
 <script>
 export default {
-  name: 'AppSelect',
+  name: "AppSelect",
   model: {
-    prop: 'value',
+    prop: "value"
   },
   props: {
     options: Array,
     value: null,
     label: String,
-    placeholder: String,
-  },
+    placeholder: String
+  }
 };
 </script>
 
@@ -40,9 +40,8 @@ export default {
   margin-bottom: 20px;
 
   &__label {
-    font-size: rem(12);
+    font-size: rem(13);
     line-height: 2;
-    letter-spacing: 0.2px;
     cursor: pointer;
   }
 
@@ -51,7 +50,6 @@ export default {
     width: 100%;
   }
   .multiselect {
-
     &:hover,
     &:active,
     &:focus {
@@ -63,14 +61,14 @@ export default {
   }
 
   &__line {
-    background-color: $colors-text--primary;
+    background-color: var(--colors-text-primary);
     position: absolute;
     left: auto;
     right: 0;
     bottom: 0;
     height: 1px;
     width: 0;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
 }
 </style>

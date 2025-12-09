@@ -64,12 +64,12 @@ export default {
 .popup-feedback__comment {
   margin-bottom: 30px;
   h5 {
-    color: $colors-accent;
+    color: var(--colors-accent);
     margin-bottom: 0;
   }
   .popup-feedback__category {
     font-size: rem(12);
-    color: rgba($colors-accent, 0.6);
+    color: color-mix(in srgb, var(--colors-accent) 60%, transparent);
     margin-bottom: 10px;
   }
 }

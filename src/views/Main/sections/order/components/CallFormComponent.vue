@@ -90,7 +90,7 @@ export default {
     color: $white;
     border: none;
     box-shadow: none;
-    background-color: $colors-accent;
+    background-color: var(--colors-accent);
 
     &:hover,
     &:focus,
@@ -128,7 +128,7 @@ export default {
         left: 50%;
         transform: translate(-50%, -50%) rotateZ(-45deg);
         @include size(20px, 2px);
-        background-color: $colors-text--primary;
+        background-color: var(--colors-text-primary);
       }
 
       &::after {
@@ -138,7 +138,7 @@ export default {
         left: 50%;
         transform: translate(-50%, -50%) rotateZ(45deg);
         @include size(20px, 2px);
-        background-color: $colors-text--primary;
+        background-color: var(--colors-text-primary);
       }
     }
 

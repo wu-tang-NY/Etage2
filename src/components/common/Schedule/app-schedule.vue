@@ -19,15 +19,19 @@
 
 <script>
 export default {
-  name: 'AppSchedule',
+  name: "AppSchedule",
   props: {
-    withoutLabel: Boolean,
-  },
+    withoutLabel: Boolean
+  }
 };
 </script>
 
 <style lang="scss">
-$schedule-text-color: rgba($colors-text--primary, 0.8);
+$schedule-text-color: color-mix(
+  in srgb,
+  var(--colors-text-primary) 80%,
+  transparent
+);
 
 .app-schedule {
   display: flex;
@@ -35,7 +39,7 @@ $schedule-text-color: rgba($colors-text--primary, 0.8);
   letter-spacing: 0.2px;
 
   &__icon {
-    color: $colors-accent;
+    color: var(--colors-accent);
     @include size(9px, 16px);
     margin: 3px 8px 0 0;
   }

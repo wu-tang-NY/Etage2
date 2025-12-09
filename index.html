@@ -17,6 +17,53 @@
   <meta name="msapplication-TileColor" content="#ffffff" />
   <meta name="theme-color" content="#ffffff" />
   <title>Этаж — сервис грузоперевозок</title>
+  <!-- Theme initialization script - must run before page render to prevent flash -->
+  <script>
+    (function() {
+      const THEME_STORAGE_KEY = 'app-theme';
+      const THEME_LIGHT = 'light';
+      const THEME_DARK = 'dark';
+      
+      function getStoredTheme() {
+        try {
+          return localStorage.getItem(THEME_STORAGE_KEY);
+        } catch (e) {
+          return null;
+        }
+      }
+      
+      function getSystemTheme() {
+        if (window.matchMedia) {
+          return window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? THEME_DARK
+            : THEME_LIGHT;
+        }
+        return THEME_LIGHT;
+      }
+      
+      function applyTheme(theme) {
+        const root = document.documentElement;
+        if (theme === THEME_DARK) {
+          root.classList.add('theme-dark');
+          root.classList.remove('theme-light');
+        } else {
+          root.classList.add('theme-light');
+          root.classList.remove('theme-dark');
+        }
+        
+        // Update theme-color meta tag
+        let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+        if (metaThemeColor) {
+          metaThemeColor.setAttribute('content', theme === THEME_DARK ? '#0e1a28' : '#ffffff');
+        }
+      }
+      
+      // Apply theme immediately
+      const storedTheme = getStoredTheme();
+      const theme = storedTheme || getSystemTheme();
+      applyTheme(theme);
+    })();
+  </script>
   <!-- Google Tag Manager -->
   <script>(function (w, d, s, l, i) {
       w[l] = w[l] || []; w[l].push({

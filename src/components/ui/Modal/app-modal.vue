@@ -38,47 +38,47 @@
 
 <script>
 export default {
-  name: 'AppModal',
+  name: "AppModal",
   model: {
-    prop: 'show',
+    prop: "show"
   },
   props: {
     show: {
-      type: Boolean,
+      type: Boolean
     },
     title: String,
     small: Boolean,
     large: Boolean,
     centered: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   watch: {
     show(value) {
-      const className = 'modal-open';
+      const className = "modal-open";
       if (value) {
         document.body.classList.add(className);
       } else {
         document.body.classList.remove(className);
       }
-    },
+    }
   },
   computed: {
     modalDialogClasses() {
       return {
-        'modal-dialog': true,
-        'modal-dialog-sm': this.small,
-        'modal-dialog-lg': this.large,
-        'modal-dialog-centered': this.centered,
+        "modal-dialog": true,
+        "modal-dialog-sm": this.small,
+        "modal-dialog-lg": this.large,
+        "modal-dialog-centered": this.centered
       };
-    },
+    }
   },
   methods: {
     handleCloseModal() {
-      this.$emit('input', false);
-    },
-  },
+      this.$emit("input", false);
+    }
+  }
 };
 </script>
 
@@ -113,7 +113,7 @@ export default {
     &::before,
     &::after {
       content: "";
-      background-color: $colors-text--primary;
+      background-color: var(--colors-text-primary);
       @include absolute(0, 0);
       @include size(100%, 2px);
       transform-origin: 50% 50%;

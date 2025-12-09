@@ -6,3 +6,14 @@ $colors-grey-300: #c6c6c6;
 
 $colors-text--primary: #1b1b1b;
 $colors-text--secondary: rgba($colors-text--primary, .5);
+
+// Dark mode colors - using modal-info color (#0e1a28) as base
+$colors-dark-bg: #0e1a28;
+$colors-dark-surface: #0e1a28;
+$colors-dark-surface-elevated: #15202f;
+$colors-dark-text--primary: #ffffff;
+$colors-dark-text--secondary: rgba($colors-dark-text--primary, .7);
+$colors-dark-grey-100: #15202f;
+$colors-dark-grey-200: #1a2535;
+$colors-dark-grey-300: #1f2a3a;
+$colors-dark-border: rgba($colors-dark-text--primary, .1);

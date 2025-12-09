@@ -48,22 +48,28 @@ export default {
 
   &__button {
     background: transparent;
-    border: 1px solid $colors-text--primary;
-    color: $colors-text--primary;
-    padding: 4px 12px;
+    border: 1px solid var(--colors-text-primary);
+    color: var(--colors-text-primary);
+    padding: 0 12px;
     font-size: rem(12);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    box-sizing: border-box;
 
     &:hover {
-      background-color: $colors-text--primary;
+      background-color: var(--colors-text-primary);
       color: $white;
     }
 
     &--active {
-      background-color: $colors-text--primary;
+      background-color: var(--colors-text-primary);
       color: $white;
     }
 

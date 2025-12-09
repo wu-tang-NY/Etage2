@@ -7,6 +7,10 @@
 
           <ul class="app-header__blocks">
             <li class="app-header__block">
+              <app-theme-toggle />
+            </li>
+
+            <li class="app-header__block">
               <app-language-switcher />
             </li>
 
@@ -128,29 +132,31 @@
     <transition name="component-fade">
       <modal-info :mobile="mobile" :tablet="tablet" />
     </transition>
+
+    <app-new-year-decorations />
   </div>
 </template>
 
 <script>
-import components from './components';
-import ModalInfo from '../../views/modal';
+import components from "./components";
+import ModalInfo from "../../views/modal";
 
 export default {
-  name: 'AppMainLayout',
+  name: "AppMainLayout",
   components: { ...components, ModalInfo },
   data: () => ({
     navOpen: false,
 
-    device: 'desktop',
+    device: "desktop",
     mobile: false,
     tablet: false,
-    desktop: false,
+    desktop: false
   }),
   methods: {
     handleToggleMenu() {
       this.navOpen = !this.navOpen;
 
-      const navOpenClassName = 'menu-open';
+      const navOpenClassName = "menu-open";
 
       if (this.navOpen) {
         document.body.classList.add(navOpenClassName);
@@ -162,16 +168,16 @@ export default {
     handleCloseMenu() {
       this.navOpen = false;
 
-      document.body.classList.remove('modal-open');
-      document.body.classList.remove('menu-open');
+      document.body.classList.remove("modal-open");
+      document.body.classList.remove("menu-open");
     },
 
     isMobile() {
-      return window.matchMedia('(max-width: 767px)').matches;
+      return window.matchMedia("(max-width: 767px)").matches;
     },
 
     isTablet() {
-      return window.matchMedia('(min-width: 768px) and (max-width: 992px)')
+      return window.matchMedia("(min-width: 768px) and (max-width: 992px)")
         .matches;
     },
 
@@ -182,25 +188,25 @@ export default {
         this.desktop = false;
 
         if (this.isMobile()) {
-          this.device = 'mobile';
+          this.device = "mobile";
           this.mobile = true;
         } else if (this.isTablet()) {
-          this.device = 'tablet';
+          this.device = "tablet";
           this.tablet = true;
         } else {
           this.desktop = true;
-          this.device = 'desktop';
+          this.device = "desktop";
         }
       }
-    },
+    }
   },
   beforeMount() {
     this.resizeHandler();
-    window.addEventListener('resize', this.resizeHandler);
+    window.addEventListener("resize", this.resizeHandler);
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.resizeHandler);
-  },
+    window.removeEventListener("resize", this.resizeHandler);
+  }
 };
 </script>
 
@@ -240,6 +246,14 @@ $footer-height: 65px;
   }
 }
 
+.has-christmas-lights .app-header {
+  padding-top: 40px;
+}
+
+.has-christmas-lights .app-content {
+  padding-top: 58px;
+}
+
 .nav-wrapper {
   &__footer-mobile {
     display: none;
@@ -248,13 +262,14 @@ $footer-height: 65px;
 
 .app-content {
   padding: 0;
+  padding-top: 18px;
   position: relative;
   top: 50px;
 }
 
 .app-footer {
-  font: 500 rem(12) $font-family--secondary;
-  color: $colors-text--secondary;
+  font: 500 rem(12) var(--font-family-secondary);
+  color: var(--colors-text-secondary);
   letter-spacing: 0.2px;
   bottom: 0;
 
@@ -300,7 +315,7 @@ $footer-height: 65px;
   }
 
   &__line {
-    background-color: $colors-text--primary;
+    background-color: var(--colors-text-primary);
     display: block;
     @include size(18px, 2px);
     transform-origin: 0 50%;
@@ -400,6 +415,10 @@ $footer-height: 65px;
     }
   }
 
+  .app-content {
+    padding-top: 10px;
+  }
+
   .app-footer {
     &__inner {
       height: 30px;
@@ -448,7 +467,7 @@ $footer-height: 65px;
     }
 
     &__footer-mobile {
-      border-top: 1px solid $colors-grey-100;
+      border-top: 1px solid var(--colors-grey-100);
       display: block !important;
       position: static;
       width: 700px;
@@ -512,7 +531,7 @@ $footer-height: 65px;
     }
 
     &__title {
-      background-color: $colors-grey-200;
+      background-color: var(--colors-grey-200);
       clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0% 100%);
       width: 300px;
       display: flex;
@@ -610,7 +629,7 @@ $footer-height: 65px;
     }
 
     &__title {
-      background-color: $colors-grey-200;
+      background-color: var(--colors-grey-200);
       clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0% 100%);
       max-width: 300px;
       display: flex;

@@ -1,6 +1,6 @@
 .multiselect.multiselect,
 .multiselect.multiselect--active {
-  color: $colors-text--primary;
+  color: var(--colors-text-primary);
   min-height: 33px;
   height: 33px;
   .multiselect__tags {
@@ -9,7 +9,7 @@
     padding: 4px 40px 4px 0;
     border-radius: 0;
     border: none;
-    border-bottom: 1px solid $colors-grey-200;
+    border-bottom: 1px solid var(--colors-grey-200);
     background: transparent;
   }
   .multiselect__placeholder,
@@ -35,8 +35,8 @@
     letter-spacing: 0.2px;
   }
   .multiselect__option--highlight {
-    color: $colors-text--primary;
-    background-color: $colors-grey-200;
+    color: var(--colors-text-primary);
+    background-color: var(--colors-grey-200);
 
     &::after {
       display: none;

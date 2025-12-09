@@ -1,4 +1,4 @@
-@mixin underline($color: $colors-accent) {
+@mixin underline($color: var(--colors-accent)) {
   border-bottom: 1px dashed $color;
   display: inline-block;
 }

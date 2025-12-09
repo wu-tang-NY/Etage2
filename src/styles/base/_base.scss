@@ -5,11 +5,36 @@
   box-sizing: border-box;
 }
 
+// Consistent scrollbar styling to prevent layout shift when switching themes
+// Base scrollbar width (8px) - dark mode will override colors but keep same width
+html {
+  // Reserve space for scrollbar to prevent layout shift
+  scrollbar-gutter: stable;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
 h1, h2, h3 {
   margin: 0;
-  font-family: $font-family--secondary;
+  font-family: var(--font-family-secondary);
   font-weight: 800;
-  color: $colors-text--primary;
+  color: var(--colors-text-primary);
 }
 
 h1 {
@@ -41,18 +66,18 @@ p {
   line-height: rem(24);
 
   a {
-    color: $colors-accent;
+    color: var(--colors-accent);
     font-weight: bold;
     @include underline;
   }
 }
 
 .dark-gray {
-  color: $colors-text--primary;
+  color: var(--colors-text-primary);
 }
 
 .light-gray {
-  color: $colors-text--secondary;
+  color: var(--colors-text-secondary);
 }
 
 @media screen and (max-width: 992px) {
@@ -132,17 +157,17 @@ p {
 
 @keyframes pulse {
   0% {
-    fill: $colors-grey-200;
+    fill: var(--colors-grey-200);
     transform: none;
   }
 
   50% {
-    fill: $colors-accent;
+    fill: var(--colors-accent);
     transform: scale(1.2);
   }
 
   100% {
-    fill: $colors-grey-200;
+    fill: var(--colors-grey-200);
     transform: none;
   }
 }

@@ -70,22 +70,22 @@
 
 <script>
 export default {
-  name: 'AppPageMainSectionOrder',
+  name: "AppPageMainSectionOrder",
   components: {
-    order: () => import('./components/OrderFormComponent'),
-    call: () => import('./components/CallFormComponent'),
+    order: () => import("./components/OrderFormComponent"),
+    call: () => import("./components/CallFormComponent")
   },
   props: {
     active: {
-      type: Boolean,
+      type: Boolean
     },
     mobile: Boolean,
-    tablet: Boolean,
+    tablet: Boolean
   },
   data: () => ({
-    tabs: ['call', 'order'],
+    tabs: ["call", "order"],
     activeTab: 0,
-    isModalOpen: false,
+    isModalOpen: false
   }),
   watch: {
     mobile() {
@@ -93,27 +93,27 @@ export default {
     },
     tablet() {
       this.isModalOpen = false;
-    },
+    }
   },
   methods: {
     handleOpenOrderComponent() {
       this.activeTab = 0;
       this.isModalOpen = true;
-      if (this.mobile || this.tablet) document.body.classList.add('modal-open');
+      if (this.mobile || this.tablet) document.body.classList.add("modal-open");
     },
     handleOpenPhoneComponent() {
       this.activeTab = 1;
       this.isModalOpen = true;
-      if (this.mobile || this.tablet) document.body.classList.add('modal-open');
+      if (this.mobile || this.tablet) document.body.classList.add("modal-open");
     },
     closeModal() {
       this.isModalOpen = false;
-      document.body.classList.remove('modal-open');
-    },
+      document.body.classList.remove("modal-open");
+    }
   },
   created() {
-    this.$eventbus.$on('openFormModal', this.handleOpenPhoneComponent);
-  },
+    this.$eventbus.$on("openFormModal", this.handleOpenPhoneComponent);
+  }
 };
 </script>
 
@@ -136,12 +136,11 @@ export default {
   }
 
   &__divider {
-    font-family: $font-family--primary;
     font-size: rem(14);
     line-height: 36px;
     font-weight: bold;
     letter-spacing: 0.3px;
-    color: $colors-text--primary;
+    color: var(--colors-text-primary);
     padding: 0 20px;
   }
 
@@ -149,12 +148,12 @@ export default {
     display: inline-flex;
     align-items: center;
     height: 36px;
-    color: $colors-text--primary;
-    background-color: $colors-grey-200;
+    color: var(--colors-text-primary);
+    background-color: var(--colors-grey-200);
     line-height: 36px;
     border: none;
     outline: none;
-    font-family: $font-family--secondary;
+    font-family: var(--font-family-secondary);
     font-size: rem(18);
     font-weight: 800;
     letter-spacing: 0.4px;
@@ -179,20 +178,20 @@ export default {
     }
 
     &--active {
-      color: $white;
-      background-color: $colors-text--primary;
+      color: #fff;
+      background-color: var(--colors-dark-grey-300);
     }
   }
 
   &__tab-description {
     max-width: 222px;
     font-size: rem(14);
-    color: $colors-text--secondary;
+    color: var(--colors-text-secondary);
     transition: 0.3s ease-in-out;
     letter-spacing: 0.3px;
 
     &--active {
-      color: $colors-text--primary;
+      color: var(--colors-text-primary);
     }
 
     &--right {

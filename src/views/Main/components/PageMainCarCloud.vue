@@ -36,11 +36,11 @@ export default {
   user-select: none;
 
   span {
-    font-family: $font-family--secondary;
+    font-family: var(--font-family-secondary);
     font-size: rem(18);
     font-weight: 800;
     letter-spacing: 0.4px;
-    color: $colors-accent;
+    color: var(--colors-accent);
   }
 
   &__title {

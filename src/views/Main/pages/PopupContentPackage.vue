@@ -84,7 +84,7 @@ export default {
     margin: 1.5rem .5rem 2rem 0;
 
     & > h6 {
-      color: lighten($colors-accent, 10%);
+      color: color-mix(in srgb, var(--colors-accent) 90%, white);
       margin-bottom: 1rem;
     }
   }

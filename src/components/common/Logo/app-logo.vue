@@ -10,12 +10,35 @@
 </template>
 
 <script>
+import themeManager from "../../../utils/theme";
+
 export default {
   name: "AppLogo",
+  data() {
+    return {
+      isDark: themeManager.isDark()
+    };
+  },
   computed: {
     logoIconName() {
+      // In dark mode, use white logo; in light mode, use dark logo
+      if (this.isDark) {
+        return "logo_white";
+      }
       // Use ru version for Russian locale, ua version for English/other locales
       return this.$i18n.locale === "ru" ? "logo_dark_ru" : "logo_dark_ua";
+    }
+  },
+  mounted() {
+    // Listen for theme changes
+    this.themeChangeHandler = event => {
+      this.isDark = event.detail.isDark;
+    };
+    window.addEventListener("themechange", this.themeChangeHandler);
+  },
+  beforeDestroy() {
+    if (this.themeChangeHandler) {
+      window.removeEventListener("themechange", this.themeChangeHandler);
     }
   }
 };
@@ -40,7 +63,7 @@ $logo-separator-color: #e6e6e6;
 
   &__subtitle {
     font-weight: 500;
-    color: $colors-text--secondary;
+    color: var(--colors-text-secondary);
     white-space: nowrap;
 
     &::before {

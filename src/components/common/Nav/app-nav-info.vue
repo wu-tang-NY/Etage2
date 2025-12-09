@@ -24,7 +24,7 @@ export default {
   font-size: rem(14);
   font-weight: bold;
   letter-spacing: 0.3px;
-  color: $colors-text--primary;
+  color: var(--colors-text-primary);
   cursor: pointer;
 
   svg {

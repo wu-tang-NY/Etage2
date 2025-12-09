@@ -211,7 +211,7 @@ export default {
 
   &__title {
     text-align: center;
-    font-family: $font-family--secondary;
+    font-family: var(--font-family-secondary);
     font-size: rem(16);
     font-weight: 500;
     letter-spacing: 0.3px;
@@ -276,7 +276,7 @@ export default {
 
   &__swiper-button {
     @include size(28px);
-    background-color: $colors-accent;
+    background-color: var(--colors-accent);
     background-size: 8px 14px;
     background-position: center;
     border-radius: 50%;
@@ -310,7 +310,7 @@ export default {
   }
 
   &__slide-title {
-    color: $colors-accent;
+    color: var(--colors-accent);
     font-size: rem(16);
     line-height: 1;
     letter-spacing: 0.3px;
@@ -325,7 +325,7 @@ export default {
   }
 
   &__next {
-    background-color: $colors-accent;
+    background-color: var(--colors-accent);
     color: $white;
     height: 40px;
     display: inline-flex;
@@ -339,12 +339,12 @@ export default {
     transition: 0.3s ease-in-out;
 
     &--feedback {
-      background-color: $colors-grey-200;
-      color: $colors-text--primary;
+      background-color: var(--colors-grey-200);
+      color: var(--colors-text-primary);
 
       &:hover {
         color: $white;
-        background-color: $colors-text--primary;
+        background-color: var(--colors-text-primary);
       }
     }
 
@@ -460,7 +460,7 @@ export default {
       font-size: rem(12);
       font-weight: 500;
       letter-spacing: 0.2px;
-      color: $colors-text--primary;
+      color: var(--colors-text-primary);
     }
 
     &__chevron {

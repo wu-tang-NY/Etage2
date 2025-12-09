@@ -410,7 +410,7 @@ export default {
       position: relative;
 
       h2 {
-        color: $colors-accent;
+        color: var(--colors-accent);
         margin-bottom: 20px;
       }
     }
@@ -435,7 +435,7 @@ export default {
         top: -60px;
         @include size(100%, 2px);
         left: 0;
-        background-color: rgba($colors-accent, 0.4);
+        background-color: color-mix(in srgb, var(--colors-accent) 40%, transparent);
       }
     }
   }
@@ -520,7 +520,7 @@ export default {
     transition: 0.3s ease-in-out;
 
     &--active {
-      color: $colors-accent;
+      color: var(--colors-accent);
       opacity: 1;
     }
 
@@ -539,7 +539,7 @@ export default {
   }
 
   &__header {
-    font-family: $font-family--secondary;
+    font-family: var(--font-family-secondary);
     font-size: rem(30);
     font-weight: 800;
     font-style: normal;
@@ -602,7 +602,7 @@ export default {
     }
 
     h3 {
-      color: $colors-accent;
+      color: var(--colors-accent);
       margin-bottom: 20px;
     }
 
@@ -696,7 +696,7 @@ export default {
         text-transform: uppercase;
         color: white;
         font-weight: 600;
-        font-family: $font-family--secondary;
+        font-family: var(--font-family-secondary);
         display: inline-flex;
         align-items: center;
 

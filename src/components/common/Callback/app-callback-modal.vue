@@ -107,7 +107,7 @@ export default {
 
 <style lang="scss">
 .btn {
-  background-color: $colors-accent;
+  background-color: var(--colors-accent);
   border-radius: 0;
   padding: 0 20px;
   height: 40px;

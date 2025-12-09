@@ -19,23 +19,23 @@
 
 <script>
 export default {
-  name: 'AppTextarea',
+  name: "AppTextarea",
   model: {
-    prop: 'value',
+    prop: "value"
   },
   props: {
     label: {
-      type: String,
+      type: String
     },
 
     placeholder: {
-      type: String,
+      type: String
     },
 
     value: {
-      required: false,
-    },
-  },
+      required: false
+    }
+  }
 };
 </script>
 
@@ -46,9 +46,8 @@ export default {
   margin-bottom: 20px;
 
   &__label {
-    font-size: rem(12);
+    font-size: rem(13);
     line-height: 2;
-    letter-spacing: 0.2px;
     cursor: pointer;
   }
 
@@ -61,12 +60,11 @@ export default {
 
   &__input {
     border: none;
-    border-bottom: 1px solid $colors-grey-200;
+    border-bottom: 1px solid var(--colors-grey-200);
     background-color: transparent;
     width: 100%;
-    font-size: rem(12);
+    font-size: rem(13);
     line-height: 2;
-    letter-spacing: 0.2px;
     padding: 4px 0;
 
     &--textarea {
@@ -75,7 +73,7 @@ export default {
     }
 
     &::placeholder {
-      color: $colors-text--secondary;
+      color: var(--colors-text-secondary);
     }
 
     &:hover,
