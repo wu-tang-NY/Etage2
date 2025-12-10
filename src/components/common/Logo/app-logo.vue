@@ -60,6 +60,7 @@ $logo-separator-color: #e6e6e6;
 
     svg {
       vertical-align: top;
+      width: 100%;
     }
   }
 

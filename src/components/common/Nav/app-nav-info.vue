@@ -9,12 +9,12 @@
 
 <script>
 export default {
-  name: 'AppNavInfo',
-  emits: ['click'],
+  name: "AppNavInfo",
+  emits: ["click"],
   methods: {
     handleClick(event) {
-      this.$eventbus.$emit('openPopup', 'PopupContentAboutUs');
-      this.$emit('click', event);
+      this.$eventbus.$emit("openPopup", "PopupContentAboutUs");
+      this.$emit("click", event);
     },
   },
 };
@@ -24,6 +24,7 @@ export default {
 .nav-info {
   display: inline-flex;
   align-items: center;
+  margin-left: auto;
   font-size: rem(14);
   font-weight: bold;
   letter-spacing: 0.3px;

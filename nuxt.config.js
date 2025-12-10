@@ -144,7 +144,7 @@ export default defineNuxtConfig({
       { code: "ru", iso: "ru-RU", file: "ru.js" },
       { code: "ua", iso: "uk-UA", file: "ua.js" },
     ],
-    lazy: true,
+    lazy: false, // Disable lazy loading for static builds - all translations will be bundled
     langDir: "locales/",
     defaultLocale: "ua",
     strategy: "no_prefix",
