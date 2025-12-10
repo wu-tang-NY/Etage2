@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
-    <title>Group 59</title>
-    <desc>Created with Sketch.</desc>
-    <g id="website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="final_version" transform="translate(-2988.000000, -536.000000)">
-            <g id="Group-60" transform="translate(2908.000000, 484.000000)">
-                <g id="Group-59" transform="translate(80.000000, 52.000000)">
-                    <circle id="Oval" fill="#FFA511" cx="14" cy="14" r="14"></circle>
-                    <polygon id="Path" fill="#FFFFFF" points="15.9176471 7 9.51764706 13.4542373 9 14 9.51764706 14.5457627 15.9176471 21 17 19.9084746 11.8941176 14.759322 11.094118 14.0481266 11.8941176 13.240678 17 8.09152542"></polygon>
-                </g>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28"><title>Group 59</title><g id="website" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="final_version" transform="translate(-2988 -536)"><g id="Group-60" transform="translate(2908 484)"><g id="Group-59" transform="translate(80 52)"><circle id="Oval" cx="14" cy="14" r="14" fill="#ffa511"/><path id="Path" fill="#fff" d="m15.918 7-6.4 6.454L9 14l.518.546 6.4 6.454L17 19.908l-5.106-5.149-.8-.71.8-.808L17 8.09z"/></g></g></g></g></svg>

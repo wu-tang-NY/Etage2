@@ -1,11 +1,10 @@
 /* eslint-disable */
-import icon from "vue-svgicon";
+import icon from 'vue-svgicon'
 icon.register({
-  logo_dark_ua: {
-    width: 110,
-    height: 24,
-    viewBox: "0 0 120 24",
-    data:
-      '<g _fill="none" fill-rule="evenodd"><text font-family="Fira Sans" font-size="28" font-weight="800" _fill="#1B1B1B" x="37.252" y="20" letter-spacing=".5">ETAGE</text><g><rect pid="0" _fill="#1B1B1B" width="22" height="22" rx="1.1"/><path pid="1" _fill="#FFA511" d="M7.7 0h6.6v7.15h-2.2v2.2H9.9v2.2H7.7z"/></g></g>'
+  'logo_dark_ua': {
+    width: 1,
+    height: 22,
+    viewBox: '0 0 110 22',
+    data: '<g id="website" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="final_version" transform="translate(-130 -33)"><g id="Group-19" transform="translate(130 30)"><g id="Group-4" transform="translate(0 3)"><g id="Group-13"><text id="ETAGE" x="37.252" y="16.5" fill="#1b1b1b" font-family="Fira Sans" font-size="24" font-weight="800" letter-spacing=".5">ETAGE</text><g id="Group"><rect id="Rectangle" width="22" height="22" x="0" y="0" fill="#1b1b1b" rx="1.1"/><path id="Rectangle-Copy-3" fill="#ffa511" d="M7.7 0h6.6v7.15h-2.2v2.2H9.9v2.2H7.7z"/></g></g></g></g></g></g>'
   }
-});
+})

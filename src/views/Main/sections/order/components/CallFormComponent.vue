@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import emailService from "@/utils/emailService";
 import WelcomeModal from "@/components/common/Welcome/app-welcome-modal";
 
 export default {
@@ -79,19 +79,20 @@ export default {
     }
   },
   methods: {
-    handleSendEmail() {
+    async handleSendEmail() {
       if (this.name && this.phone) {
-        axios({
-          url: "https://etage.com.ua/api/callback",
-          method: "post",
-          data: {
+        try {
+          await emailService.sendCallback({
             name: this.name,
             phone: this.phone,
-          },
-        });
+          });
 
-        this.unsend = false;
-        this.modalWelcomeOpen = true;
+          this.unsend = false;
+          this.modalWelcomeOpen = true;
+        } catch (error) {
+          console.error("Failed to send callback request:", error);
+          // Optionally show error message to user
+        }
       }
     },
   },

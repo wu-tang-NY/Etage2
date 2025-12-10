@@ -1,9 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="26px" height="26px" viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
-    <title>Artboard</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <polygon id="Path" fill="#1B1B1B" points="11.2734375 5.5 4.54427083 12.4152542 4 13 4.54427083 13.5847458 11.2734375 20.5 12.4114583 19.3305085 7.04296875 13.8135593 22.9257812 13.8135593 22.9257812 12.1864407 7.04296875 12.1864407 12.4114583 6.66949153"></polygon>
-    </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26"><title>Artboard</title><g id="Artboard" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><path id="Path" fill="#1b1b1b" d="m11.273 5.5-6.729 6.915L4 13l.544.585 6.73 6.915 1.137-1.17-5.368-5.516h15.883v-1.628H7.043l5.368-5.517z"/></g></svg>

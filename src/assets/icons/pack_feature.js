@@ -2,9 +2,9 @@
 import icon from 'vue-svgicon'
 icon.register({
   'pack_feature': {
-    width: 50,
+    width: 1,
     height: 50,
     viewBox: '0 0 50 50',
-    data: '<g _fill="none" fill-rule="evenodd"><path pid="0" d="M7 9v9h1.5v24h33V18H43V9H7zm4.5 9h27v21h-27V18z" _fill="#000" fill-rule="nonzero"/><path pid="1" _fill="#FFA511" d="M10 12h30v3H10zM20.219 21a1.51 1.51 0 0 0-1.36 1.64A1.51 1.51 0 0 0 20.5 24h9a1.509 1.509 0 0 0 1.318-.744c.27-.469.27-1.043 0-1.512A1.509 1.509 0 0 0 29.5 21h-9.281z"/></g>'
+    data: '<g id="Artboard" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="icon" transform="translate(7 9)"><path id="Shape" fill="#000" fill-rule="nonzero" d="M0 0v9h1.5v24h33V9H36V0zm4.5 9h27v21h-27z"/><path id="Path" fill="#ffa511" d="M3 3h30v3H3z"/><path fill="#ffa511" d="M13.219 12a1.51 1.51 0 0 0-1.36 1.64A1.51 1.51 0 0 0 13.5 15h9a1.51 1.51 0 0 0 1.318-.744c.27-.469.27-1.043 0-1.512A1.51 1.51 0 0 0 22.5 12z"/></g></g>'
   }
 })

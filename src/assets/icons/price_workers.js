@@ -2,9 +2,9 @@
 import icon from 'vue-svgicon'
 icon.register({
   'price_workers': {
-    width: 50,
+    width: 1,
     height: 50,
     viewBox: '0 0 50 50',
-    data: '<g _fill="none" fill-rule="evenodd"><path pid="0" d="M18.656 5c-3.242 0-5.906 2.631-5.906 5.833 0 3.202 2.664 5.834 5.906 5.834 3.242 0 5.906-2.632 5.906-5.834C24.562 7.631 21.898 5 18.656 5zm0 3.333c1.418 0 2.531 1.1 2.531 2.5s-1.113 2.5-2.53 2.5c-1.419 0-2.532-1.1-2.532-2.5s1.113-2.5 2.531-2.5zm1.244 31.72V45h4.19l-4.19-4.948z" _fill="#000" fill-rule="nonzero"/><path pid="1" d="M16 8.5h10.713" _stroke="#000" stroke-width="3" stroke-linejoin="round"/><path pid="2" _fill="#FFA511" d="M24.5 28.271V35H38V21.667h-9.842L30.38 25h4.245v6.667h-3.846l-3.026-4.54z"/><path pid="3" d="M18.44 45.017V18.89c4.04 2.601 6.619 5.531 7.737 8.791" _stroke="#000" stroke-width="3" stroke-linejoin="round"/></g>'
+    data: '<g id="Artboard" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="icon" transform="translate(12 5)"><path id="Shape" fill="#000" fill-rule="nonzero" d="M6.656 0C3.414 0 .75 2.631.75 5.833s2.664 5.834 5.906 5.834 5.906-2.632 5.906-5.834S9.898 0 6.656 0m0 3.333c1.418 0 2.531 1.1 2.531 2.5s-1.113 2.5-2.53 2.5c-1.419 0-2.532-1.1-2.532-2.5s1.113-2.5 2.531-2.5M7.9 35.053V40h4.19z"/><path id="Path-22" stroke="#000" stroke-linejoin="round" stroke-width="3" d="M4 3.5h10.713"/><path id="Path-Copy" fill="#ffa511" d="M12.5 23.271V30H26V16.667h-9.842L18.38 20h4.245v6.667h-3.846l-3.026-4.54z"/><path id="Path-21" stroke="#000" stroke-linejoin="round" stroke-width="3" d="M6.44 40.017V13.89q6.06 3.901 7.737 8.791"/></g></g>'
   }
 })

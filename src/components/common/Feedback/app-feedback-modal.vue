@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import emailService from "@/utils/emailService";
 
 export default {
   name: "AppFeedbackModal",
@@ -108,19 +108,20 @@ export default {
     }
   },
   methods: {
-    handleSendEmail() {
+    async handleSendEmail() {
       if (this.phone && this.name && this.from && this.comment) {
-        axios({
-          url: "https://etage.com.ua/api/feedback",
-          method: "post",
-          data: {
+        try {
+          await emailService.sendFeedback({
             name: this.name,
             phone: this.phone,
             from: this.from,
             comment: this.comment
-          }
-        });
-        this.unsend = false;
+          });
+          this.unsend = false;
+        } catch (error) {
+          console.error("Failed to send feedback:", error);
+          // Optionally show error message to user
+        }
       }
     }
   }

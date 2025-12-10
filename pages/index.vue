@@ -142,7 +142,7 @@ export default {
       const diff = Math.abs(index - this.activeSectionIndex);
       return diff <= 1;
     },
-    
+
     onScroll() {
       if (typeof document === "undefined") return;
       setTimeout(() => {

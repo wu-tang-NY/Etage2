@@ -1,9 +1,25 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { copyFileSync, mkdirSync, readdirSync, statSync } from "fs";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Helper function to copy directory recursively
+function copyDir(src, dest) {
+  mkdirSync(dest, { recursive: true });
+  const entries = readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = resolve(src, entry.name);
+    const destPath = resolve(dest, entry.name);
+    if (entry.isDirectory()) {
+      copyDir(srcPath, destPath);
+    } else {
+      copyFileSync(srcPath, destPath);
+    }
+  }
+}
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
@@ -108,6 +124,7 @@ export default defineNuxtConfig({
     { src: "~/plugins/vue-svgicon.js" }, // Must run on both server and client for SSR
     { src: "~/plugins/line-clamp.js" }, // Must run on both server and client for SSR
     { src: "~/plugins/eventbus.js" }, // Must run on both server and client for SSR
+    { src: "~/plugins/emailService.js", mode: "client" }, // Email service initialization
     { src: "~/plugins/fonts.js", mode: "client" }, // Async font loading
     { src: "~/plugins/defer-css.js", mode: "client" }, // Defer non-critical CSS
     { src: "~/plugins/theme.js", mode: "client" },
@@ -177,12 +194,12 @@ export default defineNuxtConfig({
             const info = assetInfo.name.split(".");
             const ext = info[info.length - 1];
             if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
-              return `img/[name]-[hash][extname]`;
+              return `_nuxt/img/[name]-[hash][extname]`;
             }
             if (/woff2?|eot|ttf|otf/i.test(ext)) {
-              return `fonts/[name]-[hash][extname]`;
+              return `_nuxt/fonts/[name]-[hash][extname]`;
             }
-            return `assets/[name]-[hash][extname]`;
+            return `_nuxt/assets/[name]-[hash][extname]`;
           },
         },
       },
@@ -204,13 +221,54 @@ export default defineNuxtConfig({
       process.env.MAILGUN_API_KEY || "key-1a62b4a4982b7185d90632a29ca3b9d2",
     mailgunDomain: process.env.MAILGUN_DOMAIN || "mg.etage.com.ua",
     // Public keys (exposed to client) - accessed via useRuntimeConfig().public
-    public: {},
+    public: {
+      mailgunApiKey:
+        process.env.MAILGUN_API_KEY || "key-1a62b4a4982b7185d90632a29ca3b9d2",
+      mailgunDomain: process.env.MAILGUN_DOMAIN || "mg.etage.com.ua",
+    },
   },
 
   // Server API routes are automatically handled by Nitro in server/api/
   nitro: {
     experimental: {
       wasm: true,
+    },
+    // Ensure CSS and other assets are properly copied to output
+    publicAssets: [
+      {
+        baseURL: "/",
+        dir: "static",
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+      },
+    ],
+    hooks: {
+      "prerender:routes"(ctx) {
+        // Copy static files to output after prerendering
+      },
+      "build:before"(nitro) {
+        // This will run before the build
+      },
+      close(nitro) {
+        // Copy static files after build completes, preserving directory structure
+        const staticDir = resolve(__dirname, "static");
+        const outputStaticDir = resolve(__dirname, ".output/public/static");
+        const outputDir = resolve(__dirname, ".output/public");
+        try {
+          if (statSync(staticDir).isDirectory()) {
+            // Copy entire static directory to .output/public/static
+            copyDir(staticDir, outputStaticDir);
+            // Also copy icons directory to root for /icons/bg.svg reference
+            const iconsDir = resolve(staticDir, "icons");
+            const outputIconsDir = resolve(outputDir, "icons");
+            if (statSync(iconsDir).isDirectory()) {
+              copyDir(iconsDir, outputIconsDir);
+            }
+          }
+        } catch (e) {
+          // Ignore if static directory doesn't exist or copy fails
+          console.warn("Failed to copy static files:", e.message);
+        }
+      },
     },
   },
 

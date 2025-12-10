@@ -7,17 +7,20 @@
   "type": "module",
   "scripts": {
     "dev": "npx nuxt dev",
-    "build": "npx nuxt build",
+    "build": "npx nuxt build && npm run optimize:css",
     "start": "node .output/server/index.mjs",
     "generate": "npx nuxt generate",
     "preview": "npx nuxt preview",
     "lint": "eslint .",
-    "svg": "vsvg -s ./static/icons -t ./src/assets/icons"
+    "optimize:svgs": "node scripts/optimize-svgs.js",
+    "optimize:images": "node scripts/optimize-images.js",
+    "optimize:css": "node scripts/optimize-css.js",
+    "optimize:all": "npm run optimize:svgs && npm run optimize:images",
+    "svg": "npm run optimize:svgs && node scripts/convert-svgs-to-icons.js"
   },
   "dependencies": {
     "@nuxtjs/i18n": "^9.3.0",
     "@vueuse/core": "^11.0.0",
-    "axios": "^1.7.7",
     "cors": "^2.8.5",
     "form-data": "^4.0.0",
     "gsap": "^3.12.5",
@@ -33,10 +36,14 @@
   "devDependencies": {
     "@nuxt/devtools": "^3.1.1",
     "@nuxt/kit": "^4.2.2",
+    "cssnano": "^7.0.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.30.0",
     "express": "^4.21.0",
-    "svg-sprite-loader": "^6.0.11"
+    "postcss": "^8.4.0",
+    "sharp": "^0.33.0",
+    "svg-sprite-loader": "^6.0.11",
+    "svgo": "^4.0.0"
   },
   "engines": {
     "node": ">=18.0.0",

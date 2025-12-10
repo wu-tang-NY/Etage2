@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import emailService from "@/utils/emailService";
 
 export default {
   name: "AppCallbackModal",
@@ -88,17 +88,18 @@ export default {
     }
   },
   methods: {
-    handleSendEmail() {
+    async handleSendEmail() {
       if (this.phone && this.name) {
-        axios({
-          url: "https://etage.com.ua/api/callback",
-          method: "post",
-          data: {
+        try {
+          await emailService.sendCallback({
             name: this.name,
             phone: this.phone
-          }
-        });
-        this.unsend = false;
+          });
+          this.unsend = false;
+        } catch (error) {
+          console.error("Failed to send callback request:", error);
+          // Optionally show error message to user
+        }
       }
     },
     closeModal() {
