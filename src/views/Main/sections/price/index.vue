@@ -1,5 +1,6 @@
 <template>
-  <div class="price">
+  <ClientOnly>
+    <div class="price">
     <h2>{{ $t("price.title") }}</h2>
 
     <div class="subtitle dark-gray price__header--mobile">
@@ -112,6 +113,7 @@
       </div>
     </div>
   </div>
+  </ClientOnly>
 </template>
 
 <script>
@@ -318,7 +320,7 @@ export default {
     justify-content: center;
     padding: 13px 20px;
     background-color: var(--colors-accent);
-    color: $white;
+    color: var(--white);
     font-size: rem(14);
     font-weight: 600;
     line-height: 1;
@@ -339,7 +341,7 @@ export default {
     }
 
     &:hover {
-      color: $white;
+      color: var(--white);
       filter: brightness(1.1);
 
       svg {
@@ -380,7 +382,7 @@ export default {
   &__additional {
     @include size(72px, 37px);
     margin-right: 12px;
-    background-color: $white;
+    background-color: var(--white);
     clip-path: polygon(79% 0, 100% 50%, 80% 100%, 0 100%, 0 0);
     padding-left: 9px;
     line-height: 37px;
@@ -452,7 +454,7 @@ export default {
     position: absolute;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     background-color: var(--colors-text-primary);
-    color: $white;
+    color: var(--white);
     border-radius: 4px;
     width: 184px;
     padding: 10px 14px;

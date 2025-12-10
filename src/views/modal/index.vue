@@ -36,37 +36,49 @@
             class="modal-info__nav"
             v-if="(!mobile && !tablet) || toggledNav"
           >
-            <div
-              class="modal-info__panel"
-              :class="{ 'modal-info__panel--active': item.isActive }"
-              v-for="(item, index) in nav"
-              :key="item.header"
-            >
-              <div
-                class="modal-info__panel-header"
-                @click="toggleActive(item, index)"
+            <template v-if="nav && nav.length > 0">
+              <template
+                v-for="(item, index) in nav"
+                :key="item.header || index"
               >
-                {{ item.header }}
-                <svg-icon name="modal_dropdown" original />
-              </div>
-              <div
-                class="modal-info__panel-content"
-                v-for="link in item.links"
-                :key="link.name"
-              >
-                <!-- <a href="" @click.prevent="openSelectedInfo(item)" :class="{'modal-info__panel-link--active':link.activeLink}" class="modal-info__panel-link">{{link.title}}</a> -->
-                <a
-                  href=""
-                  @click.prevent="scrollTo(link, item.header)"
-                  :class="{ 'modal-info__panel-link--active': link.activeLink }"
-                  class="modal-info__panel-link"
-                  >{{ link.title }}</a
+                <div
+                  v-if="item"
+                  class="modal-info__panel"
+                  :class="{ 'modal-info__panel--active': item.isActive }"
                 >
-              </div>
-            </div>
+                  <div
+                    class="modal-info__panel-header"
+                    @click="toggleActive(item, index)"
+                  >
+                    {{ item.header }}
+                    <svg-icon name="modal_dropdown" original />
+                  </div>
+                  <template v-if="item && item.links && item.links.length > 0">
+                    <template
+                      v-for="(link, linkIndex) in item.links"
+                      :key="link.title || link.name || linkIndex"
+                    >
+                      <div v-if="link" class="modal-info__panel-content">
+                        <!-- <a href="" @click.prevent="openSelectedInfo(item)" :class="{'modal-info__panel-link--active':link.activeLink}" class="modal-info__panel-link">{{link.title}}</a> -->
+                        <a
+                          v-if="link && link.title"
+                          href=""
+                          @click.prevent="scrollTo(link, item.header)"
+                          :class="{
+                            'modal-info__panel-link--active': link.activeLink
+                          }"
+                          class="modal-info__panel-link"
+                          >{{ link.title }}</a
+                        >
+                      </div>
+                    </template>
+                  </template>
+                </div>
+              </template>
+            </template>
           </div>
         </div>
-        <div class="col-lg-9 offset-lg-3 modal-conent">
+        <div class="col-lg-9 modal-conent">
           <div class="modal-info__header-wrapper">
             <!-- <div class="modal-info__header">{{activeTab}}</div> -->
             <div
@@ -77,19 +89,36 @@
           </div>
           <div class="modal-info__content" ref="sections">
             <!-- <component :is="activeTab.component" /> -->
-            <div
-              class="modal-info__component-group"
-              v-for="item in nav"
-              :key="item.header"
-              :id="item.header"
-            >
-              <component
-                :is="link.component"
-                v-for="link in item.links"
-                :key="link.title"
-                :id="link.component"
-              />
-            </div>
+            <template v-if="openModal && nav && nav.length > 0">
+              <template
+                v-for="(item, itemIndex) in nav"
+                :key="item.header || itemIndex"
+              >
+                <div
+                  v-if="item"
+                  class="modal-info__component-group"
+                  :id="item.header"
+                >
+                  <!-- Only render components when they're actually in viewport or about to be -->
+                  <template v-if="item && item.links && item.links.length > 0">
+                    <template
+                      v-for="(link, linkIndex) in item.links"
+                      :key="link.title || link.component || linkIndex"
+                    >
+                      <component
+                        v-if="
+                          link &&
+                            link.component &&
+                            shouldLoadPopupComponent(link.component)
+                        "
+                        :is="link.component"
+                        :id="link.component"
+                      />
+                    </template>
+                  </template>
+                </div>
+              </template>
+            </template>
           </div>
         </div>
       </div>
@@ -98,12 +127,18 @@
 </template>
 
 <script>
-import pages from "../Main/pages";
+import pages from "~/src/views/Main/pages";
 
 export default {
   name: "ModalInfo",
   components: {
     ...pages
+  },
+  inject: {
+    eventbus: {
+      from: "eventbus",
+      default: null
+    }
   },
   props: {
     mobile: Boolean,
@@ -114,10 +149,12 @@ export default {
       return this.navItems.map((item, index) => ({
         ...item,
         isActive: this.activeStates[index] || false,
-        links: item.links.map((link, linkIndex) => ({
-          ...link,
-          activeLink: this.activeLinkStates[`${index}-${linkIndex}`] || false
-        }))
+        links: (item.links || [])
+          .map((link, linkIndex) => ({
+            ...link,
+            activeLink: this.activeLinkStates[`${index}-${linkIndex}`] || false
+          }))
+          .filter(link => link && link.component) // Filter out any undefined links
       }));
     }
   },
@@ -128,16 +165,22 @@ export default {
       toggledNav: false,
       activeStates: {},
       activeLinkStates: {},
-      navItems: []
+      navItems: [],
+      scrollPosition: 0,
+      loadedComponents: new Set() // Track which components have been loaded
     };
   },
   created() {
-    this.initializeNav();
+    if (typeof window !== "undefined") {
+      this.initializeNav();
+    }
   },
   watch: {
     "$i18n.locale": {
       handler() {
-        this.initializeNav();
+        if (typeof window !== "undefined") {
+          this.initializeNav();
+        }
       },
       immediate: false
     }
@@ -252,6 +295,29 @@ export default {
         }
       ];
     },
+    setupEventbusListener(eventbus) {
+      this._eventbus = eventbus;
+      eventbus.$on("openPopup", component => {
+        this.navItems.some((nav, navIndex) => {
+          return nav.links.some((item, linkIndex) => {
+            if (item.component === component) {
+              this.activeTab = nav.header;
+              this.activeStates[navIndex] = true;
+              this.activeLinkStates[`${navIndex}-${linkIndex}`] = true;
+              this.scrollTo(item, nav.header);
+            }
+            return item.component === component;
+          });
+        });
+        this.openModal = true;
+
+        // Save current scroll position and block scrolling
+        this.scrollPosition =
+          window.pageYOffset || document.documentElement.scrollTop;
+        document.body.classList.add("modal-open");
+        document.body.style.top = `-${this.scrollPosition}px`;
+      });
+    },
     openSelectedInfo(link, header) {
       this.handeRemoveAllColoredLinks();
       this.activeTab = header;
@@ -259,7 +325,7 @@ export default {
       this.navItems.forEach((item, itemIndex) => {
         item.links.forEach((l, linkIndex) => {
           if (l.component === link.component) {
-            this.$set(this.activeLinkStates, `${itemIndex}-${linkIndex}`, true);
+            this.activeLinkStates[`${itemIndex}-${linkIndex}`] = true;
           }
         });
       });
@@ -269,13 +335,45 @@ export default {
     },
 
     async scrollTo(link, header) {
-      await this.$nextTick();
+      // Ensure component is loaded before scrolling to it
+      if (!this.loadedComponents.has(link.component)) {
+        this.loadedComponents.add(link.component);
+        // Wait for component to render
+        await this.$nextTick();
+        // Wait a bit more for the component to be fully mounted
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } else {
+        await this.$nextTick();
+      }
+
       const elem = document.getElementById(link.component);
+      if (!elem || !elem.parentNode) {
+        // If element still not found, wait a bit more and retry
+        await new Promise(resolve => setTimeout(resolve, 200));
+        const retryElem = document.getElementById(link.component);
+        if (!retryElem || !retryElem.parentNode) {
+          console.warn(`Element ${link.component} not found after loading`);
+          this.openSelectedInfo(link, header);
+          return;
+        }
+        const elemGroupOffset = retryElem.parentNode.offsetTop;
+        const top = retryElem.offsetTop + elemGroupOffset - 60;
+        if (this.$refs.sections) {
+          this.$refs.sections.scrollTo({
+            top
+          });
+        }
+        this.openSelectedInfo(link, header);
+        return;
+      }
+
       const elemGroupOffset = elem.parentNode.offsetTop;
       const top = elem.offsetTop + elemGroupOffset - 60;
-      this.$refs.sections.scrollTo({
-        top
-      });
+      if (this.$refs.sections) {
+        this.$refs.sections.scrollTo({
+          top
+        });
+      }
       this.openSelectedInfo(link, header);
     },
 
@@ -285,6 +383,40 @@ export default {
 
     handeRemoveAllToggledPanels() {
       this.activeStates = {};
+    },
+
+    // Only load PopupContent components that are in active sections, are active links, or are in first section
+    shouldLoadPopupComponent(componentName) {
+      if (!this.openModal || !componentName) return false;
+      if (!this.navItems || this.navItems.length === 0) return false;
+
+      // Once loaded, keep it loaded
+      if (this.loadedComponents.has(componentName)) return true;
+
+      const shouldLoad = this.navItems.some((item, itemIndex) => {
+        if (!item || !item.links) return false;
+
+        const isActiveSection = this.activeStates[itemIndex];
+        // Load first section's components when modal opens (index 0)
+        const isFirstSection =
+          itemIndex === 0 && Object.keys(this.activeStates).length === 0;
+
+        return item.links.some((link, linkIndex) => {
+          if (!link || link.component !== componentName) return false;
+
+          const isActiveLink = this.activeLinkStates[
+            `${itemIndex}-${linkIndex}`
+          ];
+          // Load if: active link, active section, or first section (when modal just opened)
+          return isActiveLink || isActiveSection || isFirstSection;
+        });
+      });
+
+      if (shouldLoad) {
+        this.loadedComponents.add(componentName);
+      }
+
+      return shouldLoad;
     },
 
     openMobileAccordion() {
@@ -307,42 +439,86 @@ export default {
 
       // Open the clicked panel if it wasn't already open
       if (prev !== index) {
-        this.$set(this.activeStates, index, true);
+        this.activeStates[index] = true;
+        // Mark all components in this section as loaded
+        if (this.navItems[index]) {
+          this.navItems[index].links.forEach(link => {
+            if (link && link.component) {
+              this.loadedComponents.add(link.component);
+            }
+          });
+        }
       }
 
-      const elem = document.getElementById(block.header);
-      if (elem) {
-        const top = elem.offsetTop - 60;
-        this.$refs.sections.scrollTo({
-          top
-        });
-      }
+      this.$nextTick(() => {
+        const elem = document.getElementById(block.header);
+        if (elem && this.$refs.sections) {
+          const top = elem.offsetTop - 60;
+          this.$refs.sections.scrollTo({
+            top
+          });
+        }
+      });
     },
 
     closeModal() {
       this.handeRemoveAllColoredLinks();
       this.handeRemoveAllToggledPanels();
       this.openModal = false;
+      // Restore scroll position
       document.body.classList.remove("modal-open");
+      document.body.style.top = "";
+      window.scrollTo(0, this.scrollPosition);
     }
   },
   mounted() {
-    this.$eventbus.$on("openPopup", component => {
-      this.navItems.some((nav, navIndex) => {
-        return nav.links.some((item, linkIndex) => {
-          if (item.component === component) {
-            this.activeTab = nav.header;
-            this.$set(this.activeStates, navIndex, true);
-            this.$set(this.activeLinkStates, `${navIndex}-${linkIndex}`, true);
-            this.scrollTo(item, nav.header);
-          }
-          return item.component === component;
-        });
-      });
-      this.openModal = true;
+    // Initialize nav on client side if not already done
+    if (this.navItems.length === 0) {
+      this.initializeNav();
+    }
 
-      document.body.classList.add("modal-open");
+    // Get eventbus from inject or $eventbus
+    const eventbus = this.eventbus || this.$eventbus;
+
+    if (!eventbus) {
+      console.warn(
+        "Eventbus not available in modal component. Trying again in next tick..."
+      );
+      // Try again in next tick in case plugin hasn't finished loading
+      this.$nextTick(() => {
+        const retryEventbus = this.eventbus || this.$eventbus;
+        if (retryEventbus) {
+          this.setupEventbusListener(retryEventbus);
+        } else {
+          console.error("Eventbus still not available after retry");
+        }
+      });
+      return;
+    }
+
+    this.setupEventbusListener(eventbus);
+
+    // Watch for modal opening to load first section components
+    this.$watch("openModal", isOpen => {
+      if (isOpen && this.navItems.length > 0) {
+        // Load first section when modal opens
+        this.$nextTick(() => {
+          // First section components will load via shouldLoadPopupComponent
+        });
+      }
     });
+  },
+  beforeUnmount() {
+    const eventbus = this._eventbus || this.eventbus || this.$eventbus;
+    if (eventbus) {
+      eventbus.$off("openPopup");
+    }
+    // Cleanup: remove modal-open class if component is destroyed while modal is open
+    if (typeof document !== "undefined" && this.openModal) {
+      document.body.classList.remove("modal-open");
+      document.body.style.top = "";
+      window.scrollTo(0, this.scrollPosition);
+    }
   }
 };
 </script>
@@ -435,7 +611,11 @@ export default {
         top: -60px;
         @include size(100%, 2px);
         left: 0;
-        background-color: color-mix(in srgb, var(--colors-accent) 40%, transparent);
+        background-color: color-mix(
+          in srgb,
+          var(--colors-accent) 40%,
+          transparent
+        );
       }
     }
   }
@@ -590,7 +770,7 @@ export default {
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: rgba($white, 0.2);
+      background-color: rgba(255, 255, 255, 0.2);
       border-radius: 100px;
     }
 
@@ -623,11 +803,17 @@ export default {
   }
 }
 
+.modal-conent {
+  margin-left: 25%;
+}
+
 @media screen and (max-width: 992px) {
   .modal-info {
     overflow: scroll;
     max-height: 100vh;
     padding-top: 0;
+    width: 100%;
+    max-width: 100vw;
 
     &__header-wrapper {
       width: 100%;
@@ -639,6 +825,7 @@ export default {
 
     .modal-conent {
       margin-top: 100px;
+      margin-left: 0;
     }
 
     &__nav {
@@ -715,6 +902,16 @@ export default {
         }
       }
     }
+  }
+
+  // Add padding-top when New Year decorations are active
+  body.has-christmas-lights .modal-info {
+    padding-top: 50px;
+  }
+
+  // Add padding-top to close button when New Year decorations are active
+  body.has-christmas-lights .modal-info .sticky__close {
+    margin-top: 66px; // 16px original + 50px for decorations
   }
 }
 </style>

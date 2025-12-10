@@ -1,5 +1,5 @@
 /* eslint-disable */
-var icon = require("vue-svgicon");
+import icon from "vue-svgicon";
 icon.register({
   theme_dark: {
     width: 20,

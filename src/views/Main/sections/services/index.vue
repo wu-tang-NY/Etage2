@@ -1,51 +1,56 @@
 <template>
-  <div class="services">
-    <!-- <svg-icon name="mobile_bg" original v-if="mobile || tablet" class="services__bg" /> -->
-    <h1>
-      {{ $t("services.title") }}
-      <br v-if="!mobile && !tablet" />
-      <span>{{ $t("services.titleSpan") }}</span>
-      {{ $t("services.titleEnd") }}
-    </h1>
+  <ClientOnly>
+    <div class="services">
+      <!-- <svg-icon name="mobile_bg" original v-if="mobile || tablet" class="services__bg" /> -->
+      <h1>
+        {{ $t("services.title") }}
+        <br v-if="!mobile && !tablet" />
+        <span>{{ $t("services.titleSpan") }}</span>
+        {{ $t("services.titleEnd") }}
+      </h1>
 
-    <div class="subtitle light-gray">
-      {{ $t("services.subtitle1") }}
-      <span>{{ $t("services.subtitle1Span") }}</span
-      >{{ $t("services.subtitle1Middle") }}
-      <span>{{ $t("services.subtitle1Span2") }}</span
-      >{{ $t("services.subtitle1End") }}
+      <div class="subtitle light-gray">
+        {{ $t("services.subtitle1") }}
+        <span>{{ $t("services.subtitle1Span") }}</span
+        >{{ $t("services.subtitle1Middle") }}
+        <span>{{ $t("services.subtitle1Span2") }}</span
+        >{{ $t("services.subtitle1End") }}
+      </div>
+
+      <div class="subtitle dark-gray">
+        {{ $t("services.subtitle2") }}
+        <a href="" @click.prevent="modalCallbackOpen = true">{{
+          $t("services.subtitle2Link")
+        }}</a
+        >{{ $t("services.subtitle2End") }}
+      </div>
+
+      <callback-modal v-model="modalCallbackOpen" />
     </div>
-
-    <div class="subtitle dark-gray">
-      {{ $t("services.subtitle2") }}
-      <a href="" @click.prevent="modalCallbackOpen = true">{{
-        $t("services.subtitle2Link")
-      }}</a
-      >{{ $t("services.subtitle2End") }}
-    </div>
-
-    <callback-modal v-model="modalCallbackOpen" />
-  </div>
+  </ClientOnly>
 </template>
 
 <script>
-import CallbackModal from '@/components/common/Callback/app-callback-modal';
+import { defineAsyncComponent } from "vue";
 
+// Lazy load CallbackModal - only loads when services section is active or modal is opened
 export default {
-  name: 'AppPageMainSectionServices',
+  name: "AppPageMainSectionServices",
   components: {
-    CallbackModal,
+    CallbackModal: defineAsyncComponent(() =>
+      import("@/components/common/Callback/app-callback-modal")
+    )
   },
   props: {
     active: {
-      type: Boolean,
+      type: Boolean
     },
     mobile: Boolean,
-    tablet: Boolean,
+    tablet: Boolean
   },
   data: () => ({
-    modalCallbackOpen: false,
-  }),
+    modalCallbackOpen: false
+  })
 };
 </script>
 
@@ -54,7 +59,8 @@ export default {
   padding-top: 70px;
 
   h1 {
-    margin-bottom: 32px;
+    margin-top: 20px;
+    margin-bottom: 50px;
 
     span {
       color: var(--colors-accent);
@@ -63,6 +69,8 @@ export default {
 
   .subtitle {
     margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
     max-width: 680px;
 
     span {

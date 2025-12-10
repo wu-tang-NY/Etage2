@@ -1,18 +1,20 @@
 <template>
-  <div class="app-language-switcher">
-    <button
-      v-for="lang in availableLanguages"
-      :key="lang.code"
-      type="button"
-      class="app-language-switcher__button"
-      :class="{
-        'app-language-switcher__button--active': currentLocale === lang.code
-      }"
-      @click="switchLanguage(lang.code)"
-    >
-      {{ lang.label }}
-    </button>
-  </div>
+  <ClientOnly>
+    <div class="app-language-switcher">
+      <button
+        v-for="lang in availableLanguages"
+        :key="lang.code"
+        type="button"
+        class="app-language-switcher__button"
+        :class="{
+          'app-language-switcher__button--active': currentLocale === lang.code
+        }"
+        @click="switchLanguage(lang.code)"
+      >
+        {{ lang.label }}
+      </button>
+    </div>
+  </ClientOnly>
 </template>
 
 <script>
@@ -65,12 +67,12 @@ export default {
 
     &:hover {
       background-color: var(--colors-text-primary);
-      color: $white;
+      color: var(--white);
     }
 
     &--active {
       background-color: var(--colors-text-primary);
-      color: $white;
+      color: var(--white);
     }
 
     &:focus {

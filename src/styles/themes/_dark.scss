@@ -1,3 +1,5 @@
+@use "../utils/mixins" as *;
+
 // Exclude elements that shouldn't transition
 svg,
 img,
@@ -296,7 +298,10 @@ canvas,
       background-color: var(--colors-accent);
     }
 
-    .multiselect {
+    &__select {
+      color: var(--colors-dark-text-primary);
+      border-bottom-color: var(--colors-dark-border);
+
       &:hover,
       &:active,
       &:focus {
@@ -304,81 +309,17 @@ canvas,
           background-color: var(--colors-accent);
         }
       }
-    }
-  }
 
-  .multiselect {
-    background-color: transparent;
-    color: var(--colors-dark-text-primary);
-
-    &.multiselect--active {
-      color: var(--colors-dark-text-primary);
-    }
-
-    .multiselect__tags {
-      background-color: transparent;
-      border-bottom-color: var(--colors-dark-border);
-      color: var(--colors-dark-text-primary);
-    }
-
-    .multiselect__placeholder,
-    .multiselect__input,
-    .multiselect__single {
-      background-color: transparent;
-      color: var(--colors-dark-text-primary);
-    }
-
-    .multiselect__select {
-      background-color: transparent;
-
-      &::before {
-        border-top-color: var(--colors-dark-text-primary);
-      }
-    }
-
-    .multiselect__content-wrapper {
-      background-color: var(--colors-dark-surface);
-      border-color: var(--colors-dark-border);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .multiselect__option {
-      background-color: var(--colors-dark-surface);
-      color: var(--colors-dark-text-primary);
-
-      &--highlight {
-        background-color: var(--colors-dark-grey-200);
+      option {
+        background-color: var(--colors-dark-surface);
         color: var(--colors-dark-text-primary);
       }
-
-      &--selected {
-        background-color: var(--colors-accent);
-        color: var(--colors-dark-bg);
-        font-weight: 600;
-
-        &.multiselect__option--highlight {
-          background-color: color-mix(in srgb, var(--colors-accent) 90%, white);
-        }
-      }
     }
 
-    .multiselect__tag {
-      background-color: var(--colors-accent);
-      color: var(--colors-dark-bg);
-
-      .multiselect__tag-icon {
-        &:hover {
-          background-color: color-mix(in srgb, var(--colors-accent) 90%, black);
-        }
-
-        &::after {
-          color: var(--colors-dark-bg);
-        }
+    &__control {
+      &::after {
+        border-top-color: var(--colors-dark-text-primary);
       }
-    }
-
-    .multiselect__spinner {
-      border-color: var(--colors-accent) transparent transparent;
     }
   }
 
@@ -708,6 +649,7 @@ canvas,
 
     &__block {
       color: var(--colors-dark-text-primary);
+      background-color: var(--colors-dark-grey-100);
     }
 
     &__title {
@@ -732,6 +674,26 @@ canvas,
       }
     }
 
+    &__swiper-divider {
+      svg {
+        // Light grey fill (#F0F0F0) -> dark grey
+        path[fill="#F0F0F0"],
+        path[fill="#f0f0f0"],
+        g[fill="#F0F0F0"],
+        g[fill="#f0f0f0"] {
+          fill: var(--colors-dark-grey-200) !important;
+        }
+
+        // White stroke (#FFF) -> primary text color
+        circle[stroke="#FFF"],
+        circle[stroke="#FFFFFF"],
+        circle[stroke="#fff"],
+        circle[stroke="#ffffff"] {
+          stroke: var(--colors-dark-text-primary) !important;
+        }
+      }
+    }
+
     &__slide {
       &-title {
         color: var(--colors-dark-text-primary);
@@ -744,7 +706,7 @@ canvas,
 
     &__next {
       background-color: var(--colors-accent);
-      color: $white;
+      color: var(--white);
 
       &:hover {
         filter: brightness(1.1);
@@ -755,19 +717,10 @@ canvas,
         color: var(--colors-dark-text-primary);
 
         &:hover {
-          color: $white;
+          color: var(--white);
           background-color: var(--colors-dark-text-primary);
         }
       }
-    }
-  }
-
-  // Swiper navigation buttons
-  .swiper-button-prev,
-  .swiper-button-next {
-    &.swiper-button-white {
-      // In dark mode, buttons should be visible
-      background-color: var(--colors-accent);
     }
   }
 
@@ -835,7 +788,7 @@ canvas,
 
     &__examples {
       background-color: var(--colors-accent);
-      color: $white;
+      color: var(--white);
 
       &:hover {
         background-color: color-mix(in srgb, var(--colors-accent) 90%, white);
@@ -1064,12 +1017,18 @@ canvas,
       // Set default fill to currentColor for icons that should inherit
       fill: currentColor;
 
-      // Override for specific color patterns
+      // Ensure child elements inherit currentColor by default
       path,
       rect,
       circle,
       polygon,
+      ellipse,
+      line,
+      polyline,
       text {
+        fill: currentColor;
+
+        // Override for specific color patterns
         &[fill="#1B1B1B"],
         &[fill="#1b1b1b"],
         &[fill="#000"],
@@ -1087,6 +1046,11 @@ canvas,
         &[fill="#D0D0D0"],
         &[fill="#d0d0d0"] {
           fill: var(--colors-dark-grey-300) !important;
+        }
+
+        // Keep fill="none" as transparent
+        &[fill="none"] {
+          fill: none !important;
         }
       }
     }
@@ -1266,11 +1230,28 @@ canvas,
   // Divider icon
   .divider {
     svg {
+      // Dark fills -> primary text color
       path[fill="#1B1B1B"],
       path[fill="#1b1b1b"],
       path[fill="#000"],
       path[fill="#000000"] {
         fill: var(--colors-dark-text-primary) !important;
+      }
+
+      // Light grey fill (#F0F0F0) -> dark grey
+      path[fill="#F0F0F0"],
+      path[fill="#f0f0f0"],
+      g[fill="#F0F0F0"],
+      g[fill="#f0f0f0"] {
+        fill: var(--colors-dark-grey-200) !important;
+      }
+
+      // White stroke (#FFF) -> primary text color
+      circle[stroke="#FFF"],
+      circle[stroke="#FFFFFF"],
+      circle[stroke="#fff"],
+      circle[stroke="#ffffff"] {
+        stroke: var(--colors-dark-text-primary) !important;
       }
     }
   }
@@ -2034,27 +2015,27 @@ canvas,
 
     &--active {
       .nav-item__link {
-        color: $white;
+        color: var(--white);
 
         &:hover {
-          color: $white;
+          color: var(--white);
         }
       }
 
       .nav-item__text {
-        color: $white;
+        color: var(--white);
       }
 
       .nav-item__icon {
-        color: $white !important;
+        color: var(--white) !important;
 
         svg {
-          fill: $white !important;
+          fill: var(--white) !important;
         }
       }
 
       .nav-item__chevron {
-        border-top-color: $white;
+        border-top-color: var(--white);
       }
 
       .nav-item__bg::before {
@@ -2089,15 +2070,15 @@ canvas,
       background-color: var(--colors-accent);
 
       &__item {
-        color: $white;
+        color: var(--white);
       }
 
       &__link {
-        color: $white;
+        color: var(--white);
 
         &:hover {
           background-color: rgba(255, 255, 255, 0.2);
-          color: $white;
+          color: var(--white);
         }
       }
     }

@@ -1,12 +1,14 @@
 <template>
-  <div class="app-logo">
-    <a href="/" class="app-logo__title">
-      <span class="app-logo__icon">
-        <svg-icon :name="logoIconName" original />
-      </span>
-    </a>
-    <span class="app-logo__subtitle">{{ $t("logo.subtitle") }}</span>
-  </div>
+  <ClientOnly>
+    <div class="app-logo">
+      <a href="/" class="app-logo__title">
+        <span class="app-logo__icon">
+          <svg-icon :name="logoIconName" original />
+        </span>
+      </a>
+      <span class="app-logo__subtitle">{{ $t("logo.subtitle") }}</span>
+    </div>
+  </ClientOnly>
 </template>
 
 <script>
@@ -36,7 +38,7 @@ export default {
     };
     window.addEventListener("themechange", this.themeChangeHandler);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.themeChangeHandler) {
       window.removeEventListener("themechange", this.themeChangeHandler);
     }

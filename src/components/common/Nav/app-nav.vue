@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <nav class="app-nav">
     <div class="app-nav__inner">
       <ul
@@ -15,7 +15,13 @@
 
 <script>
 export default {
-  name: 'AppNav',
+  name: "AppNav",
+  props: {
+    isOpen: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 
@@ -33,11 +39,16 @@ export default {
 
   @include media-breakpoint-up(lg) {
     &::before {
-      content: '';
-      background-image: linear-gradient(to right, #e6e6e6, rgba(230, 230, 230, 0));
+      content: "";
+      background-image: linear-gradient(
+        to right,
+        #e6e6e6,
+        rgba(230, 230, 230, 0)
+      );
       @include size(100%, 2px);
       position: absolute;
-      bottom: 0; left: 0;
+      bottom: 0;
+      left: 0;
     }
 
     .nav-item:first-child {

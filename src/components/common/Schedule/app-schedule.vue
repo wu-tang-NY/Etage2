@@ -1,20 +1,22 @@
 <template>
-  <div class="app-schedule">
-    <div class="app-schedule__icon" v-if="!withoutLabel">
-      <svg-icon name="label_schedule" original />
-    </div>
-
-    <div class="app-schedule__content">
-      <div class="app-schedule__label" v-if="!withoutLabel">
-        {{ $t("schedule.label") }}
+  <ClientOnly>
+    <div class="app-schedule">
+      <div class="app-schedule__icon" v-if="!withoutLabel">
+        <svg-icon name="label_schedule" original />
       </div>
 
-      <div class="app-schedule__text">
-        <div>{{ $t("schedule.time", { from: "6:00", to: "22:00" }) }}</div>
-        <div>{{ $t("schedule.noDaysOff") }}</div>
+      <div class="app-schedule__content">
+        <div class="app-schedule__label" v-if="!withoutLabel">
+          {{ $t("schedule.label") }}
+        </div>
+
+        <div class="app-schedule__text">
+          <div>{{ $t("schedule.time", { from: "6:00", to: "22:00" }) }}</div>
+          <div>{{ $t("schedule.noDaysOff") }}</div>
+        </div>
       </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <script>

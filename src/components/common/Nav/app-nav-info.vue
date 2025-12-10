@@ -1,17 +1,20 @@
 <template>
-  <div id="information-modal-btn" class="nav-info">
-    <svg-icon name="icon_5_c" original />
-    {{ $t("navInfo.information") }}
-  </div>
+  <ClientOnly>
+    <div id="information-modal-btn" class="nav-info" @click="handleClick">
+      <svg-icon name="icon_5_c" original />
+      {{ $t("navInfo.information") }}
+    </div>
+  </ClientOnly>
 </template>
 
 <script>
 export default {
   name: 'AppNavInfo',
+  emits: ['click'],
   methods: {
-    openModal() {
+    handleClick(event) {
       this.$eventbus.$emit('openPopup', 'PopupContentAboutUs');
-      document.body.classList.remove('modal-open');
+      this.$emit('click', event);
     },
   },
 };

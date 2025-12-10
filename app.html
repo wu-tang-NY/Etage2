@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html {{ HTML_ATTRS }}>
+  <head {{ HEAD_ATTRS }}>
+    {{ HEAD }}
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          "gtm.start": new Date().getTime(),
+          event: "gtm.js",
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-P6Q7G5J");
+    </script>
+    <!-- End Google Tag Manager -->
+    <!-- Google tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-248729221-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-248729221-1");
+    </script>
+    <!-- Theme initialization script - must run before page render to prevent flash -->
+    <script>
+      (function () {
+        const THEME_STORAGE_KEY = "app-theme";
+        const THEME_LIGHT = "light";
+        const THEME_DARK = "dark";
+
+        function getStoredTheme() {
+          try {
+            return localStorage.getItem(THEME_STORAGE_KEY);
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function getSystemTheme() {
+          if (window.matchMedia) {
+            return window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? THEME_DARK
+              : THEME_LIGHT;
+          }
+          return THEME_LIGHT;
+        }
+
+        function applyTheme(theme) {
+          const root = document.documentElement;
+          if (theme === THEME_DARK) {
+            root.classList.add("theme-dark");
+            root.classList.remove("theme-light");
+          } else {
+            root.classList.add("theme-light");
+            root.classList.remove("theme-dark");
+          }
+
+          // Update theme-color meta tag
+          let metaThemeColor = document.querySelector(
+            'meta[name="theme-color"]'
+          );
+          if (metaThemeColor) {
+            metaThemeColor.setAttribute(
+              "content",
+              theme === THEME_DARK ? "#0e1a28" : "#ffffff"
+            );
+          }
+        }
+
+        // Apply theme immediately
+        const storedTheme = getStoredTheme();
+        const theme = storedTheme || getSystemTheme();
+        applyTheme(theme);
+      })();
+    </script>
+  </head>
+
+  <body {{ BODY_ATTRS }}>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-P6Q7G5J"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    {{ APP }}
+  </body>
+</html>
+

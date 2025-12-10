@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <div class="app-phones">
     <ul class="app-phones__codes">
       <li class="app-phones__code">
@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: 'AppPhones',
+  name: "AppPhones",
 };
 </script>
 
@@ -90,7 +90,7 @@ export default {
 .app-phone {
   font-size: inherit;
   color: var(--colors-accent);
-  letter-spacing: .4px;
+  letter-spacing: 0.4px;
   vertical-align: middle;
 }
 

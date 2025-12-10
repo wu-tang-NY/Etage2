@@ -1,83 +1,92 @@
 <template>
-  <section class="reviews">
-    <div class="reviews__btnholder">
-      <h2>{{ $t("reviews.title") }}</h2>
-      <div
-        id="feedback-btn"
-        class="reviews__next reviews__next"
-        @click.prevent="modalFeedbackOpen = true"
-        v-if="!mobile && !tablet"
-      >
-        {{ $t("reviews.leaveReview") }}
-      </div>
-    </div>
-
-    <div class="reviews__list">
-      <div
-        v-for="item in items"
-        :key="item.feature"
-        class="reviews__block"
-        @click="openPopup(item.component)"
-      >
-        <svg-icon :name="item.svg" original class="reviews__icon" />
-
-        <div class="reviews__title" v-html="item.feature"></div>
-
-        <svg-icon name="chevron_feature" original class="reviews__chevron" />
-      </div>
-    </div>
-
-    <div class="reviews__swiper">
-      <swiper :options="options" ref="swiper" @init="reinitSwiper">
-        <swiper-slide
-          v-for="(slide, index) in slides"
-          :key="index"
-          class="reviews__slide"
-          @click.native="$eventbus.$emit('openPopup', 'PopupContentFeedback')"
+  <ClientOnly>
+    <section class="reviews">
+      <div class="reviews__btnholder">
+        <h2>{{ $t("reviews.title") }}</h2>
+        <div
+          id="feedback-btn"
+          class="reviews__next reviews__next"
+          @click.prevent="modalFeedbackOpen = true"
+          v-if="!mobile && !tablet"
         >
-          <div class="reviews__slide-title">{{ slide.title }}</div>
-
-          <p class="reviews__slide-desc dark-gray" v-line-clamp="3">
-            {{ slide.desc }}
-          </p>
-        </swiper-slide>
-      </swiper>
-
-      <div
-        class="swiper-button-prev reviews__swiper-button swiper-button-white"
-      ></div>
-      <svg-icon
-        name="divider"
-        original
-        v-if="mobile || tablet"
-        class="reviews__swiper-divider"
-      ></svg-icon>
-      <div
-        class="swiper-button-next reviews__swiper-button swiper-button-white"
-      ></div>
-    </div>
-
-    <div class="reviews__btnholder">
-      <div
-        id="feedback-btn-mobile"
-        class="reviews__next reviews__next"
-        @click.prevent="modalFeedbackOpen = true"
-        v-if="mobile || tablet"
-      >
-        {{ $t("reviews.leaveReview") }}
+          {{ $t("reviews.leaveReview") }}
+        </div>
       </div>
-    </div>
-    <feedback-modal v-model="modalFeedbackOpen" />
-  </section>
+
+      <div class="reviews__list">
+        <div
+          v-for="item in items"
+          :key="item.feature"
+          class="reviews__block"
+          @click="openPopup(item.component)"
+        >
+          <svg-icon :name="item.svg" original class="reviews__icon" />
+
+          <div class="reviews__title" v-html="item.feature"></div>
+
+          <svg-icon name="chevron_feature" original class="reviews__chevron" />
+        </div>
+      </div>
+
+      <div class="reviews__swiper">
+        <div class="reviews__carousel" ref="carousel">
+          <div
+            v-for="(slide, index) in slides"
+            :key="index"
+            class="reviews__slide"
+            @click="$eventbus.$emit('openPopup', 'PopupContentFeedback')"
+          >
+            <div class="reviews__slide-title">{{ slide.title }}</div>
+
+            <p class="reviews__slide-desc dark-gray" v-line-clamp="3">
+              {{ slide.desc }}
+            </p>
+          </div>
+        </div>
+
+        <button
+          class="reviews__swiper-button reviews__swiper-button--prev"
+          @click="scrollCarousel('prev')"
+          :disabled="!canScrollPrev"
+        ></button>
+        <svg-icon
+          name="divider"
+          original
+          v-if="mobile || tablet"
+          class="reviews__swiper-divider"
+        ></svg-icon>
+        <button
+          class="reviews__swiper-button reviews__swiper-button--next"
+          @click="scrollCarousel('next')"
+          :disabled="!canScrollNext"
+        ></button>
+      </div>
+
+      <div class="reviews__btnholder">
+        <div
+          id="feedback-btn-mobile"
+          class="reviews__next reviews__next"
+          @click.prevent="modalFeedbackOpen = true"
+          v-if="mobile || tablet"
+        >
+          {{ $t("reviews.leaveReview") }}
+        </div>
+      </div>
+      <feedback-modal v-model="modalFeedbackOpen" />
+    </section>
+  </ClientOnly>
 </template>
 
 <script>
-import FeedbackModal from "@/components/common/Feedback/app-feedback-modal";
+import { defineAsyncComponent } from "vue";
 
+// Lazy load FeedbackModal - only loads when reviews section is active or modal is opened
 export default {
   name: "AppPageMainSectionReviews",
   components: {
-    FeedbackModal
+    FeedbackModal: defineAsyncComponent(() =>
+      import("@/components/common/Feedback/app-feedback-modal")
+    )
   },
   props: {
     active: Boolean,
@@ -86,10 +95,14 @@ export default {
     desktop: Boolean
   },
   watch: {
-    mobile: "reinitSwiper",
-    tablet: "reinitSwiper",
-    desktop: "reinitSwiper"
+    mobile: "updateScrollButtons",
+    tablet: "updateScrollButtons",
+    desktop: "updateScrollButtons"
   },
+  data: () => ({
+    modalFeedbackOpen: false,
+    currentIndex: 0
+  }),
   computed: {
     items() {
       return [
@@ -147,38 +160,52 @@ export default {
           desc: this.$t("reviews.slides.slide6.desc")
         }
       ];
+    },
+    canScrollPrev() {
+      return this.currentIndex > 0;
+    },
+    canScrollNext() {
+      if (this.mobile || this.tablet) {
+        return this.currentIndex < this.slides.length - 1;
+      }
+      return this.currentIndex < this.slides.length - 3;
     }
   },
-  data: () => ({
-    modalFeedbackOpen: false,
-    options: {
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      },
-      slidesPerView: 3,
-      centeredSlides: true,
-      loop: true,
-      spaceBetween: 70,
-      breakpoints: {
-        768: {
-          spaceBetween: 0,
-          centeredSlides: false,
-          slidesPerView: 1
-        }
-      }
-    }
-  }),
+  mounted() {
+    this.updateScrollButtons();
+  },
   methods: {
     openPopup(e) {
       this.$eventbus.$emit("openPopup", e);
     },
-    reinitSwiper() {
-      this.$refs.swiper.swiper.update();
+    scrollCarousel(direction) {
+      if (!this.$refs.carousel) return;
+
+      const slideWidth = this.mobile || this.tablet ? 100 : 33.333;
+      const container = this.$refs.carousel;
+      const scrollAmount = (container.offsetWidth / 100) * slideWidth;
+
+      if (direction === "next") {
+        this.currentIndex = Math.min(
+          this.currentIndex + 1,
+          this.mobile || this.tablet
+            ? this.slides.length - 1
+            : this.slides.length - 3
+        );
+        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      } else {
+        this.currentIndex = Math.max(this.currentIndex - 1, 0);
+        container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      }
+    },
+    updateScrollButtons() {
+      this.$nextTick(() => {
+        if (this.$refs.carousel) {
+          this.currentIndex = 0;
+          this.$refs.carousel.scrollLeft = 0;
+        }
+      });
     }
-  },
-  mounted() {
-    this.$forceUpdate();
   }
 };
 </script>
@@ -265,6 +292,21 @@ export default {
     }
   }
 
+  &__carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    gap: 70px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   &__swiper-divider {
     position: absolute;
     bottom: -48px;
@@ -279,29 +321,46 @@ export default {
     background-color: var(--colors-accent);
     background-size: 8px 14px;
     background-position: center;
+    background-repeat: no-repeat;
+    border: none;
     border-radius: 50%;
     transform: translateY(-50%);
     margin-top: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    z-index: 20;
+    transition: opacity 0.3s;
 
-    &.swiper-button-next {
+    &--next {
       right: -30px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 14'%3E%3Cpath fill='white' d='M1 0L0 1l6 6-6 6 1 1 7-7z'/%3E%3C/svg%3E");
     }
 
-    &.swiper-button-prev {
+    &--prev {
       left: -30px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 14'%3E%3Cpath fill='white' d='M7 0l1 1-6 6 6 6-1 1-7-7z'/%3E%3C/svg%3E");
     }
 
-    &:hover,
-    &:focus,
-    &:active {
+    &:hover:not(:disabled),
+    &:focus:not(:disabled),
+    &:active:not(:disabled) {
       outline: none;
+      filter: brightness(1.1);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 
   &__slide {
     text-align: center;
     width: 400px;
+    min-width: 400px;
     cursor: pointer;
+    scroll-snap-align: center;
   }
 
   &__slide-desc {
@@ -326,7 +385,7 @@ export default {
 
   &__next {
     background-color: var(--colors-accent);
-    color: $white;
+    color: var(--white);
     height: 40px;
     display: inline-flex;
     align-items: center;
@@ -343,7 +402,7 @@ export default {
       color: var(--colors-text-primary);
 
       &:hover {
-        color: $white;
+        color: var(--white);
         background-color: var(--colors-text-primary);
       }
     }
@@ -397,11 +456,11 @@ export default {
       @include size(24px);
       background-size: 7px 12px;
 
-      &.swiper-button-next {
+      &--next {
         right: -26px;
       }
 
-      &.swiper-button-prev {
+      &--prev {
         left: -26px;
       }
     }
@@ -439,7 +498,7 @@ export default {
       margin-right: 16px;
       margin-bottom: 16px;
       height: 120px;
-      background-color: #f6f6f6;
+      background-color: var(--colors-grey-100);
       padding: 14px 9px 16px 9px;
       justify-content: center;
       margin-right: 0;
@@ -477,8 +536,13 @@ export default {
       }
     }
 
+    &__carousel {
+      gap: 0;
+    }
+
     &__slide {
       width: 100%;
+      min-width: 100%;
     }
 
     &__swiper-button {
@@ -486,11 +550,11 @@ export default {
       bottom: -48px;
       transform: translateY(0);
 
-      &.swiper-button-next {
+      &--next {
         right: 20%;
       }
 
-      &.swiper-button-prev {
+      &--prev {
         left: 20%;
       }
     }

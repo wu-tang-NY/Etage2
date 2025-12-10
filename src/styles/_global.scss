@@ -1,13 +1,5 @@
-@import 'variables/variables';
-
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/variables';
-
-@import 'utils/mixins';
-@import 'utils/functions';
-
-@import 'vendor/bootstrap/custom';
+@use "utils/mixins" as *;
+@use "utils/functions" as *;
 
 // CSS Custom Properties (CSS Variables)
 :root {
@@ -18,11 +10,38 @@
   --colors-grey-300: #c6c6c6;
   --colors-text-primary: #1b1b1b;
   --colors-text-secondary: rgba(27, 27, 27, 0.5);
-  
+
+  // Bootstrap colors
+  --white: #fff;
+  --black: #000;
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+
   // Typography
   --font-family-primary: Roboto;
-  --font-family-secondary: 'Fira Sans';
-  
+  --font-family-secondary: "Fira Sans";
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-sm: 0.875rem;
+  --line-height-base: 1.5;
+
+  // Spacing
+  --spacer: 1rem;
+
+  // Borders
+  --border-width: 1px;
+  --border-color: var(--gray-300);
+  --border-radius: 0.25rem;
+  --border-radius-lg: 0.3rem;
+  --border-radius-sm: 0.2rem;
+
   // Dark mode colors (will be overridden in .theme-dark)
   --colors-dark-bg: #0e1a28;
   --colors-dark-surface: #0e1a28;
@@ -33,4 +52,15 @@
   --colors-dark-grey-200: #1a2535;
   --colors-dark-grey-300: #1f2a3a;
   --colors-dark-border: rgba(255, 255, 255, 0.1);
+
+  // Z-index values (Bootstrap standard)
+  --zindex-tooltip: 1070;
+  --zindex-modal: 1050;
+}
+
+// Block body scrolling when modal is open
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }

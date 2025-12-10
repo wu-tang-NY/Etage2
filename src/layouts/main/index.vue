@@ -1,140 +1,155 @@
 <template>
-  <div class="app-main">
-    <header class="app-header">
-      <div class="container">
-        <div class="app-header__inner">
-          <app-logo />
+  <ClientOnly>
+    <div class="app-main">
+      <header class="app-header">
+        <div class="container">
+          <div class="app-header__inner">
+            <app-logo />
 
-          <ul class="app-header__blocks">
-            <li class="app-header__block">
-              <app-theme-toggle />
-            </li>
+            <ul class="app-header__blocks">
+              <li class="app-header__block">
+                <app-theme-toggle />
+              </li>
 
-            <li class="app-header__block">
-              <app-language-switcher />
-            </li>
+              <li class="app-header__block">
+                <app-language-switcher />
+              </li>
 
-            <li class="app-header__block">
-              <app-callback />
-            </li>
+              <li class="app-header__block">
+                <app-callback />
+              </li>
 
-            <li class="app-header__block">
-              <app-schedule />
-            </li>
+              <li class="app-header__block">
+                <app-schedule />
+              </li>
 
-            <li class="app-header__block" style="vertical-align: top;">
-              <app-phones />
-            </li>
-          </ul>
+              <li class="app-header__block" style="vertical-align: top;">
+                <app-phones />
+              </li>
+            </ul>
 
-          <div class="menu-toggle">
-            <button
-              type="button"
-              class="menu-toggle__btn"
-              @click="handleToggleMenu"
-            >
-              <span class="menu-toggle__line"></span>
-              <span class="menu-toggle__line"></span>
-              <span class="menu-toggle__line"></span>
-            </button>
+            <div class="menu-toggle">
+              <button
+                type="button"
+                class="menu-toggle__btn"
+                @click="handleToggleMenu"
+              >
+                <span class="menu-toggle__line"></span>
+                <span class="menu-toggle__line"></span>
+                <span class="menu-toggle__line"></span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="nav-wrapper" :class="{ 'nav-wrapper--open': navOpen }">
-        <div class="container">
-          <div class="nav-wrapper__inner">
-            <div class="nav-wrapper__container">
-              <div class="d-lg-none">
-                <app-logo />
-              </div>
+        <div class="nav-wrapper" :class="{ 'nav-wrapper--open': navOpen }">
+          <div class="container">
+            <div class="nav-wrapper__inner">
+              <div class="nav-wrapper__container">
+                <div class="d-lg-none">
+                  <app-logo />
+                </div>
 
-              <ul class="nav-wrapper__blocks nav-wrapper__menu">
-                <li class="nav-wrapper__block nav-block">
-                  <div class="nav-block__title">
-                    <span>{{ $t("common.menu") }}</span>
-                  </div>
-
-                  <div class="nav-block__content">
-                    <layout-main-nav @click="handleCloseMenu" />
-                  </div>
-                </li>
-              </ul>
-
-              <div class="nav-wrapper__mobile-only">
-                <ul class="nav-wrapper__blocks">
+                <ul class="nav-wrapper__blocks nav-wrapper__menu">
                   <li class="nav-wrapper__block nav-block">
                     <div class="nav-block__title">
-                      <span>{{ $t("common.contacts") }}</span>
-                      <div class="ml-auto">
-                        <app-callback @openModal="handleCloseMenu" />
-                      </div>
+                      <span>{{ $t("common.menu") }}</span>
                     </div>
 
                     <div class="nav-block__content">
-                      <app-phones />
-                    </div>
-                  </li>
-
-                  <li class="nav-wrapper__block nav-block">
-                    <div class="nav-block__title">
-                      <span>{{ $t("common.schedule") }}</span>
-                    </div>
-
-                    <div class="nav-block__content">
-                      <app-schedule without-label />
-                    </div>
-                  </li>
-
-                  <li class="nav-wrapper__block nav-block nav-social">
-                    <div class="app-social">
-                      <a
-                        href="https://instagram.com/etage.com.ua/"
-                        class="app-social__link"
-                        target="_blank"
-                      >
-                        <svg-icon name="icon_in" original />
-                      </a>
-                      <a
-                        href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/"
-                        class="app-social__link"
-                        target="_blank"
-                      >
-                        <svg-icon name="icon_fb" original />
-                      </a>
+                      <layout-main-nav @click="handleCloseMenu" />
                     </div>
                   </li>
                 </ul>
+
+                <div class="nav-wrapper__mobile-only">
+                  <ul class="nav-wrapper__blocks">
+                    <li class="nav-wrapper__block nav-block">
+                      <div class="nav-block__title">
+                        <span>{{ $t("common.contacts") }}</span>
+                        <div class="ml-auto">
+                          <app-callback @openModal="handleCloseMenu" />
+                        </div>
+                      </div>
+
+                      <div class="nav-block__content">
+                        <app-phones />
+                      </div>
+                    </li>
+
+                    <li class="nav-wrapper__block nav-block">
+                      <div class="nav-block__title">
+                        <span>{{ $t("common.schedule") }}</span>
+                      </div>
+
+                      <div class="nav-block__content">
+                        <app-schedule without-label />
+                      </div>
+                    </li>
+
+                    <li class="nav-wrapper__block nav-block">
+                      <div class="nav-block__title">
+                        <span>{{ $t("common.settings") }}</span>
+                      </div>
+
+                      <div class="nav-block__content">
+                        <div
+                          style="display: flex; align-items: center; gap: 16px;"
+                        >
+                          <app-theme-toggle />
+                          <app-language-switcher />
+                        </div>
+                      </div>
+                    </li>
+
+                    <li class="nav-wrapper__block nav-block nav-social">
+                      <div class="app-social">
+                        <a
+                          href="https://instagram.com/etage.com.ua/"
+                          class="app-social__link"
+                          target="_blank"
+                        >
+                          <svg-icon name="icon_in" original />
+                        </a>
+                        <a
+                          href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/"
+                          class="app-social__link"
+                          target="_blank"
+                        >
+                          <svg-icon name="icon_fb" original />
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="app-copyright mt-auto d-lg-none">
+                  {{ $t("common.copyright") }}
+                </div>
               </div>
 
-              <div class="app-copyright mt-auto d-lg-none">
-                {{ $t("common.copyright") }}
-              </div>
+              <layout-main-footer class="nav-wrapper__footer-mobile" />
             </div>
-
-            <layout-main-footer class="nav-wrapper__footer-mobile" />
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <main class="app-content">
-      <router-view
-        :mobile="mobile"
-        :tablet="tablet"
-        :device="device"
-        :desktop="desktop"
-      />
-    </main>
+      <main class="app-content">
+        <router-view
+          :mobile="mobile"
+          :tablet="tablet"
+          :device="device"
+          :desktop="desktop"
+        />
+      </main>
 
-    <layout-main-footer v-if="!mobile && !tablet" />
+      <layout-main-footer v-if="!mobile && !tablet" />
 
-    <transition name="component-fade">
-      <modal-info :mobile="mobile" :tablet="tablet" />
-    </transition>
-
-    <app-new-year-decorations />
-  </div>
+      <transition name="component-fade">
+        <modal-info :mobile="mobile" :tablet="tablet" />
+      </transition>
+    </div>
+  </ClientOnly>
 </template>
 
 <script>
@@ -144,6 +159,13 @@ import ModalInfo from "../../views/modal";
 export default {
   name: "AppMainLayout",
   components: { ...components, ModalInfo },
+  provide() {
+    // Provide eventbus to child components for Options API inject
+    // The eventbus is set as a global property by the plugin
+    return {
+      eventbus: this.$eventbus
+    };
+  },
   data: () => ({
     navOpen: false,
 
@@ -204,7 +226,7 @@ export default {
     this.resizeHandler();
     window.addEventListener("resize", this.resizeHandler);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener("resize", this.resizeHandler);
   }
 };
@@ -214,7 +236,7 @@ export default {
 $footer-height: 65px;
 
 .app-header {
-  background-color: $white;
+  background-color: var(--white);
   position: fixed;
   left: 0;
   top: 0;
@@ -268,7 +290,8 @@ $footer-height: 65px;
 }
 
 .app-footer {
-  font: 500 rem(12) var(--font-family-secondary);
+  font-size: rem(12);
+  font-weight: 500;
   color: var(--colors-text-secondary);
   letter-spacing: 0.2px;
   bottom: 0;
@@ -296,7 +319,7 @@ $footer-height: 65px;
 
 .menu-toggle {
   margin-left: auto;
-  z-index: $zindex-tooltip;
+  z-index: var(--zindex-tooltip);
 
   &__btn {
     background-color: transparent;
@@ -449,7 +472,7 @@ $footer-height: 65px;
     display: none;
     padding: 18px 0;
     @include fixed(0, 0, 0, 0);
-    z-index: $zindex-modal;
+    z-index: var(--zindex-modal);
 
     &__inner {
       justify-content: center;
@@ -491,7 +514,7 @@ $footer-height: 65px;
     }
 
     &--open {
-      background-color: $white;
+      background-color: var(--white);
       display: block;
     }
 
@@ -579,10 +602,10 @@ $footer-height: 65px;
     display: none;
     padding: 18px 0;
     @include fixed(0, 0, 0, 0);
-    z-index: $zindex-modal;
+    z-index: var(--zindex-modal);
 
     &--open {
-      background-color: $white;
+      background-color: var(--white);
       display: block;
       overflow: auto;
     }
@@ -619,6 +642,15 @@ $footer-height: 65px;
       text-align: center;
       font-size: rem(12);
     }
+  }
+
+  // Add padding-top when New Year decorations are active
+  body.has-christmas-lights .nav-wrapper {
+    padding-top: 68px; // 18px original + 50px for decorations
+  }
+
+  body.has-christmas-lights .nav-wrapper--open {
+    padding-top: 68px;
   }
 
   .nav-block {

@@ -1,3 +1,9 @@
-@import 'mixins/size';
-@import 'mixins/positions';
-@import 'mixins/underline';
+@use 'mixins/size' as *;
+@use 'mixins/positions' as *;
+@use 'mixins/underline' as *;
+@use 'mixins/media' as *;
+
+@forward 'mixins/size';
+@forward 'mixins/positions';
+@forward 'mixins/underline';
+@forward 'mixins/media';

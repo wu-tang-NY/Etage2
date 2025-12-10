@@ -1,17 +1,19 @@
 <template>
-  <button
-    type="button"
-    class="app-theme-toggle"
-    @click="toggleTheme"
-    :aria-label="$t('common.themeToggle')"
-    :title="$t('common.themeToggle')"
-  >
-    <svg-icon
-      :name="isDark ? 'theme_light' : 'theme_dark'"
-      class="app-theme-toggle__icon"
-      original
-    />
-  </button>
+  <ClientOnly>
+    <button
+      type="button"
+      class="app-theme-toggle"
+      @click="toggleTheme"
+      :aria-label="$t('common.themeToggle')"
+      :title="$t('common.themeToggle')"
+    >
+      <svg-icon
+        :name="isDark ? 'theme_light' : 'theme_dark'"
+        class="app-theme-toggle__icon"
+        original
+      />
+    </button>
+  </ClientOnly>
 </template>
 
 <script>
@@ -33,7 +35,7 @@ export default {
     };
     window.addEventListener('themechange', this.themeChangeHandler);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.themeChangeHandler) {
       window.removeEventListener('themechange', this.themeChangeHandler);
     }
@@ -67,7 +69,7 @@ export default {
 
   &:hover {
     background-color: var(--colors-text-primary);
-    color: $white;
+    color: var(--white);
   }
 
   &:focus {

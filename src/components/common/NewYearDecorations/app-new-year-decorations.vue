@@ -1,29 +1,31 @@
 <template>
-  <div class="app-new-year-decorations" v-if="showDecorations">
-    <!-- Snowflakes -->
-    <div class="snowflakes" aria-hidden="true">
-      <div
-        class="snowflake"
-        v-for="n in snowflakeCount"
-        :key="n"
-        :style="getSnowflakeStyle(n)"
-      >
-        ❅
+  <ClientOnly>
+    <div class="app-new-year-decorations" v-if="showDecorations">
+      <!-- Snowflakes -->
+      <div class="snowflakes" aria-hidden="true">
+        <div
+          class="snowflake"
+          v-for="n in snowflakeCount"
+          :key="n"
+          :style="getSnowflakeStyle(n)"
+        >
+          ❅
+        </div>
       </div>
-    </div>
 
-    <!-- Sparkles -->
-    <div class="sparkles" aria-hidden="true">
-      <div
-        class="sparkle"
-        v-for="n in sparkleCount"
-        :key="n"
-        :style="getSparkleStyle(n)"
-      >
-        ✨
+      <!-- Sparkles -->
+      <div class="sparkles" aria-hidden="true">
+        <div
+          class="sparkle"
+          v-for="n in sparkleCount"
+          :key="n"
+          :style="getSparkleStyle(n)"
+        >
+          ✨
+        </div>
       </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <script>
@@ -124,6 +126,8 @@ export default {
     },
     createChristmasLights() {
       if (!this.showDecorations) return;
+      if (typeof window === "undefined" || typeof document === "undefined")
+        return;
 
       const h = Math.floor(window.innerWidth / 60) + 2;
 
@@ -136,6 +140,7 @@ export default {
       document.body.appendChild(ul);
     },
     deleteChristmasLights() {
+      if (typeof document === "undefined") return;
       document.body.querySelectorAll(".christmas-lights").forEach(function(ul) {
         ul.remove();
       });
@@ -166,7 +171,7 @@ export default {
       window.addEventListener("resize", this.resizeHandler);
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     // Cleanup: remove lights and event listeners
     if (this.christmas) {
       if (this.christmas.delay) {
@@ -176,9 +181,11 @@ export default {
     }
 
     // Remove class from body when component is destroyed
-    document.body.classList.remove("has-christmas-lights");
+    if (typeof document !== "undefined") {
+      document.body.classList.remove("has-christmas-lights");
+    }
 
-    if (this.resizeHandler) {
+    if (this.resizeHandler && typeof window !== "undefined") {
       window.removeEventListener("resize", this.resizeHandler);
     }
   }
@@ -322,7 +329,7 @@ export default {
   top: -15px;
   white-space: nowrap;
   width: 100%;
-  z-index: 100;
+  z-index: 10000;
 }
 
 .christmas-lights[data-position="bottom"] {

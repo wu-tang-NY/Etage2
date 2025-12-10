@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'PopupContentAboutUs',
+  name: "PopupContentAboutUs"
 };
 </script>
 

@@ -10,88 +10,99 @@
         :children="children"
         :active="index === activePage"
         :visited="index < activePage"
-        @click.native="handleClick(index)"
+        @click="handleClick(index)"
       />
     </div>
-    <app-nav-info @click.native="openModal" />
+    <app-nav-info @click="openModal" />
   </app-nav>
 </template>
 
 <script>
 export default {
-  name: 'LayoutMainNav',
+  name: "LayoutMainNav",
   computed: {
     pages() {
       return [
         {
-          id: 'services_link',
-          title: this.$t('nav.services'),
-          icon: 'icon_1_c',
+          id: "services_link",
+          title: this.$t("nav.services"),
+          icon: "icon_1_c",
           children: [
             {
-              title: this.$t('nav.flatMove'),
-              path: 'PopupContentFlatMove',
+              title: this.$t("nav.flatMove"),
+              path: "PopupContentFlatMove"
             },
             {
-              title: this.$t('nav.officeMove'),
-              path: 'PopupContentOfficeMove',
+              title: this.$t("nav.officeMove"),
+              path: "PopupContentOfficeMove"
             },
             {
-              title: this.$t('nav.stuffMove'),
-              path: 'PopupContentStuffMove',
+              title: this.$t("nav.stuffMove"),
+              path: "PopupContentStuffMove"
             },
             {
-              title: this.$t('nav.specialists'),
-              path: 'PopupContentSpecialists',
+              title: this.$t("nav.specialists"),
+              path: "PopupContentSpecialists"
             },
             {
-              title: this.$t('nav.package'),
-              path: 'PopupContentPackage',
-            },
-          ],
+              title: this.$t("nav.package"),
+              path: "PopupContentPackage"
+            }
+          ]
         },
         {
-          id: 'prices_link',
-          title: this.$t('nav.prices'),
-          icon: 'icon_2_c',
+          id: "prices_link",
+          title: this.$t("nav.prices"),
+          icon: "icon_2_c"
         },
         {
-          id: 'reviews_link',
-          title: this.$t('nav.reviews'),
-          icon: 'icon_3_c',
+          id: "reviews_link",
+          title: this.$t("nav.reviews"),
+          icon: "icon_3_c"
         },
         {
-          id: 'order_link',
-          title: this.$t('nav.order'),
-          icon: 'icon_4_c',
-        },
+          id: "order_link",
+          title: this.$t("nav.order"),
+          icon: "icon_4_c"
+        }
       ];
-    },
+    }
   },
   data: () => ({
-    activePage: 0,
+    activePage: 0
   }),
   methods: {
     handleClick(index) {
       this.activePage = index;
 
-      this.$emit('click');
-      this.$eventbus.$emit('section:change', index);
+      this.$emit("click");
+      this.$eventbus.$emit("section:change", index);
     },
     openModal() {
-      this.$emit('click');
-      this.$eventbus.$emit('openPopup', 'PopupContentAboutUs');
-    },
+      this.$emit("click");
+      this.$eventbus.$emit("openPopup", "PopupContentAboutUs");
+    }
   },
   mounted() {
-    this.$eventbus.$on('section:scroll', index => {
-      this.activePage = index;
-    });
+    if (this.$eventbus) {
+      this.$eventbus.$on("section:scroll", index => {
+        this.activePage = index;
+      });
+    }
 
-    const sections = document.querySelector('#sections');
-    const el = sections.querySelector('section.active');
+    if (typeof document !== "undefined") {
+      const sections = document.querySelector("#sections");
+      const el = sections?.querySelector("section.active");
 
-    this.activePage = Array.from(sections.children).indexOf(el);
+      if (el) {
+        this.activePage = Array.from(sections.children).indexOf(el);
+      }
+    }
   },
+  beforeUnmount() {
+    if (this.$eventbus) {
+      this.$eventbus.$off("section:scroll");
+    }
+  }
 };
 </script>

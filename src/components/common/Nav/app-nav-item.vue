@@ -13,7 +13,7 @@
       class="nav-item__link"
       @mouseenter="hovered = true"
       @mouseleave="hovered = false"
-      @click.prevent="hovered = false"
+      @click.prevent="handleClick"
     >
       <div class="nav-item__inner">
         <slot>
@@ -24,18 +24,16 @@
           <span class="nav-item__text">{{ title }}</span>
         </slot>
 
-        <span class="nav-item__chevron" v-if="children"></span>
+        <span class="nav-item__chevron" v-if="hasChildren"></span>
       </div>
 
       <div class="nav-item__bg"></div>
 
-      <ul class="nav-inner" v-if="children">
-        <template v-for="(child, index) in children">
+      <ul class="nav-inner" v-if="hasChildren">
+        <template v-for="(child, index) in children" :key="index">
           <li
             class="nav-inner__item"
-            tag="li"
-            @click="$eventbus.$emit('openPopup', child.path)"
-            :key="index"
+            @click="$eventbus && $eventbus.$emit('openPopup', child.path)"
           >
             <a href="" class="nav-inner__link">
               {{ child.title }}
@@ -74,12 +72,25 @@ export default {
     },
 
     children: {
-      type: Array
+      type: Array,
+      default: () => []
     }
   },
+  computed: {
+    hasChildren() {
+      return Array.isArray(this.children) && this.children.length > 0;
+    }
+  },
+  emits: ["click"],
   data: () => ({
     hovered: false
-  })
+  }),
+  methods: {
+    handleClick(event) {
+      this.hovered = false;
+      this.$emit("click", event);
+    }
+  }
 };
 </script>
 
@@ -157,7 +168,7 @@ export default {
       transition: background-color 0.15s ease-in-out;
 
       &:hover {
-        background-color: rgba($black, 0.05);
+        background-color: rgba(0, 0, 0, 0.05);
       }
     }
   }
@@ -177,23 +188,23 @@ export default {
   &.nav-item--active {
     .nav-item {
       &__link {
-        color: $white;
+        color: var(--white);
 
         &:hover {
-          color: $white;
+          color: var(--white);
         }
       }
 
       &__icon {
-        color: $white !important;
+        color: var(--white) !important;
 
         svg {
-          fill: $white !important;
+          fill: var(--white) !important;
         }
       }
 
       &__chevron {
-        border-top-color: $white;
+        border-top-color: var(--white);
       }
 
       &__bg::before {
@@ -207,10 +218,10 @@ export default {
       background-color: var(--colors-accent);
 
       &__link {
-        color: $white;
+        color: var(--white);
 
         &:hover {
-          background-color: rgba($white, 0.2);
+          background-color: rgba(255, 255, 255, 0.2);
         }
       }
     }

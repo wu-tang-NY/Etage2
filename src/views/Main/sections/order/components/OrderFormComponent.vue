@@ -1,14 +1,16 @@
 <template>
   <form class="order-form">
     <div class="mobile-wrapper">
-      <template v-if="mobile || tablet">
-        <div class="order-form__close" @click="$emit('closeModal')"></div>
+      <div
+        v-if="mobile || tablet"
+        class="order-form__close"
+        @click="$emit('closeModal')"
+      ></div>
 
-        <div class="order-form__title">
-          <h2>{{ $t("orderForm.title") }}</h2>
-          <div class="subtitle">{{ $t("orderForm.subtitle") }}</div>
-        </div>
-      </template>
+      <div v-if="mobile || tablet" class="order-form__title">
+        <h2>{{ $t("orderForm.title") }}</h2>
+        <div class="subtitle">{{ $t("orderForm.subtitle") }}</div>
+      </div>
 
       <div class="row" v-if="unsend">
         <div class="col-lg-3">
@@ -28,6 +30,7 @@
             :label="$t('orderForm.phoneLabel')"
             type="text"
             :placeholder="$t('orderForm.phonePlaceholder')"
+            :isPhoneInput="true"
             mask="###-###-##-##"
           />
         </div>
@@ -105,64 +108,67 @@
 </template>
 
 <script>
-import axios from 'axios';
-import WelcomeModal from '@/components/common/Welcome/app-welcome-modal';
+import axios from "axios";
+import WelcomeModal from "@/components/common/Welcome/app-welcome-modal";
 
 export default {
-  name: 'SectionOrderFormComponent',
+  name: "SectionOrderFormComponent",
   components: {
-    WelcomeModal,
+    WelcomeModal
   },
   props: {
     mobile: Boolean,
-    tablet: Boolean,
+    tablet: Boolean
   },
   data() {
     return {
       name: null,
       phone: null,
-      from: '',
-      to: '',
+      from: "",
+      to: "",
       workers: null,
       type: null,
       date: null,
-      comment: '',
+      comment: "",
       unsend: true,
-      modalWelcomeOpen: true,
+      modalWelcomeOpen: false
     };
   },
   computed: {
     transport() {
       return {
         options: [
-          this.$t('orderForm.transportOptions.flat'),
-          this.$t('orderForm.transportOptions.office'),
-          this.$t('orderForm.transportOptions.stuff'),
+          this.$t("orderForm.transportOptions.flat"),
+          this.$t("orderForm.transportOptions.office"),
+          this.$t("orderForm.transportOptions.stuff")
         ],
-        value: null,
+        value: null
       };
     },
     stuff() {
       return {
         options: [
-          this.$t('orderForm.workersOptions.one'),
-          this.$t('orderForm.workersOptions.two'),
-          this.$t('orderForm.workersOptions.three'),
-          this.$t('orderForm.workersOptions.more'),
+          this.$t("orderForm.workersOptions.one"),
+          this.$t("orderForm.workersOptions.two"),
+          this.$t("orderForm.workersOptions.three"),
+          this.$t("orderForm.workersOptions.more")
         ],
-        value: null,
+        value: null
       };
-    },
+    }
   },
-  mounted() {
-    this.modalWelcomeOpen = false;
+  beforeUnmount() {
+    // Ensure modal is closed before component unmounts
+    if (this.modalWelcomeOpen) {
+      this.modalWelcomeOpen = false;
+    }
   },
   methods: {
     handleSendEmail() {
       if (this.name && this.phone) {
         axios({
-          url: 'https://etage.com.ua/api/order',
-          method: 'post',
+          url: "https://etage.com.ua/api/order",
+          method: "post",
           data: {
             name: this.name,
             phone: this.phone,
@@ -171,15 +177,15 @@ export default {
             workers: this.workers,
             type: this.type,
             date: this.date,
-            comment: this.comment,
-          },
+            comment: this.comment
+          }
         });
 
         this.unsend = false;
         this.modalWelcomeOpen = true;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -196,7 +202,7 @@ export default {
     font-weight: bold;
     line-height: 1;
     letter-spacing: 0.3px;
-    color: $white;
+    color: var(--white);
     border: none;
     box-shadow: none;
     background-color: var(--colors-accent);

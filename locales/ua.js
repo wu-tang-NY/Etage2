@@ -12,6 +12,7 @@ export default {
     schedule: 'Графік роботи:',
     copyright: '© 2019 Etage. All Rights Reserved.',
     themeToggle: 'Перемкнути тему',
+    settings: 'Налаштування:',
   },
 
   // Navigation

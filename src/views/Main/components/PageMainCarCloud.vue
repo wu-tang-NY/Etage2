@@ -1,18 +1,20 @@
 <template>
-  <div class="cloud" :style="{ width: `${iconWidth}px` }">
-    <div class="cloud__title">
-      <slot>{{ title }}</slot>
-    </div>
+  <ClientOnly>
+    <div class="cloud" :style="{ width: `${iconWidth}px` }">
+      <div class="cloud__title">
+        <slot>{{ title }}</slot>
+      </div>
 
-    <div class="cloud__icon">
-      <svg-icon :name="icon" :width="iconWidth" original />
+      <div class="cloud__icon">
+        <svg-icon :name="icon" :width="iconWidth" original />
+      </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <script>
 export default {
-  name: 'PageMainCarCloud',
+  name: "PageMainCarCloud",
   props: {
     title: {
       type: String,
@@ -36,7 +38,6 @@ export default {
   user-select: none;
 
   span {
-    font-family: var(--font-family-secondary);
     font-size: rem(18);
     font-weight: 800;
     letter-spacing: 0.4px;

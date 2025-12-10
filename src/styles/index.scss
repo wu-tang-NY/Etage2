@@ -1,7 +1,10 @@
-@import 'vendor/vendor';
+@use 'utils/functions' as *;
+@use 'utils/mixins' as *;
+@use 'vendor/vendor' as *;
 
-@import 'base/base';
+@use 'base/reset' as *;
+@use 'base/base' as *;
 
-@import 'fonts';
-@import 'global';
-@import 'themes/dark';
+@use 'fonts' as *;
+@use 'global' as *;
+@use 'themes/dark' as *;

@@ -1,79 +1,90 @@
 <template>
   <div class="section-order">
-    <h2>{{ $t("order.title") }}</h2>
+    <ClientOnly>
+      <h2>{{ $t("order.title") }}</h2>
 
-    <div class="subtitle dark-gray">
-      {{ $t("order.subtitle") }}
-    </div>
+      <div class="subtitle dark-gray">
+        {{ $t("order.subtitle") }}
+      </div>
 
-    <div class="section-order__tab-wrapper">
-      <div class="section-order__tab-block">
-        <button
-          class="section-order__tab section-order__tab--left"
-          :class="{ 'section-order__tab--active': tabs[activeTab] === 'call' }"
-          @click="handleOpenOrderComponent"
-        >
-          {{ $t("order.leaveNumber") }}
-        </button>
+      <div class="section-order__tab-wrapper">
+        <div class="section-order__tab-block">
+          <button
+            class="section-order__tab section-order__tab--left"
+            :class="{
+              'section-order__tab--active': tabs[activeTab] === 'call'
+            }"
+            @click="handleOpenOrderComponent"
+          >
+            {{ $t("order.leaveNumber") }}
+          </button>
 
-        <div
-          class="section-order__tab-description"
-          :class="{
-            'section-order__tab-description--active': tabs[activeTab] === 'call'
-          }"
-        >
-          {{ $t("order.leaveNumberDesc") }}
+          <div
+            class="section-order__tab-description"
+            :class="{
+              'section-order__tab-description--active':
+                tabs[activeTab] === 'call'
+            }"
+          >
+            {{ $t("order.leaveNumberDesc") }}
+          </div>
+        </div>
+
+        <div class="section-order__tab-block">
+          <div class="section-order__divider">
+            {{ $t("common.or") }}
+          </div>
+        </div>
+
+        <div class="section-order__tab-block">
+          <button
+            class="section-order__tab section-order__tab--right"
+            :class="{
+              'section-order__tab--active': tabs[activeTab] === 'order'
+            }"
+            @click="handleOpenPhoneComponent"
+          >
+            {{ $t("order.fillForm") }}
+          </button>
+
+          <div
+            class="section-order__tab-description section-order__tab-description--right"
+            :class="{
+              'section-order__tab-description--active':
+                tabs[activeTab] === 'order'
+            }"
+          >
+            {{ $t("order.fillFormDesc") }}
+          </div>
         </div>
       </div>
 
-      <div class="section-order__tab-block">
-        <div class="section-order__divider">
-          {{ $t("common.or") }}
-        </div>
-      </div>
-
-      <div class="section-order__tab-block">
-        <button
-          class="section-order__tab section-order__tab--right"
-          :class="{ 'section-order__tab--active': tabs[activeTab] === 'order' }"
-          @click="handleOpenPhoneComponent"
-        >
-          {{ $t("order.fillForm") }}
-        </button>
-
-        <div
-          class="section-order__tab-description section-order__tab-description--right"
-          :class="{
-            'section-order__tab-description--active':
-              tabs[activeTab] === 'order'
-          }"
-        >
-          {{ $t("order.fillFormDesc") }}
-        </div>
-      </div>
-    </div>
-
-    <transition
-      name="component-fade"
-      mode="out-in"
-      v-if="(!mobile && !tablet) || isModalOpen"
-    >
-      <component
-        :is="tabs[activeTab]"
-        @closeModal="closeModal"
-        :mobile="mobile"
-        :tablet="tablet"
-      />
-    </transition>
+      <transition
+        name="component-fade"
+        mode="out-in"
+        v-if="(!mobile && !tablet) || isModalOpen"
+      >
+        <component
+          :is="tabs[activeTab]"
+          :key="tabs[activeTab]"
+          @closeModal="closeModal"
+          :mobile="mobile"
+          :tablet="tablet"
+        />
+      </transition>
+    </ClientOnly>
   </div>
 </template>
 
 <script>
+import OrderFormComponent from "./components/OrderFormComponent";
+import CallFormComponent from "./components/CallFormComponent";
+
 export default {
   name: "AppPageMainSectionOrder",
   components: {
-    order: () => import("./components/OrderFormComponent"),
-    call: () => import("./components/CallFormComponent")
+    order: OrderFormComponent,
+    call: CallFormComponent
   },
   props: {
     active: {
@@ -85,13 +96,24 @@ export default {
   data: () => ({
     tabs: ["call", "order"],
     activeTab: 0,
-    isModalOpen: false
+    isModalOpen: false,
+    scrollPosition: 0
   }),
   watch: {
     mobile() {
+      if (this.isModalOpen) {
+        document.body.classList.remove("modal-open");
+        document.body.style.top = "";
+        window.scrollTo(0, this.scrollPosition);
+      }
       this.isModalOpen = false;
     },
     tablet() {
+      if (this.isModalOpen) {
+        document.body.classList.remove("modal-open");
+        document.body.style.top = "";
+        window.scrollTo(0, this.scrollPosition);
+      }
       this.isModalOpen = false;
     }
   },
@@ -99,20 +121,41 @@ export default {
     handleOpenOrderComponent() {
       this.activeTab = 0;
       this.isModalOpen = true;
-      if (this.mobile || this.tablet) document.body.classList.add("modal-open");
+      if (this.mobile || this.tablet) {
+        this.scrollPosition =
+          window.pageYOffset || document.documentElement.scrollTop;
+        document.body.classList.add("modal-open");
+        document.body.style.top = `-${this.scrollPosition}px`;
+      }
     },
     handleOpenPhoneComponent() {
       this.activeTab = 1;
       this.isModalOpen = true;
-      if (this.mobile || this.tablet) document.body.classList.add("modal-open");
+      if (this.mobile || this.tablet) {
+        this.scrollPosition =
+          window.pageYOffset || document.documentElement.scrollTop;
+        document.body.classList.add("modal-open");
+        document.body.style.top = `-${this.scrollPosition}px`;
+      }
     },
     closeModal() {
       this.isModalOpen = false;
-      document.body.classList.remove("modal-open");
+      if (this.mobile || this.tablet) {
+        document.body.classList.remove("modal-open");
+        document.body.style.top = "";
+        window.scrollTo(0, this.scrollPosition);
+      }
     }
   },
   created() {
-    this.$eventbus.$on("openFormModal", this.handleOpenPhoneComponent);
+    if (this.$eventbus) {
+      this.$eventbus.$on("openFormModal", this.handleOpenPhoneComponent);
+    }
+  },
+  beforeUnmount() {
+    if (this.$eventbus) {
+      this.$eventbus.$off("openFormModal", this.handleOpenPhoneComponent);
+    }
   }
 };
 </script>

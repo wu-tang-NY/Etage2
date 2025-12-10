@@ -1,41 +1,62 @@
 <template>
   <div class="call-form">
     <div class="mobile-wrapper">
-      <template v-if="mobile || tablet">
-        <div class="call-form__close" @click="$emit('closeModal')"></div>
+      <div
+        v-if="mobile || tablet"
+        class="call-form__close"
+        @click="$emit('closeModal')"
+      ></div>
 
-        <div class="call-form__title">
-          <h2>{{ $t('callForm.title') }}</h2>
-          <div class="subtitle">{{ $t('callForm.subtitle') }}</div>
-        </div>
-      </template>
+      <div v-if="mobile || tablet" class="call-form__title">
+        <h2>{{ $t("callForm.title") }}</h2>
+        <div class="subtitle">{{ $t("callForm.subtitle") }}</div>
+      </div>
 
       <div class="row" v-if="unsend">
         <div class="col-lg-4">
-          <app-input :requiredField="!name && name !== null" :label="$t('callForm.nameLabel')" type="text" :placeholder="$t('callForm.namePlaceholder')"
-            mask="" v-model="name" />
+          <app-input
+            :requiredField="!name && name !== null"
+            :label="$t('callForm.nameLabel')"
+            type="text"
+            :placeholder="$t('callForm.namePlaceholder')"
+            mask=""
+            v-model="name"
+          />
         </div>
 
         <div class="col-lg-4">
-          <app-input :requiredField="!phone && phone !== null" :label="$t('callForm.phoneLabel')" type="text"
-            :placeholder="$t('callForm.phonePlaceholder')" mask="###-###-##-##" v-model="phone" />
+          <app-input
+            :requiredField="!phone && phone !== null"
+            :label="$t('callForm.phoneLabel')"
+            type="text"
+            :placeholder="$t('callForm.phonePlaceholder')"
+            :isPhoneInput="true"
+            mask="###-###-##-##"
+            v-model="phone"
+          />
         </div>
       </div>
       <welcome-modal v-model="modalWelcomeOpen" />
       <div class="call-form__btn-wrapper" v-if="unsend">
-        <button id="callback-form-btn" class="call-form__button" :disabled="!phone || !name"
-          @click.prevent="handleSendEmail">{{ $t('common.submit') }}</button>
+        <button
+          id="callback-form-btn"
+          class="call-form__button"
+          :disabled="!phone || !name"
+          @click.prevent="handleSendEmail"
+        >
+          {{ $t("common.submit") }}
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import WelcomeModal from '@/components/common/Welcome/app-welcome-modal';
+import axios from "axios";
+import WelcomeModal from "@/components/common/Welcome/app-welcome-modal";
 
 export default {
-  name: 'CallFormComponent',
+  name: "CallFormComponent",
   components: {
     WelcomeModal,
   },
@@ -48,18 +69,21 @@ export default {
       name: null,
       phone: null,
       unsend: true,
-      modalWelcomeOpen: true,
+      modalWelcomeOpen: false,
     };
   },
-  mounted() {
-    this.modalWelcomeOpen = false;
+  beforeUnmount() {
+    // Ensure modal is closed before component unmounts
+    if (this.modalWelcomeOpen) {
+      this.modalWelcomeOpen = false;
+    }
   },
   methods: {
     handleSendEmail() {
       if (this.name && this.phone) {
         axios({
-          url: 'https://etage.com.ua/api/callback',
-          method: 'post',
+          url: "https://etage.com.ua/api/callback",
+          method: "post",
           data: {
             name: this.name,
             phone: this.phone,
@@ -87,7 +111,7 @@ export default {
     font-weight: bold;
     line-height: 1;
     letter-spacing: 0.3px;
-    color: $white;
+    color: var(--white);
     border: none;
     box-shadow: none;
     background-color: var(--colors-accent);
@@ -122,7 +146,7 @@ export default {
       right: 0;
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -132,7 +156,7 @@ export default {
       }
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;

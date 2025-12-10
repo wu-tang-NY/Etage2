@@ -1,6 +1,8 @@
 <template>
-  <div>
-  </div>
+  <ClientOnly>
+    <div>
+    </div>
+  </ClientOnly>
 </template>
 
 <script>
