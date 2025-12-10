@@ -4,9 +4,9 @@
 class EmailService {
   constructor() {
     // Mailgun configuration will be set via init() method
-    this.apiKey = null
-    this.domain = null
-    this.apiUrl = null
+    this.apiKey = null;
+    this.domain = null;
+    this.apiUrl = null;
   }
 
   /**
@@ -17,9 +17,9 @@ class EmailService {
    * @param {string} config.domain - Mailgun domain
    */
   init({ apiKey, domain }) {
-    this.apiKey = apiKey || 'key-1a62b4a4982b7185d90632a29ca3b9d2'
-    this.domain = domain || 'mg.etage.com.ua'
-    this.apiUrl = `https://api.mailgun.net/v3/${this.domain}/messages`
+    this.apiKey = apiKey || "key-1a62b4a4982b7185d90632a29ca3b9d2";
+    this.domain = domain || "mg.etage.com.ua";
+    this.apiUrl = `https://api.mailgun.net/v3/${this.domain}/messages`;
   }
 
   /**
@@ -34,47 +34,53 @@ class EmailService {
    */
   async sendEmail({ from, to, subject, html, text }) {
     if (!this.apiKey || !this.domain) {
-      throw new Error('EmailService not initialized. Call init() first or ensure runtime config is available.')
+      throw new Error(
+        "EmailService not initialized. Call init() first or ensure runtime config is available."
+      );
     }
 
     try {
       // Create form data
-      const formData = new FormData()
-      formData.append('from', from)
-      
+      const formData = new FormData();
+      formData.append("from", from);
+
       // Handle multiple recipients
       if (Array.isArray(to)) {
-        to.forEach(recipient => formData.append('to', recipient))
+        to.forEach((recipient) => formData.append("to", recipient));
       } else {
-        formData.append('to', to)
+        formData.append("to", to);
       }
-      
-      formData.append('subject', subject)
-      formData.append('html', html)
-      
+
+      formData.append("subject", subject);
+      formData.append("html", html);
+
       if (text) {
-        formData.append('text', text)
+        formData.append("text", text);
       }
 
       // Send request to Mailgun API
       const response = await fetch(this.apiUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Authorization': `Basic ${btoa(`api:${this.apiKey}`)}`
+          Authorization: `Basic ${btoa(`api:${this.apiKey}`)}`,
         },
-        body: formData
-      })
+        body: formData,
+      });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
-        throw new Error(`Mailgun API error: ${response.status} - ${errorData.message || response.statusText}`)
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          `Mailgun API error: ${response.status} - ${
+            errorData.message || response.statusText
+          }`
+        );
       }
 
-      const result = await response.json()
-      return result
+      const result = await response.json();
+      return result;
     } catch (error) {
-      console.error('EmailService error:', error)
-      throw error
+      console.error("EmailService error:", error);
+      throw error;
     }
   }
 
@@ -88,11 +94,11 @@ class EmailService {
    * @returns {Promise}
    */
   async sendFeedback({ name, phone, from, comment }) {
-    const domain = this.domain || 'mg.etage.com.ua'
+    const domain = this.domain || "mg.etage.com.ua";
     return this.sendEmail({
       from: `${name} <mailgun@${domain}>`,
-      to: 'iodessa557@gmail.com',
-      subject: 'Отзыв',
+      to: "stoleurbike@gmail.com",
+      subject: "Отзыв",
       html: `
         <h4>Отзыв</h4>
         <strong>Имя: </strong> ${name} <br />
@@ -100,8 +106,8 @@ class EmailService {
         <strong>Откуда: </strong> ${from} <br />
         <strong>Отзыв: </strong><br>
         <p>${comment}</p>
-      `
-    })
+      `,
+    });
   }
 
   /**
@@ -112,17 +118,17 @@ class EmailService {
    * @returns {Promise}
    */
   async sendCallback({ name, phone }) {
-    const domain = this.domain || 'mg.etage.com.ua'
+    const domain = this.domain || "mg.etage.com.ua";
     return this.sendEmail({
       from: `${name} <mailgun@${domain}>`,
-      to: 'etage.pereezd@gmail.com',
-      subject: 'Перезвоните мне, пожалуйста',
+      to: "etage.pereezd@gmail.com",
+      subject: "Перезвоните мне, пожалуйста",
       html: `
         <h4>Перезвоните мне, пожалуйста</h4>
         <strong>Имя: </strong> ${name} <br />
         <strong>Телефон: </strong> ${phone}
-      `
-    })
+      `,
+    });
   }
 
   /**
@@ -139,27 +145,28 @@ class EmailService {
    * @returns {Promise}
    */
   async sendOrder({ name, phone, from, to, workers, type, date, comment }) {
-    const domain = this.domain || 'mg.etage.com.ua'
+    const domain = this.domain || "mg.etage.com.ua";
     return this.sendEmail({
       from: `${name} <mailgun@${domain}>`,
-      to: 'etage.pereezd@gmail.com',
-      subject: 'Заявка',
+      to: "etage.pereezd@gmail.com",
+      subject: "Заявка",
       html: `
         <h4>Заявка</h4>
         <strong>Имя: </strong> ${name} <br />
         <strong>Телефон: </strong> ${phone} <br />
-        <strong>Откуда: </strong> ${from || 'Не указано'} <br />
-        <strong>Куда: </strong> ${to || 'Не указано'} <br />
-        <strong>Планируемая дата: </strong> ${date || 'Не указано'} <br />
-        <strong>Тип транспортировки: </strong> ${type || 'Не указано'} <br />
-        <strong>Количество грузчиков: </strong> ${workers || 'Не указано'} <br />
+        <strong>Откуда: </strong> ${from || "Не указано"} <br />
+        <strong>Куда: </strong> ${to || "Не указано"} <br />
+        <strong>Планируемая дата: </strong> ${date || "Не указано"} <br />
+        <strong>Тип транспортировки: </strong> ${type || "Не указано"} <br />
+        <strong>Количество грузчиков: </strong> ${
+          workers || "Не указано"
+        } <br />
         <strong>Комментарий: </strong><br>
-        <p>${comment || 'Нет комментария'}</p>
-      `
-    })
+        <p>${comment || "Нет комментария"}</p>
+      `,
+    });
   }
 }
 
 // Export singleton instance
-export default new EmailService()
-
+export default new EmailService();
