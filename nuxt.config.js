@@ -43,12 +43,16 @@ export default defineNuxtConfig({
     head: {
       title: "Etage",
       htmlAttrs: {
-        lang: "ua",
+        lang: "uk",
       },
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { name: "description", content: "" },
+        {
+          name: "description",
+          content:
+            "Сервіс переїздів по Одесі та по всій Україні. Квартирні та офісні переїзди, перевезення майна, послуги вантажників",
+        },
         {
           name: "google-site-verification",
           content: "vKA3RhUs0WxI3pWumanZ7yC33v9yf74_KzTRS4CLMkE",
@@ -128,6 +132,7 @@ export default defineNuxtConfig({
     { src: "~/plugins/fonts.js", mode: "client" }, // Async font loading
     { src: "~/plugins/defer-css.js", mode: "client" }, // Defer non-critical CSS
     { src: "~/plugins/theme.js", mode: "client" },
+    { src: "~/plugins/html-lang.js", mode: "client" }, // Update HTML lang attribute based on locale
   ],
 
   // Modules

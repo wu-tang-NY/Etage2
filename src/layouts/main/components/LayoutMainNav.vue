@@ -1,18 +1,16 @@
 <template>
   <app-nav>
-    <div class="app-nav__block">
-      <app-nav-item
-        v-for="({ id, title, icon, children }, index) in pages"
-        :id="id"
-        :key="title"
-        :title="title"
-        :icon="icon"
-        :children="children"
-        :active="index === activePage"
-        :visited="index < activePage"
-        @click="handleClick(index)"
-      />
-    </div>
+    <app-nav-item
+      v-for="({ id, title, icon, children }, index) in pages"
+      :id="id"
+      :key="title"
+      :title="title"
+      :icon="icon"
+      :children="children"
+      :active="index === activePage"
+      :visited="index < activePage"
+      @click="handleClick(index)"
+    />
     <app-nav-info @click="openModal" />
   </app-nav>
 </template>

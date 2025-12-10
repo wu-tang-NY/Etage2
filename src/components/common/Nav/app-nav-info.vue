@@ -1,9 +1,9 @@
 <template>
   <ClientOnly>
-    <div id="information-modal-btn" class="nav-info" @click="handleClick">
+    <li id="information-modal-btn" class="nav-info" @click="handleClick">
       <svg-icon name="icon_5_c" original />
       {{ $t("navInfo.information") }}
-    </div>
+    </li>
   </ClientOnly>
 </template>
 

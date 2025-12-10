@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <div class="app-logo">
-      <a href="/" class="app-logo__title">
+      <a href="/" class="app-logo__title" aria-label="Home">
         <span class="app-logo__icon">
           <svg-icon :name="logoIconName" original />
         </span>

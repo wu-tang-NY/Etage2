@@ -17,29 +17,45 @@
   </ClientOnly>
 </template>
 
-<script>
-export default {
-  name: "AppLanguageSwitcher",
-  data() {
-    return {
-      availableLanguages: [
-        { code: "ua", label: "UA" },
-        { code: "ru", label: "RU" }
-      ]
-    };
-  },
-  computed: {
-    currentLocale() {
-      return this.$i18n.locale;
-    }
-  },
-  methods: {
-    switchLanguage(locale) {
-      this.$i18n.locale = locale;
-      localStorage.setItem("locale", locale);
-    }
-  }
+<script setup>
+import { computed } from "vue";
+
+const { locale, setLocale } = useI18n();
+
+const availableLanguages = [
+  { code: "ua", label: "UA" },
+  { code: "ru", label: "RU" }
+];
+
+const currentLocale = computed(() => locale.value);
+
+const localeToLang = {
+  ua: "uk", // Ukrainian
+  ru: "ru" // Russian
 };
+
+async function switchLanguage(newLocale) {
+  try {
+    // Use setLocale to properly load lazy-loaded locale messages
+    // This ensures the locale file is loaded before switching
+    await setLocale(newLocale);
+
+    // Also update localStorage for persistence
+    if (process.client) {
+      localStorage.setItem("locale", newLocale);
+    }
+
+    // Update HTML lang attribute with valid BCP 47 code
+    const langCode = localeToLang[newLocale] || "uk";
+    if (typeof document !== "undefined") {
+      document.documentElement.setAttribute("lang", langCode);
+    }
+  } catch (error) {
+    console.error("Error switching language:", error);
+    // Fallback: try direct assignment if setLocale fails
+    locale.value = newLocale;
+  }
+}
 </script>
 
 <style lang="scss" scoped>

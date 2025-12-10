@@ -93,6 +93,8 @@
                           href="https://instagram.com/etage.com.ua/"
                           class="app-social__link"
                           target="_blank"
+                          aria-label="Visit our Instagram"
+                          rel="noopener noreferrer"
                         >
                           <svg-icon name="icon_in" original />
                         </a>
@@ -100,6 +102,8 @@
                           href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/"
                           class="app-social__link"
                           target="_blank"
+                          aria-label="Visit our Facebook page"
+                          rel="noopener noreferrer"
                         >
                           <svg-icon name="icon_fb" original />
                         </a>

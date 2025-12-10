@@ -11,6 +11,8 @@
               href="https://instagram.com/etage.com.ua/"
               class="app-social__link"
               target="_blank"
+              aria-label="Visit our Instagram"
+              rel="noopener noreferrer"
             >
               <svg-icon name="icon_in" original />
             </a>
@@ -18,6 +20,8 @@
               href="https://www.facebook.com/groups/2522732927949314/?ref=share_group_link"
               class="app-social__link"
               target="_blank"
+              aria-label="Visit our Facebook page"
+              rel="noopener noreferrer"
             >
               <svg-icon name="icon_fb" original />
             </a>

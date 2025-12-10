@@ -1,124 +1,201 @@
 <template>
   <ClientOnly>
     <div class="price">
-    <h2>{{ $t("price.title") }}</h2>
+      <h2>{{ $t("price.title") }}</h2>
 
-    <div class="subtitle dark-gray price__header--mobile">
-      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">{{ $t("price.mobileSubtitle1") }}</a>
-      {{ $t("price.mobileSubtitle2") }}
+      <div class="subtitle dark-gray price__header--mobile">
+        <a
+          href="#"
+          @click.prevent="$eventbus.$emit('openPopup', 'PopupContentAuto')"
+          >{{ $t("price.mobileSubtitle1") }}</a
+        >
+        {{ $t("price.mobileSubtitle2") }}
 
-      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">{{ $t("price.mobileSubtitle3") }}</a>
-      {{ $t("price.mobileSubtitle4") }}
+        <a
+          href="#"
+          @click.prevent="
+            $eventbus.$emit('openPopup', 'PopupContentSpecialists')
+          "
+          >{{ $t("price.mobileSubtitle3") }}</a
+        >
+        {{ $t("price.mobileSubtitle4") }}
 
-      <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">{{ $t("price.mobileSubtitle5") }}</a>
-    </div>
-
-    <div class="price__header">
-      <div class="price__header-block subtitle dark-gray">
-        <svg-icon name="icon_1" original />
-        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">{{ $t("price.desktopSubtitle1") }}</a>
-        &nbsp;{{ $t("price.desktopSubtitle2") }}
+        <a
+          href="#"
+          @click.prevent="$eventbus.$emit('openPopup', 'PopupContentPackage')"
+          >{{ $t("price.mobileSubtitle5") }}</a
+        >
       </div>
-      <div class="price__header-block subtitle dark-gray">
-        <svg-icon name="icon_2" original />
-        {{ $t("price.desktopSubtitle3") }}&nbsp;
-        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">{{ $t("price.desktopSubtitle4") }}</a>
-      </div>
-      <div class="price__header-block subtitle dark-gray">
-        <svg-icon name="icon_3" original />
-        {{ $t("price.desktopSubtitle5") }}&nbsp;
-        <a href="javascript:void(0)" @click="$eventbus.$emit('openPopup', 'PopupContentPackage')">{{ $t("price.desktopSubtitle6") }}</a>
-      </div>
-    </div>
 
-    <div class="row" v-if="!mobile && !tablet">
-      <div class="col-lg-8">
-        <div class="price__subtitle-wrapper">
-          <div class="price__subtitle price__subtitle--tree" @click="$eventbus.$emit('openPopup', 'PopupContentAuto')">
-            {{ $t("price.carRental") }}
+      <div class="price__header">
+        <div class="price__header-block subtitle dark-gray">
+          <svg-icon name="icon_1" original />
+          <a
+            href="#"
+            @click.prevent="$eventbus.$emit('openPopup', 'PopupContentAuto')"
+            >{{ $t("price.desktopSubtitle1") }}</a
+          >
+          &nbsp;{{ $t("price.desktopSubtitle2") }}
+        </div>
+        <div class="price__header-block subtitle dark-gray">
+          <svg-icon name="icon_2" original />
+          {{ $t("price.desktopSubtitle3") }}&nbsp;
+          <a
+            href="#"
+            @click.prevent="
+              $eventbus.$emit('openPopup', 'PopupContentSpecialists')
+            "
+            >{{ $t("price.desktopSubtitle4") }}</a
+          >
+        </div>
+        <div class="price__header-block subtitle dark-gray">
+          <svg-icon name="icon_3" original />
+          {{ $t("price.desktopSubtitle5") }}&nbsp;
+          <a
+            href="#"
+            @click.prevent="$eventbus.$emit('openPopup', 'PopupContentPackage')"
+            >{{ $t("price.desktopSubtitle6") }}</a
+          >
+        </div>
+      </div>
+
+      <div class="row" v-if="!mobile && !tablet">
+        <div class="col-lg-8">
+          <div class="price__subtitle-wrapper">
+            <div
+              class="price__subtitle price__subtitle--tree"
+              @click="$eventbus.$emit('openPopup', 'PopupContentAuto')"
+            >
+              {{ $t("price.carRental") }}
+              <svg-icon name="link" original />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div
+            class="price__subtitle"
+            @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')"
+          >
+            {{ $t("price.specialistsServices") }}
             <svg-icon name="link" original />
           </div>
         </div>
       </div>
-
-      <div class="col-lg-4">
-        <div class="price__subtitle" @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')">
-          {{ $t("price.specialistsServices") }}
-          <svg-icon name="link" original />
-        </div>
-      </div>
-    </div>
-    <div class="row" v-if="(mobile || tablet)">
-      <div v-for="category in categories" :key="category.name" class="col-12">
-        <div class="category-mini" @click="handleOpenFullSize(category)">
-          <svg-icon :name="category.iconName" class="category-mini__icon" original />
-          <div class="category-mini__info">
-            <h3 class="category-mini__title">{{ category.name }}</h3>
-            <p class="category-mini__subtitle dark-gray">{{ category.subtitle }}</p>
+      <div class="row" v-if="mobile || tablet">
+        <div v-for="category in categories" :key="category.name" class="col-12">
+          <div class="category-mini" @click="handleOpenFullSize(category)">
+            <svg-icon
+              :name="category.iconName"
+              class="category-mini__icon"
+              original
+            />
+            <div class="category-mini__info">
+              <h3 class="category-mini__title">{{ category.name }}</h3>
+              <p class="category-mini__subtitle dark-gray">
+                {{ category.subtitle }}
+              </p>
+            </div>
+            <svg-icon class="category-mini__arrow" name="arrow_m" original />
           </div>
-          <svg-icon class="category-mini__arrow" name="arrow_m" original />
         </div>
       </div>
-    </div>
-    <div class="row align-items-stretch">
-      <div v-for="category in categories" :key="category.name" class="col-lg-4">
-        <transition name="component-fade">
-          <div class="price__category category" v-if="(!mobile && !tablet) || category.opened">
-            <div class="mobile-wrapper">
-              <div class="category__header-wrapper">
-                <h3 class="category__title">{{ category.name }}</h3>
-                <div class="category__tooltip category__tooltip--small-screens">
-                  <svg-icon name="info" />
-                  <div class="category__info">{{ category.undertext }}</div>
+      <div class="row align-items-stretch">
+        <div
+          v-for="category in categories"
+          :key="category.name"
+          class="col-lg-4"
+        >
+          <transition name="component-fade">
+            <div
+              class="price__category category"
+              v-if="(!mobile && !tablet) || category.opened"
+            >
+              <div class="mobile-wrapper">
+                <div class="category__header-wrapper">
+                  <h3 class="category__title">{{ category.name }}</h3>
+                  <div
+                    class="category__tooltip category__tooltip--small-screens"
+                  >
+                    <svg-icon name="info" />
+                    <div class="category__info">{{ category.undertext }}</div>
+                  </div>
                 </div>
-              </div>
 
-              <p class="category__subtitle">{{ category.subtitle }}</p>
+                <p class="category__subtitle">{{ category.subtitle }}</p>
 
-              <svg-icon :name="category.iconName" class="category__icon" original />
+                <svg-icon
+                  :name="category.iconName"
+                  class="category__icon"
+                  original
+                />
 
-              <div class="category__close" v-if="mobile || tablet" @click="handleCloseFullSize(category)"></div>
+                <div
+                  class="category__close"
+                  v-if="mobile || tablet"
+                  @click="handleCloseFullSize(category)"
+                ></div>
 
-              <div class="category__price-wrapper" v-for="item in category.items" :key="item.id">
-                <div class="category__additional" v-if="item.additional">{{ item.additional }}</div>
-
-                <div class="category__price">
-                  <div class="category__tooltip-wrapper">
-                    <span class="category__price-value">{{ item.time }}&nbsp;</span>
-                    <span class="category__price-value category__price-value--highlighted">{{ item.price }}</span>
-
-                    <div class="category__tooltip" v-if="item.info">
-                      <svg-icon name="info" />
-                      <div class="category__info">{{ item.info }}</div>
-                    </div>
+                <div
+                  class="category__price-wrapper"
+                  v-for="item in category.items"
+                  :key="item.id"
+                >
+                  <div class="category__additional" v-if="item.additional">
+                    {{ item.additional }}
                   </div>
 
-                  <p class="category__description">{{ item.description }}</p>
+                  <div class="category__price">
+                    <div class="category__tooltip-wrapper">
+                      <span class="category__price-value"
+                        >{{ item.time }}&nbsp;</span
+                      >
+                      <span
+                        class="category__price-value category__price-value--highlighted"
+                        >{{ item.price }}</span
+                      >
+
+                      <div class="category__tooltip" v-if="item.info">
+                        <svg-icon name="info" />
+                        <div class="category__info">{{ item.info }}</div>
+                      </div>
+                    </div>
+
+                    <p class="category__description">{{ item.description }}</p>
+                  </div>
                 </div>
-              </div>
-              <p class="category__undertext">{{ category.undertext }}</p>
-              <div class="row justify-content-center">
-                <div v-if="mobile" @click="openForm(category)" class="price__examples price__examples--mobile">{{ $t("price.orderButton") }}
+                <p class="category__undertext">{{ category.undertext }}</p>
+                <div class="row justify-content-center">
+                  <div
+                    v-if="mobile"
+                    @click="openForm(category)"
+                    class="price__examples price__examples--mobile"
+                  >
+                    {{ $t("price.orderButton") }}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </transition>
+          </transition>
+        </div>
       </div>
-    </div>
 
-    <div class="row justify-content-center">
-      <div class="price__examples" @click="$eventbus.$emit('openPopup', 'PopupContentFlatMove')">{{ $t("price.examplesButton") }}
-        <svg-icon name="arrow-next" />
+      <div class="row justify-content-center">
+        <div
+          class="price__examples"
+          @click="$eventbus.$emit('openPopup', 'PopupContentFlatMove')"
+        >
+          {{ $t("price.examplesButton") }}
+          <svg-icon name="arrow-next" />
+        </div>
       </div>
     </div>
-  </div>
   </ClientOnly>
 </template>
 
 <script>
 export default {
-  name: 'AppPageMainSectionPrice',
+  name: "AppPageMainSectionPrice",
   props: {
     active: Boolean,
     mobile: Boolean,
@@ -128,90 +205,93 @@ export default {
     categories() {
       return [
         {
-          name: this.$t('price.categoryTransport'),
-          subtitle: 'Мебель, бытовая техника, сейфы и тд.',
-          undertext: this.$t('price.categoryTransportUndertext'),
-          iconName: 'price_transport',
+          name: this.$t("price.categoryTransport"),
+          subtitle: "Мебель, бытовая техника, сейфы и тд.",
+          undertext: this.$t("price.categoryTransportUndertext"),
+          iconName: "price_transport",
           opened: false,
           items: [
             {
               id: 1,
-              time: this.$t('price.categoryTransportItem1Time'),
-              price: this.$t('price.categoryTransportItem1Price'),
-              description: this.$t('price.categoryTransportItem1Desc'),
-              info: this.$t('price.categoryTransportItem1Info'),
+              time: this.$t("price.categoryTransportItem1Time"),
+              price: this.$t("price.categoryTransportItem1Price"),
+              description: this.$t("price.categoryTransportItem1Desc"),
+              info: this.$t("price.categoryTransportItem1Info"),
             },
             {
               id: 2,
-              time: this.$t('price.categoryTransportItem2Time'),
-              price: this.$t('price.categoryTransportItem2Price'),
-              description: this.$t('price.categoryTransportItem2Desc'),
+              time: this.$t("price.categoryTransportItem2Time"),
+              price: this.$t("price.categoryTransportItem2Price"),
+              description: this.$t("price.categoryTransportItem2Desc"),
             },
           ],
-        }, {
-          name: this.$t('price.categoryMove'),
-          subtitle: 'Квартирный, офисный переезды, переезд коммерческих помещений',
-          undertext: this.$t('price.categoryTransportUndertext'),
-          iconName: 'price_moving',
+        },
+        {
+          name: this.$t("price.categoryMove"),
+          subtitle:
+            "Квартирный, офисный переезды, переезд коммерческих помещений",
+          undertext: this.$t("price.categoryTransportUndertext"),
+          iconName: "price_moving",
           opened: false,
           items: [
             {
               id: 1,
-              time: this.$t('price.categoryMoveItem1Time'),
-              price: this.$t('price.categoryMoveItem1Price'),
-              description: this.$t('price.categoryMoveItem1Desc'),
-              additional: this.$t('price.categoryMoveItem1Additional'),
-              info: this.$t('price.categoryMoveItem1Info'),
+              time: this.$t("price.categoryMoveItem1Time"),
+              price: this.$t("price.categoryMoveItem1Price"),
+              description: this.$t("price.categoryMoveItem1Desc"),
+              additional: this.$t("price.categoryMoveItem1Additional"),
+              info: this.$t("price.categoryMoveItem1Info"),
             },
             {
               id: 2,
-              time: this.$t('price.categoryMoveItem2Time'),
-              price: this.$t('price.categoryMoveItem2Price'),
-              description: this.$t('price.categoryMoveItem2Desc'),
-              additional: this.$t('price.categoryMoveItem2Additional'),
+              time: this.$t("price.categoryMoveItem2Time"),
+              price: this.$t("price.categoryMoveItem2Price"),
+              description: this.$t("price.categoryMoveItem2Desc"),
+              additional: this.$t("price.categoryMoveItem2Additional"),
             },
           ],
-        }, {
-          name: this.$t('price.categoryWorkers'),
-          subtitle: 'Для транспортировки личных вещей, мебели, и т.д.',
-          undertext: 'В стоимость включены: упаковка и маркировка имущества, разборка и сборка мебели, полный цикл ручной транспортировки.',
-          iconName: 'price_workers',
+        },
+        {
+          name: this.$t("price.categoryWorkers"),
+          subtitle: "Для транспортировки личных вещей, мебели, и т.д.",
+          undertext:
+            "В стоимость включены: упаковка и маркировка имущества, разборка и сборка мебели, полный цикл ручной транспортировки.",
+          iconName: "price_workers",
           opened: false,
           items: [
             {
               id: 1,
-              time: this.$t('price.categoryWorkersItem1Time'),
-              price: this.$t('price.categoryWorkersItem1Price'),
-              description: this.$t('price.categoryWorkersItem1Desc'),
-              info: this.$t('price.categoryWorkersItem1Info'),
+              time: this.$t("price.categoryWorkersItem1Time"),
+              price: this.$t("price.categoryWorkersItem1Price"),
+              description: this.$t("price.categoryWorkersItem1Desc"),
+              info: this.$t("price.categoryWorkersItem1Info"),
             },
             {
               id: 2,
-              time: this.$t('price.categoryWorkersItem2Time'),
-              price: this.$t('price.categoryWorkersItem2Price'),
+              time: this.$t("price.categoryWorkersItem2Time"),
+              price: this.$t("price.categoryWorkersItem2Price"),
             },
           ],
         },
       ];
     },
   },
-  data: () => ({
-  }),
+  data: () => ({}),
   methods: {
     handleCloseFullSize(e) {
       e.opened = false;
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove("modal-open");
     },
 
     handleOpenFullSize(e) {
       e.opened = true;
-      document.body.classList.add('modal-open');
+      document.body.classList.add("modal-open");
     },
 
     openForm(e) {
       this.handleOpenFullSize(e);
       e.opened = false;
-      this.$eventbus.$emit('openFormModal');
+      this.$eventbus.$emit("openFormModal");
     },
   },
 };
@@ -243,12 +323,12 @@ export default {
       margin-right: 6px;
     }
 
-    .price__header-block+.price__header-block {
+    .price__header-block + .price__header-block {
       margin-left: 24px;
       position: relative;
 
       &::before {
-        content: '+';
+        content: "+";
         position: absolute;
         left: -12px;
         top: 50%;
@@ -285,7 +365,7 @@ export default {
 
     &--tree {
       &::before {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -296,7 +376,7 @@ export default {
       }
 
       &::after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         top: 50%;
@@ -325,7 +405,7 @@ export default {
     font-weight: 600;
     line-height: 1;
     letter-spacing: 0.3px;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
     cursor: pointer;
 
     &--mobile {
@@ -336,7 +416,7 @@ export default {
     svg {
       @include size(18px);
       margin-left: 14px;
-      transition: .3s ease-in-out;
+      transition: 0.3s ease-in-out;
       fill: #fff;
     }
 
@@ -358,7 +438,7 @@ export default {
   height: 100%;
 
   &__subtitle {
-    letter-spacing: .3px;
+    letter-spacing: 0.3px;
     max-width: 280px;
     margin-bottom: 12px;
   }
@@ -436,7 +516,7 @@ export default {
     svg {
       @include size(16px);
       fill: #d0d0d0;
-      transition: .3s ease-in-out;
+      transition: 0.3s ease-in-out;
     }
 
     &:hover {
@@ -465,7 +545,7 @@ export default {
     display: none;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -5px;
       @include size(10px);
@@ -486,7 +566,7 @@ export default {
 
   &:hover {
     .category-mini__icon {
-      transform: scale(1.2)
+      transform: scale(1.2);
     }
   }
 
@@ -494,7 +574,7 @@ export default {
     @include size(40px);
     margin-right: 16px;
     flex-shrink: 0;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
   }
 
   &__arrow {
@@ -525,7 +605,7 @@ export default {
     &__price-wrapper {
       margin-bottom: 0 !important;
 
-      &+& {
+      & + & {
         margin-top: 14px;
       }
     }
@@ -550,7 +630,7 @@ export default {
 
         svg {
           fill: var(--colors-accent);
-          animation: pulse .6s 2s 3;
+          animation: pulse 0.6s 2s 3;
         }
 
         &:hover {
@@ -645,7 +725,7 @@ export default {
       right: 0;
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -655,7 +735,7 @@ export default {
       }
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
