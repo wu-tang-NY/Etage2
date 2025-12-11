@@ -1558,7 +1558,8 @@ canvas,
   .page-main__bg-home {
     svg {
       g:first-child {
-        path[fill="#FFF"] {
+        path[fill="#FFF"],
+        path[fill="#fff"] {
           fill: var(--colors-dark-bg) !important;
         }
       }
@@ -1569,7 +1570,8 @@ canvas,
   .bg__to {
     .bg__home {
       svg {
-        path[fill="#FFF"] {
+        path[fill="#FFF"],
+        path[fill="#fff"] {
           fill: var(--colors-dark-bg) !important;
         }
       }
@@ -1640,6 +1642,10 @@ canvas,
         // Override gradient fills (url(#id)) to white - these are dark gradients for wheels/details
         path[fill^="url(#"] {
           fill: var(--colors-dark-text-primary) !important;
+        }
+
+        mask#e {
+          display: none;
         }
 
         // White fills -> keep white for visibility

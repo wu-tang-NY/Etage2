@@ -106,11 +106,7 @@
                       :key="link.title || link.component || linkIndex"
                     >
                       <component
-                        v-if="
-                          link &&
-                            link.component &&
-                            shouldLoadPopupComponent(link.component)
-                        "
+                        v-if="link && link.component"
                         :is="link.component"
                         :id="link.component"
                       />
@@ -166,8 +162,7 @@ export default {
       activeStates: {},
       activeLinkStates: {},
       navItems: [],
-      scrollPosition: 0,
-      loadedComponents: new Set() // Track which components have been loaded
+      scrollPosition: 0
     };
   },
   created() {
@@ -335,16 +330,10 @@ export default {
     },
 
     async scrollTo(link, header) {
-      // Ensure component is loaded before scrolling to it
-      if (!this.loadedComponents.has(link.component)) {
-        this.loadedComponents.add(link.component);
-        // Wait for component to render
-        await this.$nextTick();
-        // Wait a bit more for the component to be fully mounted
-        await new Promise(resolve => setTimeout(resolve, 100));
-      } else {
-        await this.$nextTick();
-      }
+      // Wait for component to render
+      await this.$nextTick();
+      // Wait a bit more for the component to be fully mounted
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       const elem = document.getElementById(link.component);
       if (!elem || !elem.parentNode) {
@@ -385,40 +374,6 @@ export default {
       this.activeStates = {};
     },
 
-    // Only load PopupContent components that are in active sections, are active links, or are in first section
-    shouldLoadPopupComponent(componentName) {
-      if (!this.openModal || !componentName) return false;
-      if (!this.navItems || this.navItems.length === 0) return false;
-
-      // Once loaded, keep it loaded
-      if (this.loadedComponents.has(componentName)) return true;
-
-      const shouldLoad = this.navItems.some((item, itemIndex) => {
-        if (!item || !item.links) return false;
-
-        const isActiveSection = this.activeStates[itemIndex];
-        // Load first section's components when modal opens (index 0)
-        const isFirstSection =
-          itemIndex === 0 && Object.keys(this.activeStates).length === 0;
-
-        return item.links.some((link, linkIndex) => {
-          if (!link || link.component !== componentName) return false;
-
-          const isActiveLink = this.activeLinkStates[
-            `${itemIndex}-${linkIndex}`
-          ];
-          // Load if: active link, active section, or first section (when modal just opened)
-          return isActiveLink || isActiveSection || isFirstSection;
-        });
-      });
-
-      if (shouldLoad) {
-        this.loadedComponents.add(componentName);
-      }
-
-      return shouldLoad;
-    },
-
     openMobileAccordion() {
       if (this.mobile || this.tablet) {
         this.toggledNav = !this.toggledNav;
@@ -440,14 +395,6 @@ export default {
       // Open the clicked panel if it wasn't already open
       if (prev !== index) {
         this.activeStates[index] = true;
-        // Mark all components in this section as loaded
-        if (this.navItems[index]) {
-          this.navItems[index].links.forEach(link => {
-            if (link && link.component) {
-              this.loadedComponents.add(link.component);
-            }
-          });
-        }
       }
 
       this.$nextTick(() => {
@@ -497,16 +444,6 @@ export default {
     }
 
     this.setupEventbusListener(eventbus);
-
-    // Watch for modal opening to load first section components
-    this.$watch("openModal", isOpen => {
-      if (isOpen && this.navItems.length > 0) {
-        // Load first section when modal opens
-        this.$nextTick(() => {
-          // First section components will load via shouldLoadPopupComponent
-        });
-      }
-    });
   },
   beforeUnmount() {
     const eventbus = this._eventbus || this.eventbus || this.$eventbus;

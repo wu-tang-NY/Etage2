@@ -2,7 +2,7 @@
 import icon from 'vue-svgicon'
 icon.register({
   'info': {
-    width: 1,
+    width: 16,
     height: 16,
     viewBox: '0 0 16 16',
     data: '<g id="website" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="final_version" fill="#d0d0d0" transform="translate(-2534 -430)"><g id="Group-32" transform="translate(2374 324)"><g id="Group-23-Copy"><g id="Group-27" transform="translate(20 97)"><g id="Group-24"><path id="Combined-Shape-Copy" d="M148 25a8 8 0 1 1 0-16 8 8 0 0 1 0 16m-1-12v2h2v-2zm0 3v5h2v-5z"/></g></g></g></g></g></g>'

@@ -12,12 +12,15 @@ function convertSVGToIcon(svgPath, outputPath) {
   try {
     let svgContent = readFileSync(svgPath, "utf8");
 
-    // Extract viewBox and dimensions using regex
+    // Extract viewBox and dimensions from SVG tag only (not from inner elements)
+    const svgTagOpenMatch = svgContent.match(/<svg([^>]*)>/i);
+    const svgTagAttrs = svgTagOpenMatch ? svgTagOpenMatch[1] : "";
+
     const viewBoxMatch =
-      svgContent.match(/viewBox=["']([^"']+)["']/i) ||
-      svgContent.match(/viewbox=["']([^"']+)["']/i);
-    const widthMatch = svgContent.match(/width=["']([^"']+)["']/i);
-    const heightMatch = svgContent.match(/height=["']([^"']+)["']/i);
+      svgTagAttrs.match(/viewBox=["']([^"']+)["']/i) ||
+      svgTagAttrs.match(/viewbox=["']([^"']+)["']/i);
+    const widthMatch = svgTagAttrs.match(/\bwidth=["']([^"']+)["']/i);
+    const heightMatch = svgTagAttrs.match(/\bheight=["']([^"']+)["']/i);
 
     const viewBox = viewBoxMatch ? viewBoxMatch[1] : "0 0 24 24";
     const viewBoxParts = viewBox.split(/\s+/).map(Number);

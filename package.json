@@ -12,11 +12,10 @@
     "generate": "npx nuxt generate",
     "preview": "npx nuxt preview",
     "lint": "eslint .",
-    "optimize:svgs": "node scripts/optimize-svgs.js",
     "optimize:images": "node scripts/optimize-images.js",
     "optimize:css": "node scripts/optimize-css.js",
-    "optimize:all": "npm run optimize:svgs && npm run optimize:images",
-    "svg": "npm run optimize:svgs && node scripts/convert-svgs-to-icons.js"
+    "optimize:all": "npm run optimize:images",
+    "svg": "node scripts/convert-svgs-to-icons.js"
   },
   "dependencies": {
     "@nuxtjs/i18n": "^9.3.0",
@@ -42,8 +41,7 @@
     "express": "^4.21.0",
     "postcss": "^8.4.0",
     "sharp": "^0.33.0",
-    "svg-sprite-loader": "^6.0.11",
-    "svgo": "^4.0.0"
+    "svg-sprite-loader": "^6.0.11"
   },
   "engines": {
     "node": ">=18.0.0",

@@ -1,54 +1,35 @@
-import { defineAsyncComponent } from "vue";
+import PopupContentAboutUs from "./PopupContentAboutUs.vue";
+import PopupContentAuto from "./PopupContentAuto.vue";
+import PopupContentContacts from "./PopupContentContacts.vue";
+import PopupContentFacts from "./PopupContentFacts.vue";
+import PopupContentFeedback from "./PopupContentFeedback.vue";
+import PopupContentFlatMove from "./PopupContentFlatMove.vue";
+import PopupContentHistory from "./PopupContentHistory.vue";
+import PopupContentJobs from "./PopupContentJobs.vue";
+import PopupContentOfficeMove from "./PopupContentOfficeMove.vue";
+import PopupContentOurGoal from "./PopupContentOurGoal.vue";
+import PopupContentPackage from "./PopupContentPackage.vue";
+import PopupContentPartners from "./PopupContentPartners.vue";
+import PopupContentPayment from "./PopupContentPayment.vue";
+import PopupContentSpecialists from "./PopupContentSpecialists.vue";
+import PopupContentSpecialOffers from "./PopupContentSpecialOffers.vue";
+import PopupContentStuffMove from "./PopupContentStuffMove.vue";
 
-// Lazy load all PopupContent components - they're only shown when modal opens
-// This significantly reduces initial bundle size and critical path latency
 export default {
-  PopupContentAboutUs: defineAsyncComponent(() =>
-    import("./PopupContentAboutUs.vue")
-  ),
-  PopupContentHistory: defineAsyncComponent(() =>
-    import("./PopupContentHistory.vue")
-  ),
-  PopupContentOurGoal: defineAsyncComponent(() =>
-    import("./PopupContentOurGoal.vue")
-  ),
-  PopupContentFacts: defineAsyncComponent(() =>
-    import("./PopupContentFacts.vue")
-  ),
-  PopupContentFlatMove: defineAsyncComponent(() =>
-    import("./PopupContentFlatMove.vue")
-  ),
-  PopupContentOfficeMove: defineAsyncComponent(() =>
-    import("./PopupContentOfficeMove.vue")
-  ),
-  PopupContentStuffMove: defineAsyncComponent(() =>
-    import("./PopupContentStuffMove.vue")
-  ),
-  PopupContentSpecialists: defineAsyncComponent(() =>
-    import("./PopupContentSpecialists.vue")
-  ),
-  PopupContentPayment: defineAsyncComponent(() =>
-    import("./PopupContentPayment.vue")
-  ),
-  PopupContentSpecialOffers: defineAsyncComponent(() =>
-    import("./PopupContentSpecialOffers.vue")
-  ),
-  PopupContentAuto: defineAsyncComponent(() =>
-    import("./PopupContentAuto.vue")
-  ),
-  PopupContentPackage: defineAsyncComponent(() =>
-    import("./PopupContentPackage.vue")
-  ),
-  PopupContentContacts: defineAsyncComponent(() =>
-    import("./PopupContentContacts.vue")
-  ),
-  PopupContentJobs: defineAsyncComponent(() =>
-    import("./PopupContentJobs.vue")
-  ),
-  PopupContentFeedback: defineAsyncComponent(() =>
-    import("./PopupContentFeedback.vue")
-  ),
-  PopupContentPartners: defineAsyncComponent(() =>
-    import("./PopupContentPartners.vue")
-  ),
+  PopupContentAboutUs,
+  PopupContentHistory,
+  PopupContentOurGoal,
+  PopupContentFacts,
+  PopupContentFlatMove,
+  PopupContentOfficeMove,
+  PopupContentStuffMove,
+  PopupContentSpecialists,
+  PopupContentPayment,
+  PopupContentSpecialOffers,
+  PopupContentAuto,
+  PopupContentPackage,
+  PopupContentContacts,
+  PopupContentJobs,
+  PopupContentFeedback,
+  PopupContentPartners,
 };
