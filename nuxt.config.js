@@ -268,6 +268,12 @@ export default defineNuxtConfig({
             if (statSync(iconsDir).isDirectory()) {
               copyDir(iconsDir, outputIconsDir);
             }
+            // Also copy favicon directory to root for /favicon/... references
+            const faviconDir = resolve(staticDir, "favicon");
+            const outputFaviconDir = resolve(outputDir, "favicon");
+            if (statSync(faviconDir).isDirectory()) {
+              copyDir(faviconDir, outputFaviconDir);
+            }
           }
         } catch (e) {
           // Ignore if static directory doesn't exist or copy fails
