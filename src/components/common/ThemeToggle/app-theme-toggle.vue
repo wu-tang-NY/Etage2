@@ -17,14 +17,14 @@
 </template>
 
 <script>
-import themeManager from '../../../utils/theme';
+import themeManager from "../../../utils/theme";
 
 export default {
   name: "AppThemeToggle",
   data() {
     return {
       isDark: themeManager.isDark(),
-      themeChangeHandler: null
+      themeChangeHandler: null,
     };
   },
   mounted() {
@@ -33,11 +33,11 @@ export default {
     this.themeChangeHandler = (event) => {
       this.isDark = event.detail.isDark;
     };
-    window.addEventListener('themechange', this.themeChangeHandler);
+    window.addEventListener("themechange", this.themeChangeHandler);
   },
   beforeUnmount() {
     if (this.themeChangeHandler) {
-      window.removeEventListener('themechange', this.themeChangeHandler);
+      window.removeEventListener("themechange", this.themeChangeHandler);
     }
   },
   methods: {
@@ -47,8 +47,8 @@ export default {
     },
     updateTheme() {
       this.isDark = themeManager.isDark();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -70,6 +70,7 @@ export default {
   &:hover {
     background-color: var(--colors-text-primary);
     color: var(--white);
+    fill: var(--white);
   }
 
   &:focus {
@@ -82,4 +83,3 @@ export default {
   }
 }
 </style>
-

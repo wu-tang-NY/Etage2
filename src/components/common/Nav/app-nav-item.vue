@@ -200,6 +200,10 @@ export default {
 
         svg {
           fill: var(--white) !important;
+
+          path[fill="#fff"] {
+            fill: var(--white) !important;
+          }
         }
       }
 
