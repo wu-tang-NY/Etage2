@@ -65,24 +65,24 @@ export default defineNuxtConfig({
         {
           rel: "apple-touch-icon",
           sizes: "180x180",
-          href: "/static/favicon/apple-touch-icon.png",
+          href: "/favicon/apple-touch-icon.png",
         },
         {
           rel: "icon",
           type: "image/png",
           sizes: "32x32",
-          href: "/static/favicon/favicon-32x32.png",
+          href: "/favicon/favicon-32x32.png",
         },
         {
           rel: "icon",
           type: "image/png",
           sizes: "16x16",
-          href: "/static/favicon/favicon-16x16.png",
+          href: "/favicon/favicon-16x16.png",
         },
-        { rel: "manifest", href: "/static/favicon/site.webmanifest" },
+        { rel: "manifest", href: "/favicon/site.webmanifest" },
         {
           rel: "mask-icon",
-          href: "/static/favicon/safari-pinned-tab.svg",
+          href: "/favicon/safari-pinned-tab.svg",
           color: "#ffa511",
         },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -111,7 +111,7 @@ export default defineNuxtConfig({
         {
           rel: "preload",
           as: "image",
-          href: "/static/icons/bg_dark.svg",
+          href: "/icons/bg_dark.svg",
           fetchpriority: "high",
         },
       ],
