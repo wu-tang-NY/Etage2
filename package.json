@@ -20,8 +20,6 @@
   "dependencies": {
     "@nuxtjs/i18n": "^9.3.0",
     "@vueuse/core": "^11.0.0",
-    "cors": "^2.8.5",
-    "form-data": "^4.0.0",
     "gsap": "^3.12.5",
     "mailgun.js": "^10.0.0",
     "nuxt": "^4.0.0",
@@ -29,7 +27,6 @@
     "scrollmagic": "^2.0.8",
     "vee-validate": "^4.14.0",
     "vue": "^3.5.0",
-    "vue-router": "^4.4.0",
     "vue-svgicon": "^4.0.0-alpha.3"
   },
   "devDependencies": {

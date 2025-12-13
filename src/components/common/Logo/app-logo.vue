@@ -18,7 +18,7 @@ export default {
   name: "AppLogo",
   data() {
     return {
-      isDark: themeManager.isDark()
+      isDark: themeManager.isDark(),
     };
   },
   computed: {
@@ -29,11 +29,11 @@ export default {
       }
       // Use ru version for Russian locale, ua version for English/other locales
       return this.$i18n.locale === "ru" ? "logo_dark_ru" : "logo_dark_ua";
-    }
+    },
   },
   mounted() {
     // Listen for theme changes
-    this.themeChangeHandler = event => {
+    this.themeChangeHandler = (event) => {
       this.isDark = event.detail.isDark;
     };
     window.addEventListener("themechange", this.themeChangeHandler);
@@ -42,7 +42,7 @@ export default {
     if (this.themeChangeHandler) {
       window.removeEventListener("themechange", this.themeChangeHandler);
     }
-  }
+  },
 };
 </script>
 
@@ -81,7 +81,7 @@ $logo-separator-color: #e6e6e6;
 
   @include media-breakpoint-down(xl) {
     &__subtitle {
-      // display: none;
+      display: none;
     }
   }
 

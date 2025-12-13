@@ -14,10 +14,14 @@
               :key="section"
               :id="`section-${index + 1}`"
             >
+              <svg-icon
+                name="mobile_bg"
+                original
+                v-if="!index && (mobile || tablet)"
+                class="services__bg"
+              ></svg-icon>
               <div class="container">
-                <!-- Only render section if it's active or adjacent (for preloading) -->
                 <component
-                  v-if="shouldLoadSection(index)"
                   :is="section"
                   :active="activeSectionIndex === index"
                   :mobile="mobile"
@@ -130,19 +134,6 @@ export default {
     },
   },
   methods: {
-    // Only load sections that are active or adjacent (for preloading)
-    shouldLoadSection(index) {
-      // On mobile/tablet, load all sections since they use normal scrolling
-      if (this.mobile || this.tablet) {
-        return true;
-      }
-      // Always load first section (index 0)
-      if (index === 0) return true;
-      // Load if section is active or within 1 section of active (preload)
-      const diff = Math.abs(index - this.activeSectionIndex);
-      return diff <= 1;
-    },
-
     onScroll() {
       if (typeof document === "undefined") return;
       setTimeout(() => {
@@ -1111,11 +1102,6 @@ export default {
         display: none;
       }
     }
-  }
-
-  .app-section {
-    height: auto;
-    min-height: auto;
   }
 
   .bg {

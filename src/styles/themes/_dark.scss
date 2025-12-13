@@ -377,20 +377,17 @@ canvas,
       border-color: var(--colors-dark-border) !important;
       color: var(--colors-dark-text-primary) !important;
 
-      &:hover {
-        background-color: var(--colors-dark-border) !important;
-        color: var(--colors-dark-text-primary) !important;
+      &:not(.app-language-switcher__button--active) {
+        &:hover {
+          background-color: var(--colors-dark-text-primary) !important;
+          color: var(--colors-dark-bg) !important;
+        }
       }
 
       &--active {
         background-color: var(--colors-dark-text-primary) !important;
         color: var(--colors-dark-bg) !important;
         border-color: var(--colors-dark-text-primary) !important;
-      }
-
-      &:focus {
-        outline: 2px solid var(--colors-accent);
-        outline-offset: 2px;
       }
     }
   }
@@ -402,11 +399,11 @@ canvas,
     color: var(--colors-dark-text-primary);
 
     &:hover {
-      background-color: var(--colors-dark-border);
-      color: var(--colors-dark-text-primary);
+      background-color: var(--colors-dark-text-primary) !important;
+      color: var(--colors-dark-bg) !important;
 
       svg {
-        fill: var(--colors-dark-text-primary);
+        fill: var(--colors-dark-bg);
       }
     }
 
@@ -1943,14 +1940,16 @@ canvas,
 
   // Navigation item component
   .nav-item {
-    &__link {
-      color: var(--colors-dark-text-primary);
-
+    &:not(.nav-item--active) {
       &:hover {
         .nav-item__bg::before {
           background-color: var(--colors-dark-grey-200);
         }
       }
+    }
+
+    &__link {
+      color: var(--colors-dark-text-primary);
     }
 
     &__text {

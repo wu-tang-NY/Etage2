@@ -4,16 +4,17 @@
     :class="{
       'nav-item--active': active,
       'nav-item--visited': visited,
-      'nav-item--hovered': hovered
+      'nav-item--hovered': hovered,
     }"
   >
     <a
       href=""
       :id="id"
       class="nav-item__link"
-      @mouseenter="hovered = true"
-      @mouseleave="hovered = false"
+      role="button"
+      tabindex="0"
       @click.prevent="handleClick"
+      @keydown="handleKeydown"
     >
       <div class="nav-item__inner">
         <slot>
@@ -29,13 +30,23 @@
 
       <div class="nav-item__bg"></div>
 
-      <ul class="nav-inner" v-if="hasChildren">
+      <ul class="nav-inner" v-if="hasChildren" role="menu">
         <template v-for="(child, index) in children" :key="index">
           <li
             class="nav-inner__item"
+            role="menuitem"
             @click="$eventbus && $eventbus.$emit('openPopup', child.path)"
           >
-            <a href="" class="nav-inner__link">
+            <a
+              href=""
+              class="nav-inner__link"
+              role="button"
+              tabindex="0"
+              @click.prevent="
+                $eventbus && $eventbus.$emit('openPopup', child.path)
+              "
+              @keydown="handleChildKeydown($event, child.path)"
+            >
               {{ child.title }}
             </a>
           </li>
@@ -50,47 +61,141 @@ export default {
   name: "AppNavItem",
   props: {
     id: {
-      type: String
+      type: String,
     },
 
     title: {
-      type: String
+      type: String,
     },
 
     icon: {
-      type: String
+      type: String,
     },
 
     active: {
       type: Boolean,
-      required: true
+      required: true,
     },
 
     visited: {
       type: Boolean,
-      required: true
+      required: true,
     },
 
     children: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   computed: {
     hasChildren() {
       return Array.isArray(this.children) && this.children.length > 0;
-    }
+    },
   },
   emits: ["click"],
   data: () => ({
-    hovered: false
+    hovered: false,
   }),
   methods: {
     handleClick(event) {
       this.hovered = false;
       this.$emit("click", event);
-    }
-  }
+    },
+    handleKeydown(event) {
+      // Handle Enter and Space keys
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        this.handleClick(event);
+      }
+      // Handle Escape to close dropdown if open
+      else if (event.key === "Escape" && this.hasChildren) {
+        event.preventDefault();
+        this.hovered = false;
+        // Remove focus from the link
+        event.target.blur();
+      }
+      // Handle ArrowDown to open dropdown and focus first child
+      else if (event.key === "ArrowDown" && this.hasChildren) {
+        event.preventDefault();
+        this.hovered = true;
+        const firstChild = event.target.querySelector(".nav-inner__link");
+        if (firstChild) {
+          // Use setTimeout to ensure dropdown is visible
+          setTimeout(() => {
+            firstChild.focus();
+          }, 0);
+        }
+      }
+      // Handle ArrowUp to open dropdown and focus last child
+      else if (event.key === "ArrowUp" && this.hasChildren) {
+        event.preventDefault();
+        this.hovered = true;
+        const children = event.target.querySelectorAll(".nav-inner__link");
+        if (children.length > 0) {
+          const lastChild = children[children.length - 1];
+          // Use setTimeout to ensure dropdown is visible
+          setTimeout(() => {
+            lastChild.focus();
+          }, 0);
+        }
+      }
+    },
+    handleChildKeydown(event, path) {
+      // Handle Enter and Space keys
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        if (this.$eventbus) {
+          this.$eventbus.$emit("openPopup", path);
+        }
+      }
+      // Handle Escape to close dropdown
+      else if (event.key === "Escape") {
+        event.preventDefault();
+        this.hovered = false;
+        // Return focus to parent link
+        const parentLink = event.target
+          .closest(".nav-item")
+          .querySelector(".nav-item__link");
+        if (parentLink) {
+          parentLink.focus();
+        }
+      }
+      // Handle ArrowUp to focus previous sibling or parent
+      else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        const siblings = Array.from(
+          event.target
+            .closest(".nav-inner")
+            .querySelectorAll(".nav-inner__link")
+        );
+        const currentIndex = siblings.indexOf(event.target);
+        if (currentIndex > 0) {
+          siblings[currentIndex - 1].focus();
+        } else {
+          // Focus parent link
+          const parentLink = event.target
+            .closest(".nav-item")
+            .querySelector(".nav-item__link");
+          if (parentLink) {
+            parentLink.focus();
+          }
+        }
+      }
+      // Handle ArrowDown to focus next sibling
+      else if (event.key === "ArrowDown") {
+        event.preventDefault();
+        const siblings = Array.from(
+          event.target
+            .closest(".nav-inner")
+            .querySelectorAll(".nav-inner__link")
+        );
+        const currentIndex = siblings.indexOf(event.target);
+        if (currentIndex < siblings.length - 1) {
+          siblings[currentIndex + 1].focus();
+        }
+      }
+    },
+  },
 };
 </script>
 
@@ -104,6 +209,17 @@ export default {
     font-size: rem(14);
     letter-spacing: 0.2px;
     position: relative;
+    outline: none;
+    text-decoration: none;
+
+    &:focus {
+      outline: 2px solid var(--colors-accent);
+      outline-offset: 2px;
+    }
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
   }
 
   &__inner {
@@ -166,14 +282,27 @@ export default {
       font-weight: 500;
       letter-spacing: 0.3px;
       transition: background-color 0.15s ease-in-out;
+      outline: none;
+      text-decoration: none;
 
       &:hover {
         background-color: rgba(0, 0, 0, 0.05);
       }
+
+      &:focus {
+        outline: 2px solid var(--colors-accent);
+        outline-offset: -2px;
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      &:focus:not(:focus-visible) {
+        outline: none;
+      }
     }
   }
 
-  &.nav-item--hovered {
+  &.nav-item:hover,
+  &.nav-item:focus-within {
     .nav-item {
       &__link {
         color: var(--colors-text-primary);

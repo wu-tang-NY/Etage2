@@ -1,12 +1,13 @@
 <template>
   <ClientOnly>
     <div class="app-callback">
-      <span
+      <button
         id="callback-btn"
         class="app-callback__text"
         @click="openCallModal"
-        >{{ $t("callback.button") }}</span
       >
+        {{ $t("callback.button") }}
+      </button>
 
       <callback-modal v-model="modal" />
     </div>
@@ -21,17 +22,17 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "AppCallback",
   data: () => ({
-    modal: false
+    modal: false,
   }),
   methods: {
     openCallModal() {
       this.modal = !this.modal;
       this.$emit("openModal");
-    }
+    },
   },
   components: {
-    CallbackModal: defineAsyncComponent(() => import("./app-callback-modal"))
-  }
+    CallbackModal: defineAsyncComponent(() => import("./app-callback-modal")),
+  },
 };
 </script>
 

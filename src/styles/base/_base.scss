@@ -92,6 +92,17 @@ p {
   }
 }
 
+button,
+a,
+input,
+textarea,
+select {
+  &:focus {
+    outline: 2px solid var(--colors-accent) !important;
+    outline-offset: 2px !important;
+  }
+}
+
 .dark-gray {
   color: var(--colors-text-primary);
 }
