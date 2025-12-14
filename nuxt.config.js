@@ -24,6 +24,30 @@ function copyDir(src, dest) {
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
 
+  modules: ["nuxt-booster"],
+
+  // Nuxt Booster configuration - enable all performance features
+  // Booster automatically optimizes:
+  // - Images (BoosterImage, BoosterPicture)
+  // - Iframes (BoosterIframe)
+  // - Fonts (viewport-based loading)
+  // - JavaScript (eliminates unnecessary JS)
+  // - Components (viewport-based lazy loading)
+  booster: {
+    // Enable performance and browser support detection
+    detection: {
+      performance: true,
+      browserSupport: true,
+    },
+    // Performance metrics based on device capabilities
+    performanceMetrics: {
+      device: {
+        hardwareConcurrency: { min: 2, max: 48 },
+        deviceMemory: { min: 2 },
+      },
+    },
+  },
+
   // Alias configuration
   alias: {
     "@": resolve(__dirname, "./src"),
