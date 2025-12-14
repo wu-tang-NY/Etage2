@@ -48,6 +48,7 @@
           class="reviews__swiper-button reviews__swiper-button--prev"
           @click="scrollCarousel('prev')"
           :disabled="!canScrollPrev"
+          aria-label="Previous review"
         ></button>
         <svg-icon
           name="divider"
@@ -59,6 +60,7 @@
           class="reviews__swiper-button reviews__swiper-button--next"
           @click="scrollCarousel('next')"
           :disabled="!canScrollNext"
+          aria-label="Next review"
         ></button>
       </div>
 

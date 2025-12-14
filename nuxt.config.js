@@ -67,7 +67,8 @@ export default defineNuxtConfig({
     head: {
       // Title and description will be set dynamically by plugins/meta.js based on locale
       // These are fallback values for default locale (ua)
-      title: "Etage - Сервіс переїздів по Одесі та по всій Україні",
+      title:
+        "Etage - Сервіс переїздів та вантажоперевезень по Одесі та Україні",
       htmlAttrs: {
         lang: "uk", // Will be updated dynamically by plugins/meta.js
       },
@@ -77,7 +78,7 @@ export default defineNuxtConfig({
         {
           name: "description",
           content:
-            "Сервіс переїздів по Одесі та по всій Україні. Квартирні та офісні переїзди, перевезення майна, послуги вантажників",
+            "Професійний сервіс переїздів та вантажоперевезень в Одесі та по всій Україні. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників. Упаковка, розбирання меблів, транспортування. Доступні ціни, сучасний автопарк, гарантія збереження",
         },
         {
           name: "google-site-verification",
@@ -344,10 +345,10 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "Etage - Сервіс переїздів",
+      name: "Etage - Сервіс переїздів та вантажоперевезень",
       short_name: "Etage",
       description:
-        "Сервіс переїздів по Одесі та по всій Україні. Квартирні та офісні переїзди, перевезення майна, послуги вантажників",
+        "Професійний сервіс переїздів та вантажоперевезень в Одесі та по всій Україні. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників",
       lang: "uk",
       dir: "ltr",
       start_url: "/",
