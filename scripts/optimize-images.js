@@ -99,7 +99,7 @@ async function optimizeImagesInDirectory(dirPath) {
 }
 
 // Main execution
-const imagesDir = resolve(process.cwd(), "static/images");
+const imagesDir = resolve(process.cwd(), "static");
 
 console.log("🖼️  Optimizing image files...\n");
 

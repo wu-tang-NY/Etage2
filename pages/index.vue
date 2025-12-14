@@ -126,6 +126,7 @@ export default {
     hasScroll: false,
     initRetryCount: 0,
     maxInitRetries: 3,
+    scrollTimeout: null,
   }),
   computed: {
     sectionsComponents() {
@@ -138,18 +139,75 @@ export default {
   },
   methods: {
     onScroll() {
-      if (typeof document === "undefined") return;
-      setTimeout(() => {
-        const sections = document.querySelector("#sections");
-        const el = sections?.querySelector("section.active");
+      if (typeof document === "undefined" || typeof window === "undefined")
+        return;
 
-        if (el) {
-          this.activeSectionIndex = Array.from(sections.children).indexOf(el);
-          if (this.$eventbus) {
-            this.$eventbus.$emit("section:scroll", this.activeSectionIndex);
+      // Throttle scroll events for better performance
+      if (this.scrollTimeout) {
+        clearTimeout(this.scrollTimeout);
+      }
+
+      this.scrollTimeout = setTimeout(() => {
+        // For mobile/tablet, detect which section is in view
+        if (this.mobile || this.tablet) {
+          const sections = document.querySelector("#sections");
+          if (!sections) return;
+
+          const sectionsArray = Array.from(sections.children);
+          const scrollPosition =
+            window.pageYOffset || document.documentElement.scrollTop;
+          const viewportHeight = window.innerHeight;
+
+          let activeIndex = 0;
+          let maxVisible = 0;
+
+          sectionsArray.forEach((section, index) => {
+            const rect = section.getBoundingClientRect();
+            const sectionTop = rect.top + scrollPosition;
+            const sectionBottom = sectionTop + rect.height;
+
+            // Calculate how much of the section is visible in viewport
+            const visibleTop = Math.max(scrollPosition, sectionTop);
+            const visibleBottom = Math.min(
+              scrollPosition + viewportHeight,
+              sectionBottom
+            );
+            const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+            const visibleRatio = visibleHeight / rect.height;
+
+            if (visibleRatio > maxVisible) {
+              maxVisible = visibleRatio;
+              activeIndex = index;
+            }
+          });
+
+          // Update active section
+          sectionsArray.forEach((section, index) => {
+            section.classList.toggle("active", index === activeIndex);
+          });
+
+          if (this.activeSectionIndex !== activeIndex) {
+            this.activeSectionIndex = activeIndex;
+            if (this.$eventbus) {
+              this.$eventbus.$emit("section:scroll", activeIndex);
+            }
+          }
+        } else {
+          // For desktop, check for active class (set by ScrollTrigger)
+          const sections = document.querySelector("#sections");
+          const el = sections?.querySelector("section.active");
+
+          if (el) {
+            const newIndex = Array.from(sections.children).indexOf(el);
+            if (this.activeSectionIndex !== newIndex) {
+              this.activeSectionIndex = newIndex;
+              if (this.$eventbus) {
+                this.$eventbus.$emit("section:scroll", newIndex);
+              }
+            }
           }
         }
-      }, 0);
+      }, 50); // Throttle to 50ms
     },
 
     onResize() {
@@ -184,6 +242,9 @@ export default {
         this.device = "desktop";
         return;
       }
+      const wasMobile = this.mobile;
+      const wasTablet = this.tablet;
+
       this.mobile = false;
       this.tablet = false;
       this.desktop = false;
@@ -197,6 +258,13 @@ export default {
       } else {
         this.desktop = true;
         this.device = "desktop";
+      }
+
+      // If device type changed, trigger scroll detection
+      if (wasMobile !== this.mobile || wasTablet !== this.tablet) {
+        this.$nextTick(() => {
+          this.onScroll();
+        });
       }
     },
 
@@ -461,32 +529,39 @@ export default {
         pinSpacing: true,
         animation: timeline,
         scrub: true,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const sectionIndex = Math.floor(progress * sections.length);
+          const clampedIndex = Math.min(sectionIndex, sections.length - 1);
+
+          // Remove active from all sections
+          Array.from(sections).forEach((s) => s.classList.remove("active"));
+
+          // Add active to current section
+          if (sections[clampedIndex]) {
+            sections[clampedIndex].classList.add("active");
+            this.activeSectionIndex = clampedIndex;
+            if (this.$eventbus) {
+              this.$eventbus.$emit("section:scroll", clampedIndex);
+            }
+          }
+        },
       });
       this.scrollTriggers.push(mainTrigger);
-
-      // Add active class to sections based on scroll progress
-      // Since the page is pinned and sections move horizontally, we track progress
-      mainTrigger.onUpdate((self) => {
-        const progress = self.progress;
-        const sectionIndex = Math.floor(progress * sections.length);
-        const clampedIndex = Math.min(sectionIndex, sections.length - 1);
-
-        // Remove active from all sections
-        Array.from(sections).forEach((s) => s.classList.remove("active"));
-
-        // Add active to current section
-        if (sections[clampedIndex]) {
-          sections[clampedIndex].classList.add("active");
-          this.activeSectionIndex = clampedIndex;
-          if (this.$eventbus) {
-            this.$eventbus.$emit("section:scroll", clampedIndex);
-          }
-        }
-      });
 
       // Refresh ScrollTrigger after DOM updates
       this.$nextTick(() => {
         ScrollTrigger.refresh();
+
+        // Ensure first section is active on initial load
+        const sections = sectionsWrapper.children;
+        if (sections.length > 0 && !sections[0].classList.contains("active")) {
+          sections[0].classList.add("active");
+          this.activeSectionIndex = 0;
+          if (this.$eventbus) {
+            this.$eventbus.$emit("section:scroll", 0);
+          }
+        }
       });
 
       this.hasScroll = this.isScrollPresent();
@@ -541,9 +616,27 @@ export default {
         this.onResize();
         this.hasScroll = this.isScrollPresent();
 
-        // Add scroll listener after device type is determined
-        if (!this.mobile && !this.tablet) {
-          window.addEventListener("scroll", this.onScroll);
+        // Add scroll listener for all devices
+        window.addEventListener("scroll", this.onScroll, { passive: true });
+
+        // Set initial active section
+        if (typeof document !== "undefined") {
+          const sections = document.querySelector("#sections");
+          if (sections && sections.children.length > 0) {
+            // For mobile/tablet, set first section as active
+            if (this.mobile || this.tablet) {
+              Array.from(sections.children).forEach((section, index) => {
+                section.classList.toggle("active", index === 0);
+              });
+              this.activeSectionIndex = 0;
+              if (this.$eventbus) {
+                this.$eventbus.$emit("section:scroll", 0);
+              }
+            } else {
+              // For desktop, trigger scroll detection which will check ScrollTrigger state
+              this.onScroll();
+            }
+          }
         }
       });
     });
@@ -559,6 +652,10 @@ export default {
     window.removeEventListener("scroll", this.onScroll);
     window.removeEventListener("resize", this.onResize);
     document.removeEventListener("keypress", this.onSpacePress);
+
+    if (this.scrollTimeout) {
+      clearTimeout(this.scrollTimeout);
+    }
 
     if (this.$eventbus) {
       this.$eventbus.$off("section:change", this.onSectionChange);

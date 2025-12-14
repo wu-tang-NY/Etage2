@@ -1,0 +1,85 @@
+export default defineNuxtPlugin((nuxtApp) => {
+  // Map locale codes to valid BCP 47 language codes
+  const localeToLang = {
+    ua: "uk", // Ukrainian
+    ru: "ru", // Russian
+  };
+
+  // Function to update meta tags
+  const updateMeta = () => {
+    // Access i18n via nuxtApp (not useI18n composable, which can't be used in plugins)
+    const i18n = nuxtApp.$i18n;
+    if (!i18n) return;
+
+    // Get current locale (handle both ref and string)
+    const currentLocale =
+      i18n.locale?.value || i18n.locale || i18n.defaultLocale || "ua";
+
+    // Get title and description from translations
+    const title = i18n.t("meta.title");
+    const description = i18n.t("meta.description");
+    const langCode = localeToLang[currentLocale] || "uk";
+
+    // Update head with language-specific meta tags
+    useHead({
+      title,
+      htmlAttrs: {
+        lang: langCode,
+      },
+      meta: [
+        {
+          name: "description",
+          content: description,
+        },
+        // Open Graph meta tags
+        {
+          property: "og:title",
+          content: title,
+        },
+        {
+          property: "og:description",
+          content: description,
+        },
+        {
+          property: "og:locale",
+          content: currentLocale === "ru" ? "ru_RU" : "uk_UA",
+        },
+        // Twitter Card meta tags
+        {
+          name: "twitter:title",
+          content: title,
+        },
+        {
+          name: "twitter:description",
+          content: description,
+        },
+      ],
+    });
+
+    // Also update document element lang attribute for client-side
+    if (process.client && typeof document !== "undefined") {
+      document.documentElement.setAttribute("lang", langCode);
+    }
+  };
+
+  // Update meta tags after app is mounted to ensure i18n is available
+  nuxtApp.hook("app:mounted", () => {
+    if (nuxtApp.$i18n) {
+      updateMeta();
+
+      // Watch for locale changes and update meta tags
+      watch(
+        () => nuxtApp.$i18n?.locale?.value || nuxtApp.$i18n?.locale,
+        () => {
+          updateMeta();
+        },
+        { immediate: false }
+      );
+    }
+  });
+
+  // Also try to update immediately for SSR (if i18n is available)
+  if (nuxtApp.$i18n) {
+    updateMeta();
+  }
+});

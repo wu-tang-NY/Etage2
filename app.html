@@ -83,6 +83,21 @@
         const storedTheme = getStoredTheme();
         const theme = storedTheme || getSystemTheme();
         applyTheme(theme);
+
+        // Preload background image based on current theme
+        function preloadBackgroundImage(theme) {
+          const bgImage =
+            theme === THEME_DARK ? "/icons/bg_dark.svg" : "/icons/bg.svg";
+          const link = document.createElement("link");
+          link.rel = "preload";
+          link.as = "image";
+          link.href = bgImage;
+          link.setAttribute("fetchpriority", "high");
+          document.head.appendChild(link);
+        }
+
+        // Preload the appropriate background image
+        preloadBackgroundImage(theme);
       })();
     </script>
   </head>
@@ -101,4 +116,3 @@
     {{ APP }}
   </body>
 </html>
-

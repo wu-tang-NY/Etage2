@@ -213,12 +213,7 @@ export default {
     text-decoration: none;
 
     &:focus {
-      outline: 2px solid var(--colors-accent);
-      outline-offset: 2px;
-    }
-
-    &:focus:not(:focus-visible) {
-      outline: none;
+      outline: none !important;
     }
   }
 
@@ -285,13 +280,8 @@ export default {
       outline: none;
       text-decoration: none;
 
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-      }
-
+      &:hover,
       &:focus {
-        outline: 2px solid var(--colors-accent);
-        outline-offset: -2px;
         background-color: rgba(0, 0, 0, 0.05);
       }
 
@@ -314,6 +304,7 @@ export default {
     }
   }
 
+  &:focus,
   &.nav-item--active {
     .nav-item {
       &__link {

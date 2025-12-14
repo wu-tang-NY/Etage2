@@ -1,10 +1,9 @@
-@use 'utils/functions' as *;
-@use 'utils/mixins' as *;
-@use 'vendor/vendor' as *;
+@use "utils/functions" as *;
+@use "utils/mixins" as *;
+@use "vendor/vendor" as *;
 
-@use 'base/reset' as *;
-@use 'base/base' as *;
+@use "base/reset" as *;
+@use "base/base" as *;
 
-@use 'fonts' as *;
-@use 'global' as *;
-@use 'themes/dark' as *;
+@use "global" as *;
+@use "themes/dark" as *;

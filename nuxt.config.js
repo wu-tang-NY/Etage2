@@ -41,9 +41,11 @@ export default defineNuxtConfig({
   // App configuration
   app: {
     head: {
-      title: "Etage",
+      // Title and description will be set dynamically by plugins/meta.js based on locale
+      // These are fallback values for default locale (ua)
+      title: "Etage - Сервіс переїздів по Одесі та по всій Україні",
       htmlAttrs: {
-        lang: "uk",
+        lang: "uk", // Will be updated dynamically by plugins/meta.js
       },
       meta: [
         { charset: "utf-8" },
@@ -92,27 +94,9 @@ export default defineNuxtConfig({
           crossorigin: "",
         },
         {
-          rel: "preload",
-          as: "style",
-          href: "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;900&family=Roboto:wght@400;500;700;900&display=swap&subset=cyrillic",
-        },
-        {
           rel: "stylesheet",
           href: "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;900&family=Roboto:wght@400;500;700;900&display=swap&subset=cyrillic",
           media: "print",
-        },
-        // Preload LCP images for faster discovery (both light and dark themes)
-        {
-          rel: "preload",
-          as: "image",
-          href: "/icons/bg.svg",
-          fetchpriority: "high",
-        },
-        {
-          rel: "preload",
-          as: "image",
-          href: "/icons/bg_dark.svg",
-          fetchpriority: "high",
         },
       ],
     },

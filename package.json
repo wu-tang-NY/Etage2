@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "optimize:images": "node scripts/optimize-images.js",
     "optimize:css": "node scripts/optimize-css.js",
-    "optimize:all": "npm run optimize:images",
+    "generate:srcset": "node scripts/generate-srcset.js",
+    "optimize:all": "npm run generate:srcset && npm run optimize:images",
     "svg": "node scripts/convert-svgs-to-icons.js"
   },
   "dependencies": {

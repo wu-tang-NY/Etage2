@@ -86,22 +86,22 @@ export default {
   components: {
     FeedbackModal: defineAsyncComponent(() =>
       import("@/components/common/Feedback/app-feedback-modal")
-    )
+    ),
   },
   props: {
     active: Boolean,
     mobile: Boolean,
     tablet: Boolean,
-    desktop: Boolean
+    desktop: Boolean,
   },
   watch: {
     mobile: "updateScrollButtons",
     tablet: "updateScrollButtons",
-    desktop: "updateScrollButtons"
+    desktop: "updateScrollButtons",
   },
   data: () => ({
     modalFeedbackOpen: false,
-    currentIndex: 0
+    currentIndex: 0,
   }),
   computed: {
     items() {
@@ -109,56 +109,56 @@ export default {
         {
           feature: this.$t("reviews.individualApproach"),
           svg: "individual_feature",
-          component: "PopupContentAboutUs"
+          component: "PopupContentAboutUs",
         },
         {
           feature: this.$t("reviews.teamSpecialists"),
           svg: "team_feature",
-          component: "PopupContentSpecialists"
+          component: "PopupContentSpecialists",
         },
         {
           feature: this.$t("reviews.professionalMaterials"),
           svg: "pack_feature",
-          component: "PopupContentPackage"
+          component: "PopupContentPackage",
         },
         {
           feature: this.$t("reviews.modernFleet"),
           svg: "auto_feature",
-          component: "PopupContentAuto"
+          component: "PopupContentAuto",
         },
         {
           feature: this.$t("reviews.transparentPricing"),
           svg: "price_feature",
-          component: "PopupContentPayment"
-        }
+          component: "PopupContentPayment",
+        },
       ];
     },
     slides() {
       return [
         {
           title: this.$t("reviews.slides.slide1.title"),
-          desc: this.$t("reviews.slides.slide1.desc")
+          desc: this.$t("reviews.slides.slide1.desc"),
         },
         {
           title: this.$t("reviews.slides.slide2.title"),
-          desc: this.$t("reviews.slides.slide2.desc")
+          desc: this.$t("reviews.slides.slide2.desc"),
         },
         {
           title: this.$t("reviews.slides.slide3.title"),
-          desc: this.$t("reviews.slides.slide3.desc")
+          desc: this.$t("reviews.slides.slide3.desc"),
         },
         {
           title: this.$t("reviews.slides.slide4.title"),
-          desc: this.$t("reviews.slides.slide4.desc")
+          desc: this.$t("reviews.slides.slide4.desc"),
         },
         {
           title: this.$t("reviews.slides.slide5.title"),
-          desc: this.$t("reviews.slides.slide5.desc")
+          desc: this.$t("reviews.slides.slide5.desc"),
         },
         {
           title: this.$t("reviews.slides.slide6.title"),
-          desc: this.$t("reviews.slides.slide6.desc")
-        }
+          desc: this.$t("reviews.slides.slide6.desc"),
+        },
       ];
     },
     canScrollPrev() {
@@ -169,7 +169,7 @@ export default {
         return this.currentIndex < this.slides.length - 1;
       }
       return this.currentIndex < this.slides.length - 3;
-    }
+    },
   },
   mounted() {
     this.updateScrollButtons();
@@ -205,8 +205,8 @@ export default {
           this.$refs.carousel.scrollLeft = 0;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

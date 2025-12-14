@@ -6,52 +6,102 @@
     <ul class="info-packages">
       <li>
         <h6>{{ $t("package.boxTitle") }}</h6>
-        <img src="/static/images/packages/img_1_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_1_2x.jpg"
+          :alt="$t('package.boxTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.boxDesc") }}</p>
       </li>
       <li>
         <h6>{{ $t("package.stretchTitle") }}</h6>
-        <img src="/static/images/packages/img_2_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_2_2x.jpg"
+          :alt="$t('package.stretchTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.stretchDesc") }}</p>
       </li>
       <li>
         <h6>{{ $t("package.bubbleTitle") }}</h6>
-        <img src="/static/images/packages/img_3_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_3_2x.jpg"
+          :alt="$t('package.bubbleTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.bubbleDesc") }}</p>
       </li>
       <li>
         <h6>{{ $t("package.tapeTitle") }}</h6>
-        <img src="/static/images/packages/img_4_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_4_2x.jpg"
+          :alt="$t('package.tapeTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.tapeDesc") }}</p>
       </li>
       <li>
         <h6>{{ $t("package.cornerTitle") }}</h6>
-        <img src="/static/images/packages/img_5_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_5_2x.jpg"
+          :alt="$t('package.cornerTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.cornerDesc") }}</p>
       </li>
       <li>
         <h6>{{ $t("package.bagTitle") }}</h6>
-        <img src="/static/images/packages/img_6_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_6_2x.jpg"
+          :alt="$t('package.bagTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.bagDesc") }}</p>
       </li>
       <li>
         <h6>{{ $t("package.foamTitle") }}</h6>
-        <img src="/static/images/packages/img_7_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_7_2x.jpg"
+          :alt="$t('package.foamTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.foamDesc") }}</p>
       </li>
       <li>
         <h6>{{ $t("package.polybagTitle") }}</h6>
-        <img src="/static/images/packages/img_8_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_8_2x.jpg"
+          :alt="$t('package.polybagTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.polybagDesc") }}</p>
       </li>
       <li>
         <h6>{{ $t("package.paperTitle") }}</h6>
-        <img src="/static/images/packages/img_9_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_9_2x.jpg"
+          :alt="$t('package.paperTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.paperDesc") }}</p>
       </li>
       <li>
         <h6>{{ $t("package.cardboardTitle") }}</h6>
-        <img src="/static/images/packages/img_10_2x.jpg" alt="" />
+        <app-image
+          src="/static/images/packages/img_10_2x.jpg"
+          :alt="$t('package.cardboardTitle')"
+          responsive
+          sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
+        />
         <p>{{ $t("package.cardboardDesc") }}</p>
       </li>
     </ul>
@@ -70,7 +120,7 @@
 
 <script>
 export default {
-  name: 'PopupContentPackage.vue',
+  name: "PopupContentPackage",
 };
 </script>
 
