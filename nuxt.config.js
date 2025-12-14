@@ -65,6 +65,11 @@ export default defineNuxtConfig({
         { name: "apple-mobile-web-app-status-bar-style", content: "default" },
         { name: "apple-mobile-web-app-title", content: "Etage" },
         { name: "mobile-web-app-capable", content: "yes" },
+        {
+          "http-equiv": "Content-Security-Policy",
+          content:
+            "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; frame-src 'self' https://www.googletagmanager.com;",
+        },
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon/favicon.ico" },
@@ -242,6 +247,34 @@ export default defineNuxtConfig({
       },
       "build:before"(nitro) {
         // This will run before the build
+      },
+      "nitro:render:html"(html, { event }) {
+        // Defer CSS loading by modifying stylesheet links to use print media trick
+        // This prevents CSS from blocking the initial render
+        if (html && html.head) {
+          html.head = html.head.map((tag) => {
+            if (
+              typeof tag === "string" &&
+              tag.includes('rel="stylesheet"') &&
+              !tag.includes("fonts.googleapis.com") &&
+              !tag.includes("fonts.gstatic.com")
+            ) {
+              // Add media="print" to defer CSS loading
+              // The inline script in app.html will change it back to "all" after load
+              if (tag.includes("media=")) {
+                // Replace existing media attribute
+                tag = tag.replace(/media="[^"]*"/, 'media="print"');
+              } else {
+                // Add media attribute before the closing tag
+                tag = tag.replace(
+                  /(<link[^>]*rel="stylesheet"[^>]*)(>)/,
+                  '$1 media="print"$2'
+                );
+              }
+            }
+            return tag;
+          });
+        }
       },
       close(nitro) {
         // Copy static files after build completes, preserving directory structure
