@@ -14,7 +14,6 @@
           :placeholder="placeholder"
           @input="handleInput"
           @keypress="handleKeyPress"
-          @paste="handlePaste"
           @keydown="handleKeyDown"
         />
 
@@ -29,41 +28,41 @@ export default {
   name: "AppInput",
   props: {
     label: {
-      type: String
+      type: String,
     },
 
     type: {
-      type: String
+      type: String,
     },
 
     placeholder: {
-      type: String
+      type: String,
     },
 
     requiredField: {
-      type: Boolean
+      type: Boolean,
     },
 
     modelValue: {
-      required: false
+      required: false,
     },
     // Backward compatibility
     value: {
-      required: false
+      required: false,
     },
     mask: {
       type: String,
-      default: ""
+      default: "",
     },
     isPhoneInput: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: ["update:modelValue", "input"],
   data() {
     return {
-      rawValue: ""
+      rawValue: "",
     };
   },
   computed: {
@@ -74,7 +73,7 @@ export default {
       set(val) {
         this.$emit("update:modelValue", val);
         this.$emit("input", val);
-      }
+      },
     },
     shouldRestrictToNumbers() {
       // Check if it's a phone input via prop or mask pattern
@@ -88,7 +87,7 @@ export default {
         return this.applyMask(this.rawValue || this.inputValue || "");
       }
       return this.inputValue || "";
-    }
+    },
   },
   watch: {
     inputValue: {
@@ -100,8 +99,8 @@ export default {
         } else {
           this.rawValue = newVal || "";
         }
-      }
-    }
+      },
+    },
   },
   methods: {
     applyMask(value) {
@@ -184,7 +183,7 @@ export default {
           "ArrowUp",
           "ArrowDown",
           "Home",
-          "End"
+          "End",
         ];
 
         // Allow Ctrl/Cmd combinations (for copy, paste, select all, etc.)
@@ -201,51 +200,6 @@ export default {
         if (!/[0-9]/.test(event.key)) {
           event.preventDefault();
         }
-      }
-    },
-    handlePaste(event) {
-      // Handle paste events for phone inputs
-      if (this.shouldRestrictToNumbers) {
-        event.preventDefault();
-        const pastedText = (
-          event.clipboardData || window.clipboardData
-        ).getData("text");
-        const numbersOnly = pastedText.replace(/\D/g, "");
-
-        // Get current value and cursor position
-        const input = event.target;
-        const start = input.selectionStart;
-        const end = input.selectionEnd;
-        const currentRawValue = this.rawValue || "";
-
-        // Insert the filtered pasted text into raw value
-        const newRawValue =
-          currentRawValue.substring(
-            0,
-            this.getUnmaskedValue(input.value.substring(0, start)).length
-          ) +
-          numbersOnly +
-          currentRawValue.substring(
-            this.getUnmaskedValue(input.value.substring(0, end)).length
-          );
-
-        // Update raw value and emit
-        this.rawValue = newRawValue;
-        this.inputValue = newRawValue;
-
-        // Set cursor position after formatting
-        this.$nextTick(() => {
-          const formatted = this.applyMask(newRawValue);
-          const digitsBeforeInsert = this.getUnmaskedValue(
-            input.value.substring(0, start)
-          ).length;
-          const newCursorPos = this.getCursorPosition(
-            "",
-            formatted,
-            digitsBeforeInsert + numbersOnly.length
-          );
-          input.setSelectionRange(newCursorPos, newCursorPos);
-        });
       }
     },
     handleInput(event) {
@@ -306,8 +260,8 @@ export default {
       } else {
         this.inputValue = value;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
