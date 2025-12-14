@@ -696,7 +696,7 @@ export default {
     }
 
     &-image {
-      background: url("/static/icons/bg.svg") -100px 12px repeat-x;
+      background: url("/static/images/bg.png") -100px 12px repeat-x;
       background-size: auto 150px;
       height: 150px;
       position: relative;
@@ -795,7 +795,7 @@ export default {
 // Dark theme: switch to dark version background image
 .theme-dark {
   .page-main__bg-image {
-    background-image: url("/static/icons/bg_dark.svg") !important;
+    background-image: url("/static/images/bg_dark.png") !important;
     background-size: auto 163px;
   }
 }
