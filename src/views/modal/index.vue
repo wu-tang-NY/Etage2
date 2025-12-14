@@ -1,6 +1,5 @@
 <template>
   <div class="modal-info" v-show="openModal">
-    <svg-icon name="bg_dark" class="modal-info__bg" original />
     <div class="container">
       <div class="row">
         <div class="sticky" :class="{ 'sticky--large': toggledNav }">
@@ -65,7 +64,7 @@
                           href=""
                           @click.prevent="scrollTo(link, item.header)"
                           :class="{
-                            'modal-info__panel-link--active': link.activeLink
+                            'modal-info__panel-link--active': link.activeLink,
                           }"
                           class="modal-info__panel-link"
                           >{{ link.title }}</a
@@ -128,17 +127,17 @@ import pages from "~/src/views/Main/pages";
 export default {
   name: "ModalInfo",
   components: {
-    ...pages
+    ...pages,
   },
   inject: {
     eventbus: {
       from: "eventbus",
-      default: null
-    }
+      default: null,
+    },
   },
   props: {
     mobile: Boolean,
-    tablet: Boolean
+    tablet: Boolean,
   },
   computed: {
     nav() {
@@ -148,11 +147,11 @@ export default {
         links: (item.links || [])
           .map((link, linkIndex) => ({
             ...link,
-            activeLink: this.activeLinkStates[`${index}-${linkIndex}`] || false
+            activeLink: this.activeLinkStates[`${index}-${linkIndex}`] || false,
           }))
-          .filter(link => link && link.component) // Filter out any undefined links
+          .filter((link) => link && link.component), // Filter out any undefined links
       }));
-    }
+    },
   },
   data() {
     return {
@@ -162,7 +161,7 @@ export default {
       activeStates: {},
       activeLinkStates: {},
       navItems: [],
-      scrollPosition: 0
+      scrollPosition: 0,
     };
   },
   created() {
@@ -177,8 +176,8 @@ export default {
           this.initializeNav();
         }
       },
-      immediate: false
-    }
+      immediate: false,
+    },
   },
   methods: {
     initializeNav() {
@@ -189,30 +188,30 @@ export default {
             {
               title: this.$t("modal.aboutUs"),
               component: "PopupContentAboutUs",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.history"),
               component: "PopupContentHistory",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.ourGoal"),
               component: "PopupContentOurGoal",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.facts"),
               component: "PopupContentFacts",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.auto"),
               component: "PopupContentAuto",
-              activeLink: false
-            }
+              activeLink: false,
+            },
           ],
-          isActive: false
+          isActive: false,
         },
         {
           header: this.$t("modal.services"),
@@ -220,30 +219,30 @@ export default {
             {
               title: this.$t("modal.flatMove"),
               component: "PopupContentFlatMove",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.officeMove"),
               component: "PopupContentOfficeMove",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.stuffMove"),
               component: "PopupContentStuffMove",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.specialists"),
               component: "PopupContentSpecialists",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.package"),
               component: "PopupContentPackage",
-              activeLink: false
-            }
+              activeLink: false,
+            },
           ],
-          isActive: false
+          isActive: false,
         },
         {
           header: this.$t("modal.information"),
@@ -251,20 +250,20 @@ export default {
             {
               title: this.$t("modal.jobs"),
               component: "PopupContentJobs",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.reviews"),
               component: "PopupContentFeedback",
-              activeLink: false
+              activeLink: false,
             },
             {
               title: this.$t("modal.contacts"),
               component: "PopupContentContacts",
-              activeLink: false
-            }
+              activeLink: false,
+            },
           ],
-          isActive: false
+          isActive: false,
         },
         {
           header: this.$t("modal.payment"),
@@ -272,10 +271,10 @@ export default {
             {
               title: this.$t("modal.payment"),
               component: "PopupContentPayment",
-              activeLink: false
-            }
+              activeLink: false,
+            },
           ],
-          isActive: false
+          isActive: false,
         },
         {
           header: this.$t("modal.specialOffers"),
@@ -283,16 +282,16 @@ export default {
             {
               title: this.$t("modal.specialOffers"),
               component: "PopupContentSpecialOffers",
-              activeLink: false
-            }
+              activeLink: false,
+            },
           ],
-          isActive: false
-        }
+          isActive: false,
+        },
       ];
     },
     setupEventbusListener(eventbus) {
       this._eventbus = eventbus;
-      eventbus.$on("openPopup", component => {
+      eventbus.$on("openPopup", (component) => {
         this.navItems.some((nav, navIndex) => {
           return nav.links.some((item, linkIndex) => {
             if (item.component === component) {
@@ -333,12 +332,12 @@ export default {
       // Wait for component to render
       await this.$nextTick();
       // Wait a bit more for the component to be fully mounted
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       const elem = document.getElementById(link.component);
       if (!elem || !elem.parentNode) {
         // If element still not found, wait a bit more and retry
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
         const retryElem = document.getElementById(link.component);
         if (!retryElem || !retryElem.parentNode) {
           console.warn(`Element ${link.component} not found after loading`);
@@ -349,7 +348,7 @@ export default {
         const top = retryElem.offsetTop + elemGroupOffset - 60;
         if (this.$refs.sections) {
           this.$refs.sections.scrollTo({
-            top
+            top,
           });
         }
         this.openSelectedInfo(link, header);
@@ -360,7 +359,7 @@ export default {
       const top = elem.offsetTop + elemGroupOffset - 60;
       if (this.$refs.sections) {
         this.$refs.sections.scrollTo({
-          top
+          top,
         });
       }
       this.openSelectedInfo(link, header);
@@ -383,7 +382,7 @@ export default {
       let prev = null;
 
       // Find which panel is currently active
-      Object.keys(this.activeStates).forEach(key => {
+      Object.keys(this.activeStates).forEach((key) => {
         if (this.activeStates[key]) {
           prev = parseInt(key);
         }
@@ -402,7 +401,7 @@ export default {
         if (elem && this.$refs.sections) {
           const top = elem.offsetTop - 60;
           this.$refs.sections.scrollTo({
-            top
+            top,
           });
         }
       });
@@ -416,7 +415,7 @@ export default {
       document.body.classList.remove("modal-open");
       document.body.style.top = "";
       window.scrollTo(0, this.scrollPosition);
-    }
+    },
   },
   mounted() {
     // Initialize nav on client side if not already done
@@ -456,7 +455,7 @@ export default {
       document.body.style.top = "";
       window.scrollTo(0, this.scrollPosition);
     }
-  }
+  },
 };
 </script>
 
@@ -473,6 +472,17 @@ export default {
   top: 0;
   left: 0;
   z-index: 1000;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/static/images/bg_dark.png") repeat-x center bottom;
+    background-size: 75%;
+  }
 
   .sticky {
     position: fixed;
