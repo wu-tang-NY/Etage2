@@ -238,6 +238,8 @@ export default defineNuxtConfig({
     experimental: {
       wasm: true,
     },
+    // Enable gzip compression for static assets (compressed at build time)
+    compressPublicAssets: true,
     // Ensure CSS and other assets are properly copied to output
     publicAssets: [
       {

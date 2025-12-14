@@ -97,6 +97,9 @@
 
 <script>
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 import sectionsComponents from "~/src/views/Main/sections";
 import CarCloud from "~/src/views/Main/components/PageMainCarCloud";
@@ -113,7 +116,7 @@ export default {
 
     activeSectionIndex: 0,
 
-    ScrollMagicController: null,
+    scrollTriggers: [],
     scrollbarWidth: 0,
 
     device: "desktop",
@@ -156,10 +159,14 @@ export default {
       this.totalWidth =
         Object.keys(sectionsComponents).length * this.windowWidth;
 
-      if (this.ScrollMagicController) {
-        this.ScrollMagicController.destroy(true);
-      }
+      // Clean up existing ScrollTriggers
+      this.scrollTriggers.forEach((trigger) => trigger.kill());
+      this.scrollTriggers = [];
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
+      // Reset document heights before reinitializing
+      document.documentElement.style.height = "";
+      document.body.style.height = "";
       document.body.classList.remove("modal-open");
 
       this.updateScrollbarWidth();
@@ -243,16 +250,8 @@ export default {
     },
 
     async initAnimations() {
-      console.log("initAnimations called", {
-        mobile: this.mobile,
-        tablet: this.tablet,
-        desktop: this.desktop,
-        windowDefined: typeof window !== "undefined",
-      });
-
       // Reset document height for mobile/tablet
       if (this.mobile || this.tablet) {
-        console.log("Mobile/tablet detected, skipping ScrollMagic");
         if (typeof document !== "undefined") {
           document.documentElement.style.height = "";
           document.body.style.height = "";
@@ -260,13 +259,10 @@ export default {
         return;
       }
 
-      // Only load ScrollMagic on client side for desktop
+      // Only load ScrollTrigger on client side for desktop
       if (typeof window === "undefined") {
-        console.log("Window is undefined, skipping animations");
         return;
       }
-
-      console.log("Starting ScrollMagic initialization...");
 
       const {
         sectionsWrapper,
@@ -280,21 +276,6 @@ export default {
         page,
       } = this.$refs;
 
-      // Detailed ref checking
-      const refStatus = {
-        page: !!page,
-        sectionsWrapper: !!sectionsWrapper,
-        bg: !!bg,
-        car: !!car,
-        clouds: !!clouds,
-        workers1: !!workers1,
-        workers2: !!workers2,
-        home1: !!home1,
-        home2: !!home2,
-      };
-
-      console.log("Ref status:", refStatus);
-
       // Validate all required refs are available
       if (
         !page ||
@@ -307,206 +288,37 @@ export default {
         !home1 ||
         !home2
       ) {
-        console.error("ScrollMagic: Missing required refs!", refStatus);
-
         // Retry initialization if refs not available yet
         if (this.initRetryCount < this.maxInitRetries) {
           this.initRetryCount++;
-          console.log(
-            `Retrying initialization (attempt ${this.initRetryCount}/${this.maxInitRetries})...`
-          );
           setTimeout(() => {
             this.$nextTick(() => {
               this.initAnimations();
             });
           }, 200);
-        } else {
-          console.error(
-            "❌ Failed to initialize ScrollMagic after",
-            this.maxInitRetries,
-            "attempts"
-          );
         }
         return;
       }
 
       if (!clouds.children || clouds.children.length < 2) {
-        console.error(
-          "ScrollMagic: Cloud elements not ready. Children count:",
-          clouds.children?.length
-        );
-
         // Retry initialization if children not ready yet
         if (this.initRetryCount < this.maxInitRetries) {
           this.initRetryCount++;
-          console.log(
-            `Retrying initialization (attempt ${this.initRetryCount}/${this.maxInitRetries})...`
-          );
           setTimeout(() => {
             this.$nextTick(() => {
               this.initAnimations();
             });
           }, 200);
-        } else {
-          console.error(
-            "❌ Failed to initialize ScrollMagic after",
-            this.maxInitRetries,
-            "attempts"
-          );
         }
         return;
       }
 
-      console.log("✓ All refs validated successfully");
       this.initRetryCount = 0; // Reset retry count on success
-
-      // Make GSAP available globally for ScrollMagic plugin BEFORE importing ScrollMagic
-      // ScrollMagic's GSAP plugin expects TweenMax (GSAP 2), but we use GSAP 3
-      // We need to provide GSAP 3's API in a way ScrollMagic can understand
-      if (typeof window !== "undefined") {
-        // Create a more complete compatibility layer that mimics GSAP 2's TweenMax
-        // The plugin checks for TweenMax during initialization
-        const TweenMaxCompat = function () {
-          return gsap.to.apply(gsap, arguments);
-        };
-
-        // Copy all GSAP methods to the compatibility object
-        Object.keys(gsap).forEach((key) => {
-          if (typeof gsap[key] === "function") {
-            TweenMaxCompat[key] = gsap[key].bind(gsap);
-          } else {
-            TweenMaxCompat[key] = gsap[key];
-          }
-        });
-
-        // Ensure the main animation methods are available
-        TweenMaxCompat.to = gsap.to.bind(gsap);
-        TweenMaxCompat.from = gsap.from.bind(gsap);
-        TweenMaxCompat.fromTo = gsap.fromTo.bind(gsap);
-        TweenMaxCompat.set = gsap.set.bind(gsap);
-        TweenMaxCompat.timeline = gsap.timeline.bind(gsap);
-        TweenMaxCompat.killTweensOf = gsap.killTweensOf.bind(gsap);
-        TweenMaxCompat.getTweensOf = gsap.getTweensOf.bind(gsap);
-
-        // Set as both TweenMax and TweenLite (GSAP 2 had both)
-        window.TweenMax = TweenMaxCompat;
-        window.TweenLite = TweenMaxCompat;
-
-        // Timeline constructors
-        window.TimelineMax = function () {
-          return gsap.timeline.apply(gsap, arguments);
-        };
-        window.TimelineLite = function () {
-          return gsap.timeline.apply(gsap, arguments);
-        };
-
-        // Also set GSAP directly
-        window.GSAP = gsap;
-      }
-
-      // Dynamically import ScrollMagic only on client
-      // Import order matters: core first, then plugins
-      console.log("Loading ScrollMagic module...");
-      let ScrollMagic;
-      try {
-        const ScrollMagicModule = await import(
-          "scrollmagic/scrollmagic/minified/ScrollMagic.min.js"
-        );
-        ScrollMagic = ScrollMagicModule.default || ScrollMagicModule;
-        console.log("✓ ScrollMagic loaded:", !!ScrollMagic);
-      } catch (error) {
-        console.error("✗ Failed to load ScrollMagic:", error);
-        return;
-      }
-
-      // Now import the GSAP plugin (it will detect GSAP from window)
-      // The plugin must be imported after ScrollMagic core but before using setTween
-      console.log("Loading GSAP plugin...");
-      try {
-        await import(
-          "scrollmagic/scrollmagic/minified/plugins/animation.gsap.min.js"
-        );
-        console.log("✓ GSAP plugin loaded");
-        console.log(
-          "setTween method available:",
-          !!ScrollMagic.Scene.prototype.setTween
-        );
-      } catch (error) {
-        console.error("✗ Failed to load GSAP plugin:", error);
-        return;
-      }
-
-      // Verify the plugin is loaded by checking if setTween method exists
-      // If not, manually implement setTween for GSAP 3 compatibility
-      if (!ScrollMagic.Scene.prototype.setTween) {
-        console.warn(
-          "ScrollMagic GSAP plugin did not auto-load. Implementing manual setTween for GSAP 3..."
-        );
-
-        // Manually implement setTween method for GSAP 3
-        ScrollMagic.Scene.prototype.setTween = function (tween) {
-          // Store the tween
-          this._tween = tween;
-
-          // Pause the tween initially to let ScrollMagic control it
-          if (typeof tween.pause === "function") {
-            tween.pause();
-          }
-
-          // Create progress update function that handles ScrollMagic event object
-          const updateTween = (event) => {
-            if (this._tween) {
-              // ScrollMagic passes an event object with progress property
-              const progress = event.progress || 0;
-
-              // GSAP 3 timelines use progress() method
-              if (typeof this._tween.progress === "function") {
-                this._tween.progress(progress);
-              } else if (typeof this._tween.seek === "function") {
-                // Alternative: use seek with total duration
-                const duration = this._tween.duration();
-                this._tween.seek(duration * progress);
-              }
-            }
-          };
-
-          // Hook into scene progress event
-          this.on("progress", updateTween);
-
-          // Optional: handle enter/leave events
-          this.on("enter", (event) => {
-            console.log("Scene entered, direction:", event.scrollDirection);
-          });
-
-          this.on("leave", (event) => {
-            console.log("Scene left, direction:", event.scrollDirection);
-          });
-
-          return this;
-        };
-
-        console.log("✓ Manual setTween implementation installed");
-      }
 
       const [cloud1, cloud2] = clouds.children;
       const sections = sectionsWrapper.children;
 
       const pageWidth = window.innerWidth;
-      console.log("Initializing ScrollMagic with:", {
-        pageWidth,
-        sectionsCount: sections.length,
-        totalDuration: pageWidth * 4,
-        scrollHeight: document.documentElement.scrollHeight,
-        windowHeight: window.innerHeight,
-      });
-
-      try {
-        this.ScrollMagicController = new ScrollMagic.Controller();
-        console.log("✓ ScrollMagic Controller created successfully");
-      } catch (error) {
-        console.error("✗ Failed to create ScrollMagic Controller:", error);
-        return;
-      }
 
       // SECTION 1
 
@@ -597,6 +409,21 @@ export default {
         .add(gsap.to(car, { duration: 0.4, x: 600, ease: "none" }))
         .add(gsap.to(car, { duration: 0.6, x: 600, ease: "none" }));
 
+      // Background animation timeline
+      const bgTween = gsap
+        .timeline()
+        .set(home1, { x: pageWidth + 700, immediateRender: true })
+        .set(home2, { x: pageWidth * 3 + 720, immediateRender: true })
+        .set(workers2, { opacity: 0, immediateRender: true })
+        .set(bg, { x: 0, immediateRender: true })
+        .to(bg, { duration: 1, ease: "none", x: -pageWidth }, 0)
+        .to(workers1, { duration: 0.3, x: -350, ease: "none" }, 0.5)
+        .set(workers1, { opacity: 0, immediateRender: true }, 0.8)
+        .to(bg, { duration: 1, ease: "none", x: -pageWidth * 2 }, 1)
+        .to(bg, { duration: 1, ease: "none", x: -pageWidth * 3 }, 2)
+        .set(workers2, { opacity: 1, x: 200, immediateRender: true }, 2.5)
+        .to(workers2, { duration: 0.3, x: -100, ease: "none" }, 2.5);
+
       // TIMELINE
       // In GSAP 3, sequence the tweens with proper timing
       // Each tween should play after the previous one with a 0.5s stagger
@@ -608,200 +435,59 @@ export default {
         .add(tween1, 0)
         .add(tween2, ">") // Start 0.5s before tween1 ends (overlap)
         .add(tween3, ">") // Start 0.5s before tween2 ends (overlap)
-        .add(tween4, ">"); // Start 0.5s before tween3 ends (overlap)
+        .add(tween4, ">") // Start 0.5s before tween3 ends (overlap)
+        .add(bgTween, 0); // Add bgTween at the start, synchronized with main timeline
 
-      console.log(
-        "Timeline created with duration:",
-        timeline.duration(),
-        "seconds"
-      );
+      // Calculate the available height for the page when it gets pinned
+      // When pinned at "top top", page fills the full viewport
+      // Footer (65px, z-index: 1) will overlay at bottom, which is acceptable
+      const pageHeight = window.innerHeight - 200;
 
-      // Test that timeline responds to progress changes
-      console.log("Testing timeline progress...");
-      timeline.progress(0);
-      console.log("- Progress at 0%:", timeline.progress());
-      timeline.progress(0.5);
-      console.log("- Progress at 50%:", timeline.progress());
-      timeline.progress(0);
-      console.log("- Reset to 0%");
-
-      // Ensure the page element has proper dimensions before pinning
       gsap.set(page, {
         width: "100%",
-        height: "100vh",
+        height: `${pageHeight}px`,
         overflow: "hidden",
       });
 
-      // With pushFollowers: false, we need to manually create scroll space
-      // Set document height to exactly the scroll distance needed
-      // Subtract 1px to prevent extra scroll space at the very end
+      // ScrollTrigger will create the scroll space automatically via pin-spacer
       const scrollDuration = pageWidth * 4;
-      document.documentElement.style.height = `${
-        scrollDuration + window.innerHeight - 1
-      }px`;
-      document.body.style.height = `${
-        scrollDuration + window.innerHeight - 1
-      }px`;
 
-      try {
-        const mainScene = new ScrollMagic.Scene({
-          duration: scrollDuration,
-          triggerHook: 0,
-        })
-          .setPin(page, { pushFollowers: false })
-          .setTween(timeline)
-          .addTo(this.ScrollMagicController);
+      // Create main ScrollTrigger that pins the page and controls the timeline
+      const mainTrigger = ScrollTrigger.create({
+        trigger: page,
+        start: "-200px top",
+        end: `+=${scrollDuration}`,
+        pin: true,
+        pinSpacing: true,
+        animation: timeline,
+        scrub: true,
+      });
+      this.scrollTriggers.push(mainTrigger);
 
-        console.log("✓ Main scene created with duration:", pageWidth * 4);
-        console.log("Scene info:", {
-          duration: mainScene.duration(),
-          offset: mainScene.offset(),
-          state: mainScene.state(),
-          triggerHook: mainScene.triggerHook(),
-        });
+      // Add active class to sections based on scroll progress
+      // Since the page is pinned and sections move horizontally, we track progress
+      mainTrigger.onUpdate((self) => {
+        const progress = self.progress;
+        const sectionIndex = Math.floor(progress * sections.length);
+        const clampedIndex = Math.min(sectionIndex, sections.length - 1);
 
-        // Add debug listeners to track scene progress
-        mainScene.on("progress", (event) => {
-          // Only log every 10% to avoid console spam
-          const progress = Math.floor(event.progress * 100);
-          if (progress % 10 === 0) {
-            console.log("Main scene progress:", progress + "%");
+        // Remove active from all sections
+        Array.from(sections).forEach((s) => s.classList.remove("active"));
+
+        // Add active to current section
+        if (sections[clampedIndex]) {
+          sections[clampedIndex].classList.add("active");
+          this.activeSectionIndex = clampedIndex;
+          if (this.$eventbus) {
+            this.$eventbus.$emit("section:scroll", clampedIndex);
           }
-        });
-
-        mainScene.on("enter", (event) => {
-          console.log(
-            "Main scene ENTERED, scroll direction:",
-            event.scrollDirection
-          );
-        });
-
-        mainScene.on("leave", (event) => {
-          console.log(
-            "Main scene LEFT, scroll direction:",
-            event.scrollDirection
-          );
-        });
-
-        // Check if pinning worked
-        setTimeout(() => {
-          const pinSpacer = page.parentElement;
-          const pinSpacerAdded = pinSpacer?.classList.contains(
-            "scrollmagic-pin-spacer"
-          );
-          console.log("Pin spacer added:", pinSpacerAdded);
-
-          if (pinSpacerAdded) {
-            const spacerHeight = pinSpacer.offsetHeight;
-            const spacerStyle = window.getComputedStyle(pinSpacer);
-            console.log("Pin spacer details:", {
-              height: spacerHeight,
-              display: spacerStyle.display,
-              position: spacerStyle.position,
-              computed: spacerStyle.height,
-            });
-          } else {
-            console.warn("⚠ Pin spacer was not added to page element!");
-          }
-        }, 100);
-      } catch (error) {
-        console.error("✗ Failed to create main scene:", error);
-        return;
-      }
-
-      Array.from(sections).forEach((section, index) => {
-        new ScrollMagic.Scene({
-          duration: pageWidth,
-          offset: pageWidth * index,
-        })
-          .setClassToggle(`#section-${index + 1}`, "active")
-          .addTo(this.ScrollMagicController);
+        }
       });
 
-      const bgTween = gsap
-        .timeline()
-        .set(home1, { x: pageWidth + 700, immediateRender: true })
-        .set(home2, { x: pageWidth * 3 + 720, immediateRender: true })
-        .set(workers2, { opacity: 0, immediateRender: true })
-        .set(bg, { x: 0, immediateRender: true })
-        .to(bg, { duration: 0.8, ease: "none", x: -pageWidth })
-        .to(workers1, { duration: 0.3, x: -350, ease: "none" })
-        .set(workers1, { opacity: 0, immediateRender: true })
-        .to(bg, { duration: 0.8, ease: "none", x: -pageWidth * 2 })
-        .to(bg, { duration: 0.8, ease: "none", x: -pageWidth * 3 })
-        .set(workers2, { opacity: 1, x: 200, immediateRender: true })
-        .to(workers2, { duration: 0.3, x: -100, ease: "none" });
-
-      new ScrollMagic.Scene({
-        duration: pageWidth * 4,
-      })
-        .setTween(bgTween)
-        .addTo(this.ScrollMagicController);
-
-      console.log("✓ All ScrollMagic scenes created successfully");
-      console.log("Total scenes:", this.ScrollMagicController.info("size"));
-
-      // Force ScrollMagic to recalculate scene positions and heights
+      // Refresh ScrollTrigger after DOM updates
       this.$nextTick(() => {
-        if (this.ScrollMagicController) {
-          this.ScrollMagicController.update(true);
-          console.log("✓ ScrollMagic controller updated");
-        }
+        ScrollTrigger.refresh();
       });
-
-      // Add a one-time scroll listener to verify scroll events are firing
-      let scrollCount = 0;
-      const testScrollListener = () => {
-        scrollCount++;
-        if (scrollCount <= 3) {
-          console.log(
-            `Scroll event #${scrollCount} - scrollY:`,
-            window.scrollY,
-            "scrollTop:",
-            document.documentElement.scrollTop
-          );
-        }
-        if (scrollCount === 3) {
-          window.removeEventListener("scroll", testScrollListener);
-          console.log("Scroll events confirmed working");
-        }
-      };
-      window.addEventListener("scroll", testScrollListener);
-
-      // Verify scroll height was created (wait longer for manual fixes to apply)
-      setTimeout(() => {
-        const docHeight = document.documentElement.scrollHeight;
-        const winHeight = window.innerHeight;
-        const scrollable = docHeight > winHeight;
-        // With pushFollowers: false, the expected height is just the scroll duration
-        const expectedHeight = pageWidth * 4;
-
-        console.log("=== ScrollMagic Setup Complete ===");
-        console.log("Document height:", docHeight);
-        console.log("Window height:", winHeight);
-        console.log("Expected scroll height:", expectedHeight);
-        console.log("Scrollable:", scrollable);
-        console.log("Height difference:", docHeight - winHeight);
-
-        if (!scrollable) {
-          console.error(
-            "❌ WARNING: Document is not scrollable! ScrollMagic animations will not trigger."
-          );
-          console.error(
-            "This usually means the pin spacer was not created properly."
-          );
-          console.error("Debugging info:");
-          console.error(
-            "- Check if .page-main__inner has position: fixed (this breaks pinning)"
-          );
-          console.error("- Check if parent containers have overflow: hidden");
-          console.error(
-            "- Try inspecting the .scrollmagic-pin-spacer element in DevTools"
-          );
-        } else {
-          console.log("✓ Document is scrollable - animations should work!");
-        }
-      }, 600);
 
       this.hasScroll = this.isScrollPresent();
     },
@@ -845,7 +531,6 @@ export default {
     },
   },
   mounted() {
-    console.log("Page mounted");
     this.updateScrollbarWidth();
     this.updateDeviceType();
 
@@ -853,20 +538,11 @@ export default {
     this.$nextTick(() => {
       // Double nextTick to ensure ClientOnly has fully rendered
       this.$nextTick(() => {
-        console.log("Initializing after ClientOnly render");
-        console.log("Refs available:", {
-          page: !!this.$refs.page,
-          sectionsWrapper: !!this.$refs.sectionsWrapper,
-          bg: !!this.$refs.bg,
-          car: !!this.$refs.car,
-        });
-
         this.onResize();
         this.hasScroll = this.isScrollPresent();
 
         // Add scroll listener after device type is determined
         if (!this.mobile && !this.tablet) {
-          console.log("Adding scroll listener for desktop");
           window.addEventListener("scroll", this.onScroll);
         }
       });
@@ -894,9 +570,10 @@ export default {
       document.body.style.height = "";
     }
 
-    if (this.ScrollMagicController) {
-      this.ScrollMagicController.destroy(true);
-    }
+    // Clean up ScrollTriggers
+    this.scrollTriggers.forEach((trigger) => trigger.kill());
+    this.scrollTriggers = [];
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
   },
 };
 </script>
@@ -909,6 +586,9 @@ export default {
 .page-main {
   &__sections {
     display: flex;
+    @include media-breakpoint-up(lg) {
+      height: 100%;
+    }
   }
 
   &__bg {
@@ -1004,6 +684,11 @@ export default {
 .app-section {
   height: 100%;
   flex: 0 0 auto;
+
+  @include media-breakpoint-down(lg) {
+    min-height: 100vh;
+    height: auto;
+  }
 }
 
 #app ~ div {
@@ -1018,30 +703,13 @@ export default {
   }
 }
 
-// ScrollMagic pin spacer styling
-.scrollmagic-pin-spacer {
-  // Let ScrollMagic control the height
-  position: relative !important;
-  width: 100% !important;
-
-  // The pinned element inside
-  > .page-main {
-    width: 100% !important;
-    height: 100vh !important;
-  }
-}
-
 @include media-breakpoint-up(lg) {
   .page-main {
-    &__inner {
-      // Don't use position: fixed here - let ScrollMagic handle pinning
-      // position: fixed;
-    }
-
     &__bg {
-      position: fixed;
+      position: absolute;
       left: 0;
       bottom: 60px;
+      width: 100%;
 
       &-image {
         height: 200px;
@@ -1073,6 +741,9 @@ export default {
 
 @media screen and (min-width: 993px) and (max-height: 730px) {
   .page-main {
+    // Compensate for reduced app-content offset (50px instead of 140px)
+    margin-top: -50px;
+
     &__bg {
       bottom: -3px;
     }
@@ -1081,6 +752,9 @@ export default {
 
 @include media-breakpoint-down(lg) {
   .page-main {
+    // Reset negative margin for mobile/tablet
+    margin-top: 0;
+
     .app-section {
       opacity: 1 !important;
     }
