@@ -61,6 +61,10 @@ export default defineNuxtConfig({
         },
         { name: "msapplication-TileColor", content: "#ffffff" },
         { name: "theme-color", content: "#ffffff" },
+        { name: "apple-mobile-web-app-capable", content: "yes" },
+        { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+        { name: "apple-mobile-web-app-title", content: "Etage" },
+        { name: "mobile-web-app-capable", content: "yes" },
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon/favicon.ico" },
@@ -81,7 +85,7 @@ export default defineNuxtConfig({
           sizes: "16x16",
           href: "/favicon/favicon-16x16.png",
         },
-        { rel: "manifest", href: "/favicon/site.webmanifest" },
+        // Manifest is handled by @vite-pwa/nuxt module
         {
           rel: "mask-icon",
           href: "/favicon/safari-pinned-tab.svg",
@@ -120,7 +124,7 @@ export default defineNuxtConfig({
   ],
 
   // Modules
-  modules: ["@nuxtjs/i18n"],
+  modules: ["@nuxtjs/i18n", "@vite-pwa/nuxt"],
 
   // i18n module configuration
   i18n: {
@@ -277,5 +281,171 @@ export default defineNuxtConfig({
   // DevTools configuration
   devtools: {
     enabled: true,
+  },
+
+  // PWA configuration
+  pwa: {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Etage - Сервіс переїздів",
+      short_name: "Etage",
+      description:
+        "Сервіс переїздів по Одесі та по всій Україні. Квартирні та офісні переїзди, перевезення майна, послуги вантажників",
+      lang: "uk",
+      dir: "ltr",
+      start_url: "/",
+      scope: "/",
+      id: "/",
+      display: "standalone",
+      display_override: ["window-controls-overlay", "standalone", "minimal-ui"],
+      orientation: "any",
+      theme_color: "#ffffff",
+      background_color: "#ffffff",
+      categories: ["business", "utilities"],
+      icons: [
+        {
+          src: "/favicon/android-chrome-192x192.png",
+          sizes: "192x192",
+          type: "image/png",
+          purpose: "any maskable",
+        },
+        {
+          src: "/favicon/android-chrome-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any maskable",
+        },
+        {
+          src: "/favicon/apple-touch-icon.png",
+          sizes: "180x180",
+          type: "image/png",
+          purpose: "any",
+        },
+        {
+          src: "/favicon/favicon-32x32.png",
+          sizes: "32x32",
+          type: "image/png",
+          purpose: "any",
+        },
+        {
+          src: "/favicon/favicon-16x16.png",
+          sizes: "16x16",
+          type: "image/png",
+          purpose: "any",
+        },
+      ],
+      shortcuts: [
+        {
+          name: "Замовити переїзд",
+          short_name: "Замовити",
+          description: "Швидке замовлення переїзду",
+          url: "/?action=order",
+          icons: [
+            {
+              src: "/favicon/android-chrome-192x192.png",
+              sizes: "192x192",
+              type: "image/png",
+            },
+          ],
+        },
+        {
+          name: "Передзвонити",
+          short_name: "Дзвінок",
+          description: "Замовити дзвінок",
+          url: "/?action=callback",
+          icons: [
+            {
+              src: "/favicon/android-chrome-192x192.png",
+              sizes: "192x192",
+              type: "image/png",
+            },
+          ],
+        },
+      ],
+      share_target: {
+        action: "/",
+        method: "GET",
+        params: {
+          title: "title",
+          text: "text",
+          url: "url",
+        },
+      },
+      launch_handler: {
+        client_mode: "navigate-existing",
+      },
+      edge_side_panel: {
+        preferred_width: 400,
+      },
+      prefer_related_applications: false,
+    },
+    workbox: {
+      navigateFallback: "/",
+      globPatterns: [
+        "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
+      ],
+      runtimeCaching: [
+        {
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "google-fonts-cache",
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        {
+          urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "gstatic-fonts-cache",
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        {
+          urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "images-cache",
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+            },
+          },
+        },
+        {
+          urlPattern: /\/_nuxt\/.*/i,
+          handler: "CacheFirst",
+          options: {
+            cacheName: "nuxt-static-cache",
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 60, // 60 days
+            },
+          },
+        },
+      ],
+    },
+    client: {
+      installPrompt: true,
+      periodicSyncForUpdates: 20,
+    },
+    devOptions: {
+      enabled: false,
+      suppressWarnings: true,
+      navigateFallbackAllowlist: [/^\/$/],
+      type: "module",
+    },
   },
 });
