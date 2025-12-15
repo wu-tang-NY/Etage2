@@ -6,6 +6,26 @@
           <div class="app-copyright">
             {{ $t("footer.copyright") }}
           </div>
+          <div class="app-social">
+            <a
+              href="https://instagram.com/etage.com.ua/"
+              class="app-social__link"
+              target="_blank"
+              aria-label="Visit our Instagram"
+              rel="noopener noreferrer"
+            >
+              <svg-icon name="icon_in" original />
+            </a>
+            <a
+              href="https://www.facebook.com/groups/2522732927949314/?ref=share_group_link"
+              class="app-social__link"
+              target="_blank"
+              aria-label="Visit our Facebook page"
+              rel="noopener noreferrer"
+            >
+              <svg-icon name="icon_fb" original />
+            </a>
+          </div>
           <div class="app-footer__actions">
             <button
               v-if="showInstallButton"
@@ -14,28 +34,22 @@
               @click="handleInstall"
               aria-label="Install the app"
             >
+              <svg
+                class="app-footer__install-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
               {{ $t("installPrompt.installButton") }}
             </button>
-            <div class="app-social">
-              <a
-                href="https://instagram.com/etage.com.ua/"
-                class="app-social__link"
-                target="_blank"
-                aria-label="Visit our Instagram"
-                rel="noopener noreferrer"
-              >
-                <svg-icon name="icon_in" original />
-              </a>
-              <a
-                href="https://www.facebook.com/groups/2522732927949314/?ref=share_group_link"
-                class="app-social__link"
-                target="_blank"
-                aria-label="Visit our Facebook page"
-                rel="noopener noreferrer"
-              >
-                <svg-icon name="icon_fb" original />
-              </a>
-            </div>
           </div>
         </div>
       </div>
@@ -77,8 +91,12 @@ export default {
         const hasManifest = document.querySelector('link[rel="manifest"]');
         if (isHTTPS && hasManifest) {
           // Show button if PWA appears installable
+          // Show the button even if beforeinstallprompt hasn't fired yet
           setTimeout(() => {
-            if (this.deferredPrompt) {
+            if (!this.showInstallButton) {
+              console.log(
+                "[Footer] Showing install button (PWA requirements met)"
+              );
               this.showInstallButton = true;
             }
           }, 1000);
@@ -111,22 +129,61 @@ export default {
     },
     async handleInstall() {
       if (this.deferredPrompt) {
+        console.log("[Footer] Using deferred prompt to install");
         this.deferredPrompt.prompt();
         const { outcome } = await this.deferredPrompt.userChoice;
+        console.log("[Footer] Install outcome:", outcome);
         if (outcome === "accepted") {
           this.showInstallButton = false;
         }
         this.deferredPrompt = null;
       } else {
+        console.log(
+          "[Footer] No deferred prompt, trying alternative install methods"
+        );
         const pwa = this.$pwa || (typeof window !== "undefined" && window.$pwa);
         if (pwa && typeof pwa.install === "function") {
           try {
             await pwa.install();
             this.showInstallButton = false;
           } catch (error) {
-            console.error("[PWA Install] Installation failed:", error);
+            console.error("[Footer] Installation failed:", error);
+            // Show instructions for manual installation
+            this.showManualInstallInstructions();
           }
+        } else {
+          console.log(
+            "[Footer] No PWA install method available, showing manual instructions"
+          );
+          this.showManualInstallInstructions();
         }
+      }
+    },
+    showManualInstallInstructions() {
+      // Show user-friendly message about manual installation
+      const isChrome =
+        /Chrome/.test(navigator.userAgent) &&
+        /Google Inc/.test(navigator.vendor);
+      const isEdge = /Edg/.test(navigator.userAgent);
+      const isSafari =
+        /Safari/.test(navigator.userAgent) &&
+        !/Chrome/.test(navigator.userAgent);
+
+      if (isSafari) {
+        alert(
+          this.$t("installPrompt.iosSafariInstructions") ||
+            "На iOS: Нажмите кнопку 'Поделиться' и выберите 'На экран Домой'"
+        );
+      } else if (isChrome || isEdge) {
+        alert(
+          this.$t("installPrompt.chromeInstructions") ||
+            "Нажмите на иконку установки в адресной строке браузера"
+        );
+      } else {
+        alert(
+          this.$t("installPrompt.genericInstructions") ||
+            "Пожалуйста, используйте меню браузера для установки приложения"
+        );
       }
     },
   },
@@ -135,44 +192,16 @@ export default {
 
 <style lang="scss">
 .app-footer__inner {
-  justify-content: space-between;
-}
-
-.app-footer__actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 15px;
-}
-
-.app-footer__install-button {
-  padding: 6px 16px;
-  background-color: var(--colors-accent);
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  font-size: rem(12);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: #e6940f;
-  }
-
-  &:active {
-    transform: scale(0.98);
-  }
-
-  &:focus {
-    outline: 2px solid var(--colors-accent);
-    outline-offset: 2px;
-  }
 }
 
 .app-social {
   display: flex;
   align-items: center;
+  justify-content: center;
 
   &__link {
     & + & {
@@ -185,10 +214,47 @@ export default {
   }
 }
 
+.app-footer__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.app-footer__install-button {
+  color: var(--colors-accent);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  &:focus {
+    outline: 2px solid var(--colors-accent);
+    outline-offset: 2px;
+  }
+}
+
+.app-footer__install-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
 @media screen and (max-width: 992px) {
+  .app-footer__inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    justify-items: center;
+  }
+
+  .app-copyright {
+    display: none;
+  }
+
   .app-footer__actions {
+    justify-content: center;
     flex-direction: column;
-    align-items: flex-start;
     gap: 12px;
   }
 
@@ -198,9 +264,6 @@ export default {
   }
 
   .app-social {
-    margin-left: 20px;
-    margin-bottom: 20px;
-
     &__link {
       svg {
         @include size(30px);

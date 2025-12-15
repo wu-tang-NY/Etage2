@@ -94,11 +94,6 @@ export default defineNuxtConfig({
         },
         { name: "apple-mobile-web-app-title", content: "Etage" },
         { name: "mobile-web-app-capable", content: "yes" },
-        {
-          "http-equiv": "Content-Security-Policy",
-          content:
-            "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; frame-src 'self' https://www.googletagmanager.com;",
-        },
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon/favicon.ico" },
@@ -119,7 +114,8 @@ export default defineNuxtConfig({
           sizes: "16x16",
           href: "/favicon/favicon-16x16.png",
         },
-        // Manifest is handled by @vite-pwa/nuxt module
+        // Manifest is handled by @vite-pwa/nuxt module, but adding explicit fallback
+        { rel: "manifest", href: "/manifest.webmanifest" },
         {
           rel: "mask-icon",
           href: "/favicon/safari-pinned-tab.svg",
@@ -280,7 +276,13 @@ export default defineNuxtConfig({
       "nitro:render:html"(html, { event }) {
         // Defer CSS loading by modifying stylesheet links to use print media trick
         // This prevents CSS from blocking the initial render
-        if (html && html.head) {
+        // Only process if html is an object with head property (not a string for error overlay)
+        if (
+          html &&
+          typeof html === "object" &&
+          html.head &&
+          Array.isArray(html.head)
+        ) {
           html.head = html.head.map((tag) => {
             if (
               typeof tag === "string" &&
@@ -507,7 +509,7 @@ export default defineNuxtConfig({
       periodicSyncForUpdates: 20,
     },
     devOptions: {
-      enabled: false,
+      enabled: true,
       suppressWarnings: true,
       navigateFallbackAllowlist: [/^\/$/],
       type: "module",

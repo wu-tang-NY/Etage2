@@ -52,8 +52,11 @@ export default {
       return;
     }
 
+    console.log("[PWA Install] Component mounted");
+
     // Check if already installed
     if (this.isInstalled()) {
+      console.log("[PWA Install] App is already installed");
       return;
     }
 
@@ -65,6 +68,11 @@ export default {
         (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
       // Show again after 7 days
       if (daysSinceDismissed < 7) {
+        console.log(
+          `[PWA Install] Dismissed ${daysSinceDismissed.toFixed(
+            1
+          )} days ago, waiting ${(7 - daysSinceDismissed).toFixed(1)} more days`
+        );
         return;
       }
     }
@@ -72,12 +80,14 @@ export default {
     // Check for manual trigger (for testing)
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("showInstall") === "true") {
+      console.log("[PWA Install] Manual trigger detected via URL");
       setTimeout(() => {
         this.showPrompt = true;
       }, 1000);
       return;
     }
 
+    console.log("[PWA Install] Checking PWA installability...");
     // Use the PWA composable from @vite-pwa/nuxt
     // The module exposes $pwa which we can access
     this.checkPWAInstallability();
@@ -97,6 +107,7 @@ export default {
     checkPWAInstallability() {
       // Listen for the beforeinstallprompt event
       // The @vite-pwa/nuxt module with installPrompt: true should fire this
+      console.log("[PWA Install] Adding beforeinstallprompt listener");
       window.addEventListener(
         "beforeinstallprompt",
         this.handleBeforeInstallPrompt
@@ -104,28 +115,57 @@ export default {
 
       // Also check if service worker is ready (PWA might be installable)
       if ("serviceWorker" in navigator) {
+        console.log(
+          "[PWA Install] Service worker supported, waiting for ready..."
+        );
         navigator.serviceWorker.ready.then(() => {
+          console.log("[PWA Install] Service worker is ready");
           // Check if PWA is installable
           const isHTTPS =
             window.location.protocol === "https:" ||
             window.location.hostname === "localhost";
           const hasManifest = document.querySelector('link[rel="manifest"]');
+          console.log("[PWA Install] HTTPS/localhost:", isHTTPS);
+          console.log(
+            "[PWA Install] Has manifest:",
+            !!hasManifest,
+            hasManifest?.href
+          );
           if (isHTTPS && hasManifest) {
             // Show prompt after a delay even if beforeinstallprompt hasn't fired yet
+            console.log(
+              "[PWA Install] Will show fallback prompt in 8 seconds if no event fires"
+            );
             setTimeout(() => {
               if (
                 !this.dismissedPrompt &&
                 !this.showPrompt &&
                 !this.deferredPrompt
               ) {
+                console.log(
+                  "[PWA Install] Showing fallback prompt (no beforeinstallprompt event received)"
+                );
                 this.showPrompt = true;
+              } else {
+                console.log("[PWA Install] Not showing fallback:", {
+                  dismissed: this.dismissedPrompt,
+                  alreadyShowing: this.showPrompt,
+                  hasDeferred: !!this.deferredPrompt,
+                });
               }
             }, 8000);
+          } else {
+            console.log(
+              "[PWA Install] Cannot show prompt - requirements not met"
+            );
           }
         });
+      } else {
+        console.log("[PWA Install] Service worker not supported");
       }
     },
     handleBeforeInstallPrompt(e) {
+      console.log("[PWA Install] beforeinstallprompt event fired!");
       // Prevent the default browser install prompt
       e.preventDefault();
       // Store the event for later use
@@ -133,6 +173,7 @@ export default {
       // Show the prompt after a short delay
       setTimeout(() => {
         if (!this.showPrompt && !this.dismissedPrompt) {
+          console.log("[PWA Install] Showing prompt after beforeinstallprompt");
           this.showPrompt = true;
         }
       }, 2000);

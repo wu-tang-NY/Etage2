@@ -365,8 +365,6 @@ $footer-height: 65px;
   bottom: 0;
 
   &__inner {
-    display: flex;
-    align-items: center;
     height: $footer-height;
   }
 }
@@ -512,7 +510,7 @@ $footer-height: 65px;
 
   .app-footer {
     &__inner {
-      height: 30px;
+      height: 40px;
     }
   }
 
