@@ -1,31 +1,73 @@
 <template>
-  <Transition name="toast">
-    <div v-if="showPrompt" class="install-toast">
-      <div class="install-toast__content">
-        <p class="install-toast__message">
-          {{ $t("installPrompt.message") }}
-        </p>
-        <div class="install-toast__actions">
-          <button
-            type="button"
-            class="install-toast__button install-toast__button--yes"
-            @click="handleInstall"
-            aria-label="Install the app"
-          >
-            {{ $t("installPrompt.yes") }}
-          </button>
-          <button
-            type="button"
-            class="install-toast__button install-toast__button--no"
-            @click="handleDismiss"
-            aria-label="Dismiss the prompt"
-          >
-            {{ $t("installPrompt.no") }}
-          </button>
+  <div>
+    <!-- Install Prompt Toast -->
+    <Transition name="toast">
+      <div v-if="showPrompt" class="install-toast">
+        <div class="install-toast__content">
+          <p class="install-toast__message">
+            {{ $t("installPrompt.message") }}
+          </p>
+          <div class="install-toast__actions">
+            <button
+              type="button"
+              class="install-toast__button install-toast__button--yes"
+              @click="handleInstall"
+              aria-label="Install the app"
+            >
+              {{ $t("installPrompt.yes") }}
+            </button>
+            <button
+              type="button"
+              class="install-toast__button install-toast__button--no"
+              @click="handleDismiss"
+              aria-label="Dismiss the prompt"
+            >
+              {{ $t("installPrompt.no") }}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </Transition>
+    </Transition>
+
+    <!-- Manual Install Instructions Modal -->
+    <Transition name="modal-fade">
+      <div
+        v-if="showInstructions"
+        class="install-modal-overlay"
+        @click="closeInstructions"
+      >
+        <div class="install-modal" @click.stop>
+          <div class="install-modal__header">
+            <h3 class="install-modal__title">
+              {{ $t("installPrompt.installButton") }}
+            </h3>
+            <button
+              type="button"
+              class="install-modal__close"
+              @click="closeInstructions"
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div class="install-modal__body">
+            <p class="install-modal__text">
+              {{ manualInstructionText }}
+            </p>
+          </div>
+          <div class="install-modal__footer">
+            <button
+              type="button"
+              class="install-toast__button install-toast__button--yes"
+              @click="closeInstructions"
+            >
+              {{ $t("common.close") }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+  </div>
 </template>
 
 <script>
@@ -36,6 +78,8 @@ export default {
       showPrompt: false,
       deferredPrompt: null,
       dismissedPrompt: false,
+      showInstructions: false,
+      manualInstructionText: "",
     };
   },
   beforeUnmount() {
@@ -179,38 +223,53 @@ export default {
       }, 2000);
     },
     async handleInstall() {
+      console.log("[PWA Install] Install button clicked");
+      console.log("[PWA Install] Has deferred prompt:", !!this.deferredPrompt);
+
       if (this.deferredPrompt) {
-        // Show the install prompt
-        this.deferredPrompt.prompt();
+        try {
+          console.log("[PWA Install] Showing native install prompt");
+          // Show the install prompt
+          this.deferredPrompt.prompt();
 
-        // Wait for the user to respond
-        const { outcome } = await this.deferredPrompt.userChoice;
+          // Wait for the user to respond
+          const { outcome } = await this.deferredPrompt.userChoice;
+          console.log("[PWA Install] User choice:", outcome);
 
-        if (outcome === "accepted") {
-          this.$emit("installed");
-        } else {
-          this.handleDismiss();
+          if (outcome === "accepted") {
+            this.$emit("installed");
+          } else {
+            this.handleDismiss();
+          }
+
+          // Clear the deferred prompt
+          this.deferredPrompt = null;
+          this.showPrompt = false;
+        } catch (error) {
+          console.error("[PWA Install] Error showing prompt:", error);
+          this.showManualInstallInstructions();
         }
-
-        // Clear the deferred prompt
-        this.deferredPrompt = null;
-        this.showPrompt = false;
       } else {
+        console.log(
+          "[PWA Install] No deferred prompt available, trying fallback"
+        );
         // Fallback: try to use PWA composable if available
         const pwa = this.$pwa || (typeof window !== "undefined" && window.$pwa);
         if (pwa && typeof pwa.install === "function") {
           try {
+            console.log("[PWA Install] Trying $pwa.install()");
             await pwa.install();
             this.$emit("installed");
             this.showPrompt = false;
           } catch (error) {
             console.error("[PWA Install] Installation failed:", error);
             this.showManualInstallInstructions();
-            this.handleDismiss();
           }
         } else {
+          console.log(
+            "[PWA Install] No PWA composable available, showing manual instructions"
+          );
           this.showManualInstallInstructions();
-          this.handleDismiss();
         }
       }
     },
@@ -221,8 +280,38 @@ export default {
       this.showPrompt = false;
     },
     showManualInstallInstructions() {
-      // This could show a modal with manual install instructions
-      // For now, silently fail
+      // Hide the install prompt
+      this.showPrompt = false;
+
+      // Detect browser and platform
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isSafari = /^((?!chrome|android).)*safari/i.test(
+        navigator.userAgent
+      );
+      const isChrome = /Chrome/.test(navigator.userAgent);
+
+      let message = "";
+
+      if (isIOS && isSafari) {
+        message = this.$t("installPrompt.iosSafariInstructions");
+      } else if (isChrome) {
+        message = this.$t("installPrompt.chromeInstructions");
+      } else {
+        message = this.$t("installPrompt.genericInstructions");
+      }
+
+      // Show modal with instructions
+      this.manualInstructionText = message;
+      this.showInstructions = true;
+
+      console.log("[PWA Install] Showed manual instructions:", message);
+
+      // Don't dismiss the prompt so it can be shown again later
+      // this.handleDismiss();
+    },
+    closeInstructions() {
+      this.showInstructions = false;
+      this.manualInstructionText = "";
     },
   },
 };
@@ -349,6 +438,143 @@ export default {
   .toast-enter-from,
   .toast-leave-to {
     transform: translateX(20px);
+  }
+}
+
+// Modal styles
+.install-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.install-modal {
+  background-color: var(--white);
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--colors-grey-200);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: rem(20);
+    font-weight: 700;
+    color: var(--colors-text-primary);
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--colors-text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--colors-grey-200);
+      color: var(--colors-text-primary);
+    }
+  }
+
+  &__body {
+    padding: 24px;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: rem(16);
+    line-height: 1.6;
+    color: var(--colors-text-primary);
+  }
+
+  &__footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--colors-grey-200);
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Modal animation
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s ease;
+
+  .install-modal {
+    transition: transform 0.3s ease;
+  }
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+
+  .install-modal {
+    transform: scale(0.95) translateY(-10px);
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .install-modal {
+    max-width: 100%;
+    margin: 0 16px;
+
+    &__header {
+      padding: 16px 20px;
+    }
+
+    &__title {
+      font-size: rem(18);
+    }
+
+    &__body {
+      padding: 20px;
+    }
+
+    &__text {
+      font-size: rem(14);
+    }
+
+    &__footer {
+      padding: 12px 20px;
+    }
   }
 }
 </style>
