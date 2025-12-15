@@ -85,9 +85,13 @@ export default defineNuxtConfig({
           content: "vKA3RhUs0WxI3pWumanZ7yC33v9yf74_KzTRS4CLMkE",
         },
         { name: "msapplication-TileColor", content: "#ffffff" },
-        { name: "theme-color", content: "#ffffff" },
+        // Note: theme-color meta tags with media queries are added in app.html
+        // for better browser support
         { name: "apple-mobile-web-app-capable", content: "yes" },
-        { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+        {
+          name: "apple-mobile-web-app-status-bar-style",
+          content: "black-translucent",
+        },
         { name: "apple-mobile-web-app-title", content: "Etage" },
         { name: "mobile-web-app-capable", content: "yes" },
         {
@@ -359,6 +363,9 @@ export default defineNuxtConfig({
       orientation: "any",
       theme_color: "#ffffff",
       background_color: "#ffffff",
+      // Add dark theme color support for PWA
+      // Note: PWA manifest doesn't support media queries, so we use light as default
+      // The theme-color meta tags handle the dynamic switching
       categories: ["business", "utilities"],
       icons: [
         {

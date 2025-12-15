@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html {{ HTML_ATTRS }}>
   <head {{ HEAD_ATTRS }}>
+    <!-- Theme color meta tags for mobile browsers with media query support -->
+    <meta
+      name="theme-color"
+      content="#ffffff"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0e1a28"
+      media="(prefers-color-scheme: dark)"
+    />
+    <!-- Fallback theme-color (will be updated by theme script) -->
+    <meta name="theme-color" content="#ffffff" />
     <!-- Defer CSS loading to prevent render blocking - must run before HEAD -->
     <script>
       (function () {
@@ -154,16 +167,32 @@
             root.classList.remove("theme-dark");
           }
 
-          // Update theme-color meta tag
-          let metaThemeColor = document.querySelector(
-            'meta[name="theme-color"]'
+          // Update theme-color meta tags (both light and dark)
+          // Update the appropriate meta tag based on theme
+          const metaThemeColorLight = document.querySelector(
+            'meta[name="theme-color"][media="(prefers-color-scheme: light)"]'
           );
-          if (metaThemeColor) {
-            metaThemeColor.setAttribute(
-              "content",
-              theme === THEME_DARK ? "#0e1a28" : "#ffffff"
-            );
+          const metaThemeColorDark = document.querySelector(
+            'meta[name="theme-color"][media="(prefers-color-scheme: dark)"]'
+          );
+
+          // Also update a fallback theme-color without media query for browsers that don't support media queries
+          let metaThemeColorFallback = document.querySelector(
+            'meta[name="theme-color"]:not([media])'
+          );
+
+          // If no fallback exists, create one
+          if (!metaThemeColorFallback) {
+            metaThemeColorFallback = document.createElement("meta");
+            metaThemeColorFallback.setAttribute("name", "theme-color");
+            document.head.appendChild(metaThemeColorFallback);
           }
+
+          // Update fallback to match current theme
+          metaThemeColorFallback.setAttribute(
+            "content",
+            theme === THEME_DARK ? "#0e1a28" : "#ffffff"
+          );
         }
 
         // Apply theme immediately

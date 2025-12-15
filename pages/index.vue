@@ -501,9 +501,9 @@ export default {
         .set(cloud2, { opacity: 0, immediateRender: true })
         .set(sectionsWrapper, { x: 0, immediateRender: true })
         .add(tween1, 0)
-        .add(tween2, ">") // Start 0.5s before tween1 ends (overlap)
-        .add(tween3, ">") // Start 0.5s before tween2 ends (overlap)
-        .add(tween4, ">") // Start 0.5s before tween3 ends (overlap)
+        .add(tween2, ">0.5") // Start 0.5s before tween1 ends (overlap)
+        .add(tween3, ">0.5") // Start 0.5s before tween2 ends (overlap)
+        .add(tween4, ">0.5") // Start 0.5s before tween3 ends (overlap)
         .add(bgTween, 0); // Add bgTween at the start, synchronized with main timeline
 
       // Calculate the available height for the page when it gets pinned

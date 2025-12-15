@@ -135,6 +135,11 @@
 
       <app-new-year-decorations />
 
+      <!-- PWA Install Prompt -->
+      <ClientOnly>
+        <app-install-prompt />
+      </ClientOnly>
+
       <div id="modal-portal"></div>
     </div>
   </ClientOnly>
@@ -144,6 +149,7 @@
 import LayoutMainNav from "@/layouts/main/components/LayoutMainNav.vue";
 import LayoutMainFooter from "@/layouts/main/components/LayoutMainFooter.vue";
 import ModalInfo from "@/views/modal";
+import AppInstallPrompt from "@/components/common/InstallPrompt/app-install-prompt.vue";
 
 export default {
   name: "AppMainLayout",
@@ -151,6 +157,7 @@ export default {
     LayoutMainNav,
     LayoutMainFooter,
     ModalInfo,
+    AppInstallPrompt,
   },
   provide() {
     // Provide eventbus to child components for Options API inject

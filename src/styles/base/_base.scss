@@ -97,6 +97,8 @@ a,
 input,
 textarea,
 select {
+  cursor: pointer;
+
   &:focus {
     outline: 2px solid var(--colors-accent) !important;
     outline-offset: 2px !important;
