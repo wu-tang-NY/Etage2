@@ -240,14 +240,12 @@ export default defineNuxtConfig({
   // Runtime config
   runtimeConfig: {
     // Private keys (server-side only) - accessed via useRuntimeConfig() in server routes
-    mailgunApiKey:
-      process.env.MAILGUN_API_KEY || "key-1a62b4a4982b7185d90632a29ca3b9d2",
-    mailgunDomain: process.env.MAILGUN_DOMAIN || "mg.etage.com.ua",
+    mailgunApiKey: process.env.MAILGUN_API_KEY,
+    mailgunDomain: process.env.MAILGUN_DOMAIN,
     // Public keys (exposed to client) - accessed via useRuntimeConfig().public
     public: {
-      mailgunApiKey:
-        process.env.MAILGUN_API_KEY || "key-1a62b4a4982b7185d90632a29ca3b9d2",
-      mailgunDomain: process.env.MAILGUN_DOMAIN || "mg.etage.com.ua",
+      mailgunApiKey: process.env.MAILGUN_API_KEY,
+      mailgunDomain: process.env.MAILGUN_DOMAIN,
     },
   },
 
@@ -266,6 +264,10 @@ export default defineNuxtConfig({
         maxAge: 60 * 60 * 24 * 7, // 7 days
       },
     ],
+    // Prerender routes for static generation
+    prerender: {
+      routes: ["/sitemap.xml"],
+    },
     hooks: {
       "prerender:routes"(ctx) {
         // Copy static files to output after prerendering
