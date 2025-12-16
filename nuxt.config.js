@@ -332,7 +332,7 @@ export default defineNuxtConfig({
             }
           }
 
-          // Copy sitemap.xml from public directory if it exists
+          // Copy sitemap.xml and robots.txt from public directory if they exist
           const publicSitemap = resolve(__dirname, "public/sitemap.xml");
           const outputSitemap = resolve(outputDir, "sitemap.xml");
           try {
@@ -342,6 +342,17 @@ export default defineNuxtConfig({
             }
           } catch (e) {
             // sitemap.xml might not exist in public yet, that's okay
+          }
+
+          const publicRobots = resolve(__dirname, "public/robots.txt");
+          const outputRobots = resolve(outputDir, "robots.txt");
+          try {
+            if (statSync(publicRobots).isFile()) {
+              copyFileSync(publicRobots, outputRobots);
+              console.log("Copied robots.txt to output directory");
+            }
+          } catch (e) {
+            // robots.txt might not exist in public yet, that's okay
           }
         } catch (e) {
           // Ignore if static directory doesn't exist or copy fails
