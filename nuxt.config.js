@@ -331,6 +331,18 @@ export default defineNuxtConfig({
               copyDir(faviconDir, outputFaviconDir);
             }
           }
+
+          // Copy sitemap.xml from public directory if it exists
+          const publicSitemap = resolve(__dirname, "public/sitemap.xml");
+          const outputSitemap = resolve(outputDir, "sitemap.xml");
+          try {
+            if (statSync(publicSitemap).isFile()) {
+              copyFileSync(publicSitemap, outputSitemap);
+              console.log("Copied sitemap.xml to output directory");
+            }
+          } catch (e) {
+            // sitemap.xml might not exist in public yet, that's okay
+          }
         } catch (e) {
           // Ignore if static directory doesn't exist or copy fails
           console.warn("Failed to copy static files:", e.message);

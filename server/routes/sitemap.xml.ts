@@ -1,13 +1,24 @@
 export default defineEventHandler((event) => {
   // Get hostname from environment variable or request
-  // For prerendering, use environment variable or default production URL
-  const hostname =
-    process.env.NUXT_PUBLIC_SITE_URL ||
-    (getHeader(event, "host")
-      ? `${
-          process.env.NODE_ENV === "production" ? "https" : "http"
-        }://${getHeader(event, "host")}`
-      : "https://etage.com.ua");
+  // For prerendering, prioritize environment variable, then default to production URL
+  let hostname = process.env.NUXT_PUBLIC_SITE_URL;
+  
+  if (!hostname) {
+    const host = getHeader(event, "host");
+    // During prerendering, host might be localhost, so use production URL as fallback
+    if (host && !host.includes("localhost") && !host.includes("127.0.0.1")) {
+      const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+      hostname = `${protocol}://${host}`;
+    } else {
+      // Default to production URL for prerendering
+      hostname = "https://etage.com.ua";
+    }
+  }
+  
+  // Ensure hostname has protocol
+  if (!hostname.startsWith("http://") && !hostname.startsWith("https://")) {
+    hostname = `https://${hostname}`;
+  }
 
   // Get all routes from the pages directory
   const routes = ["/"];
