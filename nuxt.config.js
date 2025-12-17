@@ -96,6 +96,8 @@ export default defineNuxtConfig({
         { name: "mobile-web-app-capable", content: "yes" },
       ],
       link: [
+        // Root favicon for search engines (Google looks for /favicon.ico)
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
         { rel: "icon", type: "image/x-icon", href: "/favicon/favicon.ico" },
         {
           rel: "apple-touch-icon",
@@ -329,6 +331,17 @@ export default defineNuxtConfig({
             const outputFaviconDir = resolve(outputDir, "favicon");
             if (statSync(faviconDir).isDirectory()) {
               copyDir(faviconDir, outputFaviconDir);
+              // Copy favicon.ico to root for search engines (Google looks for /favicon.ico)
+              const faviconIco = resolve(faviconDir, "favicon.ico");
+              const outputFaviconIco = resolve(outputDir, "favicon.ico");
+              try {
+                if (statSync(faviconIco).isFile()) {
+                  copyFileSync(faviconIco, outputFaviconIco);
+                  console.log("Copied favicon.ico to root directory");
+                }
+              } catch (e) {
+                console.warn("Failed to copy favicon.ico to root:", e.message);
+              }
             }
           }
 
