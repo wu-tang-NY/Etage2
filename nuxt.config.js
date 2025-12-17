@@ -165,7 +165,7 @@ export default defineNuxtConfig({
     lazy: false, // Disable lazy loading for static builds - all translations will be bundled
     langDir: "locales/",
     defaultLocale: "ua",
-    strategy: "no_prefix",
+    strategy: "prefix", // Use language prefix in URLs for all locales
     restructureDir: false, // Keep current directory structure for v9 compatibility
     detectBrowserLanguage: {
       useCookie: true,

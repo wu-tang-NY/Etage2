@@ -20,6 +20,22 @@ export default defineNuxtPlugin((nuxtApp) => {
     const description = i18n.t("meta.description");
     const langCode = localeToLang[currentLocale] || "uk";
 
+    // Site URL and image URL (absolute URLs required for Open Graph)
+    const siteUrl = "https://etage.com.ua";
+    const ogImageUrl = `${siteUrl}/images/packages/img_1_1200w.jpg`;
+    
+    // Get current route for og:url
+    let currentUrl = siteUrl;
+    try {
+      const route = useRoute();
+      if (route?.fullPath) {
+        currentUrl = `${siteUrl}${route.fullPath}`;
+      }
+    } catch (e) {
+      // Fallback to site URL if route is not available
+      currentUrl = siteUrl;
+    }
+
     // Update head with language-specific meta tags
     useHead({
       title,
@@ -44,7 +60,39 @@ export default defineNuxtPlugin((nuxtApp) => {
           property: "og:locale",
           content: currentLocale === "ru" ? "ru_RU" : "uk_UA",
         },
+        {
+          property: "og:type",
+          content: "website",
+        },
+        {
+          property: "og:url",
+          content: currentUrl,
+        },
+        {
+          property: "og:site_name",
+          content: "Etage",
+        },
+        {
+          property: "og:image",
+          content: ogImageUrl,
+        },
+        {
+          property: "og:image:width",
+          content: "1200",
+        },
+        {
+          property: "og:image:height",
+          content: "630",
+        },
+        {
+          property: "og:image:type",
+          content: "image/jpeg",
+        },
         // Twitter Card meta tags
+        {
+          name: "twitter:card",
+          content: "summary_large_image",
+        },
         {
           name: "twitter:title",
           content: title,
@@ -52,6 +100,10 @@ export default defineNuxtPlugin((nuxtApp) => {
         {
           name: "twitter:description",
           content: description,
+        },
+        {
+          name: "twitter:image",
+          content: ogImageUrl,
         },
       ],
     });

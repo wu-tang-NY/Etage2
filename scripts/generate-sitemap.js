@@ -10,8 +10,8 @@ const hostname = process.env.NUXT_PUBLIC_SITE_URL || "https://etage.com.ua";
 const routes = ["/"];
 
 const locales = [
-  { code: "ru", iso: "ru-RU" },
-  { code: "ua", iso: "uk-UA" },
+  { code: "ua", iso: "uk-UA", prefix: "/ua" },
+  { code: "ru", iso: "ru-RU", prefix: "/ru" },
 ];
 
 let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -19,22 +19,31 @@ let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
         xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
 
 routes.forEach((route) => {
-  sitemap += `
+  // Generate a URL entry for each locale
+  locales.forEach((locale) => {
+    // Build locale route
+    let localeRoute = locale.prefix + (route === "/" ? "" : route);
+    sitemap += `
   <url>
-    <loc>${hostname}${route}</loc>
+    <loc>${hostname}${localeRoute}</loc>
     <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>`;
 
-  locales.forEach((locale) => {
-    sitemap += `
-    <xhtml:link rel="alternate" hreflang="${locale.code}" href="${hostname}${route}" />
-    <xhtml:link rel="alternate" hreflang="${locale.iso}" href="${hostname}${route}" />`;
-  });
+    // Add alternate language links
+    locales.forEach((altLocale) => {
+      const altLocaleRoute = altLocale.prefix + (route === "/" ? "" : route);
+      sitemap += `
+    <xhtml:link rel="alternate" hreflang="${altLocale.code}" href="${hostname}${altLocaleRoute}" />
+    <xhtml:link rel="alternate" hreflang="${altLocale.iso}" href="${hostname}${altLocaleRoute}" />`;
+    });
 
-  sitemap += `
-    <xhtml:link rel="alternate" hreflang="x-default" href="${hostname}${route}" />
+    // Add x-default pointing to default locale (ua)
+    const defaultRoute = "/ua";
+    sitemap += `
+    <xhtml:link rel="alternate" hreflang="x-default" href="${hostname}${defaultRoute}" />
   </url>`;
+  });
 });
 
 sitemap += `

@@ -2,14 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://etage.com.ua/</loc>
-    <lastmod>2025-12-16</lastmod>
+    <loc>https://etage.com.ua/ua</loc>
+    <lastmod>2025-12-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/" />
-    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/" />
-    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/" />
-    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/" />
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru</loc>
+    <lastmod>2025-12-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
   </url>
 </urlset>

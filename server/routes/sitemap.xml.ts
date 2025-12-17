@@ -23,10 +23,10 @@ export default defineEventHandler((event) => {
   // Get all routes from the pages directory
   const routes = ["/"];
 
-  // Get i18n locales
+  // Get i18n locales with prefixes
   const locales = [
-    { code: "ru", iso: "ru-RU" },
-    { code: "ua", iso: "uk-UA" },
+    { code: "ua", iso: "uk-UA", prefix: "/ua" },
+    { code: "ru", iso: "ru-RU", prefix: "/ru" },
   ];
 
   // Generate sitemap XML
@@ -35,26 +35,31 @@ export default defineEventHandler((event) => {
         xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
 
   routes.forEach((route) => {
-    sitemap += `
+    // Generate a URL entry for each locale
+    locales.forEach((locale) => {
+      // Build locale route
+      const localeRoute = locale.prefix + (route === "/" ? "" : route);
+      sitemap += `
   <url>
-    <loc>${hostname}${route}</loc>
+    <loc>${hostname}${localeRoute}</loc>
     <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>`;
 
-    // Add alternate language versions
-    locales.forEach((locale) => {
+      // Add alternate language links
+      locales.forEach((altLocale) => {
+        const altLocaleRoute = altLocale.prefix + (route === "/" ? "" : route);
+        sitemap += `
+    <xhtml:link rel="alternate" hreflang="${altLocale.code}" href="${hostname}${altLocaleRoute}" />
+    <xhtml:link rel="alternate" hreflang="${altLocale.iso}" href="${hostname}${altLocaleRoute}" />`;
+      });
+
+      // Add x-default pointing to default locale (ua)
+      const defaultRoute = "/ua";
       sitemap += `
-    <xhtml:link rel="alternate" hreflang="${locale.code}" href="${hostname}${route}" />
-    <xhtml:link rel="alternate" hreflang="${locale.iso}" href="${hostname}${route}" />`;
-    });
-
-    // Add x-default
-    sitemap += `
-    <xhtml:link rel="alternate" hreflang="x-default" href="${hostname}${route}" />`;
-
-    sitemap += `
+    <xhtml:link rel="alternate" hreflang="x-default" href="${hostname}${defaultRoute}" />
   </url>`;
+    });
   });
 
   sitemap += `

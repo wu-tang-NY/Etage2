@@ -21,6 +21,8 @@
 import { computed } from "vue";
 
 const { locale, setLocale } = useI18n();
+const router = useRouter();
+const route = useRoute();
 
 const availableLanguages = [
   { code: "ua", label: "UA" },
@@ -29,31 +31,26 @@ const availableLanguages = [
 
 const currentLocale = computed(() => locale.value);
 
-const localeToLang = {
-  ua: "uk", // Ukrainian
-  ru: "ru" // Russian
-};
-
 async function switchLanguage(newLocale) {
   try {
-    // Use setLocale to properly load lazy-loaded locale messages
-    // This ensures the locale file is loaded before switching
-    await setLocale(newLocale);
-
-    // Also update localStorage for persistence
-    if (process.client) {
-      localStorage.setItem("locale", newLocale);
+    // With prefix strategy, all locales have prefixes: /ua and /ru
+    // Replace the current locale prefix with the new one
+    let newPath = route.path;
+    
+    // Replace any existing locale prefix with the new one
+    newPath = newPath.replace(/^\/(ua|ru)(\/|$)/, `/${newLocale}$2`);
+    
+    // If no locale prefix exists (shouldn't happen with prefix strategy, but handle it anyway)
+    if (!newPath.match(/^\/(ua|ru)(\/|$)/)) {
+      newPath = `/${newLocale}${newPath === "/" ? "" : newPath}`;
     }
-
-    // Update HTML lang attribute with valid BCP 47 code
-    const langCode = localeToLang[newLocale] || "uk";
-    if (typeof document !== "undefined") {
-      document.documentElement.setAttribute("lang", langCode);
+    
+    // Navigate to the new locale path if it's different
+    if (newPath !== route.path) {
+      await router.push(newPath);
     }
   } catch (error) {
     console.error("Error switching language:", error);
-    // Fallback: try direct assignment if setLocale fails
-    locale.value = newLocale;
   }
 }
 </script>
