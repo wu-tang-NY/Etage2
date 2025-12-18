@@ -485,8 +485,7 @@ export default defineNuxtConfig({
       prefer_related_applications: false,
     },
     workbox: {
-      navigateFallback: "/ua/",
-      navigateFallbackDenylist: [/^\/_/, /^\/api\//, /\.(?:js|css|png|jpg|jpeg|svg|gif|webp|woff|woff2|ttf|eot|ico)$/],
+      navigateFallback: null,
       globPatterns: [
         "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
       ],
@@ -541,6 +540,20 @@ export default defineNuxtConfig({
             },
           },
         },
+        {
+          urlPattern: ({ request }) => request.mode === 'navigate',
+          handler: "NetworkFirst",
+          options: {
+            cacheName: "pages-cache",
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 60 * 60 * 24, // 1 day
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
       ],
     },
     client: {
@@ -550,7 +563,6 @@ export default defineNuxtConfig({
     devOptions: {
       enabled: true,
       suppressWarnings: true,
-      navigateFallbackAllowlist: [/^\/$/, /^\/ua/, /^\/ru/],
       type: "module",
     },
   },
