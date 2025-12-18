@@ -485,7 +485,8 @@ export default defineNuxtConfig({
       prefer_related_applications: false,
     },
     workbox: {
-      navigateFallback: "/",
+      navigateFallback: "/ua/",
+      navigateFallbackDenylist: [/^\/_/, /^\/api\//, /\.(?:js|css|png|jpg|jpeg|svg|gif|webp|woff|woff2|ttf|eot|ico)$/],
       globPatterns: [
         "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
       ],
@@ -549,7 +550,7 @@ export default defineNuxtConfig({
     devOptions: {
       enabled: true,
       suppressWarnings: true,
-      navigateFallbackAllowlist: [/^\/$/],
+      navigateFallbackAllowlist: [/^\/$/, /^\/ua/, /^\/ru/],
       type: "module",
     },
   },
