@@ -556,7 +556,7 @@ export default defineNuxtConfig({
             },
           },
         },
-        // Images - Cache first with network fallback
+        // Images - Cache first (images rarely change)
         {
           urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/,
           handler: "CacheFirst",
@@ -569,8 +569,6 @@ export default defineNuxtConfig({
             cacheableResponse: {
               statuses: [0, 200],
             },
-            // Add network timeout for better offline experience
-            networkTimeoutSeconds: 3,
           },
         },
         // Nuxt static assets - Network first (for updates)
