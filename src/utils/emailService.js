@@ -17,8 +17,8 @@ class EmailService {
    * @param {string} config.domain - Mailgun domain
    */
   init({ apiKey, domain }) {
-    this.apiKey = apiKey || "key-1a62b4a4982b7185d90632a29ca3b9d2";
-    this.domain = domain || "mg.etage.com.ua";
+    this.apiKey = apiKey;
+    this.domain = domain;
     this.apiUrl = `https://api.mailgun.net/v3/${this.domain}/messages`;
   }
 
@@ -94,10 +94,10 @@ class EmailService {
    * @returns {Promise}
    */
   async sendFeedback({ name, phone, from, comment }) {
-    const domain = this.domain || "mg.etage.com.ua";
+    const domain = this.domain;
     return this.sendEmail({
       from: `${name} <mailgun@${domain}>`,
-      to: "stoleurbike@gmail.com",
+      to: "support@etage.com.ua",
       subject: "Отзыв",
       html: `
         <h4>Отзыв</h4>
@@ -118,10 +118,10 @@ class EmailService {
    * @returns {Promise}
    */
   async sendCallback({ name, phone }) {
-    const domain = this.domain || "mg.etage.com.ua";
+    const domain = this.domain;
     return this.sendEmail({
       from: `${name} <mailgun@${domain}>`,
-      to: "etage.pereezd@gmail.com",
+      to: "support@etage.com.ua",
       subject: "Перезвоните мне, пожалуйста",
       html: `
         <h4>Перезвоните мне, пожалуйста</h4>
@@ -145,10 +145,10 @@ class EmailService {
    * @returns {Promise}
    */
   async sendOrder({ name, phone, from, to, workers, type, date, comment }) {
-    const domain = this.domain || "mg.etage.com.ua";
+    const domain = this.domain;
     return this.sendEmail({
       from: `${name} <mailgun@${domain}>`,
-      to: "etage.pereezd@gmail.com",
+      to: "support@etage.com.ua",
       subject: "Заявка",
       html: `
         <h4>Заявка</h4>
