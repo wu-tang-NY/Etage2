@@ -94,6 +94,25 @@ export default defineNuxtConfig({
         { name: "apple-mobile-web-app-title", content: "Etage" },
         { name: "mobile-web-app-capable", content: "yes" },
       ],
+      script: [
+        {
+          src: "https://www.googletagmanager.com/gtag/js?id=G-GW0L2E2YWQ",
+          async: true,
+        },
+        {
+          id: "google-analytics",
+          innerHTML: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-GW0L2E2YWQ');
+          `,
+          type: "text/javascript",
+        },
+      ],
+      __dangerouslyDisableSanitizersByTagID: {
+        "google-analytics": ["innerHTML"],
+      },
       link: [
         // Root favicon for search engines (Google looks for /favicon.ico)
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
