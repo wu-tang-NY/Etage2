@@ -639,8 +639,6 @@ export default defineNuxtConfig({
           },
         },
       ],
-      // Workbox build configuration
-      buildExclude: [/app-build-manifest\.json$/],
       // Maximum file size to precache (in bytes)
       maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
     },
