@@ -171,8 +171,9 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: "locale",
-      alwaysRedirect: false,
+      alwaysRedirect: true,
       fallbackLocale: "ua",
+      redirectOn: "root",
     },
     vueI18n: "./src/i18n/config.js",
     compilation: {

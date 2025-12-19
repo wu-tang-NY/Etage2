@@ -1,5 +1,6 @@
+// This middleware works in conjunction with i18n module's alwaysRedirect option
+// It handles edge cases where i18n module might not catch redirects
 export default defineNuxtRouteMiddleware((to) => {
-  // List of valid locale codes (must match nuxt.config.js i18n.locales)
   const validLocales = ["ua", "ru"];
   const defaultLocale = "ua";
 
@@ -7,37 +8,40 @@ export default defineNuxtRouteMiddleware((to) => {
   const pathSegments = to.path.split("/").filter(Boolean);
   const firstSegment = pathSegments[0];
 
-  // Get user's preferred locale from cookie or use default
-  let targetLocale = defaultLocale;
-  try {
+  // Only handle root path redirect if i18n module hasn't already handled it
+  // This is a fallback to ensure root always redirects to a locale
+  if (!firstSegment && (to.path === "/" || to.path === "")) {
+    // Get locale from cookie if available, otherwise use default
     const cookieLocale = useCookie("locale");
-    if (cookieLocale.value && validLocales.includes(cookieLocale.value)) {
-      targetLocale = cookieLocale.value;
-    }
-  } catch (e) {
-    // Cookie might not be available, use default
-  }
+    const targetLocale =
+      cookieLocale.value && validLocales.includes(cookieLocale.value)
+        ? cookieLocale.value
+        : defaultLocale;
 
-  // If root URL (no path segments), redirect to default/preferred locale
-  // This ensures all URLs always have a language prefix
-  if (!firstSegment || to.path === "/" || to.path === "") {
     const redirectPath = `/${targetLocale}${to.search ? to.search : ""}`;
-    return navigateTo(redirectPath, { redirectCode: 301 });
+    // Only redirect if we're not already going to that path
+    if (to.path !== redirectPath) {
+      return navigateTo(redirectPath, { redirectCode: 301, external: false });
+    }
   }
 
-  // Check if first segment looks like a locale code (2-3 lowercase letters)
-  // and if it's not a valid locale
+  // Handle invalid locale codes (not needed if i18n handles it, but kept as safety net)
   if (
     firstSegment &&
     /^[a-z]{2,3}$/.test(firstSegment) &&
     !validLocales.includes(firstSegment)
   ) {
-    // Invalid locale detected - redirect to valid locale with the rest of the path preserved
+    const cookieLocale = useCookie("locale");
+    const targetLocale =
+      cookieLocale.value && validLocales.includes(cookieLocale.value)
+        ? cookieLocale.value
+        : defaultLocale;
+
     const restOfPath = pathSegments.slice(1).join("/");
     const redirectPath = `/${targetLocale}${
       restOfPath ? "/" + restOfPath : ""
     }${to.search ? to.search : ""}`;
 
-    return navigateTo(redirectPath, { redirectCode: 301 });
+    return navigateTo(redirectPath, { redirectCode: 301, external: false });
   }
 });
