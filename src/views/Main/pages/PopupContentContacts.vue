@@ -5,10 +5,13 @@
     <p>{{ $t("contacts.address") }}</p>
     <p>
       <a href="tel:+380973170434">+38 097 317 0434</a>
-      <br>
+      <br />
       <a href="tel:+380669680944">+38 066 968 0944</a>
     </p>
-    <p>{{ $t("contacts.emailLabel") }} <a href="mailto:etage.pereezd@gmail.com">etage.pereezd@gmail.com</a></p>
+    <p>
+      {{ $t("contacts.emailLabel") }}
+      <a href="mailto:support@etage.com.ua">support@etage.com.ua</a>
+    </p>
     <p>{{ $t("contacts.mapTitle") }}</p>
     <!-- <p>Служба контроля качества</p>
     <ul>
@@ -26,7 +29,7 @@
         width="100%"
         height="100%"
         frameborder="0"
-        style="border:0"
+        style="border: 0"
         allowfullscreen
         loading="lazy"
       />
@@ -36,7 +39,7 @@
 
 <script>
 export default {
-  name: 'PopupContentContacts',
+  name: "PopupContentContacts",
 };
 </script>
 
