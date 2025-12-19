@@ -509,145 +509,15 @@ export default defineNuxtConfig({
       },
       prefer_related_applications: false,
     },
-    workbox: {
-      // Use injectManifest mode to use custom service worker with proper preloadResponse handling
-      mode: "injectManifest",
-      srcDir: "public",
-      filename: "sw.js",
-      // Don't skip waiting - let user control when to update
-      skipWaiting: false,
-      clientsClaim: false,
-      // Clean up old caches
-      cleanupOutdatedCaches: true,
-      // Enable navigation preload for faster page loads
-      navigationPreload: true,
-      // Glob patterns for precaching
+    strategies: "injectManifest",
+    injectManifest: {
+      swSrc: "public/sw.js",
+      // Glob patterns for precaching (injected into service worker)
       globPatterns: [
         "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
       ],
-      // Exclude patterns from precaching (handled by runtime caching)
+      // Exclude patterns from precaching
       globIgnores: ["**/node_modules/**/*", "**/sw.js", "**/workbox-*.js"],
-      // Disable default navigation fallback to prevent precaching root URL
-      // We handle navigation via runtime caching instead
-      navigateFallback: null,
-      navigateFallbackDenylist: [/^\/$/],
-      // Runtime caching strategies
-      runtimeCaching: [
-        // Google Fonts - Cache first (rarely change)
-        {
-          urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-          handler: "CacheFirst",
-          options: {
-            cacheName: "google-fonts-stylesheets",
-            expiration: {
-              maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        // Google Fonts Static - Cache first (rarely change)
-        {
-          urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-          handler: "CacheFirst",
-          options: {
-            cacheName: "google-fonts-webfonts",
-            expiration: {
-              maxEntries: 30,
-              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        // Images - Cache first (images rarely change)
-        {
-          urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/,
-          handler: "CacheFirst",
-          options: {
-            cacheName: "images-cache",
-            expiration: {
-              maxEntries: 200,
-              maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        // Nuxt static assets - Network first (for updates)
-        {
-          urlPattern: /\/_nuxt\/.*/i,
-          handler: "NetworkFirst",
-          options: {
-            cacheName: "nuxt-static-assets",
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24, // 1 day
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-            // Fallback to cache if network fails
-            networkTimeoutSeconds: 3,
-          },
-        },
-        // API calls - Network first with cache fallback
-        {
-          urlPattern: /\/api\/.*/i,
-          handler: "NetworkFirst",
-          options: {
-            cacheName: "api-cache",
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 60 * 5, // 5 minutes
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-            networkTimeoutSeconds: 10,
-          },
-        },
-        // HTML pages - Network first with offline fallback
-        // Exclude root URL since we redirect from it
-        {
-          urlPattern: ({ request, url }) => {
-            // Only handle navigation requests, but exclude root URL
-            return request.mode === "navigate" && url.pathname !== "/";
-          },
-          handler: "NetworkFirst",
-          options: {
-            cacheName: "pages-cache",
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 60 * 60 * 24, // 1 day
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-            // Fallback to cached page if network fails
-            networkTimeoutSeconds: 3,
-          },
-        },
-        // Static assets (CSS, JS) - Stale while revalidate for balance
-        {
-          urlPattern: /\.(?:js|css)$/,
-          handler: "StaleWhileRevalidate",
-          options: {
-            cacheName: "static-resources",
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-      ],
       // Maximum file size to precache (in bytes)
       maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
     },
