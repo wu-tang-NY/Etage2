@@ -294,51 +294,157 @@ export default {
       console.log("[PWA Install] Install button clicked");
       console.log("[PWA Install] Has deferred prompt:", !!this.deferredPrompt);
 
+      // Diagnostic: Check service worker registration
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistration().then((registration) => {
+          console.log("[PWA Install] Service worker registration:", {
+            active: !!registration?.active,
+            installing: !!registration?.installing,
+            waiting: !!registration?.waiting,
+            scope: registration?.scope,
+          });
+        });
+      }
+
+      // Diagnostic: Check manifest
+      const manifestLink = document.querySelector('link[rel="manifest"]');
+      console.log("[PWA Install] Manifest link:", manifestLink?.href);
+
+      // Diagnostic: Check if running in standalone mode
+      console.log("[PWA Install] Is standalone:", this.isInstalled());
+
       if (this.deferredPrompt) {
+        // Validate that the deferredPrompt still has the prompt method
+        if (typeof this.deferredPrompt.prompt !== "function") {
+          console.error(
+            "[PWA Install] Deferred prompt is invalid - missing prompt() method"
+          );
+          this.deferredPrompt = null;
+          await this.tryFallbackInstall();
+          return;
+        }
+
         try {
           console.log("[PWA Install] Showing native install prompt");
-          // Show the install prompt
-          this.deferredPrompt.prompt();
+          console.log(
+            "[PWA Install] Deferred prompt type:",
+            typeof this.deferredPrompt
+          );
+          console.log(
+            "[PWA Install] Deferred prompt methods:",
+            Object.keys(this.deferredPrompt)
+          );
 
-          // Wait for the user to respond
-          const { outcome } = await this.deferredPrompt.userChoice;
+          // Verify userChoice exists before calling prompt()
+          if (!this.deferredPrompt.userChoice) {
+            throw new Error("Deferred prompt is missing userChoice property");
+          }
+
+          // Show the install prompt - this must be called in response to a user gesture
+          // The prompt() method triggers the browser's native install prompt
+          // Note: prompt() is synchronous and doesn't return a promise, but it can throw
+          try {
+            this.deferredPrompt.prompt();
+            console.log(
+              "[PWA Install] prompt() called successfully, waiting for user choice..."
+            );
+          } catch (promptError) {
+            // If prompt() throws immediately, the event might be invalid
+            console.error(
+              "[PWA Install] prompt() threw an error:",
+              promptError
+            );
+            throw new Error(
+              `Failed to show install prompt: ${promptError.message}`
+            );
+          }
+
+          // Wait for the user to respond to the prompt
+          // userChoice is a Promise that resolves when the user interacts with the prompt
+          // Add a timeout to detect if the prompt doesn't show (30 seconds should be enough)
+          const userChoicePromise = this.deferredPrompt.userChoice;
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(
+              () =>
+                reject(
+                  new Error(
+                    "Prompt timeout - browser prompt may not have appeared. The prompt() method was called but the browser didn't show the install dialog."
+                  )
+                ),
+              30000
+            )
+          );
+
+          const { outcome } = await Promise.race([
+            userChoicePromise,
+            timeoutPromise,
+          ]);
           console.log("[PWA Install] User choice:", outcome);
 
           if (outcome === "accepted") {
+            console.log("[PWA Install] User accepted installation");
             this.$emit("installed");
           } else {
+            console.log("[PWA Install] User dismissed installation");
             this.handleDismiss();
           }
 
-          // Clear the deferred prompt
+          // Clear the deferred prompt after use (can only be used once)
           this.deferredPrompt = null;
           this.showPrompt = false;
         } catch (error) {
           console.error("[PWA Install] Error showing prompt:", error);
-          this.showManualInstallInstructions();
+          console.error("[PWA Install] Error details:", {
+            name: error?.name,
+            message: error?.message,
+            stack: error?.stack,
+          });
+          // If prompt() fails or userChoice rejects, the deferredPrompt might be invalid
+          // Clear it and try fallback
+          this.deferredPrompt = null;
+          // Try fallback methods
+          await this.tryFallbackInstall();
         }
       } else {
         console.log(
           "[PWA Install] No deferred prompt available, trying fallback"
         );
-        // Fallback: try to use PWA composable if available
-        const pwa = this.$pwa || (typeof window !== "undefined" && window.$pwa);
-        if (pwa && typeof pwa.install === "function") {
-          try {
-            console.log("[PWA Install] Trying $pwa.install()");
+        await this.tryFallbackInstall();
+      }
+    },
+    async tryFallbackInstall() {
+      // Try to use PWA composable if available
+      try {
+        // Check for usePwa composable (from @vite-pwa/nuxt)
+        if (typeof usePwa !== "undefined" && typeof usePwa === "function") {
+          const pwa = usePwa();
+          if (pwa && typeof pwa.install === "function") {
+            console.log("[PWA Install] Trying usePwa().install()");
             await pwa.install();
             this.$emit("installed");
             this.showPrompt = false;
-          } catch (error) {
-            console.error("[PWA Install] Installation failed:", error);
-            this.showManualInstallInstructions();
+            return;
           }
-        } else {
-          console.log(
-            "[PWA Install] No PWA composable available, showing manual instructions"
-          );
-          this.showManualInstallInstructions();
         }
+
+        // Try accessing $pwa from component instance
+        const pwa = this.$pwa || (typeof window !== "undefined" && window.$pwa);
+        if (pwa && typeof pwa.install === "function") {
+          console.log("[PWA Install] Trying $pwa.install()");
+          await pwa.install();
+          this.$emit("installed");
+          this.showPrompt = false;
+          return;
+        }
+
+        // If no install method is available, show manual instructions
+        console.log(
+          "[PWA Install] No install method available, showing manual instructions"
+        );
+        this.showManualInstallInstructions();
+      } catch (error) {
+        console.error("[PWA Install] Fallback installation failed:", error);
+        this.showManualInstallInstructions();
       }
     },
     async handleDismiss() {
