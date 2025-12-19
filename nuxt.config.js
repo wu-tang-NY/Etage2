@@ -525,6 +525,10 @@ export default defineNuxtConfig({
       ],
       // Exclude patterns from precaching (handled by runtime caching)
       globIgnores: ["**/node_modules/**/*", "**/sw.js", "**/workbox-*.js"],
+      // Disable default navigation fallback to prevent precaching root URL
+      // We handle navigation via runtime caching instead
+      navigateFallback: null,
+      navigateFallbackDenylist: [/^\/$/],
       // Runtime caching strategies
       runtimeCaching: [
         // Google Fonts - Cache first (rarely change)
@@ -606,8 +610,12 @@ export default defineNuxtConfig({
           },
         },
         // HTML pages - Network first with offline fallback
+        // Exclude root URL since we redirect from it
         {
-          urlPattern: ({ request }) => request.mode === "navigate",
+          urlPattern: ({ request, url }) => {
+            // Only handle navigation requests, but exclude root URL
+            return request.mode === "navigate" && url.pathname !== "/";
+          },
           handler: "NetworkFirst",
           options: {
             cacheName: "pages-cache",
