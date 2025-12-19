@@ -143,6 +143,7 @@ export default defineNuxtConfig({
 
   // Plugins
   plugins: [
+    { src: "~/plugins/root-redirect.js", mode: "client" }, // Root URL redirect for static hosting - must run first
     { src: "~/plugins/icons.js" }, // Must run first to register icons for SSR
     { src: "~/plugins/vue-svgicon.js" }, // Must run on both server and client for SSR
     { src: "~/plugins/line-clamp.js" }, // Must run on both server and client for SSR
