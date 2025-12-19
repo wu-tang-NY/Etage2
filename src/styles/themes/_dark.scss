@@ -64,7 +64,6 @@ canvas,
   // App header
   .app-header {
     background-color: var(--colors-dark-surface);
-    border-bottom: 1px solid var(--colors-dark-border);
   }
 
   // Navigation wrapper
@@ -135,7 +134,7 @@ canvas,
 
   // Links
   a {
-    color: var(--colors-accent);
+    // color: var(--colors-accent);
 
     &:hover {
       color: color-mix(in srgb, var(--colors-accent) 90%, white);

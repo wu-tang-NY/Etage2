@@ -7,7 +7,7 @@
       <li>
         <h6>{{ $t("package.boxTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_1_2x.jpg"
+          src="/images/packages/img_1_2x.jpg"
           :alt="$t('package.boxTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
@@ -17,7 +17,7 @@
       <li>
         <h6>{{ $t("package.stretchTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_2_2x.jpg"
+          src="/images/packages/img_2_2x.jpg"
           :alt="$t('package.stretchTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
@@ -27,7 +27,7 @@
       <li>
         <h6>{{ $t("package.bubbleTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_3_2x.jpg"
+          src="/images/packages/img_3_2x.jpg"
           :alt="$t('package.bubbleTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
@@ -37,7 +37,7 @@
       <li>
         <h6>{{ $t("package.tapeTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_4_2x.jpg"
+          src="/images/packages/img_4_2x.jpg"
           :alt="$t('package.tapeTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
@@ -47,7 +47,7 @@
       <li>
         <h6>{{ $t("package.cornerTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_5_2x.jpg"
+          src="/images/packages/img_5_2x.jpg"
           :alt="$t('package.cornerTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
@@ -57,7 +57,7 @@
       <li>
         <h6>{{ $t("package.bagTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_6_2x.jpg"
+          src="/images/packages/img_6_2x.jpg"
           :alt="$t('package.bagTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
@@ -67,7 +67,7 @@
       <li>
         <h6>{{ $t("package.foamTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_7_2x.jpg"
+          src="/images/packages/img_7_2x.jpg"
           :alt="$t('package.foamTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
@@ -77,7 +77,7 @@
       <li>
         <h6>{{ $t("package.polybagTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_8_2x.jpg"
+          src="/images/packages/img_8_2x.jpg"
           :alt="$t('package.polybagTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
@@ -87,7 +87,7 @@
       <li>
         <h6>{{ $t("package.paperTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_9_2x.jpg"
+          src="/images/packages/img_9_2x.jpg"
           :alt="$t('package.paperTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
@@ -97,7 +97,7 @@
       <li>
         <h6>{{ $t("package.cardboardTitle") }}</h6>
         <BoosterImage
-          src="/static/images/packages/img_10_2x.jpg"
+          src="/images/packages/img_10_2x.jpg"
           :alt="$t('package.cardboardTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"

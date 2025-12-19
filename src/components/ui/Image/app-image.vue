@@ -21,8 +21,8 @@ export default {
     /**
      * Image path (can include _2x suffix or be base path)
      * Examples:
-     * - "/static/images/packages/img_1_2x.jpg"
-     * - "/static/images/packages/img_1.jpg"
+     * - "/images/packages/img_1_2x.jpg"
+     * - "/images/packages/img_1.jpg"
      * - "img_1" (will use basePath prop)
      */
     src: {

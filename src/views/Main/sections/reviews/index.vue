@@ -34,7 +34,7 @@
             v-for="(slide, index) in slides"
             :key="index"
             class="reviews__slide"
-            @click="$eventbus.$emit('openPopup', 'PopupContentFeedback')"
+            @click="navigateToInfo('reviews')"
           >
             <div class="reviews__slide-title">{{ slide.title }}</div>
 
@@ -177,8 +177,24 @@ export default {
     this.updateScrollButtons();
   },
   methods: {
+    navigateToInfo(route) {
+      const locale = this.$i18n?.locale || "ua";
+      if (this.$router) {
+        this.$router.push(`/${locale}/info/${route}`);
+      }
+    },
     openPopup(e) {
-      this.$eventbus.$emit("openPopup", e);
+      // Keep for backward compatibility with items that still use component names
+      const routeMap = {
+        PopupContentAboutUs: "about_us",
+        PopupContentSpecialists: "specialists",
+        PopupContentPackage: "package",
+        PopupContentAuto: "auto",
+        PopupContentPayment: "payment",
+        PopupContentFeedback: "reviews",
+      };
+      const route = routeMap[e] || "about_us";
+      this.navigateToInfo(route);
     },
     scrollCarousel(direction) {
       if (!this.$refs.carousel) return;

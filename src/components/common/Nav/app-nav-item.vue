@@ -35,16 +35,14 @@
           <li
             class="nav-inner__item"
             role="menuitem"
-            @click="$eventbus && $eventbus.$emit('openPopup', child.path)"
+            @click="handleChildClick(child.path)"
           >
             <a
               href=""
               class="nav-inner__link"
               role="button"
               tabindex="0"
-              @click.prevent="
-                $eventbus && $eventbus.$emit('openPopup', child.path)
-              "
+              @click.prevent="handleChildClick(child.path)"
               @keydown="handleChildKeydown($event, child.path)"
             >
               {{ child.title }}
@@ -140,13 +138,26 @@ export default {
         }
       }
     },
+    handleChildClick(path) {
+      const routeMap = {
+        PopupContentFlatMove: "flat_move",
+        PopupContentOfficeMove: "office_move",
+        PopupContentStuffMove: "stuff_move",
+        PopupContentSpecialists: "specialists",
+        PopupContentPackage: "package",
+      };
+      
+      const route = routeMap[path];
+      if (route && this.$router) {
+        const locale = this.$i18n?.locale || "ua";
+        this.$router.push(`/${locale}/info/${route}`);
+      }
+    },
     handleChildKeydown(event, path) {
       // Handle Enter and Space keys
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        if (this.$eventbus) {
-          this.$eventbus.$emit("openPopup", path);
-        }
+        this.handleChildClick(path);
       }
       // Handle Escape to close dropdown
       else if (event.key === "Escape") {

@@ -4,58 +4,42 @@
       <h2>{{ $t("price.title") }}</h2>
 
       <div class="subtitle dark-gray price__header--mobile">
-        <a
-          href="#"
-          @click.prevent="$eventbus.$emit('openPopup', 'PopupContentAuto')"
-          >{{ $t("price.mobileSubtitle1") }}</a
-        >
+        <a href="#" @click.prevent="navigateToInfo('auto')">{{
+          $t("price.mobileSubtitle1")
+        }}</a>
         {{ $t("price.mobileSubtitle2") }}
 
-        <a
-          href="#"
-          @click.prevent="
-            $eventbus.$emit('openPopup', 'PopupContentSpecialists')
-          "
-          >{{ $t("price.mobileSubtitle3") }}</a
-        >
+        <a href="#" @click.prevent="navigateToInfo('specialists')">{{
+          $t("price.mobileSubtitle3")
+        }}</a>
         {{ $t("price.mobileSubtitle4") }}
 
-        <a
-          href="#"
-          @click.prevent="$eventbus.$emit('openPopup', 'PopupContentPackage')"
-          >{{ $t("price.mobileSubtitle5") }}</a
-        >
+        <a href="#" @click.prevent="navigateToInfo('package')">{{
+          $t("price.mobileSubtitle5")
+        }}</a>
       </div>
 
       <div class="price__header">
         <div class="price__header-block subtitle dark-gray">
           <svg-icon name="icon_1" original />
-          <a
-            href="#"
-            @click.prevent="$eventbus.$emit('openPopup', 'PopupContentAuto')"
-            >{{ $t("price.desktopSubtitle1") }}</a
-          >
+          <a href="#" @click.prevent="navigateToInfo('auto')">{{
+            $t("price.desktopSubtitle1")
+          }}</a>
           &nbsp;{{ $t("price.desktopSubtitle2") }}
         </div>
         <div class="price__header-block subtitle dark-gray">
           <svg-icon name="icon_2" original />
           {{ $t("price.desktopSubtitle3") }}&nbsp;
-          <a
-            href="#"
-            @click.prevent="
-              $eventbus.$emit('openPopup', 'PopupContentSpecialists')
-            "
-            >{{ $t("price.desktopSubtitle4") }}</a
-          >
+          <a href="#" @click.prevent="navigateToInfo('specialists')">{{
+            $t("price.desktopSubtitle4")
+          }}</a>
         </div>
         <div class="price__header-block subtitle dark-gray">
           <svg-icon name="icon_3" original />
           {{ $t("price.desktopSubtitle5") }}&nbsp;
-          <a
-            href="#"
-            @click.prevent="$eventbus.$emit('openPopup', 'PopupContentPackage')"
-            >{{ $t("price.desktopSubtitle6") }}</a
-          >
+          <a href="#" @click.prevent="navigateToInfo('package')">{{
+            $t("price.desktopSubtitle6")
+          }}</a>
         </div>
       </div>
 
@@ -64,7 +48,7 @@
           <div class="price__subtitle-wrapper">
             <div
               class="price__subtitle price__subtitle--tree"
-              @click="$eventbus.$emit('openPopup', 'PopupContentAuto')"
+              @click="navigateToInfo('auto')"
             >
               {{ $t("price.carRental") }}
               <svg-icon name="link" original />
@@ -73,10 +57,7 @@
         </div>
 
         <div class="col-lg-4">
-          <div
-            class="price__subtitle"
-            @click="$eventbus.$emit('openPopup', 'PopupContentSpecialists')"
-          >
+          <div class="price__subtitle" @click="navigateToInfo('specialists')">
             {{ $t("price.specialistsServices") }}
             <svg-icon name="link" original />
           </div>
@@ -181,10 +162,7 @@
       </div>
 
       <div class="row justify-content-center">
-        <div
-          class="price__examples"
-          @click="$eventbus.$emit('openPopup', 'PopupContentFlatMove')"
-        >
+        <div class="price__examples" @click="navigateToInfo('flat_move')">
           {{ $t("price.examplesButton") }}
           <svg-icon name="arrow-next" />
         </div>
@@ -276,6 +254,12 @@ export default {
   },
   data: () => ({}),
   methods: {
+    navigateToInfo(route) {
+      const locale = this.$i18n?.locale || "ua";
+      if (this.$router) {
+        this.$router.push(`/${locale}/info/${route}`);
+      }
+    },
     handleCloseFullSize(e) {
       e.opened = false;
       document.body.classList.remove("modal-open");

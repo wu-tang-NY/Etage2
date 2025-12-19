@@ -1,14 +1,10 @@
 <template>
   <ClientOnly>
     <li id="information-modal-btn" class="nav-info">
-      <button
-        class="nav-info-btn"
-        @click="handleClick"
-        @keydown="handleKeydown"
-      >
+      <NuxtLink to="/info" class="nav-info-btn">
         <svg-icon name="icon_5_c" original />
         {{ $t("navInfo.information") }}
-      </button>
+      </NuxtLink>
     </li>
   </ClientOnly>
 </template>
@@ -16,25 +12,6 @@
 <script>
 export default {
   name: "AppNavInfo",
-  emits: ["click"],
-  methods: {
-    handleClick(event) {
-      this.$eventbus.$emit("openPopup", "PopupContentAboutUs");
-      this.$emit("click", event);
-    },
-    handleKeydown(event) {
-      // Handle Enter and Space keys (Space is handled by default on button, but we'll be explicit)
-      if (event.key === "Enter") {
-        event.preventDefault();
-        this.handleClick(event);
-      }
-      // Space key is already handled by button default behavior, but we can be explicit
-      if (event.key === " ") {
-        event.preventDefault();
-        this.handleClick(event);
-      }
-    },
-  },
 };
 </script>
 

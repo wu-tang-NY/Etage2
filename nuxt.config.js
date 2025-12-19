@@ -24,7 +24,7 @@ function copyDir(src, dest) {
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
 
-  modules: ["nuxt-booster"],
+  // Modules will be defined later to include all modules
 
   // Nuxt Booster configuration - enable all performance features
   // Booster automatically optimizes:
@@ -45,7 +45,28 @@ export default defineNuxtConfig({
         hardwareConcurrency: { min: 2, max: 48 },
         deviceMemory: { min: 2 },
       },
+      timing: {
+        fcp: 800,
+        dcl: 1200,
+      },
     },
+
+    targetFormats: ["webp", "avif", "jpg|jpeg|png|gif"],
+
+    componentAutoImport: false,
+  },
+
+  // @nuxt/image configuration
+  image: {
+    // Quality settings
+    quality: 80,
+    // Format settings - automatically serve WebP when supported
+    format: ["webp"],
+    // Configure static directory for image provider
+    dir: "static",
+    // Use default provider for local images
+    provider: "ipx",
+    domains: [],
   },
 
   // Alias configuration
@@ -180,8 +201,10 @@ export default defineNuxtConfig({
       : []), // PWA service worker update handler
   ],
 
-  // Modules
+  // Modules - @nuxt/image should come before nuxt-booster to avoid conflicts
   modules: [
+    "@nuxt/image",
+    "nuxt-booster",
     "@nuxtjs/i18n",
     // PWA module - only in production
     ...(process.env.NODE_ENV === "production" ? ["@vite-pwa/nuxt"] : []),
