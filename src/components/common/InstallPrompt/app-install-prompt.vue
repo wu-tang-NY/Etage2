@@ -2,7 +2,7 @@
   <div>
     <!-- Install Prompt Toast -->
     <Transition name="toast">
-      <div v-if="showPrompt" class="install-toast">
+      <div v-if="showPrompt && !isAppInstalled" class="install-toast">
         <div class="install-toast__content">
           <p class="install-toast__message">
             {{ $t("installPrompt.message") }}
@@ -80,7 +80,26 @@ export default {
       dismissedPrompt: false,
       showInstructions: false,
       manualInstructionText: "",
+      installCheckInterval: null,
     };
+  },
+  computed: {
+    isAppInstalled() {
+      if (typeof window === "undefined") {
+        return false;
+      }
+      return this.isInstalled();
+    },
+  },
+  watch: {
+    isAppInstalled(newValue) {
+      // If app becomes installed, hide the prompt
+      if (newValue && this.showPrompt) {
+        console.log("[PWA Install] App is now installed, hiding prompt");
+        this.showPrompt = false;
+        this.deferredPrompt = null;
+      }
+    },
   },
   beforeUnmount() {
     if (typeof window !== "undefined") {
@@ -88,6 +107,25 @@ export default {
         "beforeinstallprompt",
         this.handleBeforeInstallPrompt
       );
+      // Clear the install check interval
+      if (this.installCheckInterval) {
+        clearInterval(this.installCheckInterval);
+        this.installCheckInterval = null;
+      }
+      // If we prevented default but haven't called prompt(), we must call it
+      // to satisfy the browser requirement
+      if (this.deferredPrompt) {
+        console.log(
+          "[PWA Install] Component unmounting with deferred prompt, calling prompt()"
+        );
+        this.deferredPrompt.prompt().catch((error) => {
+          console.error(
+            "[PWA Install] Error calling prompt on unmount:",
+            error
+          );
+        });
+        this.deferredPrompt = null;
+      }
     }
   },
   mounted() {
@@ -135,6 +173,15 @@ export default {
     // Use the PWA composable from @vite-pwa/nuxt
     // The module exposes $pwa which we can access
     this.checkPWAInstallability();
+
+    // Periodically check if app becomes installed (useful if user installs while prompt is shown)
+    this.installCheckInterval = setInterval(() => {
+      if (this.isInstalled() && this.showPrompt) {
+        console.log("[PWA Install] App is now installed, hiding prompt");
+        this.showPrompt = false;
+        this.deferredPrompt = null;
+      }
+    }, 10000);
   },
   methods: {
     isInstalled() {
@@ -181,7 +228,9 @@ export default {
               "[PWA Install] Will show fallback prompt in 8 seconds if no event fires"
             );
             setTimeout(() => {
+              // Check if installed before showing fallback prompt
               if (
+                !this.isInstalled() &&
                 !this.dismissedPrompt &&
                 !this.showPrompt &&
                 !this.deferredPrompt
@@ -192,6 +241,7 @@ export default {
                 this.showPrompt = true;
               } else {
                 console.log("[PWA Install] Not showing fallback:", {
+                  installed: this.isInstalled(),
                   dismissed: this.dismissedPrompt,
                   alreadyShowing: this.showPrompt,
                   hasDeferred: !!this.deferredPrompt,
@@ -210,15 +260,33 @@ export default {
     },
     handleBeforeInstallPrompt(e) {
       console.log("[PWA Install] beforeinstallprompt event fired!");
+
+      // Check if app is already installed before preventing default
+      if (this.isInstalled()) {
+        console.log(
+          "[PWA Install] App is already installed, not preventing default"
+        );
+        return;
+      }
+
       // Prevent the default browser install prompt
       e.preventDefault();
       // Store the event for later use
       this.deferredPrompt = e;
       // Show the prompt after a short delay
       setTimeout(() => {
-        if (!this.showPrompt && !this.dismissedPrompt) {
+        // Check again if installed before showing
+        if (!this.isInstalled() && !this.showPrompt && !this.dismissedPrompt) {
           console.log("[PWA Install] Showing prompt after beforeinstallprompt");
           this.showPrompt = true;
+        } else if (this.isInstalled()) {
+          console.log(
+            "[PWA Install] App installed during delay, not showing prompt"
+          );
+          // Since we prevented default, we need to call prompt() to satisfy browser
+          e.prompt().catch((error) => {
+            console.error("[PWA Install] Error calling prompt:", error);
+          });
         }
       }, 2000);
     },
@@ -273,11 +341,33 @@ export default {
         }
       }
     },
-    handleDismiss() {
+    async handleDismiss() {
       // Store dismissal timestamp
       localStorage.setItem("pwa-install-dismissed", Date.now().toString());
       this.dismissedPrompt = true;
       this.showPrompt = false;
+
+      // If we prevented default, we must call prompt() to satisfy browser requirement
+      // This ensures the browser's install prompt can still be shown (even if user dismissed ours)
+      if (this.deferredPrompt) {
+        console.log(
+          "[PWA Install] User dismissed, calling prompt() to satisfy browser requirement"
+        );
+        try {
+          // Call prompt() to satisfy browser requirement - this allows the browser's
+          // native install prompt to be shown, giving user another opportunity
+          await this.deferredPrompt.prompt();
+          // Wait for user choice to properly complete the prompt lifecycle
+          await this.deferredPrompt.userChoice;
+        } catch (error) {
+          console.error(
+            "[PWA Install] Error calling prompt on dismiss:",
+            error
+          );
+        } finally {
+          this.deferredPrompt = null;
+        }
+      }
     },
     showManualInstallInstructions() {
       // Hide the install prompt
