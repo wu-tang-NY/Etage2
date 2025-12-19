@@ -510,8 +510,10 @@ export default defineNuxtConfig({
       prefer_related_applications: false,
     },
     workbox: {
-      // Use generateSW mode for better control
-      mode: "generateSW",
+      // Use injectManifest mode to use custom service worker with proper preloadResponse handling
+      mode: "injectManifest",
+      srcDir: "public",
+      filename: "sw.js",
       // Don't skip waiting - let user control when to update
       skipWaiting: false,
       clientsClaim: false,
