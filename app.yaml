@@ -17,7 +17,23 @@ handlers:
 - url: /(.*\.(js|css|png|jpg|svg|ttf))$
   static_files: dist/\1
   upload: dist/.*\.(js|css|png|jpg|svg|ttf)$
+  http_headers:
+    Cache-Control: "public, max-age=86400"  # 1 day for static assets
+- url: /sw.js
+  static_files: dist/sw.js
+  upload: dist/sw\.js$
+  http_headers:
+    Cache-Control: "public, max-age=0, must-revalidate"  # No cache for service worker
+- url: /manifest.webmanifest
+  static_files: dist/manifest.webmanifest
+  upload: dist/manifest\.webmanifest$
+  http_headers:
+    Cache-Control: "public, max-age=0, must-revalidate"  # No cache for manifest
 - url: /.*
   static_files: dist/index.html
   upload: dist/index.html
+  http_headers:
+    Cache-Control: "no-cache, no-store, must-revalidate"  # Never cache HTML
+    Pragma: "no-cache"
+    Expires: "0"
 # [END runtime]

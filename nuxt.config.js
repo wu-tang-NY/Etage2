@@ -262,7 +262,7 @@ export default defineNuxtConfig({
       {
         baseURL: "/",
         dir: "static",
-        maxAge: 60 * 60 * 24 * 7, // 7 days
+        maxAge: 60 * 60 * 24, // 1 day - reduced for faster updates
       },
     ],
     // Prerender routes for static generation
@@ -276,7 +276,30 @@ export default defineNuxtConfig({
       "build:before"(nitro) {
         // This will run before the build
       },
+      "render:route"(url, result, context) {
+        // Ensure HTML responses have no-cache headers
+        if (
+          result &&
+          typeof result.body === "string" &&
+          result.body.includes("<!DOCTYPE html>")
+        ) {
+          if (!result.headers) result.headers = {};
+          result.headers["Cache-Control"] =
+            "no-cache, no-store, must-revalidate";
+          result.headers["Pragma"] = "no-cache";
+          result.headers["Expires"] = "0";
+        }
+      },
       "nitro:render:html"(html, { event }) {
+        // Set no-cache headers for HTML responses
+        if (event && event.node && event.node.res) {
+          event.node.res.setHeader(
+            "Cache-Control",
+            "no-cache, no-store, must-revalidate"
+          );
+          event.node.res.setHeader("Pragma", "no-cache");
+          event.node.res.setHeader("Expires", "0");
+        }
         // Defer CSS loading by modifying stylesheet links to use print media trick
         // This prevents CSS from blocking the initial render
         // Only process if html is an object with head property (not a string for error overlay)
