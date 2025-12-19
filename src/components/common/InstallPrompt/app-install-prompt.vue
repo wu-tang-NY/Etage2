@@ -90,6 +90,14 @@ export default {
       }
       return this.isInstalled();
     },
+    canShowPrompt() {
+      // Check all conditions for showing the install prompt
+      return (
+        !this.isAppInstalled &&
+        !this.dismissedPrompt &&
+        typeof window !== "undefined"
+      );
+    },
   },
   watch: {
     isAppInstalled(newValue) {
@@ -136,6 +144,9 @@ export default {
 
     console.log("[PWA Install] Component mounted");
 
+    // Run diagnostics
+    this.runPWADiagnostics();
+
     // Check if already installed
     if (this.isInstalled()) {
       console.log("[PWA Install] App is already installed");
@@ -169,6 +180,24 @@ export default {
       return;
     }
 
+    // Add debug mode for testing (add ?pwaDebug=true to URL)
+    if (urlParams.get("pwaDebug") === "true") {
+      console.log(
+        "[PWA Install] Debug mode enabled - Run window.$pwaTest() to test install"
+      );
+      window.$pwaTest = () => {
+        this.showPrompt = true;
+      };
+      window.$pwaReset = () => {
+        localStorage.removeItem("pwa-install-dismissed");
+        sessionStorage.removeItem("pwa-update-dismissed");
+        console.log("[PWA Install] Reset install state - reload page");
+      };
+      window.$pwaDiagnostics = () => {
+        this.runPWADiagnostics();
+      };
+    }
+
     console.log("[PWA Install] Checking PWA installability...");
     // Use the PWA composable from @vite-pwa/nuxt
     // The module exposes $pwa which we can access
@@ -184,6 +213,143 @@ export default {
     }, 10000);
   },
   methods: {
+    runPWADiagnostics() {
+      // Comprehensive PWA diagnostics to help debug installability issues
+      console.group("🔍 PWA Diagnostics");
+
+      // 1. Check environment
+      console.log("📋 Environment Check:");
+      console.log({
+        isSecure:
+          window.location.protocol === "https:" ||
+          window.location.hostname === "localhost",
+        protocol: window.location.protocol,
+        hostname: window.location.hostname,
+        userAgent: navigator.userAgent,
+      });
+
+      // 2. Check service worker
+      console.log("\n🔧 Service Worker:");
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          console.log({
+            supported: true,
+            registrationCount: registrations.length,
+            registrations: registrations.map((reg) => ({
+              scope: reg.scope,
+              active: !!reg.active,
+              waiting: !!reg.waiting,
+              installing: !!reg.installing,
+            })),
+          });
+        });
+      } else {
+        console.log({ supported: false });
+      }
+
+      // 3. Check manifest
+      console.log("\n📄 Manifest:");
+      const manifestLink = document.querySelector('link[rel="manifest"]');
+      if (manifestLink) {
+        console.log({
+          found: true,
+          href: manifestLink.href,
+        });
+        // Try to fetch and validate manifest
+        fetch(manifestLink.href)
+          .then((res) => res.json())
+          .then((manifest) => {
+            console.log("Manifest contents:", manifest);
+            console.log("Manifest validation:", {
+              hasName: !!(manifest.name || manifest.short_name),
+              hasStartUrl: !!manifest.start_url,
+              hasDisplay: !!manifest.display,
+              hasIcons: manifest.icons && manifest.icons.length > 0,
+              iconSizes: manifest.icons?.map((i) => i.sizes),
+            });
+          })
+          .catch((err) => {
+            console.error("Failed to fetch manifest:", err);
+          });
+      } else {
+        console.log({ found: false });
+      }
+
+      // 4. Check display mode
+      console.log("\n🖥️ Display Mode:");
+      console.log({
+        current: window.matchMedia("(display-mode: standalone)").matches
+          ? "standalone"
+          : window.matchMedia("(display-mode: minimal-ui)").matches
+          ? "minimal-ui"
+          : window.matchMedia("(display-mode: fullscreen)").matches
+          ? "fullscreen"
+          : "browser",
+        isStandalone: window.matchMedia("(display-mode: standalone)").matches,
+        iosStandalone: window.navigator.standalone,
+      });
+
+      // 5. Check browser support for beforeinstallprompt
+      console.log("\n🌐 Browser Support:");
+      const isChrome = /Chrome/.test(navigator.userAgent);
+      const isEdge = /Edg/.test(navigator.userAgent);
+      const isSafari =
+        /Safari/.test(navigator.userAgent) &&
+        !/Chrome/.test(navigator.userAgent);
+      const isFirefox = /Firefox/.test(navigator.userAgent);
+      const supportedBrowser = isChrome || isEdge;
+
+      console.log({
+        isChrome,
+        isEdge,
+        isSafari,
+        isFirefox,
+        supportsBeforeInstallPrompt: supportedBrowser,
+        note: !supportedBrowser
+          ? "This browser may not fire beforeinstallprompt event"
+          : "Browser should support beforeinstallprompt",
+      });
+
+      // 6. Check install criteria
+      console.log("\n✅ Install Criteria:");
+      console.log({
+        isHTTPS:
+          window.location.protocol === "https:" ||
+          window.location.hostname === "localhost",
+        hasManifest: !!document.querySelector('link[rel="manifest"]'),
+        hasServiceWorker: "serviceWorker" in navigator,
+        notAlreadyInstalled: !this.isInstalled(),
+        browserSupported: supportedBrowser,
+      });
+
+      // 7. Common issues
+      console.log("\n⚠️ Common Issues to Check:");
+      console.log(`
+1. App already installed? ${
+        this.isInstalled() ? "YES - This prevents the event" : "No"
+      }
+2. HTTPS required? ${
+        window.location.protocol === "https:" ||
+        window.location.hostname === "localhost"
+          ? "✓ OK"
+          : "✗ FAIL"
+      }
+3. Manifest linked? ${
+        !!document.querySelector('link[rel="manifest"]') ? "✓ OK" : "✗ FAIL"
+      }
+4. Service Worker? ${"serviceWorker" in navigator ? "✓ OK" : "✗ FAIL"}
+5. Supported browser? ${
+        supportedBrowser ? "✓ OK" : "✗ Safari/Firefox don't fire the event"
+      }
+6. User dismissed before? ${
+        localStorage.getItem("pwa-install-dismissed")
+          ? "YES - wait 7 days"
+          : "No"
+      }
+      `);
+
+      console.groupEnd();
+    },
     isInstalled() {
       // Check if running as standalone (installed)
       if (window.matchMedia("(display-mode: standalone)").matches) {
@@ -193,9 +359,78 @@ export default {
       if (window.navigator.standalone === true) {
         return true;
       }
+      // Check for PWA source parameter (launched from installed app)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("source") === "pwa") {
+        return true;
+      }
+      // Check for minimal-ui or fullscreen display modes
+      if (
+        window.matchMedia("(display-mode: minimal-ui)").matches ||
+        window.matchMedia("(display-mode: fullscreen)").matches
+      ) {
+        return true;
+      }
       return false;
     },
-    checkPWAInstallability() {
+    async checkManifestInstallability() {
+      // Enhanced manifest validation
+      try {
+        const manifestLink = document.querySelector('link[rel="manifest"]');
+        if (!manifestLink) {
+          console.warn("[PWA Install] No manifest link found");
+          return false;
+        }
+
+        const manifestUrl = manifestLink.href;
+        console.log("[PWA Install] Fetching manifest from:", manifestUrl);
+
+        const response = await fetch(manifestUrl);
+        if (!response.ok) {
+          console.error(
+            "[PWA Install] Manifest fetch failed:",
+            response.status
+          );
+          return false;
+        }
+
+        const manifest = await response.json();
+        console.log("[PWA Install] Manifest loaded:", {
+          name: manifest.name,
+          short_name: manifest.short_name,
+          start_url: manifest.start_url,
+          display: manifest.display,
+          icons: manifest.icons?.length || 0,
+        });
+
+        // Validate manifest has required fields for installability
+        const hasName = manifest.name || manifest.short_name;
+        const hasStartUrl = manifest.start_url;
+        const hasDisplay = manifest.display;
+        const hasIcons =
+          manifest.icons &&
+          manifest.icons.length > 0 &&
+          manifest.icons.some(
+            (icon) =>
+              icon.sizes &&
+              (icon.sizes.includes("192x192") || icon.sizes.includes("512x512"))
+          );
+
+        console.log("[PWA Install] Manifest validation:", {
+          hasName,
+          hasStartUrl,
+          hasDisplay,
+          hasIcons,
+          isValid: hasName && hasStartUrl && hasDisplay && hasIcons,
+        });
+
+        return hasName && hasStartUrl && hasDisplay && hasIcons;
+      } catch (error) {
+        console.error("[PWA Install] Manifest validation error:", error);
+        return false;
+      }
+    },
+    async checkPWAInstallability() {
       // Listen for the beforeinstallprompt event
       // The @vite-pwa/nuxt module with installPrompt: true should fire this
       console.log("[PWA Install] Adding beforeinstallprompt listener");
@@ -209,24 +444,60 @@ export default {
         console.log(
           "[PWA Install] Service worker supported, waiting for ready..."
         );
-        navigator.serviceWorker.ready.then(() => {
+
+        try {
+          await navigator.serviceWorker.ready;
           console.log("[PWA Install] Service worker is ready");
-          // Check if PWA is installable
+
+          // Enhanced installability checks
           const isHTTPS =
             window.location.protocol === "https:" ||
             window.location.hostname === "localhost";
           const hasManifest = document.querySelector('link[rel="manifest"]');
-          console.log("[PWA Install] HTTPS/localhost:", isHTTPS);
-          console.log(
-            "[PWA Install] Has manifest:",
-            !!hasManifest,
-            hasManifest?.href
-          );
+
+          console.log("[PWA Install] Environment check:", {
+            isHTTPS,
+            hasManifest: !!hasManifest,
+            manifestUrl: hasManifest?.href,
+            userAgent: navigator.userAgent,
+            platform: navigator.platform,
+          });
+
           if (isHTTPS && hasManifest) {
+            // Validate manifest contents
+            const isManifestValid = await this.checkManifestInstallability();
+
+            if (!isManifestValid) {
+              console.warn(
+                "[PWA Install] Manifest validation failed - app may not be installable"
+              );
+            }
+
+            // Detect browser type for better diagnostics
+            const isChrome = /Chrome/.test(navigator.userAgent);
+            const isEdge = /Edg/.test(navigator.userAgent);
+            const isSafari =
+              /Safari/.test(navigator.userAgent) &&
+              !/Chrome/.test(navigator.userAgent);
+            const isFirefox = /Firefox/.test(navigator.userAgent);
+            const isMobile = /Mobile|Android|iPhone|iPad/.test(
+              navigator.userAgent
+            );
+
+            console.log("[PWA Install] Browser detection:", {
+              isChrome,
+              isEdge,
+              isSafari,
+              isFirefox,
+              isMobile,
+            });
+
             // Show prompt after a delay even if beforeinstallprompt hasn't fired yet
+            // This is especially important for browsers that don't fire the event
             console.log(
               "[PWA Install] Will show fallback prompt in 8 seconds if no event fires"
             );
+
             setTimeout(() => {
               // Check if installed before showing fallback prompt
               if (
@@ -237,6 +508,9 @@ export default {
               ) {
                 console.log(
                   "[PWA Install] Showing fallback prompt (no beforeinstallprompt event received)"
+                );
+                console.log(
+                  "[PWA Install] This is normal for Safari and some other browsers"
                 );
                 this.showPrompt = true;
               } else {
@@ -250,10 +524,16 @@ export default {
             }, 8000);
           } else {
             console.log(
-              "[PWA Install] Cannot show prompt - requirements not met"
+              "[PWA Install] Cannot show prompt - requirements not met:",
+              { isHTTPS, hasManifest: !!hasManifest }
             );
           }
-        });
+        } catch (error) {
+          console.error(
+            "[PWA Install] Error during installability check:",
+            error
+          );
+        }
       } else {
         console.log("[PWA Install] Service worker not supported");
       }
@@ -479,19 +759,54 @@ export default {
       // Hide the install prompt
       this.showPrompt = false;
 
-      // Detect browser and platform
+      // Enhanced browser and platform detection
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isAndroid = /Android/.test(navigator.userAgent);
       const isSafari = /^((?!chrome|android).)*safari/i.test(
         navigator.userAgent
       );
-      const isChrome = /Chrome/.test(navigator.userAgent);
+      const isChrome =
+        /Chrome/.test(navigator.userAgent) &&
+        /Google Inc/.test(navigator.vendor);
+      const isEdge = /Edg/.test(navigator.userAgent);
+      const isFirefox = /Firefox/.test(navigator.userAgent);
+      const isSamsung = /SamsungBrowser/.test(navigator.userAgent);
 
       let message = "";
 
-      if (isIOS && isSafari) {
-        message = this.$t("installPrompt.iosSafariInstructions");
-      } else if (isChrome) {
+      // Provide specific instructions based on browser/platform
+      if (isIOS) {
+        if (isSafari) {
+          message = this.$t("installPrompt.iosSafariInstructions");
+        } else {
+          message =
+            this.$t("installPrompt.iosOtherBrowserInstructions") ||
+            "На iOS додаток можна встановити тільки через Safari. Відкрийте цей сайт у Safari та натисніть 'Поділитися' → 'На екран Домівка'";
+        }
+      } else if (isAndroid) {
+        if (isChrome) {
+          message =
+            this.$t("installPrompt.androidChromeInstructions") ||
+            this.$t("installPrompt.chromeInstructions");
+        } else if (isFirefox) {
+          message =
+            this.$t("installPrompt.androidFirefoxInstructions") ||
+            "У Firefox: Натисніть меню (три крапки) → 'Встановити' або 'Додати на головний екран'";
+        } else if (isSamsung) {
+          message =
+            this.$t("installPrompt.androidSamsungInstructions") ||
+            "У Samsung Internet: Натисніть меню → 'Додати сторінку до' → 'Головний екран'";
+        } else {
+          message =
+            this.$t("installPrompt.androidGenericInstructions") ||
+            "Натисніть меню браузера та оберіть 'Додати на головний екран' або 'Встановити'";
+        }
+      } else if (isChrome || isEdge) {
         message = this.$t("installPrompt.chromeInstructions");
+      } else if (isFirefox) {
+        message =
+          this.$t("installPrompt.firefoxInstructions") ||
+          "У Firefox Desktop PWA підтримується обмежено. Спробуйте Chrome або Edge для кращого досвіду.";
       } else {
         message = this.$t("installPrompt.genericInstructions");
       }
@@ -500,7 +815,18 @@ export default {
       this.manualInstructionText = message;
       this.showInstructions = true;
 
-      console.log("[PWA Install] Showed manual instructions:", message);
+      console.log("[PWA Install] Showed manual instructions:", {
+        browser: {
+          isIOS,
+          isAndroid,
+          isSafari,
+          isChrome,
+          isEdge,
+          isFirefox,
+          isSamsung,
+        },
+        message,
+      });
 
       // Don't dismiss the prompt so it can be shown again later
       // this.handleDismiss();

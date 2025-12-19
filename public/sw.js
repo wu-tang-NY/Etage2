@@ -11,6 +11,21 @@ import { enable } from 'workbox-navigation-preload';
 // Enable navigation preload
 enable();
 
+// Handle messages from clients
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    console.log('[Service Worker] Received SKIP_WAITING message');
+    self.skipWaiting();
+  }
+});
+
+// Handle service worker activation
+self.addEventListener('activate', (event) => {
+  console.log('[Service Worker] Activated');
+  // Take control of all clients immediately
+  event.waitUntil(self.clients.claim());
+});
+
 // Precache assets
 precacheAndRoute(self.__WB_MANIFEST);
 

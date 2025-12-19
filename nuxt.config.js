@@ -415,14 +415,14 @@ export default defineNuxtConfig({
     registerType: "autoUpdate",
     manifest: {
       name: "Етаж - Сервіс переїздів та вантажоперевезень",
-      short_name: "Etage",
+      short_name: "Етаж",
       description:
         "Професійний сервіс переїздів та вантажоперевезень в Дніпрі та Одесі. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників",
       lang: "uk",
       dir: "ltr",
-      start_url: "/",
+      start_url: "/?source=pwa",
       scope: "/",
-      id: "/",
+      id: "/?source=pwa",
       display: "standalone",
       display_override: ["window-controls-overlay", "standalone", "minimal-ui"],
       orientation: "any",
@@ -491,6 +491,21 @@ export default defineNuxtConfig({
             },
           ],
         },
+      ],
+      // Screenshots improve the install prompt on Android
+      // To add screenshots:
+      // 1. Take screenshots of your app (ideally 540x720 for narrow, 720x540 for wide)
+      // 2. Place them in static/images/screenshots/
+      // 3. Add them here with proper dimensions and labels
+      screenshots: [
+        // Example:
+        // {
+        //   src: "/images/screenshots/home.jpg",
+        //   sizes: "540x720",
+        //   type: "image/jpeg",
+        //   form_factor: "narrow",
+        //   label: "Home screen"
+        // },
       ],
       share_target: {
         action: "/",

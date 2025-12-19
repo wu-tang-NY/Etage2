@@ -114,10 +114,24 @@ export default {
   },
   methods: {
     isInstalled() {
+      // Check if running as standalone (installed)
       if (window.matchMedia("(display-mode: standalone)").matches) {
         return true;
       }
+      // Check if running in standalone mode on iOS
       if (window.navigator.standalone === true) {
+        return true;
+      }
+      // Check for PWA source parameter (launched from installed app)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("source") === "pwa") {
+        return true;
+      }
+      // Check for minimal-ui or fullscreen display modes
+      if (
+        window.matchMedia("(display-mode: minimal-ui)").matches ||
+        window.matchMedia("(display-mode: fullscreen)").matches
+      ) {
         return true;
       }
       return false;
@@ -160,31 +174,72 @@ export default {
       }
     },
     showManualInstallInstructions() {
-      // Show user-friendly message about manual installation
+      // Enhanced browser and platform detection
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isAndroid = /Android/.test(navigator.userAgent);
+      const isSafari = /^((?!chrome|android).)*safari/i.test(
+        navigator.userAgent
+      );
       const isChrome =
         /Chrome/.test(navigator.userAgent) &&
         /Google Inc/.test(navigator.vendor);
       const isEdge = /Edg/.test(navigator.userAgent);
-      const isSafari =
-        /Safari/.test(navigator.userAgent) &&
-        !/Chrome/.test(navigator.userAgent);
+      const isFirefox = /Firefox/.test(navigator.userAgent);
+      const isSamsung = /SamsungBrowser/.test(navigator.userAgent);
 
-      if (isSafari) {
-        alert(
-          this.$t("installPrompt.iosSafariInstructions") ||
-            "На iOS: Нажмите кнопку 'Поделиться' и выберите 'На экран Домой'"
-        );
+      let message = "";
+
+      // Provide specific instructions based on browser/platform
+      if (isIOS) {
+        if (isSafari) {
+          message = this.$t("installPrompt.iosSafariInstructions");
+        } else {
+          message =
+            this.$t("installPrompt.iosOtherBrowserInstructions") ||
+            "На iOS додаток можна встановити тільки через Safari. Відкрийте цей сайт у Safari та натисніть 'Поділитися' → 'На екран Домівка'";
+        }
+      } else if (isAndroid) {
+        if (isChrome) {
+          message =
+            this.$t("installPrompt.androidChromeInstructions") ||
+            this.$t("installPrompt.chromeInstructions");
+        } else if (isFirefox) {
+          message =
+            this.$t("installPrompt.androidFirefoxInstructions") ||
+            "У Firefox: Натисніть меню (три крапки) → 'Встановити' або 'Додати на головний екран'";
+        } else if (isSamsung) {
+          message =
+            this.$t("installPrompt.androidSamsungInstructions") ||
+            "У Samsung Internet: Натисніть меню → 'Додати сторінку до' → 'Головний екран'";
+        } else {
+          message =
+            this.$t("installPrompt.androidGenericInstructions") ||
+            "Натисніть меню браузера та оберіть 'Додати на головний екран' або 'Встановити'";
+        }
       } else if (isChrome || isEdge) {
-        alert(
-          this.$t("installPrompt.chromeInstructions") ||
-            "Нажмите на иконку установки в адресной строке браузера"
-        );
+        message = this.$t("installPrompt.chromeInstructions");
+      } else if (isFirefox) {
+        message =
+          this.$t("installPrompt.firefoxInstructions") ||
+          "У Firefox Desktop PWA підтримується обмежено. Спробуйте Chrome або Edge для кращого досвіду.";
       } else {
-        alert(
-          this.$t("installPrompt.genericInstructions") ||
-            "Пожалуйста, используйте меню браузера для установки приложения"
-        );
+        message = this.$t("installPrompt.genericInstructions");
       }
+
+      alert(message);
+
+      console.log("[Footer] Showed manual install instructions:", {
+        browser: {
+          isIOS,
+          isAndroid,
+          isSafari,
+          isChrome,
+          isEdge,
+          isFirefox,
+          isSamsung,
+        },
+        message,
+      });
     },
   },
 };
