@@ -273,6 +273,10 @@ export default {
 </script>
 
 <style lang="scss">
+.app-footer {
+  border-top: 1px solid var(--colors-grey-200);
+}
+
 .app-footer__inner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;

@@ -309,18 +309,6 @@ export default {
   min-height: calc(100vh - 200px);
   padding-bottom: 60px;
 
-  &::before {
-    content: "";
-    position: absolute;
-    bottom: 40px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("/static/images/bg_dark.png") repeat-x center bottom;
-    background-size: 75%;
-    pointer-events: none;
-  }
-
   .sticky {
     position: sticky;
     top: 200px;
@@ -362,10 +350,14 @@ export default {
 
     &--active {
       .info-layout__panel-header {
-        background-color: rgba(#fff, 0.1);
+        background-color: var(--colors-grey-200);
 
         svg {
           transform: rotateZ(0);
+
+          g {
+            fill: var(--colors-text-primary);
+          }
         }
       }
       .info-layout__panel-content {
@@ -386,19 +378,23 @@ export default {
     font-size: 14px;
     font-weight: bold;
     letter-spacing: 0.3px;
-    color: #ffffff;
     padding: 0 16px;
     line-height: 36px;
     transition: 0.3s ease-in-out;
 
     &:hover {
-      background-color: rgba(#fff, 0.1);
+      background-color: var(--colors-grey-200);
     }
 
     svg {
       @include size(8px, 5px);
       transform: rotateZ(180deg);
       transition: 0.3s ease-in-out;
+      fill: var(--colors-accent);
+
+      g {
+        fill: var(--colors-text-primary);
+      }
     }
   }
 
@@ -417,7 +413,6 @@ export default {
     line-height: 36px;
     font-weight: 500;
     letter-spacing: 0.3px;
-    color: #ffffff;
     max-height: 0;
     transition: 0.3s ease-in-out;
     text-decoration: none;
@@ -456,7 +451,6 @@ export default {
       font-size: rem(15);
       line-height: 1.6;
       letter-spacing: 0.3px;
-      color: #ffffff;
     }
 
     p + p,

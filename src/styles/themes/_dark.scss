@@ -1114,6 +1114,22 @@ canvas,
   // Brand colors (#1877F2 for Facebook, #E4405F for Instagram) are not overridden
   // as they are not in the color replacement list above, so they display in their original colors
 
+  .info-layout {
+    &__panel {
+      &--active {
+        .info-layout__panel-header {
+          background-color: rgba(#fff, 0.1);
+        }
+      }
+    }
+
+    &__panel-header {
+      &:hover {
+        background-color: rgba(#fff, 0.1);
+      }
+    }
+  }
+
   // Feature icons
   .individual_feature,
   .team_feature,
