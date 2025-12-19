@@ -31,7 +31,7 @@ export default {
     },
   },
   components: {
-    CallbackModal: defineAsyncComponent(() => import("./app-callback-modal")),
+    CallbackModal: defineAsyncComponent(() => import("./app-callback-modal.vue")),
   },
 };
 </script>

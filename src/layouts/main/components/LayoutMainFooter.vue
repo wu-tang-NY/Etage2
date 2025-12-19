@@ -6,26 +6,6 @@
           <div class="app-copyright">
             {{ $t("footer.copyright") }}
           </div>
-          <div class="app-social">
-            <a
-              href="https://instagram.com/etage.com.ua/"
-              class="app-social__link"
-              target="_blank"
-              aria-label="Visit our Instagram"
-              rel="noopener noreferrer"
-            >
-              <svg-icon name="icon_in" original />
-            </a>
-            <a
-              href="https://www.facebook.com/groups/2522732927949314/?ref=share_group_link"
-              class="app-social__link"
-              target="_blank"
-              aria-label="Visit our Facebook page"
-              rel="noopener noreferrer"
-            >
-              <svg-icon name="icon_fb" original />
-            </a>
-          </div>
           <div class="app-footer__actions">
             <button
               v-if="showInstallButton"
@@ -50,6 +30,53 @@
               </svg>
               {{ $t("installPrompt.installButton") }}
             </button>
+          </div>
+          <div class="app-social">
+            <a
+              href="https://instagram.com/etage.com.ua/"
+              class="app-social__link"
+              target="_blank"
+              aria-label="Visit our Instagram"
+              rel="noopener noreferrer"
+            >
+              <svg-icon name="icon_in" original />
+            </a>
+            <a
+              href="https://www.facebook.com/groups/2522732927949314/?ref=share_group_link"
+              class="app-social__link"
+              target="_blank"
+              aria-label="Visit our Facebook page"
+              rel="noopener noreferrer"
+            >
+              <svg-icon name="icon_fb" original />
+            </a>
+            <a
+              href="https://t.me/+380953560005"
+              class="app-social__link"
+              target="_blank"
+              aria-label="Contact us on Telegram"
+              rel="noopener noreferrer"
+            >
+              <svg-icon name="icon_tg" original />
+            </a>
+            <a
+              href="https://viber.click/380953560005"
+              class="app-social__link"
+              target="_blank"
+              aria-label="Contact us on Viber"
+              rel="noopener noreferrer"
+            >
+              <svg-icon name="icon_vb" original />
+            </a>
+            <a
+              href="https://wa.me/380953560005"
+              class="app-social__link"
+              target="_blank"
+              aria-label="Contact us on WhatsApp"
+              rel="noopener noreferrer"
+            >
+              <svg-icon name="icon_wa" original />
+            </a>
           </div>
         </div>
       </div>
@@ -256,7 +283,7 @@ export default {
 .app-social {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 
   &__link {
     // background-color: var(--colors-grey-100);
@@ -266,7 +293,7 @@ export default {
     }
 
     svg {
-      @include size(18px);
+      @include size(20px);
     }
   }
 }
@@ -274,7 +301,7 @@ export default {
 .app-footer__actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 15px;
 }
 

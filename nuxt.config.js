@@ -174,11 +174,18 @@ export default defineNuxtConfig({
     { src: "~/plugins/defer-css.js", mode: "client" }, // Defer non-critical CSS
     { src: "~/plugins/theme.js", mode: "client" },
     { src: "~/plugins/html-lang.js", mode: "client" }, // Update HTML lang attribute based on locale
-    { src: "~/plugins/pwa-update.js", mode: "client" }, // PWA service worker update handler
+    // PWA plugin - only in production
+    ...(process.env.NODE_ENV === "production"
+      ? [{ src: "~/plugins/pwa-update.js", mode: "client" }]
+      : []), // PWA service worker update handler
   ],
 
   // Modules
-  modules: ["@nuxtjs/i18n", "@vite-pwa/nuxt"],
+  modules: [
+    "@nuxtjs/i18n",
+    // PWA module - only in production
+    ...(process.env.NODE_ENV === "production" ? ["@vite-pwa/nuxt"] : []),
+  ],
 
   // i18n module configuration
   i18n: {
@@ -212,10 +219,34 @@ export default defineNuxtConfig({
 
   // Vite configuration for SCSS
   vite: {
+    server: {
+      hmr: {
+        // HMR WebSocket should connect to the same port as Nuxt dev server
+        port: 3000,
+        clientPort: 3000,
+        protocol: "ws",
+        host: "localhost",
+      },
+      // Ensure proper module resolution in dev mode
+      fs: {
+        strict: false,
+      },
+    },
     resolve: {
       alias: {
         "vue-svgicon": resolve(__dirname, "./src/utils/vue-svgicon-bridge.js"),
       },
+      // Ensure proper module resolution with explicit extensions
+      extensions: [
+        ".mjs",
+        ".js",
+        ".mts",
+        ".ts",
+        ".jsx",
+        ".tsx",
+        ".json",
+        ".vue",
+      ],
     },
     css: {
       preprocessorOptions: {
@@ -265,12 +296,12 @@ export default defineNuxtConfig({
   // Runtime config
   runtimeConfig: {
     // Private keys (server-side only) - accessed via useRuntimeConfig() in server routes
-    mailgunApiKey: process.env.MAILGUN_API_KEY,
-    mailgunDomain: process.env.MAILGUN_DOMAIN,
+    mailgunApiKey: process.env.MAILGUN_API_KEY ?? "",
+    mailgunDomain: process.env.MAILGUN_DOMAIN ?? "",
     // Public keys (exposed to client) - accessed via useRuntimeConfig().public
     public: {
-      mailgunApiKey: process.env.MAILGUN_API_KEY,
-      mailgunDomain: process.env.MAILGUN_DOMAIN,
+      mailgunApiKey: process.env.MAILGUN_API_KEY ?? "",
+      mailgunDomain: process.env.MAILGUN_DOMAIN ?? "",
     },
   },
 
@@ -431,142 +462,154 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  // PWA configuration
-  pwa: {
-    registerType: "autoUpdate",
-    manifest: {
-      name: "Етаж - Сервіс переїздів та вантажоперевезень",
-      short_name: "Етаж",
-      description:
-        "Професійний сервіс переїздів та вантажоперевезень в Дніпрі та Одесі. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників",
-      lang: "uk",
-      dir: "ltr",
-      start_url: "/?source=pwa",
-      scope: "/",
-      id: "/?source=pwa",
-      display: "standalone",
-      display_override: ["window-controls-overlay", "standalone", "minimal-ui"],
-      orientation: "any",
-      theme_color: "#ffffff",
-      background_color: "#ffffff",
-      // Add dark theme color support for PWA
-      // Note: PWA manifest doesn't support media queries, so we use light as default
-      // The theme-color meta tags handle the dynamic switching
-      categories: ["business", "utilities"],
-      icons: [
-        {
-          src: "/favicon/android-chrome-192x192.png",
-          sizes: "192x192",
-          type: "image/png",
-          purpose: "any maskable",
-        },
-        {
-          src: "/favicon/android-chrome-512x512.png",
-          sizes: "512x512",
-          type: "image/png",
-          purpose: "any maskable",
-        },
-        {
-          src: "/favicon/apple-touch-icon.png",
-          sizes: "180x180",
-          type: "image/png",
-          purpose: "any",
-        },
-        {
-          src: "/favicon/favicon-32x32.png",
-          sizes: "32x32",
-          type: "image/png",
-          purpose: "any",
-        },
-        {
-          src: "/favicon/favicon-16x16.png",
-          sizes: "16x16",
-          type: "image/png",
-          purpose: "any",
-        },
-      ],
-      shortcuts: [
-        {
-          name: "Замовити переїзд",
-          short_name: "Замовити",
-          description: "Швидке замовлення переїзду",
-          url: "/?action=order",
-          icons: [
-            {
-              src: "/favicon/android-chrome-192x192.png",
-              sizes: "192x192",
-              type: "image/png",
+  // PWA configuration - only in production
+  ...(process.env.NODE_ENV === "production"
+    ? {
+        pwa: {
+          registerType: "autoUpdate",
+          manifest: {
+            name: "Етаж - Сервіс переїздів та вантажоперевезень",
+            short_name: "Етаж",
+            description:
+              "Професійний сервіс переїздів та вантажоперевезень в Дніпрі та Одесі. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників",
+            lang: "uk",
+            dir: "ltr",
+            start_url: "/?source=pwa",
+            scope: "/",
+            id: "/?source=pwa",
+            display: "standalone",
+            display_override: [
+              "window-controls-overlay",
+              "standalone",
+              "minimal-ui",
+            ],
+            orientation: "any",
+            theme_color: "#ffffff",
+            background_color: "#ffffff",
+            // Add dark theme color support for PWA
+            // Note: PWA manifest doesn't support media queries, so we use light as default
+            // The theme-color meta tags handle the dynamic switching
+            categories: ["business", "utilities"],
+            icons: [
+              {
+                src: "/favicon/android-chrome-192x192.png",
+                sizes: "192x192",
+                type: "image/png",
+                purpose: "any maskable",
+              },
+              {
+                src: "/favicon/android-chrome-512x512.png",
+                sizes: "512x512",
+                type: "image/png",
+                purpose: "any maskable",
+              },
+              {
+                src: "/favicon/apple-touch-icon.png",
+                sizes: "180x180",
+                type: "image/png",
+                purpose: "any",
+              },
+              {
+                src: "/favicon/favicon-32x32.png",
+                sizes: "32x32",
+                type: "image/png",
+                purpose: "any",
+              },
+              {
+                src: "/favicon/favicon-16x16.png",
+                sizes: "16x16",
+                type: "image/png",
+                purpose: "any",
+              },
+            ],
+            shortcuts: [
+              {
+                name: "Замовити переїзд",
+                short_name: "Замовити",
+                description: "Швидке замовлення переїзду",
+                url: "/?action=order",
+                icons: [
+                  {
+                    src: "/favicon/android-chrome-192x192.png",
+                    sizes: "192x192",
+                    type: "image/png",
+                  },
+                ],
+              },
+              {
+                name: "Передзвонити",
+                short_name: "Дзвінок",
+                description: "Замовити дзвінок",
+                url: "/?action=callback",
+                icons: [
+                  {
+                    src: "/favicon/android-chrome-192x192.png",
+                    sizes: "192x192",
+                    type: "image/png",
+                  },
+                ],
+              },
+            ],
+            // Screenshots improve the install prompt on Android
+            // To add screenshots:
+            // 1. Take screenshots of your app (ideally 540x720 for narrow, 720x540 for wide)
+            // 2. Place them in static/images/screenshots/
+            // 3. Add them here with proper dimensions and labels
+            screenshots: [
+              // Example:
+              // {
+              //   src: "/images/screenshots/home.jpg",
+              //   sizes: "540x720",
+              //   type: "image/jpeg",
+              //   form_factor: "narrow",
+              //   label: "Home screen"
+              // },
+            ],
+            share_target: {
+              action: "/",
+              method: "GET",
+              params: {
+                title: "title",
+                text: "text",
+                url: "url",
+              },
             },
-          ],
-        },
-        {
-          name: "Передзвонити",
-          short_name: "Дзвінок",
-          description: "Замовити дзвінок",
-          url: "/?action=callback",
-          icons: [
-            {
-              src: "/favicon/android-chrome-192x192.png",
-              sizes: "192x192",
-              type: "image/png",
+            launch_handler: {
+              client_mode: "navigate-existing",
             },
-          ],
+            edge_side_panel: {
+              preferred_width: 400,
+            },
+            prefer_related_applications: false,
+          },
+          strategies: "injectManifest",
+          injectManifest: {
+            swSrc: "public/sw.js",
+            // Glob patterns for precaching (injected into service worker)
+            globPatterns: [
+              "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
+            ],
+            // Exclude patterns from precaching
+            globIgnores: [
+              "**/node_modules/**/*",
+              "**/sw.js",
+              "**/workbox-*.js",
+            ],
+            // Maximum file size to precache (in bytes)
+            maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
+          },
+          client: {
+            installPrompt: true,
+            periodicSyncForUpdates: 20,
+            // Register service worker update handler
+            registerPlugin: true,
+          },
+          devOptions: {
+            enabled: true,
+            suppressWarnings: true,
+            type: "module",
+          },
         },
-      ],
-      // Screenshots improve the install prompt on Android
-      // To add screenshots:
-      // 1. Take screenshots of your app (ideally 540x720 for narrow, 720x540 for wide)
-      // 2. Place them in static/images/screenshots/
-      // 3. Add them here with proper dimensions and labels
-      screenshots: [
-        // Example:
-        // {
-        //   src: "/images/screenshots/home.jpg",
-        //   sizes: "540x720",
-        //   type: "image/jpeg",
-        //   form_factor: "narrow",
-        //   label: "Home screen"
-        // },
-      ],
-      share_target: {
-        action: "/",
-        method: "GET",
-        params: {
-          title: "title",
-          text: "text",
-          url: "url",
-        },
-      },
-      launch_handler: {
-        client_mode: "navigate-existing",
-      },
-      edge_side_panel: {
-        preferred_width: 400,
-      },
-      prefer_related_applications: false,
-    },
-    strategies: "injectManifest",
-    injectManifest: {
-      swSrc: "public/sw.js",
-      // Glob patterns for precaching (injected into service worker)
-      globPatterns: [
-        "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
-      ],
-      // Exclude patterns from precaching
-      globIgnores: ["**/node_modules/**/*", "**/sw.js", "**/workbox-*.js"],
-      // Maximum file size to precache (in bytes)
-      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
-    },
-    client: {
-      installPrompt: true,
-      periodicSyncForUpdates: 20,
-      // Register service worker update handler
-      registerPlugin: true,
-    },
-    devOptions: {
-      enabled: true,
-      suppressWarnings: true,
-      type: "module",
-    },
-  },
+      }
+    : {}),
 });

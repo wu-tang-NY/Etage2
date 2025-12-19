@@ -206,7 +206,7 @@ export default {
       return [
         {
           name: this.$t("price.categoryTransport"),
-          subtitle: "Мебель, бытовая техника, сейфы и тд.",
+          subtitle: this.$t("price.categoryTransportSubtitle"),
           undertext: this.$t("price.categoryTransportUndertext"),
           iconName: "price_transport",
           opened: false,
@@ -228,9 +228,8 @@ export default {
         },
         {
           name: this.$t("price.categoryMove"),
-          subtitle:
-            "Квартирный, офисный переезды, переезд коммерческих помещений",
-          undertext: this.$t("price.categoryTransportUndertext"),
+          subtitle: this.$t("price.categoryMoveSubtitle"),
+          undertext: this.$t("price.categoryMoveUndertext"),
           iconName: "price_moving",
           opened: false,
           items: [
@@ -253,9 +252,8 @@ export default {
         },
         {
           name: this.$t("price.categoryWorkers"),
-          subtitle: "Для транспортировки личных вещей, мебели, и т.д.",
-          undertext:
-            "В стоимость включены: упаковка и маркировка имущества, разборка и сборка мебели, полный цикл ручной транспортировки.",
+          subtitle: this.$t("price.categoryWorkersSubtitle"),
+          undertext: this.$t("price.categoryWorkersUndertext"),
           iconName: "price_workers",
           opened: false,
           items: [

@@ -8,6 +8,14 @@
         <a href="tel:+380973560005" class="app-phones__code-text">
           097 <span class="app-phone"> 356-00-05</span>
         </a>
+
+        <a
+          href="https://viber.click/380953560005"
+          class="app-phones__code-icon"
+          target="_blank"
+        >
+          <svg-icon name="icon_vb" original />
+        </a>
       </li>
 
       <li class="app-phones__code">
@@ -17,6 +25,14 @@
         <a href="tel:+380953560005" class="app-phones__code-text">
           095 <span class="app-phone">356-00-05</span>
         </a>
+
+        <a
+          href="https://t.me/+380953560005"
+          class="app-phones__code-icon"
+          target="_blank"
+        >
+          <svg-icon name="icon_tg" original />
+        </a>
       </li>
 
       <li class="app-phones__code">
@@ -25,6 +41,14 @@
         </span>
         <a href="tel:+380733560005" class="app-phones__code-text">
           073 <span class="app-phone">356-00-05</span>
+        </a>
+
+        <a
+          href="https://wa.me/380953560005"
+          class="app-phones__code-icon"
+          target="_blank"
+        >
+          <svg-icon name="icon_wa" original />
         </a>
       </li>
     </ul>
@@ -54,13 +78,17 @@ export default {
   }
 
   &__code {
+    display: flex;
+    align-items: center;
     font-size: rem(14);
   }
 
   &__code-icon {
-    display: inline-block;
-    @include size(12px);
-    margin-right: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include size(14px);
+    margin: 0 4px;
     vertical-align: middle;
 
     svg {
@@ -71,7 +99,9 @@ export default {
   }
 
   &__code-text {
+    width: 98px;
     line-height: 1.29;
+    margin: 0 8px;
     color: var(--colors-text-primary);
 
     &:hover,
