@@ -14,6 +14,21 @@ enable();
 // Precache assets
 precacheAndRoute(self.__WB_MANIFEST);
 
+// Create NetworkFirst strategy instance once for reuse
+const navigationStrategy = new NetworkFirst({
+  cacheName: 'pages-cache',
+  plugins: [
+    new ExpirationPlugin({
+      maxEntries: 50,
+      maxAgeSeconds: 60 * 60 * 24, // 1 day
+    }),
+    new CacheableResponsePlugin({
+      statuses: [0, 200],
+    }),
+  ],
+  networkTimeoutSeconds: 3,
+});
+
 // Custom navigation handler that properly handles preloadResponse
 const navigationHandler = async ({ event, request, url }) => {
   // Only handle navigation requests, exclude root URL
@@ -23,37 +38,26 @@ const navigationHandler = async ({ event, request, url }) => {
 
   // Properly await preloadResponse to ensure it settles
   // This prevents the "cancelled before settled" error
+  // The handler must return a Promise that awaits preloadResponse
+  // so that respondWith() (called by Workbox) waits for it to settle
   let preloadResponse = null;
   try {
+    // Await preloadResponse - this ensures the promise settles
+    // Workbox's registerRoute will call event.respondWith() with this handler's return value
+    // By awaiting preloadResponse here, we ensure respondWith() waits for it
     preloadResponse = await event.preloadResponse;
   } catch (error) {
-    // PreloadResponse might fail, that's okay
+    // PreloadResponse might fail, that's okay - we'll fall back to network
     console.debug('PreloadResponse error:', error);
   }
 
-  // Use NetworkFirst strategy
-  const networkFirst = new NetworkFirst({
-    cacheName: 'pages-cache',
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 60 * 60 * 24, // 1 day
-      }),
-      new CacheableResponsePlugin({
-        statuses: [0, 200],
-      }),
-    ],
-    networkTimeoutSeconds: 3,
-  });
-
-  // If we have a valid preloadResponse, use it
-  if (preloadResponse) {
+  // If we have a valid preloadResponse, use it directly
+  if (preloadResponse && preloadResponse.ok) {
     return preloadResponse;
   }
 
-  // Otherwise, use NetworkFirst strategy
-  // NetworkFirst will handle the request and cache it
-  return networkFirst.handle({ event, request, url });
+  // Otherwise, use NetworkFirst strategy which will handle the request
+  return navigationStrategy.handle({ event, request, url });
 };
 
 // Register navigation route with custom handler
