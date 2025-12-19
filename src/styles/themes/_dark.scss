@@ -50,6 +50,17 @@ canvas,
     color: var(--colors-dark-text-secondary);
   }
 
+  .install-toast {
+    &__content {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--colors-text-primary);
+    }
+
+    &__message {
+      color: var(--colors-dark-text-primary);
+    }
+  }
+
   // App header
   .app-header {
     background-color: var(--colors-dark-surface);
@@ -1100,26 +1111,9 @@ canvas,
     }
   }
 
-  // Social media icons - specific handling for app-social__link
-  .app-social__link {
-    svg {
-      // Background fill (light grey) -> dark grey
-      path[fill="#F6F6F6"],
-      path[fill="#f6f6f6"],
-      path[fill="#E6E6E6"],
-      path[fill="#e6e6e6"] {
-        fill: var(--colors-dark-grey-200) !important;
-      }
-
-      // Icon fill (dark) -> white
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
+  // Social media icons - preserve original brand colors
+  // Brand colors (#1877F2 for Facebook, #E4405F for Instagram) are not overridden
+  // as they are not in the color replacement list above, so they display in their original colors
 
   // Feature icons
   .individual_feature,

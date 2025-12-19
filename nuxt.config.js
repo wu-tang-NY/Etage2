@@ -67,8 +67,7 @@ export default defineNuxtConfig({
     head: {
       // Title and description will be set dynamically by plugins/meta.js based on locale
       // These are fallback values for default locale (ua)
-      title:
-        "Etage - Сервіс переїздів та вантажоперевезень по Одесі та Україні",
+      title: "Етаж - Сервіс переїздів та вантажоперевезень по Дніпру та Одесі",
       htmlAttrs: {
         lang: "uk", // Will be updated dynamically by plugins/meta.js
       },
@@ -78,7 +77,7 @@ export default defineNuxtConfig({
         {
           name: "description",
           content:
-            "Професійний сервіс переїздів та вантажоперевезень в Одесі та по всій Україні. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників. Упаковка, розбирання меблів, транспортування. Доступні ціни, сучасний автопарк, гарантія збереження",
+            "Професійний сервіс переїздів та вантажоперевезень в Дніпрі та Одесі. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників. Упаковка, розбирання меблів, транспортування. Доступні ціни, сучасний автопарк, гарантія збереження",
         },
         {
           name: "google-site-verification",
@@ -389,10 +388,10 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "Etage - Сервіс переїздів та вантажоперевезень",
+      name: "Етаж - Сервіс переїздів та вантажоперевезень",
       short_name: "Etage",
       description:
-        "Професійний сервіс переїздів та вантажоперевезень в Одесі та по всій Україні. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників",
+        "Професійний сервіс переїздів та вантажоперевезень в Дніпрі та Одесі. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників",
       lang: "uk",
       dir: "ltr",
       start_url: "/",
@@ -541,7 +540,7 @@ export default defineNuxtConfig({
           },
         },
         {
-          urlPattern: ({ request }) => request.mode === 'navigate',
+          urlPattern: ({ request }) => request.mode === "navigate",
           handler: "NetworkFirst",
           options: {
             cacheName: "pages-cache",

@@ -45,7 +45,6 @@ import "./info";
 import "./label_schedule";
 import "./link";
 import "./logo_dark_ru";
-import "./logo_dark_ua";
 import "./logo_dark";
 import "./logo_weralls";
 import "./logo_white";

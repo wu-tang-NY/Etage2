@@ -31,7 +31,7 @@ export default {
 
   // Logo
   logo: {
-    subtitle: "Сервис переездов по Одессе и по всей Украине",
+    subtitle: "Сервис переездов по Днепру и Одессе",
   },
 
   // Callback
@@ -140,7 +140,7 @@ export default {
   aboutUs: {
     title: "О нас",
     paragraph1:
-      "Мы первый современный сервис переездов и грузоперевозок по Одессе и области.",
+      "Мы первый современный сервис переездов и грузоперевозок по Днепру и Одессе.",
     paragraph2:
       "Первый - потому что те принципы предоставления услуг, которые мы сформировали после долгих лет опыта, сотен отзывов и мнений, являются новыми и прогрессивными.",
     paragraph3:
@@ -456,39 +456,39 @@ export default {
     categoryTransportUndertext:
       "В стоимость включены: прокладочные материалы, стяжные стропы.",
     categoryTransportItem1Time: "1 час -",
-    categoryTransportItem1Price: "275 грн",
+    categoryTransportItem1Price: "400 грн",
     categoryTransportItem1Desc: "Если у вас всего 1 предмет",
     categoryTransportItem1Info:
       "Время минимального заказа в черте Одессы - 2 часа, для Савиньона и поселка Котовского - 3 часа",
     categoryTransportItem2Time: "1 час -",
-    categoryTransportItem2Price: "300 грн",
-    categoryTransportItem2Desc: "Межгород - 37 грн/км",
+    categoryTransportItem2Price: "450 грн",
+    categoryTransportItem2Desc: "Межгород (с точки А до точки Б) - 45 грн/км",
     categoryMove: "ПЕРЕЕЗДЫ",
     categoryMoveSubtitle:
       "Квартирный, офисный переезды, переезд коммерческих помещений",
     categoryMoveUndertext:
       "В стоимость включены: прокладочные материалы, стяжные стропы.",
     categoryMoveItem1Time: "1 час -",
-    categoryMoveItem1Price: "300 грн",
-    categoryMoveItem1Desc: "Межгород - 37 грн/км",
+    categoryMoveItem1Price: "550 грн",
+    categoryMoveItem1Desc: "Межгород (с точки А до точки Б) - 50 грн/км",
     categoryMoveItem1Additional: "1-3т",
     categoryMoveItem1Info:
       "Время минимального заказа в черте Одессы - 2 часа, для Савиньона и поселка Котовского - 3 часа",
     categoryMoveItem2Time: "1 час -",
-    categoryMoveItem2Price: "500 грн",
-    categoryMoveItem2Desc: "Межгород - 50 грн/км",
+    categoryMoveItem2Price: "850 грн",
+    categoryMoveItem2Desc: "Межгород (с точки А до точки Б) - 60 грн/км",
     categoryMoveItem2Additional: "до 5т",
     categoryWorkers: "ГРУЗЧИКИ",
     categoryWorkersSubtitle: "Для транспортировки личных вещей, мебели, и т.д.",
     categoryWorkersUndertext:
       "В стоимость включены: упаковка и маркировка имущества, разборка и сборка мебели, полный цикл ручной транспортировки.",
     categoryWorkersItem1Time: "1 час -",
-    categoryWorkersItem1Price: "180 грн",
+    categoryWorkersItem1Price: "300 грн",
     categoryWorkersItem1Desc: "За одного грузчика",
     categoryWorkersItem1Info:
       "Оплата транспортивки предмотов, весом свыше 100кг расчитываеться индивидуально",
     categoryWorkersItem2Time: ">2 часов -",
-    categoryWorkersItem2Price: "90 грн/полчаса",
+    categoryWorkersItem2Price: "150 грн/полчаса",
     examplesButton: "Мне нужны примеры",
     orderButton: "Заказать",
   },
@@ -536,9 +536,9 @@ export default {
 
   // SEO Meta tags
   meta: {
-    title: "Etage - Сервис переездов и грузоперевозок по Одессе и Украине",
+    title: "Этаж - Сервис переездов и грузоперевозок по Днепру и Одессе",
     description:
-      "Профессиональный сервис переездов и грузоперевозок в Одессе и по всей Украине. Квартирные и офисные переезды под ключ, перевозка мебели и имущества, услуги опытных грузчиков. Упаковка, разборка мебели, транспортировка. Доступные цены, современный автопарк, гарантия сохранности",
+      "Профессиональный сервис переездов и грузоперевозок в Днепре и Одессе. Квартирные и офисные переезды под ключ, перевозка мебели и имущества, услуги опытных грузчиков. Упаковка, разборка мебели, транспортировка. Доступные цены, современный автопарк, гарантия сохранности",
   },
 
   // Install Prompt

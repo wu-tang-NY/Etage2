@@ -2,9 +2,9 @@
 import icon from 'vue-svgicon'
 icon.register({
   'icon_fb': {
-    width: 24,
-    height: 24,
-    viewBox: '0 0 24 24',
-    data: '<g id="website" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="final_version" transform="translate(-1996 -981)"><g id="icon_fb" transform="translate(1996 981)"><path id="Rectangle" fill="#f6f6f6" d="M0 0h24v24H0z"/><path id="Path" fill="#1b1b1b" fill-rule="nonzero" d="M15 7.333h-1c-1.07 0-1.5.234-1.5.934v1.4H15L14.5 12h-2v7H10v-7H8V9.667h2v-1.4C10 6.4 11 5 13 5c1.45 0 2 .467 2 .467z"/></g></g></g>'
+    width: 512,
+    height: 512,
+    viewBox: '0 0 512 512',
+    data: '<rect width="512" height="512" rx="15%" fill="#1877f2"/><path d="M355.6 330l11.4-74h-71v-48c0-20.2 9.9-40 41.7-40H370v-63s-29.3-5-57.3-5c-58.5 0-96.7 35.4-96.7 99.6V256h-65v74h65v182h80V330h59.6z" fill="#ffffff"/>'
   }
 })

@@ -39,18 +39,18 @@ export default {
   components: {
     CallbackModal: defineAsyncComponent(() =>
       import("@/components/common/Callback/app-callback-modal")
-    )
+    ),
   },
   props: {
     active: {
-      type: Boolean
+      type: Boolean,
     },
     mobile: Boolean,
-    tablet: Boolean
+    tablet: Boolean,
   },
   data: () => ({
-    modalCallbackOpen: false
-  })
+    modalCallbackOpen: false,
+  }),
 };
 </script>
 
@@ -68,9 +68,10 @@ export default {
   }
 
   .subtitle {
-    margin-bottom: 20px;
-    font-size: 1rem;
-    line-height: 1.5;
+    margin-bottom: 30px;
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.75;
     max-width: 680px;
 
     span {

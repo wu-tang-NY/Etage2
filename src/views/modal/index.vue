@@ -747,6 +747,24 @@ export default {
       object-fit: cover;
       object-position: center;
     }
+
+    ul,
+    ol {
+      padding-left: 20px;
+      margin: 20px 0;
+
+      li {
+        margin-bottom: 10px;
+      }
+    }
+
+    ul {
+      list-style: disc;
+    }
+
+    ol {
+      list-style: decimal;
+    }
   }
 }
 

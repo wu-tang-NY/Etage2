@@ -204,12 +204,14 @@ export default {
   justify-content: center;
 
   &__link {
+    // background-color: var(--colors-grey-100);
+
     & + & {
       margin-left: 15px;
     }
 
     svg {
-      @include size(24px);
+      @include size(18px);
     }
   }
 }

@@ -31,7 +31,7 @@ export default {
 
   // Logo
   logo: {
-    subtitle: "Сервіс переїздів по Одесі та по всій Україні",
+    subtitle: "Сервіс переїздів по Дніпру та Одесі",
   },
 
   // Callback
@@ -140,7 +140,7 @@ export default {
   aboutUs: {
     title: "Про нас",
     paragraph1:
-      "Ми перший сучасний сервіс переїздів та вантажоперевезень по Одесі та області.",
+      "Ми перший сучасний сервіс переїздів та вантажоперевезень по Дніпру та Одесі.",
     paragraph2:
       "Перший - тому що ті принципи надання послуг, які ми сформували після довгих років досвіду, сотень відгуків та думок, є новими та прогресивними.",
     paragraph3:
@@ -456,27 +456,27 @@ export default {
     categoryTransportUndertext:
       "У вартість включено: прокладочні матеріали, стяжні стропи.",
     categoryTransportItem1Time: "1 година -",
-    categoryTransportItem1Price: "275 грн",
+    categoryTransportItem1Price: "400 грн",
     categoryTransportItem1Desc: "Якщо у вас всього 1 предмет",
     categoryTransportItem1Info:
       "Час мінімального замовлення в межах Одеси - 2 години, для Савиньона та селища Котовського - 3 години",
     categoryTransportItem2Time: "1 година -",
-    categoryTransportItem2Price: "300 грн",
-    categoryTransportItem2Desc: "Міжмісто - 37 грн/км",
+    categoryTransportItem2Price: "450 грн",
+    categoryTransportItem2Desc: "Міжмісто (з точки А до точки Б) - 45 грн/км",
     categoryMove: "ПЕРЕЇЗДИ",
     categoryMoveSubtitle:
       "Квартирний, офісний переїзди, переїзд комерційних приміщень",
     categoryMoveUndertext:
       "У вартість включено: прокладочні матеріали, стяжні стропи.",
     categoryMoveItem1Time: "1 година -",
-    categoryMoveItem1Price: "300 грн",
-    categoryMoveItem1Desc: "Міжмісто - 37 грн/км",
+    categoryMoveItem1Price: "550 грн",
+    categoryMoveItem1Desc: "Міжмісто (з точки А до точки Б) - 50 грн/км",
     categoryMoveItem1Additional: "1-3т",
     categoryMoveItem1Info:
       "Час мінімального замовлення в межах Одеси - 2 години, для Савиньона та селища Котовського - 3 години",
     categoryMoveItem2Time: "1 година -",
-    categoryMoveItem2Price: "500 грн",
-    categoryMoveItem2Desc: "Міжмісто - 50 грн/км",
+    categoryMoveItem2Price: "850 грн",
+    categoryMoveItem2Desc: "Міжмісто (з точки А до точки Б) - 60 грн/км",
     categoryMoveItem2Additional: "до 5т",
     categoryWorkers: "ВАНТАЖНИКИ",
     categoryWorkersSubtitle:
@@ -484,12 +484,12 @@ export default {
     categoryWorkersUndertext:
       "У вартість включено: упаковка та маркування майна, розбирання та збирання меблів, повний цикл ручного транспортування.",
     categoryWorkersItem1Time: "1 година -",
-    categoryWorkersItem1Price: "180 грн",
+    categoryWorkersItem1Price: "300 грн",
     categoryWorkersItem1Desc: "За одного вантажника",
     categoryWorkersItem1Info:
       "Оплата транспортування предметів вагою понад 100кг розраховується індивідуально",
     categoryWorkersItem2Time: ">2 годин -",
-    categoryWorkersItem2Price: "90 грн/півгодини",
+    categoryWorkersItem2Price: "150 грн/півгодини",
     examplesButton: "Мені потрібні приклади",
     orderButton: "Замовити",
   },
@@ -537,9 +537,9 @@ export default {
 
   // SEO Meta tags
   meta: {
-    title: "Etage - Сервіс переїздів та вантажоперевезень по Одесі та Україні",
+    title: "Етаж - Сервіс переїздів та вантажоперевезень по Дніпру та Одесі",
     description:
-      "Професійний сервіс переїздів та вантажоперевезень в Одесі та по всій Україні. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників. Упаковка, розбирання меблів, транспортування. Доступні ціни, сучасний автопарк, гарантія збереження",
+      "Професійний сервіс переїздів та вантажоперевезень в Дніпрі та Одесі. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників. Упаковка, розбирання меблів, транспортування. Доступні ціни, сучасний автопарк, гарантія збереження",
   },
 
   // Install Prompt

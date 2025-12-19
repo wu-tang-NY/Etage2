@@ -416,9 +416,8 @@ export default {
   max-width: 400px;
 
   &__content {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
-    color: var(--colors-text-primary);
     padding: 8px 12px;
     border-radius: 6px;
     display: flex;

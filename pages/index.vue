@@ -831,7 +831,7 @@ export default {
 @media screen and (min-width: 993px) and (max-height: 890px) {
   .page-main {
     &__bg {
-      bottom: 30px;
+      bottom: 40px;
     }
   }
 }
