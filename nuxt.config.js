@@ -152,6 +152,7 @@ export default defineNuxtConfig({
     { src: "~/plugins/defer-css.js", mode: "client" }, // Defer non-critical CSS
     { src: "~/plugins/theme.js", mode: "client" },
     { src: "~/plugins/html-lang.js", mode: "client" }, // Update HTML lang attribute based on locale
+    { src: "~/plugins/pwa-update.js", mode: "client" }, // PWA service worker update handler
   ],
 
   // Modules
@@ -508,18 +509,29 @@ export default defineNuxtConfig({
       prefer_related_applications: false,
     },
     workbox: {
-      navigateFallback: null,
-      skipWaiting: true,
-      clientsClaim: true,
+      // Use generateSW mode for better control
+      mode: "generateSW",
+      // Don't skip waiting - let user control when to update
+      skipWaiting: false,
+      clientsClaim: false,
+      // Clean up old caches
+      cleanupOutdatedCaches: true,
+      // Enable navigation preload for faster page loads
+      navigationPreload: true,
+      // Glob patterns for precaching
       globPatterns: [
         "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
       ],
+      // Exclude patterns from precaching (handled by runtime caching)
+      globIgnores: ["**/node_modules/**/*", "**/sw.js", "**/workbox-*.js"],
+      // Runtime caching strategies
       runtimeCaching: [
+        // Google Fonts - Cache first (rarely change)
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
           handler: "CacheFirst",
           options: {
-            cacheName: "google-fonts-cache",
+            cacheName: "google-fonts-stylesheets",
             expiration: {
               maxEntries: 10,
               maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
@@ -529,13 +541,14 @@ export default defineNuxtConfig({
             },
           },
         },
+        // Google Fonts Static - Cache first (rarely change)
         {
           urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
           handler: "CacheFirst",
           options: {
-            cacheName: "gstatic-fonts-cache",
+            cacheName: "google-fonts-webfonts",
             expiration: {
-              maxEntries: 10,
+              maxEntries: 30,
               maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
             },
             cacheableResponse: {
@@ -543,31 +556,57 @@ export default defineNuxtConfig({
             },
           },
         },
+        // Images - Cache first with network fallback
         {
-          urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
+          urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/,
           handler: "CacheFirst",
           options: {
             cacheName: "images-cache",
             expiration: {
-              maxEntries: 100,
+              maxEntries: 200,
               maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
-            },
-          },
-        },
-        {
-          urlPattern: /\/_nuxt\/.*/i,
-          handler: "NetworkFirst",
-          options: {
-            cacheName: "nuxt-static-cache",
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24, // 1 day - reduced for faster updates
             },
             cacheableResponse: {
               statuses: [0, 200],
             },
+            // Add network timeout for better offline experience
+            networkTimeoutSeconds: 3,
           },
         },
+        // Nuxt static assets - Network first (for updates)
+        {
+          urlPattern: /\/_nuxt\/.*/i,
+          handler: "NetworkFirst",
+          options: {
+            cacheName: "nuxt-static-assets",
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24, // 1 day
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            // Fallback to cache if network fails
+            networkTimeoutSeconds: 3,
+          },
+        },
+        // API calls - Network first with cache fallback
+        {
+          urlPattern: /\/api\/.*/i,
+          handler: "NetworkFirst",
+          options: {
+            cacheName: "api-cache",
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 60 * 5, // 5 minutes
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            networkTimeoutSeconds: 10,
+          },
+        },
+        // HTML pages - Network first with offline fallback
         {
           urlPattern: ({ request }) => request.mode === "navigate",
           handler: "NetworkFirst",
@@ -580,13 +619,36 @@ export default defineNuxtConfig({
             cacheableResponse: {
               statuses: [0, 200],
             },
+            // Fallback to cached page if network fails
+            networkTimeoutSeconds: 3,
+          },
+        },
+        // Static assets (CSS, JS) - Stale while revalidate for balance
+        {
+          urlPattern: /\.(?:js|css)$/,
+          handler: "StaleWhileRevalidate",
+          options: {
+            cacheName: "static-resources",
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
           },
         },
       ],
+      // Workbox build configuration
+      buildExclude: [/app-build-manifest\.json$/],
+      // Maximum file size to precache (in bytes)
+      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
     },
     client: {
       installPrompt: true,
       periodicSyncForUpdates: 20,
+      // Register service worker update handler
+      registerPlugin: true,
     },
     devOptions: {
       enabled: true,
