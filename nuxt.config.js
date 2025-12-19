@@ -143,6 +143,8 @@ export default defineNuxtConfig({
 
   // Plugins
   plugins: [
+    { src: "~/plugins/chunk-error-handler.js", mode: "client" }, // Handle chunk loading errors - must run first
+    { src: "~/plugins/router-error-handler.js", mode: "client" }, // Handle router navigation errors
     { src: "~/plugins/root-redirect.js", mode: "client" }, // Root URL redirect for static hosting - must run first
     { src: "~/plugins/icons.js" }, // Must run first to register icons for SSR
     { src: "~/plugins/vue-svgicon.js" }, // Must run on both server and client for SSR
