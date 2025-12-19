@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html {{ HTML_ATTRS }}>
   <head {{ HEAD_ATTRS }}>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-GW0L2E2YWQ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-GW0L2E2YWQ");
+    </script>
     <!-- Theme color meta tags for mobile browsers with media query support -->
     <meta
       name="theme-color"
@@ -255,16 +269,6 @@
   </head>
 
   <body {{ BODY_ATTRS }}>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-P6Q7G5J"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     {{ APP }}
   </body>
 </html>
