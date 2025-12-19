@@ -4,7 +4,7 @@
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { ExpirationPlugin } from "workbox-expiration";
 import { enable } from "workbox-navigation-preload";
-import { precacheAndRoute } from "workbox-precaching";
+import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import {
   CacheFirst,
@@ -12,23 +12,52 @@ import {
   StaleWhileRevalidate,
 } from "workbox-strategies";
 
+// Service Worker version - increment this when you need to force update
+const SW_VERSION = "v2.0.0";
+
+// Clean up old caches from previous service worker versions
+cleanupOutdatedCaches();
+
 // Enable navigation preload
 enable();
 
 // Handle messages from clients
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
-    console.log("[Service Worker] Received SKIP_WAITING message");
+    console.log(`[Service Worker ${SW_VERSION}] Received SKIP_WAITING message`);
     self.skipWaiting();
   }
+  // Send version info when requested
+  if (event.data && event.data.type === "GET_VERSION") {
+    event.ports[0].postMessage({ version: SW_VERSION });
+  }
+});
+
+// Log installation with version
+self.addEventListener("install", (event) => {
+  console.log(`[Service Worker ${SW_VERSION}] Installing...`);
+  // Skip waiting to activate immediately
+  self.skipWaiting();
 });
 
 // Handle service worker activation
 self.addEventListener("activate", (event) => {
-  console.log("[Service Worker] Activated");
+  console.log(`[Service Worker ${SW_VERSION}] Activated`);
 
-  // List of cache names we want to keep
-  const cacheWhitelist = [
+  // List of cache names we want to keep (versioned with SW_VERSION)
+  const currentCaches = [
+    `workbox-precache-${SW_VERSION}`,
+    `pages-cache-${SW_VERSION}`,
+    `google-fonts-stylesheets-${SW_VERSION}`,
+    `google-fonts-webfonts-${SW_VERSION}`,
+    `images-cache-${SW_VERSION}`,
+    `nuxt-static-assets-${SW_VERSION}`,
+    `api-cache-${SW_VERSION}`,
+    `static-resources-${SW_VERSION}`,
+  ];
+
+  // Also keep the non-versioned caches for backward compatibility
+  const legacyCaches = [
     "workbox-precache",
     "pages-cache",
     "google-fonts-stylesheets",
@@ -39,20 +68,27 @@ self.addEventListener("activate", (event) => {
     "static-resources",
   ];
 
+  const cacheWhitelist = [...currentCaches, ...legacyCaches];
+
   event.waitUntil(
     Promise.all([
       // Take control of all clients immediately
       self.clients.claim(),
 
-      // Clean up old caches that don't match our whitelist
+      // Clean up ALL old caches that don't match our whitelist
       caches.keys().then((cacheNames) => {
+        console.log("[Service Worker] Found caches:", cacheNames);
         return Promise.all(
           cacheNames
             .filter((cacheName) => {
-              // Check if cache name starts with any whitelisted name
-              return !cacheWhitelist.some((whitelist) =>
+              // Delete any cache that's not in our whitelist
+              const shouldKeep = cacheWhitelist.some((whitelist) =>
                 cacheName.startsWith(whitelist)
               );
+              if (!shouldKeep) {
+                console.log("[Service Worker] Will delete old cache:", cacheName);
+              }
+              return !shouldKeep;
             })
             .map((cacheName) => {
               console.log("[Service Worker] Deleting old cache:", cacheName);
@@ -60,14 +96,37 @@ self.addEventListener("activate", (event) => {
             })
         );
       }),
+
+      // Clear all workbox-precache entries to force fresh precaching
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter((cacheName) => cacheName.startsWith("workbox-precache"))
+            .map((cacheName) => {
+              console.log("[Service Worker] Clearing workbox precache:", cacheName);
+              return caches.open(cacheName).then((cache) => {
+                return cache.keys().then((requests) => {
+                  return Promise.all(
+                    requests.map((request) => cache.delete(request))
+                  );
+                });
+              });
+            })
+        );
+      }),
     ]).then(() => {
-      console.log("[Service Worker] Cleanup complete, all clients claimed");
+      console.log(`[Service Worker ${SW_VERSION}] Cleanup complete, all clients claimed`);
     })
   );
 });
 
-// Precache assets
-precacheAndRoute(self.__WB_MANIFEST);
+// Precache assets with error handling for missing files
+precacheAndRoute(self.__WB_MANIFEST || [], {
+  // Ignore URL parameters during precaching
+  ignoreURLParametersMatching: [/.*/],
+  // Don't throw errors for missing precache files
+  cleanURLs: false,
+});
 
 // Create NetworkFirst strategy instance once for reuse
 const navigationStrategy = new NetworkFirst({
