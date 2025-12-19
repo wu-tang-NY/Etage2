@@ -485,6 +485,8 @@ export default defineNuxtConfig({
     },
     workbox: {
       navigateFallback: null,
+      skipWaiting: true,
+      clientsClaim: true,
       globPatterns: [
         "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
       ],
@@ -530,12 +532,15 @@ export default defineNuxtConfig({
         },
         {
           urlPattern: /\/_nuxt\/.*/i,
-          handler: "CacheFirst",
+          handler: "NetworkFirst",
           options: {
             cacheName: "nuxt-static-cache",
             expiration: {
               maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 60, // 60 days
+              maxAgeSeconds: 60 * 60 * 24, // 1 day - reduced for faster updates
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
             },
           },
         },
