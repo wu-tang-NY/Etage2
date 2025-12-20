@@ -80,6 +80,7 @@ export default {
   &__code {
     display: flex;
     align-items: center;
+    padding: 4px 0;
     font-size: rem(14);
   }
 
@@ -87,7 +88,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    @include size(14px);
+    @include size(18px);
     margin: 0 4px;
     vertical-align: middle;
 

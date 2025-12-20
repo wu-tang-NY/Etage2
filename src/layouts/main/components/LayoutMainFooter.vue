@@ -275,6 +275,7 @@ export default {
 <style lang="scss">
 .app-footer {
   border-top: 1px solid var(--colors-grey-200);
+  background-color: #fff;
 }
 
 .app-footer__inner {

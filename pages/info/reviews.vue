@@ -1,36 +1,23 @@
 <template>
-  <InfoLayout :mobile="mobile" :tablet="tablet">
-    <div>
-      <h2>{{ $t("feedback.title") }}</h2>
-      <div
-        class="info-feedback__comment"
-        v-for="(comment, index) in comments"
-        :key="index"
-      >
-        <h5>{{ comment.name }}</h5>
-        <div class="info-feedback__category">{{ comment.category }}</div>
-        <p>{{ comment.comment }}</p>
-      </div>
+  <div>
+    <h2>{{ $t("feedback.title") }}</h2>
+    <div
+      class="info-feedback__comment"
+      v-for="(comment, index) in comments"
+      :key="index"
+    >
+      <h5>{{ comment.name }}</h5>
+      <div class="info-feedback__category">{{ comment.category }}</div>
+      <p>{{ comment.comment }}</p>
     </div>
-  </InfoLayout>
+  </div>
 </template>
 
 <script>
-import InfoLayout from "@/components/common/InfoLayout/InfoLayout.vue";
-
 definePageMeta({});
 
 export default {
   name: "InfoReviews",
-  components: {
-    InfoLayout,
-  },
-  data() {
-    return {
-      mobile: false,
-      tablet: false,
-    };
-  },
   computed: {
     comments() {
       const slides = this.$t("reviews.slides", { returnObjects: true });
@@ -48,21 +35,6 @@ export default {
         category: categoryMap[key] || this.$t("feedback.categories.flatMove"),
         comment: slides[key].desc,
       }));
-    },
-  },
-  methods: {
-    isMobile() {
-      if (typeof window === "undefined") return false;
-      return window.matchMedia("(max-width: 767px)").matches;
-    },
-    isTablet() {
-      if (typeof window === "undefined") return false;
-      return window.matchMedia("(min-width: 768px) and (max-width: 992px)")
-        .matches;
-    },
-    updateDeviceType() {
-      this.mobile = this.isMobile();
-      this.tablet = this.isTablet();
     },
   },
   head() {
@@ -91,13 +63,6 @@ export default {
         },
       ],
     };
-  },
-  mounted() {
-    this.updateDeviceType();
-    window.addEventListener("resize", this.updateDeviceType);
-  },
-  beforeUnmount() {
-    window.removeEventListener("resize", this.updateDeviceType);
   },
 };
 </script>

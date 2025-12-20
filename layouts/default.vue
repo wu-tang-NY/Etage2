@@ -3,125 +3,121 @@
     <div class="app-main">
       <header class="app-header">
         <div class="container">
-          <div class="row">
-            <div class="app-header__inner">
-              <app-logo />
+          <div class="app-header__inner">
+            <app-logo />
 
-              <ul class="app-header__blocks">
-                <li class="app-header__block">
-                  <app-theme-toggle />
-                </li>
+            <ul class="app-header__blocks">
+              <li class="app-header__block">
+                <app-theme-toggle />
+              </li>
 
-                <li class="app-header__block">
-                  <app-language-switcher />
-                </li>
+              <li class="app-header__block">
+                <app-language-switcher />
+              </li>
 
-                <li class="app-header__block">
-                  <app-callback />
-                </li>
+              <li class="app-header__block">
+                <app-callback />
+              </li>
 
-                <li class="app-header__block">
-                  <app-schedule />
-                </li>
+              <li class="app-header__block">
+                <app-schedule />
+              </li>
 
-                <li class="app-header__block" style="vertical-align: top">
-                  <app-phones />
-                </li>
-              </ul>
+              <li class="app-header__block" style="vertical-align: top">
+                <app-phones />
+              </li>
+            </ul>
 
-              <div class="menu-toggle">
-                <button
-                  type="button"
-                  class="menu-toggle__btn"
-                  @click="handleToggleMenu"
-                >
-                  <span class="menu-toggle__line"></span>
-                  <span class="menu-toggle__line"></span>
-                  <span class="menu-toggle__line"></span>
-                </button>
-              </div>
+            <div class="menu-toggle">
+              <button
+                type="button"
+                class="menu-toggle__btn"
+                @click="handleToggleMenu"
+              >
+                <span class="menu-toggle__line"></span>
+                <span class="menu-toggle__line"></span>
+                <span class="menu-toggle__line"></span>
+              </button>
             </div>
           </div>
         </div>
 
         <div class="nav-wrapper" :class="{ 'nav-wrapper--open': navOpen }">
           <div class="container">
-            <div class="row">
-              <div class="nav-wrapper__inner">
-                <div class="nav-wrapper__container">
-                  <div class="d-lg-none">
-                    <app-logo />
-                  </div>
+            <div class="nav-wrapper__inner">
+              <div class="nav-wrapper__container">
+                <div class="d-lg-none">
+                  <app-logo />
+                </div>
 
-                  <ul class="nav-wrapper__blocks nav-wrapper__menu">
+                <ul class="nav-wrapper__blocks nav-wrapper__menu">
+                  <li class="nav-wrapper__block nav-block">
+                    <div class="nav-block__title">
+                      <span>{{ $t("common.menu") }}</span>
+                    </div>
+
+                    <div class="nav-block__content">
+                      <layout-main-nav @click="handleCloseMenu" />
+                    </div>
+                  </li>
+                </ul>
+
+                <div class="nav-wrapper__mobile-only">
+                  <ul class="nav-wrapper__blocks">
                     <li class="nav-wrapper__block nav-block">
                       <div class="nav-block__title">
-                        <span>{{ $t("common.menu") }}</span>
+                        <span>{{ $t("common.contacts") }}</span>
+                        <div class="ml-auto">
+                          <app-callback @openModal="handleCloseMenu" />
+                        </div>
                       </div>
 
                       <div class="nav-block__content">
-                        <layout-main-nav @click="handleCloseMenu" />
+                        <app-phones />
+                      </div>
+                    </li>
+
+                    <li class="nav-wrapper__block nav-block">
+                      <div class="nav-block__title">
+                        <span>{{ $t("common.schedule") }}</span>
+                      </div>
+
+                      <div class="nav-block__content">
+                        <app-schedule without-label />
+                      </div>
+                    </li>
+
+                    <li class="nav-wrapper__block nav-block nav-social">
+                      <div class="app-social">
+                        <a
+                          href="https://instagram.com/etage.com.ua/"
+                          class="app-social__link"
+                          target="_blank"
+                          aria-label="Visit our Instagram"
+                          rel="noopener noreferrer"
+                        >
+                          <svg-icon name="icon_in" original />
+                        </a>
+                        <a
+                          href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/"
+                          class="app-social__link"
+                          target="_blank"
+                          aria-label="Visit our Facebook page"
+                          rel="noopener noreferrer"
+                        >
+                          <svg-icon name="icon_fb" original />
+                        </a>
                       </div>
                     </li>
                   </ul>
-
-                  <div class="nav-wrapper__mobile-only">
-                    <ul class="nav-wrapper__blocks">
-                      <li class="nav-wrapper__block nav-block">
-                        <div class="nav-block__title">
-                          <span>{{ $t("common.contacts") }}</span>
-                          <div class="ml-auto">
-                            <app-callback @openModal="handleCloseMenu" />
-                          </div>
-                        </div>
-
-                        <div class="nav-block__content">
-                          <app-phones />
-                        </div>
-                      </li>
-
-                      <li class="nav-wrapper__block nav-block">
-                        <div class="nav-block__title">
-                          <span>{{ $t("common.schedule") }}</span>
-                        </div>
-
-                        <div class="nav-block__content">
-                          <app-schedule without-label />
-                        </div>
-                      </li>
-
-                      <li class="nav-wrapper__block nav-block nav-social">
-                        <div class="app-social">
-                          <a
-                            href="https://instagram.com/etage.com.ua/"
-                            class="app-social__link"
-                            target="_blank"
-                            aria-label="Visit our Instagram"
-                            rel="noopener noreferrer"
-                          >
-                            <svg-icon name="icon_in" original />
-                          </a>
-                          <a
-                            href="https://www.facebook.com/Грузоперевозки-Этаж-528673617657091/"
-                            class="app-social__link"
-                            target="_blank"
-                            aria-label="Visit our Facebook page"
-                            rel="noopener noreferrer"
-                          >
-                            <svg-icon name="icon_fb" original />
-                          </a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="app-copyright mt-auto d-lg-none">
-                    {{ $t("common.copyright") }}
-                  </div>
                 </div>
 
-                <layout-main-footer class="nav-wrapper__footer-mobile" />
+                <div class="app-copyright mt-auto d-lg-none">
+                  {{ $t("common.copyright") }}
+                </div>
               </div>
+
+              <layout-main-footer class="nav-wrapper__footer-mobile" />
             </div>
           </div>
         </div>
@@ -335,12 +331,14 @@ $footer-height: 65px;
   }
 }
 
-.has-christmas-lights .app-header {
-  padding-top: 40px;
-}
+.has-christmas-lights {
+  .app-header {
+    padding-top: 40px;
+  }
 
-.has-christmas-lights .app-content {
-  padding-top: 58px;
+  .app-content {
+    padding-top: 58px;
+  }
 }
 
 .nav-wrapper {
@@ -369,20 +367,6 @@ $footer-height: 65px;
 
   &__inner {
     height: $footer-height;
-  }
-}
-
-.app-designedby {
-  &__text {
-    margin-right: 0.5rem;
-    line-height: 1;
-    vertical-align: bottom;
-  }
-
-  &__icon {
-    @include size(70px, 16px);
-    display: inline-block;
-    flex-shrink: 0;
   }
 }
 
@@ -645,6 +629,11 @@ $footer-height: 65px;
 }
 
 @include media-breakpoint-down(md) {
+  .has-christmas-lights {
+    .nav-wrapper {
+      padding-top: 58px;
+    }
+  }
   .menu-open {
     @include fixed(0, 0, 0, 0);
     overflow-y: scroll;

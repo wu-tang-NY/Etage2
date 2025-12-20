@@ -53,7 +53,6 @@ export default {
 
   svg {
     @include size(20px);
-    margin-right: 13px;
   }
 }
 
@@ -69,6 +68,7 @@ export default {
     height: 36px;
     padding-left: 24px;
     font-weight: 600;
+    margin-left: 0;
   }
 }
 </style>

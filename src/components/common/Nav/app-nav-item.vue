@@ -7,8 +7,8 @@
       'nav-item--hovered': hovered,
     }"
   >
-    <a
-      href=""
+    <NuxtLink
+      :to="to"
       :id="id"
       class="nav-item__link"
       role="button"
@@ -37,8 +37,8 @@
             role="menuitem"
             @click="handleChildClick(child.path)"
           >
-            <a
-              href=""
+            <NuxtLink
+              :to="to"
               class="nav-inner__link"
               role="button"
               tabindex="0"
@@ -46,11 +46,11 @@
               @keydown="handleChildKeydown($event, child.path)"
             >
               {{ child.title }}
-            </a>
+            </NuxtLink>
           </li>
         </template>
       </ul>
-    </a>
+    </NuxtLink>
   </li>
 </template>
 
@@ -68,6 +68,11 @@ export default {
 
     icon: {
       type: String,
+    },
+
+    to: {
+      type: String,
+      default: "",
     },
 
     active: {

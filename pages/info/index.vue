@@ -1,6 +1,8 @@
 <script setup>
 // Redirect to the first section (about_us)
-definePageMeta({});
+definePageMeta({
+  layout: "info",
+});
 
 const { locale } = useI18n();
 const localePrefix = locale.value || "ua";

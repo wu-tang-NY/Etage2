@@ -11,7 +11,15 @@
       :visited="!isInfoRoute && index < activePage"
       @click="handleClick(index)"
     />
-    <app-nav-info />
+
+    <app-nav-item
+      :title="$t('navInfo.information')"
+      icon="icon_5_c"
+      :to="'/info'"
+      :active="isInfoRoute"
+      :visited="isInfoRoute"
+      class="nav-info"
+    />
   </app-nav>
 </template>
 
