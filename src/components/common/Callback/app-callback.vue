@@ -40,6 +40,8 @@ export default {
 
 <style lang="scss">
 .app-callback {
+  margin: 0 10px;
+
   &__text {
     @include underline();
     font-size: rem(12);

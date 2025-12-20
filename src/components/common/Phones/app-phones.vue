@@ -100,7 +100,7 @@ export default {
   }
 
   &__code-text {
-    width: 98px;
+    width: 100px;
     line-height: 1.29;
     margin: 0 8px;
     color: var(--colors-text-primary);
@@ -146,6 +146,7 @@ export default {
 @include media-breakpoint-down(md) {
   .app-phones {
     &__code-text {
+      width: auto;
       font-size: rem(18);
     }
 

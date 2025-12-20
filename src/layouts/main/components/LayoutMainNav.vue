@@ -130,3 +130,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@include media-breakpoint-up(lg) {
+  .nav-info {
+    margin-left: auto;
+  }
+}
+</style>
