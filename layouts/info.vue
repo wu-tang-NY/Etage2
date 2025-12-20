@@ -16,4 +16,3 @@ export default {
   background-color: #0e1a28;
 }
 </style>
-

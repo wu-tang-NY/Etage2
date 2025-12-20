@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://etage.com.ua/ua</loc>
-    <lastmod>2025-12-19</lastmod>
+    <lastmod>2025-12-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua" />
@@ -14,13 +14,365 @@
   </url>
   <url>
     <loc>https://etage.com.ua/ru</loc>
-    <lastmod>2025-12-19</lastmod>
+    <lastmod>2025-12-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua" />
     <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua" />
     <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru" />
     <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/about_us</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/about_us" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/about_us" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/about_us" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/about_us" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/about_us</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/about_us" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/about_us" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/about_us" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/about_us" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/auto</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/auto" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/auto" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/auto" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/auto" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/auto</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/auto" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/auto" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/auto" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/auto" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/contacts</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/contacts" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/contacts" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/contacts" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/contacts" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/contacts</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/contacts" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/contacts" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/contacts" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/contacts" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/facts</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/facts" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/facts" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/facts" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/facts" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/facts</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/facts" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/facts" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/facts" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/facts" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/flat_move</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/flat_move" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/flat_move" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/flat_move" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/flat_move" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/flat_move</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/flat_move" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/flat_move" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/flat_move" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/flat_move" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/history</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/history" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/history" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/history" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/history" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/history</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/history" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/history" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/history" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/history" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/jobs</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/jobs" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/jobs" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/jobs" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/jobs" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/jobs</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/jobs" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/jobs" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/jobs" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/jobs" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/office_move</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/office_move" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/office_move" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/office_move" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/office_move" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/office_move</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/office_move" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/office_move" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/office_move" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/office_move" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/our_goal</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/our_goal" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/our_goal" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/our_goal" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/our_goal" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/our_goal</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/our_goal" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/our_goal" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/our_goal" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/our_goal" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/package</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/package" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/package" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/package" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/package" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/package</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/package" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/package" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/package" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/package" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/payment</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/payment" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/payment" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/payment" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/payment" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/payment</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/payment" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/payment" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/payment" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/payment" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/reviews</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/reviews" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/reviews" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/reviews" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/reviews" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/reviews</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/reviews" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/reviews" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/reviews" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/reviews" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/special_offers</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/special_offers" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/special_offers" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/special_offers" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/special_offers" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/special_offers</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/special_offers" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/special_offers" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/special_offers" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/special_offers" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/specialists</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/specialists" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/specialists" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/specialists" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/specialists" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/specialists</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/specialists" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/specialists" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/specialists" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/specialists" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ua/info/stuff_move</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/stuff_move" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/stuff_move" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/stuff_move" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/stuff_move" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
+  </url>
+  <url>
+    <loc>https://etage.com.ua/ru/info/stuff_move</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ua" href="https://etage.com.ua/ua/info/stuff_move" />
+    <xhtml:link rel="alternate" hreflang="uk-UA" href="https://etage.com.ua/ua/info/stuff_move" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://etage.com.ua/ru/info/stuff_move" />
+    <xhtml:link rel="alternate" hreflang="ru-RU" href="https://etage.com.ua/ru/info/stuff_move" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://etage.com.ua/ua" />
   </url>
 </urlset>

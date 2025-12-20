@@ -1,5 +1,5 @@
-import { writeFileSync } from "fs";
-import { resolve, dirname } from "path";
+import { writeFileSync, readdirSync, statSync } from "fs";
+import { resolve, dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -7,7 +7,63 @@ const __dirname = dirname(__filename);
 
 const hostname = process.env.NUXT_PUBLIC_SITE_URL || "https://etage.com.ua";
 
-const routes = ["/"];
+// Function to recursively get all Vue files from pages directory
+function getPagesFromDirectory(dir, basePath = "") {
+  const routes = [];
+  
+  try {
+    const entries = readdirSync(dir, { withFileTypes: true });
+    
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+      
+      if (entry.isDirectory()) {
+        // Recursively scan subdirectories
+        const subRoutes = getPagesFromDirectory(
+          fullPath,
+          join(basePath, entry.name)
+        );
+        routes.push(...subRoutes);
+      } else if (entry.isFile() && entry.name.endsWith(".vue")) {
+        // Convert file path to route
+        let route = basePath;
+        
+        // Handle index.vue files
+        if (entry.name === "index.vue") {
+          // If it's the root index.vue, route is "/"
+          if (basePath === "") {
+            route = "/";
+          } else {
+            // For nested index.vue, use the directory path
+            route = `/${basePath}`;
+          }
+        } else {
+          // For other .vue files, remove .vue extension
+          const fileName = entry.name.replace(/\.vue$/, "");
+          route = basePath ? `/${basePath}/${fileName}` : `/${fileName}`;
+        }
+        
+        routes.push(route);
+      }
+    }
+  } catch (error) {
+    // Directory might not exist, return empty array
+    console.warn(`Could not read directory ${dir}:`, error);
+  }
+  
+  return routes;
+}
+
+// Get all routes from the pages directory
+const pagesDir = resolve(__dirname, "../pages");
+const routes = getPagesFromDirectory(pagesDir);
+
+// Sort routes to ensure consistent ordering (root first, then alphabetically)
+routes.sort((a, b) => {
+  if (a === "/") return -1;
+  if (b === "/") return 1;
+  return a.localeCompare(b);
+});
 
 const locales = [
   { code: "ua", iso: "uk-UA", prefix: "/ua" },

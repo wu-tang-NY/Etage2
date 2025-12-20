@@ -146,7 +146,7 @@ export default {
         PopupContentSpecialists: "specialists",
         PopupContentPackage: "package",
       };
-      
+
       const route = routeMap[path];
       if (route && this.$router) {
         const locale = this.$i18n?.locale || "ua";
