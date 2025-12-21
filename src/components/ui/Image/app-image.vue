@@ -13,7 +13,11 @@
 </template>
 
 <script>
-import { generateSrcset, generateSrcsetWidths, parseImagePath } from "@/utils/srcset";
+import {
+  generateSrcset,
+  generateSrcsetWidths,
+  parseImagePath,
+} from "@/utils/srcset";
 
 export default {
   name: "AppImage",
@@ -122,10 +126,12 @@ export default {
   computed: {
     imageSrc() {
       let parsedBase, parsedExt;
-      
+
       if (this.basePath && !this.src.startsWith("/")) {
         // If basePath is provided and src is just a name, construct full path
-        const parsed = parseImagePath(`${this.basePath}${this.src}${this.extension}`);
+        const parsed = parseImagePath(
+          `${this.basePath}${this.src}${this.extension}`
+        );
         parsedBase = parsed.basePath;
         parsedExt = parsed.extension;
       } else {
@@ -134,7 +140,7 @@ export default {
         parsedBase = parsed.basePath;
         parsedExt = parsed.extension;
       }
-      
+
       // Use 400w as default for responsive, or base version for density-based
       if (this.responsive || this.sizes) {
         return `/${parsedBase}_400w${parsedExt}`;
@@ -147,7 +153,9 @@ export default {
 
       if (this.basePath && !this.src.startsWith("/")) {
         // If basePath is provided and src is just a name
-        const parsed = parseImagePath(`${this.basePath}${this.src}${this.extension}`);
+        const parsed = parseImagePath(
+          `${this.basePath}${this.src}${this.extension}`
+        );
         basePath = parsed.basePath;
         extension = parsed.extension;
       } else {
@@ -192,4 +200,3 @@ img {
   height: auto;
 }
 </style>
-

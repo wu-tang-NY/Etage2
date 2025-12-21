@@ -1,11 +1,17 @@
 <template>
   <form class="order-form">
     <div class="mobile-wrapper">
-      <div
-        v-if="mobile || tablet"
-        class="order-form__close"
-        @click="$emit('closeModal')"
-      ></div>
+      <header class="flex justify-between">
+        <div v-if="mobile || tablet" class="order-form__title">
+          <h2>{{ $t("orderForm.title") }}</h2>
+          <div class="subtitle">{{ $t("orderForm.subtitle") }}</div>
+        </div>
+        <div
+          v-if="mobile || tablet"
+          class="order-form__close"
+          @click="$emit('closeModal')"
+        ></div>
+      </header>
 
       <div v-if="mobile || tablet" class="order-form__title">
         <h2>{{ $t("orderForm.title") }}</h2>
@@ -114,11 +120,11 @@ import WelcomeModal from "@/components/common/Welcome/app-welcome-modal";
 export default {
   name: "SectionOrderFormComponent",
   components: {
-    WelcomeModal
+    WelcomeModal,
   },
   props: {
     mobile: Boolean,
-    tablet: Boolean
+    tablet: Boolean,
   },
   data() {
     return {
@@ -131,7 +137,7 @@ export default {
       date: null,
       comment: "",
       unsend: true,
-      modalWelcomeOpen: false
+      modalWelcomeOpen: false,
     };
   },
   computed: {
@@ -140,9 +146,9 @@ export default {
         options: [
           this.$t("orderForm.transportOptions.flat"),
           this.$t("orderForm.transportOptions.office"),
-          this.$t("orderForm.transportOptions.stuff")
+          this.$t("orderForm.transportOptions.stuff"),
         ],
-        value: null
+        value: null,
       };
     },
     stuff() {
@@ -151,11 +157,11 @@ export default {
           this.$t("orderForm.workersOptions.one"),
           this.$t("orderForm.workersOptions.two"),
           this.$t("orderForm.workersOptions.three"),
-          this.$t("orderForm.workersOptions.more")
+          this.$t("orderForm.workersOptions.more"),
         ],
-        value: null
+        value: null,
       };
-    }
+    },
   },
   beforeUnmount() {
     // Ensure modal is closed before component unmounts
@@ -175,7 +181,7 @@ export default {
             workers: this.workers,
             type: this.type,
             date: this.date,
-            comment: this.comment
+            comment: this.comment,
           });
 
           this.unsend = false;
@@ -185,8 +191,8 @@ export default {
           // Optionally show error message to user
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -238,8 +244,8 @@ export default {
     &__close {
       @include size(16px);
       overflow: hidden;
-      position: absolute;
-      top: 16px;
+      position: relative;
+      top: 4px;
       right: 0;
 
       &::before {

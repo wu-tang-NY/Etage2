@@ -27,7 +27,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     // Get current route for og:url
     let currentUrl = siteUrl;
     try {
-      const route = useRoute();
+      // Use router.currentRoute instead of useRoute() to avoid middleware warnings
+      const route = nuxtApp.$router?.currentRoute?.value;
       if (route?.fullPath) {
         currentUrl = `${siteUrl}${route.fullPath}`;
       }

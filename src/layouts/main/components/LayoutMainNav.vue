@@ -15,7 +15,7 @@
     <app-nav-item
       :title="$t('navInfo.information')"
       icon="icon_5_c"
-      :to="'/info'"
+      :to="localizedInfoPath"
       :active="isInfoRoute"
       :visited="isInfoRoute"
       class="nav-info"
@@ -77,6 +77,10 @@ export default {
       if (!this.$route) return false;
       const path = this.$route.path || "";
       return path.includes("/info");
+    },
+    localizedInfoPath() {
+      const locale = this.$i18n?.locale || "ua";
+      return `/${locale}/info`;
     },
   },
   data: () => ({

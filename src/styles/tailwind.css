@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .bg-dark {
+    background-color: var(--colors-dark-bg);
+    color: var(--colors-text-primary);
+  }
+
+  .bg-light {
+    background-color: var(--white);
+    color: var(--colors-text-secondary);
+  }
+}
+
+@custom-variant dark (&:where(.dark-theme, .dark-theme *));

@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div class="app-new-year-decorations" v-if="showDecorations">
+    <div class="app-new-year-decorations">
       <!-- Snowflakes -->
       <div class="snowflakes" aria-hidden="true">
         <div
@@ -24,6 +24,16 @@
           ✨
         </div>
       </div>
+
+      <!-- Christmas Lights -->
+      <ul class="christmas-lights" data-position="top" aria-hidden="true">
+        <li
+          v-for="n in lightCount"
+          :key="n"
+          :class="getLightClass(n)"
+          :style="getLightStyle(n)"
+        ></li>
+      </ul>
     </div>
   </ClientOnly>
 </template>
@@ -36,14 +46,9 @@ export default {
       snowflakeCount: 50,
       sparkleCount: 20,
       confettiCount: 30,
-      christmas: null,
-      resizeHandler: null
+      lightCount: 0,
+      resizeHandler: null,
     };
-  },
-  computed: {
-    showDecorations() {
-      return this.shouldShowDecorations();
-    }
   },
   methods: {
     getSnowflakeStyle(index) {
@@ -59,7 +64,7 @@ export default {
         animationDuration: `${animationDuration}s`,
         opacity: opacity,
         fontSize: `${size}px`,
-        transform: `scale(${0.5 + Math.random() * 0.5})`
+        transform: `scale(${0.5 + Math.random() * 0.5})`,
       };
     },
     getSparkleStyle(index) {
@@ -72,7 +77,7 @@ export default {
         left: `${left}%`,
         top: `${top}%`,
         animationDelay: `${animationDelay}s`,
-        animationDuration: `${animationDuration}s`
+        animationDuration: `${animationDuration}s`,
       };
     },
     getConfettiStyle(index) {
@@ -83,7 +88,7 @@ export default {
         "#4ECDC4",
         "#45B7D1",
         "#FFA07A",
-        "#98D8C8"
+        "#98D8C8",
       ];
       const color = colors[Math.floor(Math.random() * colors.length)];
       const animationDelay = Math.random() * 5;
@@ -97,89 +102,49 @@ export default {
         animationDuration: `${animationDuration}s`,
         transform: `rotate(${rotation}deg)`,
         width: `${5 + Math.random() * 5}px`,
-        height: `${5 + Math.random() * 5}px`
+        height: `${5 + Math.random() * 5}px`,
       };
     },
-    shouldShowDecorations() {
-      // Show decorations from December 1st to February 1st
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      const currentMonth = now.getMonth(); // 0-11, where 11 is December, 0 is January
-      const currentDay = now.getDate();
-
-      // December (month 11): from December 1st onwards
-      if (currentMonth === 11) {
-        return currentDay >= 1;
-      }
-
-      // January (month 0): all of January
-      if (currentMonth === 0) {
-        return true;
-      }
-
-      // February (month 1): only until February 1st
-      if (currentMonth === 1) {
-        return currentDay < 1;
-      }
-
-      return false;
+    calculateLightCount() {
+      if (typeof window === "undefined") return 0;
+      return Math.floor(window.innerWidth / 60) + 2;
     },
-    createChristmasLights() {
-      if (!this.showDecorations) return;
-      if (typeof window === "undefined" || typeof document === "undefined")
-        return;
-
-      const h = Math.floor(window.innerWidth / 60) + 2;
-
-      const ul = document.createElement("ul");
-      ul.className = "christmas-lights";
-      ul.dataset.position = "top";
-      for (let i = 0; i <= h; i++) {
-        ul.appendChild(document.createElement("li"));
-      }
-      document.body.appendChild(ul);
+    getLightClass(index) {
+      // Return empty string or specific classes if needed
+      // The CSS handles styling based on nth-child selectors
+      return "";
     },
-    deleteChristmasLights() {
-      if (typeof document === "undefined") return;
-      document.body.querySelectorAll(".christmas-lights").forEach(function(ul) {
-        ul.remove();
-      });
-    }
+    getLightStyle(index) {
+      // Return style object if needed for dynamic styling
+      // Most styling is handled by CSS nth-child selectors
+      return {};
+    },
   },
   mounted() {
-    if (this.showDecorations) {
-      // Initialize christmas lights object
-      this.christmas = {
-        delay: null
-      };
+    // Initialize light count
+    this.lightCount = this.calculateLightCount();
 
-      // Create lights immediately
-      this.createChristmasLights();
-
-      // Add class to body when Christmas lights are present
+    // Add class to body when Christmas lights are present
+    if (typeof document !== "undefined") {
       document.body.classList.add("has-christmas-lights");
+    }
 
-      // Handle resize with debounce
-      this.resizeHandler = () => {
-        clearTimeout(this.christmas.delay);
-        this.christmas.delay = setTimeout(() => {
-          this.deleteChristmasLights();
-          this.createChristmasLights();
-        }, 100);
-      };
+    // Handle resize with debounce
+    let resizeTimeout = null;
+    this.resizeHandler = () => {
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      resizeTimeout = setTimeout(() => {
+        this.lightCount = this.calculateLightCount();
+      }, 100);
+    };
 
+    if (typeof window !== "undefined") {
       window.addEventListener("resize", this.resizeHandler);
     }
   },
   beforeUnmount() {
-    // Cleanup: remove lights and event listeners
-    if (this.christmas) {
-      if (this.christmas.delay) {
-        clearTimeout(this.christmas.delay);
-      }
-      this.deleteChristmasLights();
-    }
-
     // Remove class from body when component is destroyed
     if (typeof document !== "undefined") {
       document.body.classList.remove("has-christmas-lights");
@@ -188,7 +153,7 @@ export default {
     if (this.resizeHandler && typeof window !== "undefined") {
       window.removeEventListener("resize", this.resizeHandler);
     }
-  }
+  },
 };
 </script>
 
@@ -200,7 +165,7 @@ export default {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 9999999;
   overflow: hidden;
 }
 

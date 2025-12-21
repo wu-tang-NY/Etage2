@@ -81,7 +81,7 @@
           </div>
         </div>
       </div>
-      <div class="row align-items-stretch">
+      <div class="row items-stretch">
         <div
           v-for="category in categories"
           :key="category.name"
@@ -146,7 +146,7 @@
                   </div>
                 </div>
                 <p class="category__undertext">{{ category.undertext }}</p>
-                <div class="row justify-content-center">
+                <div class="row justify-center">
                   <div
                     v-if="mobile"
                     @click="openForm(category)"
@@ -161,7 +161,7 @@
         </div>
       </div>
 
-      <div class="row justify-content-center">
+      <div class="row justify-center">
         <div class="price__examples" @click="navigateToInfo('flat_move')">
           {{ $t("price.examplesButton") }}
           <svg-icon name="arrow-next" />

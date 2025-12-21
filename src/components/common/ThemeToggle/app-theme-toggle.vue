@@ -1,26 +1,30 @@
 <template>
   <ClientOnly>
-    <button
+    <AppButton
       type="button"
-      class="app-theme-toggle"
-      @click="toggleTheme"
+      :onClick="toggleTheme"
+      :icon="true"
       :aria-label="$t('common.themeToggle')"
       :title="$t('common.themeToggle')"
     >
       <svg-icon
         :name="isDark ? 'theme_light' : 'theme_dark'"
-        class="app-theme-toggle__icon"
+        class="size-4"
         original
       />
-    </button>
+    </AppButton>
   </ClientOnly>
 </template>
 
 <script>
+import AppButton from "@/components/ui/Button/app-button.vue";
 import themeManager from "../../../utils/theme";
 
 export default {
   name: "AppThemeToggle",
+  components: {
+    AppButton,
+  },
   data() {
     return {
       isDark: themeManager.isDark(),

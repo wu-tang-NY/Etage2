@@ -179,7 +179,7 @@ export default defineNuxtConfig({
   },
 
   // Global CSS
-  css: ["~/src/styles/index.scss"],
+  css: ["~/src/styles/tailwind.css", "~/src/styles/index.scss"],
 
   // Plugins
   plugins: [
@@ -194,6 +194,7 @@ export default defineNuxtConfig({
     { src: "~/plugins/fonts.js", mode: "client" }, // Async font loading
     { src: "~/plugins/defer-css.js", mode: "client" }, // Defer non-critical CSS
     { src: "~/plugins/theme.js", mode: "client" },
+    { src: "~/plugins/breakpoints.js", mode: "client" }, // Global breakpoint variables (mobile, tablet, target)
     { src: "~/plugins/html-lang.js", mode: "client" }, // Update HTML lang attribute based on locale
     // PWA plugin - only in production
     ...(process.env.NODE_ENV === "production"
@@ -206,6 +207,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "nuxt-booster",
     "@nuxtjs/i18n",
+    "@nuxtjs/tailwindcss",
     // PWA module - only in production
     ...(process.env.NODE_ENV === "production" ? ["@vite-pwa/nuxt"] : []),
   ],

@@ -1,116 +1,59 @@
 <template>
   <ClientOnly>
+    <app-new-year-decorations v-if="showDecorations" />
     <div class="app-main">
-      <header class="app-header">
+      <header
+        :class="{ 'pt-[40px]': showDecorations }"
+        class="app-header bg-light fixed left-0 top-0 w-full pb-3 box-border overflow-visible z-[1000] dark:bg-dark"
+      >
         <div class="container">
-          <div class="app-header__inner">
+          <div class="flex items-center justify-between">
             <app-logo />
 
-            <ul class="app-header__blocks">
-              <li class="app-header__block">
+            <ul class="flex items-center gap-4">
+              <li class="">
                 <app-theme-toggle />
               </li>
 
-              <li class="app-header__block">
+              <li class="">
                 <app-language-switcher />
               </li>
 
-              <li class="app-header__block">
+              <li class="hidden lg:block">
                 <app-callback />
               </li>
 
-              <li class="app-header__block">
+              <li class="hidden lg:block">
                 <app-schedule />
               </li>
 
-              <li class="app-header__block" style="vertical-align: top">
+              <li class="hidden lg:block">
                 <app-phones />
               </li>
-            </ul>
 
-            <div class="menu-toggle">
-              <button
-                type="button"
-                class="menu-toggle__btn"
-                @click="handleToggleMenu"
-              >
-                <span class="menu-toggle__line"></span>
-                <span class="menu-toggle__line"></span>
-                <span class="menu-toggle__line"></span>
-              </button>
-            </div>
+              <li class="lg:hidden ml-8">
+                <MenuToggle :open="navOpen" @click="handleToggleMenu" />
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div class="nav-wrapper" :class="{ 'nav-wrapper--open': navOpen }">
-          <div class="container">
-            <div class="nav-wrapper__inner">
-              <div class="nav-wrapper__container">
-                <div class="d-lg-none">
-                  <app-logo />
-                </div>
-
-                <ul class="nav-wrapper__blocks nav-wrapper__menu">
-                  <li class="nav-wrapper__block nav-block">
-                    <div class="nav-block__title">
-                      <span>{{ $t("common.menu") }}</span>
-                    </div>
-
-                    <div class="nav-block__content">
-                      <layout-main-nav @click="handleCloseMenu" />
-                    </div>
-                  </li>
-                </ul>
-
-                <div class="nav-wrapper__mobile-only">
-                  <ul class="nav-wrapper__blocks">
-                    <li class="nav-wrapper__block nav-block">
-                      <div class="nav-block__title">
-                        <span>{{ $t("common.contacts") }}</span>
-                        <div class="ml-auto">
-                          <app-callback @openModal="handleCloseMenu" />
-                        </div>
-                      </div>
-
-                      <div class="nav-block__content">
-                        <app-phones />
-                      </div>
-                    </li>
-
-                    <li class="nav-wrapper__block nav-block">
-                      <div class="nav-block__title">
-                        <span>{{ $t("common.schedule") }}</span>
-                      </div>
-
-                      <div class="nav-block__content">
-                        <app-schedule without-label />
-                      </div>
-                    </li>
-
-                    <li class="nav-wrapper__block nav-block nav-social">
-                      <layout-main-footer class="nav-wrapper__footer-mobile" />
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="app-copyright mt-auto d-lg-none">
-                  {{ $t("common.copyright") }}
-                </div>
-              </div>
-
-              <layout-main-footer class="nav-wrapper__footer-mobile" />
-            </div>
-          </div>
+        <div v-if="!mobile && !tablet" class="container mt-8">
+          <layout-main-nav @click="handleCloseMenu" />
         </div>
       </header>
 
-      <main class="app-content">
+      <MobileMenu
+        v-if="mobile || tablet"
+        :navOpen="navOpen"
+        :showDecorations="showDecorations"
+      />
+
+      <main class="relative lg:top-[200px] pt-[150px] lg:pt-0">
         <NuxtPage />
       </main>
 
-      <layout-main-footer v-if="!mobile && !tablet" />
-
-      <app-new-year-decorations />
+      <layout-main-footer class="mt-2 lg:fixed bottom-0 left-0 w-full" />
 
       <!-- PWA Install Prompt -->
       <ClientOnly>
@@ -123,9 +66,12 @@
 </template>
 
 <script>
+import AppButton from "@/components/ui/Button/app-button.vue";
+import MenuToggle from "@/components/common/MenuToggle/MenuToggle.vue";
 import LayoutMainNav from "@/layouts/main/components/LayoutMainNav.vue";
 import LayoutMainFooter from "@/layouts/main/components/LayoutMainFooter.vue";
 import AppInstallPrompt from "@/components/common/InstallPrompt/app-install-prompt.vue";
+import MobileMenu from "@/components/common/MobileMenu/MobileMenu.vue";
 
 export default {
   name: "AppMainLayout",
@@ -133,6 +79,9 @@ export default {
     LayoutMainNav,
     LayoutMainFooter,
     AppInstallPrompt,
+    AppButton,
+    MobileMenu,
+    MenuToggle,
   },
   provide() {
     // Provide eventbus to child components for Options API inject
@@ -149,6 +98,11 @@ export default {
     tablet: false,
     desktop: false,
   }),
+  computed: {
+    showDecorations() {
+      return this.shouldShowDecorations();
+    },
+  },
   methods: {
     handleToggleMenu() {
       if (typeof document === "undefined") return;
@@ -203,6 +157,30 @@ export default {
           this.device = "desktop";
         }
       }
+    },
+    shouldShowDecorations() {
+      // Show decorations from December 1st to February 1st
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth(); // 0-11, where 11 is December, 0 is January
+      const currentDay = now.getDate();
+
+      // December (month 11): from December 1st onwards
+      if (currentMonth === 11) {
+        return currentDay >= 1;
+      }
+
+      // January (month 0): all of January
+      if (currentMonth === 0) {
+        return true;
+      }
+
+      // February (month 1): only until February 1st
+      if (currentMonth === 1) {
+        return currentDay < 1;
+      }
+
+      return false;
     },
 
     getScrollbarWidth() {
@@ -279,15 +257,6 @@ $footer-height: 65px;
 }
 
 .app-header {
-  background-color: var(--white);
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: visible;
-  z-index: 100;
-
   &__inner {
     display: flex;
     align-items: center;
@@ -312,155 +281,6 @@ $footer-height: 65px;
   }
 }
 
-.has-christmas-lights {
-  .app-header {
-    padding-top: 40px;
-  }
-
-  .app-content {
-    padding-top: 58px;
-  }
-}
-
-.nav-wrapper {
-  &__footer-mobile {
-    display: none;
-  }
-
-  &__inner {
-    width: 100%;
-  }
-}
-
-.app-content {
-  padding: 0;
-  padding-top: 18px;
-  position: relative;
-  top: 50px;
-}
-
-.app-footer {
-  font-weight: 500;
-  font-size: rem(12);
-  color: var(--colors-text-secondary);
-  letter-spacing: 0.2px;
-  bottom: 0;
-
-  &__inner {
-    height: $footer-height;
-  }
-}
-
-.menu-toggle {
-  margin-left: auto;
-  z-index: var(--zindex-tooltip);
-
-  &__btn {
-    background-color: transparent;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    @include size(18px, 14px);
-    padding: 0;
-    cursor: pointer;
-
-    &:active,
-    &:focus {
-      outline: none;
-    }
-  }
-
-  &__line {
-    background-color: var(--colors-text-primary);
-    display: block;
-    @include size(18px, 2px);
-    transform-origin: 0 50%;
-    transition: 0.2s ease-in-out;
-  }
-}
-
-.menu-open {
-  // overflow-y: scroll;
-  // @include fixed(0, 0, 0, 0);
-
-  .menu-toggle {
-    &__line {
-      &:nth-child(1) {
-        transform: translate(0, 0) rotate(43deg);
-      }
-
-      &:nth-child(2) {
-        transform: translate(100%, 0);
-        opacity: 0;
-      }
-
-      &:nth-child(3) {
-        transform: translate(0, 0) rotate(-43deg);
-      }
-    }
-  }
-}
-
-@include media-breakpoint-up(lg) {
-  .app-footer {
-    position: fixed;
-    left: 0;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 1;
-  }
-
-  .nav-wrapper {
-    margin-top: 10px;
-    flex: 0 0 auto;
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
-
-    &__mobile-only {
-      display: none;
-    }
-
-    &__menu {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-
-      .nav-block__title {
-        display: none;
-      }
-    }
-
-    .container {
-      width: 100%;
-      box-sizing: border-box;
-    }
-  }
-
-  .menu-toggle {
-    display: none;
-  }
-
-  .app-content {
-    top: 140px;
-  }
-
-  .modal-open {
-    .app-header {
-      padding-right: var(--scrollbar-width, 0px);
-    }
-
-    .app-footer {
-      padding-right: var(--scrollbar-width, 0px);
-    }
-
-    .nav-wrapper {
-      margin-right: calc(-1 * var(--scrollbar-width, 0px));
-    }
-  }
-}
-
 @media screen and (min-width: 993px) and (min-height: 730px) and (max-height: 890px) {
   .app-header {
     &__inner {
@@ -481,10 +301,6 @@ $footer-height: 65px;
       height: 40px;
     }
   }
-
-  .nav-wrapper {
-    margin-top: 15px;
-  }
 }
 
 @media screen and (min-width: 993px) and (max-height: 730px) {
@@ -494,19 +310,10 @@ $footer-height: 65px;
     }
   }
 
-  .app-content {
-    top: 50px;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
   .nav-wrapper {
     display: none;
     padding: 18px 0;
     @include fixed(0, 0, 0, 0);
-    z-index: var(--zindex-modal);
 
     &__inner {
       justify-content: center;
@@ -550,10 +357,6 @@ $footer-height: 65px;
     &--open {
       background-color: var(--white);
       display: block;
-    }
-
-    .container {
-      height: 100%;
     }
 
     &__inner {
@@ -610,11 +413,6 @@ $footer-height: 65px;
 }
 
 @include media-breakpoint-down(md) {
-  .has-christmas-lights {
-    .nav-wrapper {
-      padding-top: 58px;
-    }
-  }
   .menu-open {
     @include fixed(0, 0, 0, 0);
     overflow-y: scroll;
@@ -638,11 +436,6 @@ $footer-height: 65px;
   }
 
   .nav-wrapper {
-    display: none;
-    padding: 18px 0;
-    @include fixed(0, 0, 0, 0);
-    z-index: var(--zindex-modal);
-
     &--open {
       background-color: var(--white);
       display: block;

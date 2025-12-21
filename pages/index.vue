@@ -2,8 +2,20 @@
   <div class="app-page app-page--main page-main" ref="page">
     <ClientOnly>
       <template #default>
+        <div v-if="mobile || tablet">
+          <BoosterImage
+            :src="theme === 'dark' ? '/images/bg_dark.png' : '/images/bg.png'"
+            alt=""
+            title="Background"
+            class="w-full !h-[150px] object-cover"
+          />
+        </div>
         <div class="page-main__inner">
-          <div class="page-main__sections" ref="sectionsWrapper" id="sections">
+          <div
+            class="page-main__sections flex flex-col lg:flex-row gap-24 lg:gap-0"
+            ref="sectionsWrapper"
+            id="sections"
+          >
             <section
               class="app-section"
               :class="{ 'app-section--scroll': hasScroll }"
@@ -14,12 +26,6 @@
               :key="section"
               :id="`section-${index + 1}`"
             >
-              <svg-icon
-                name="mobile_bg"
-                original
-                v-if="!index && (mobile || tablet)"
-                class="services__bg"
-              ></svg-icon>
               <div class="container">
                 <component
                   :is="section"
@@ -98,16 +104,20 @@
 <script>
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { unref } from "vue";
+import BoosterImage from "#booster/components/BoosterImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
 import sectionsComponents from "~/src/views/Main/sections";
 import CarCloud from "~/src/views/Main/components/PageMainCarCloud";
+import themeManager from "@/utils/theme";
 
 export default {
   name: "AppPageMain",
   components: {
     CarCloud,
+    BoosterImage,
     ...sectionsComponents,
   },
   data: () => ({
@@ -119,14 +129,13 @@ export default {
     scrollTriggers: [],
     scrollbarWidth: 0,
 
-    device: "desktop",
-    mobile: false,
-    tablet: false,
-    desktop: false,
     hasScroll: false,
     initRetryCount: 0,
     maxInitRetries: 3,
     scrollTimeout: null,
+    isDark: themeManager.isDark(),
+    themeChangeHandler: null,
+    breakpointChangeHandler: null,
   }),
   computed: {
     sectionsComponents() {
@@ -135,6 +144,22 @@ export default {
 
     getCarPos() {
       return this.$refs.car?.getBoundingClientRect();
+    },
+
+    theme() {
+      return themeManager.currentTheme;
+    },
+
+    mobile() {
+      return unref(this.$mobile);
+    },
+
+    tablet() {
+      return unref(this.$tablet);
+    },
+
+    desktop() {
+      return unref(this.$desktop);
     },
   },
   methods: {
@@ -228,55 +253,11 @@ export default {
       document.body.classList.remove("modal-open");
 
       this.updateScrollbarWidth();
-      this.updateDeviceType();
 
       // Use nextTick to ensure refs are available
       this.$nextTick(() => {
         this.initAnimations();
       });
-    },
-
-    updateDeviceType() {
-      if (typeof window === "undefined") {
-        this.desktop = true;
-        this.device = "desktop";
-        return;
-      }
-      const wasMobile = this.mobile;
-      const wasTablet = this.tablet;
-
-      this.mobile = false;
-      this.tablet = false;
-      this.desktop = false;
-
-      if (this.isMobile()) {
-        this.device = "mobile";
-        this.mobile = true;
-      } else if (this.isTablet()) {
-        this.device = "tablet";
-        this.tablet = true;
-      } else {
-        this.desktop = true;
-        this.device = "desktop";
-      }
-
-      // If device type changed, trigger scroll detection
-      if (wasMobile !== this.mobile || wasTablet !== this.tablet) {
-        this.$nextTick(() => {
-          this.onScroll();
-        });
-      }
-    },
-
-    isMobile() {
-      if (typeof window === "undefined") return false;
-      return window.matchMedia("(max-width: 767px)").matches;
-    },
-
-    isTablet() {
-      if (typeof window === "undefined") return false;
-      return window.matchMedia("(min-width: 768px) and (max-width: 992px)")
-        .matches;
     },
 
     onSpacePress(e) {
@@ -607,7 +588,29 @@ export default {
   },
   mounted() {
     this.updateScrollbarWidth();
-    this.updateDeviceType();
+
+    // Listen for theme changes
+    this.themeChangeHandler = (event) => {
+      this.isDark = event.detail.isDark;
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("themechange", this.themeChangeHandler);
+    }
+
+    // Listen for breakpoint changes
+    this.breakpointChangeHandler = () => {
+      // Trigger scroll detection when breakpoint changes
+      this.$nextTick(() => {
+        this.onScroll();
+        // Reinitialize animations if needed
+        if (!this.mobile && !this.tablet) {
+          this.onResize();
+        }
+      });
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("breakpointchange", this.breakpointChangeHandler);
+    }
 
     // Wait for ClientOnly to render and refs to be available
     this.$nextTick(() => {
@@ -652,6 +655,17 @@ export default {
     window.removeEventListener("scroll", this.onScroll);
     window.removeEventListener("resize", this.onResize);
     document.removeEventListener("keypress", this.onSpacePress);
+
+    if (this.themeChangeHandler && typeof window !== "undefined") {
+      window.removeEventListener("themechange", this.themeChangeHandler);
+    }
+
+    if (this.breakpointChangeHandler && typeof window !== "undefined") {
+      window.removeEventListener(
+        "breakpointchange",
+        this.breakpointChangeHandler
+      );
+    }
 
     if (this.scrollTimeout) {
       clearTimeout(this.scrollTimeout);
@@ -783,7 +797,6 @@ export default {
   flex: 0 0 auto;
 
   @include media-breakpoint-down(lg) {
-    min-height: 100vh;
     height: auto;
   }
 }
@@ -859,6 +872,11 @@ export default {
 }
 
 @include media-breakpoint-down(md) {
+  .theme-dark {
+    .page-main__bg-image {
+      background-size: auto 123px;
+    }
+  }
   .page-main {
     &__sections {
       flex-direction: column;

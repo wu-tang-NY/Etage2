@@ -1,21 +1,34 @@
 <template>
   <ClientOnly>
-    <footer class="app-footer">
+    <footer
+      class="lg:border-t lg:fixed bottom-0 left-0 w-full font-medium text-xs border-solid border-grey-200 bg-white dark:bg-dark"
+    >
       <div class="container">
-        <div class="app-footer__inner">
-          <div class="app-copyright">
-            {{ $t("footer.copyright") }}
+        <div
+          class="lg:py-2 lg:h-[50px] grid lg:grid-cols-3 lg:items-center gap-4"
+        >
+          <div
+            class="flex items-center justify-center gap-6 lg:gap-4 flex-wrap lg:justify-end lg:order-3"
+          >
+            <social-icon
+              v-for="icon in socialIcons"
+              :key="icon.href"
+              :href="icon.href"
+              :icon-name="icon.iconName"
+              :original="icon.original"
+              :aria-label="icon.ariaLabel"
+            />
           </div>
-          <div class="app-footer__actions">
+          <div class="flex items-center justify-center gap-12 order-2">
             <button
               v-if="showInstallButton"
               type="button"
-              class="app-footer__install-button"
+              class="inline-flex items-center gap-1.5 border-none cursor-pointer text-[var(--colors-accent)] focus:outline-2 focus:outline-[var(--colors-accent)] focus:outline-offset-2 text-[11px] py-[5px] px-3 lg:text-xs lg:py-0 lg:px-0"
               @click="handleInstall"
               aria-label="Install the app"
             >
               <svg
-                class="app-footer__install-icon"
+                class="w-4 h-4 shrink-0"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="none"
@@ -31,52 +44,8 @@
               {{ $t("installPrompt.installButton") }}
             </button>
           </div>
-          <div class="app-social">
-            <a
-              href="https://instagram.com/etage.com.ua/"
-              class="app-social__link"
-              target="_blank"
-              aria-label="Visit our Instagram"
-              rel="noopener noreferrer"
-            >
-              <svg-icon name="icon_in" original />
-            </a>
-            <a
-              href="https://www.facebook.com/groups/2522732927949314/?ref=share_group_link"
-              class="app-social__link"
-              target="_blank"
-              aria-label="Visit our Facebook page"
-              rel="noopener noreferrer"
-            >
-              <svg-icon name="icon_fb" original />
-            </a>
-            <a
-              href="https://t.me/+380953560005"
-              class="app-social__link"
-              target="_blank"
-              aria-label="Contact us on Telegram"
-              rel="noopener noreferrer"
-            >
-              <svg-icon name="icon_tg" original />
-            </a>
-            <a
-              href="https://viber.click/380953560005"
-              class="app-social__link"
-              target="_blank"
-              aria-label="Contact us on Viber"
-              rel="noopener noreferrer"
-            >
-              <svg-icon name="icon_vb" original />
-            </a>
-            <a
-              href="https://wa.me/380953560005"
-              class="app-social__link"
-              target="_blank"
-              aria-label="Contact us on WhatsApp"
-              rel="noopener noreferrer"
-            >
-              <svg-icon name="icon_wa" original />
-            </a>
+          <div class="text-center lg:text-left text-grey-600 lg:order-1">
+            {{ $t("footer.copyright") }}
           </div>
         </div>
       </div>
@@ -85,12 +54,43 @@
 </template>
 
 <script>
+import SocialIcon from "@/components/common/SocialIcon.vue";
 export default {
   name: "LayoutMainFooter",
+  components: {
+    SocialIcon,
+  },
   data() {
     return {
       showInstallButton: false,
       deferredPrompt: null,
+      socialIcons: [
+        {
+          href: "https://instagram.com/etage.com.ua/",
+          iconName: "icon_in",
+          ariaLabel: "Visit our Instagram",
+        },
+        {
+          href: "https://www.facebook.com/groups/2522732927949314/?ref=share_group_link",
+          iconName: "icon_fb",
+          ariaLabel: "Visit our Facebook",
+        },
+        {
+          href: "https://viber.click/380953560005",
+          iconName: "icon_vb",
+          ariaLabel: "Contact us on Viber",
+        },
+        {
+          href: "https://wa.me/380953560005",
+          iconName: "icon_wa",
+          ariaLabel: "Contact us on WhatsApp",
+        },
+        {
+          href: "https://t.me/+380953560005",
+          iconName: "icon_tg",
+          ariaLabel: "Contact us on Telegram",
+        },
+      ],
     };
   },
   mounted() {
@@ -271,93 +271,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.app-footer {
-  border-top: 1px solid var(--colors-grey-200);
-  background-color: #fff;
-}
-
-.app-footer__inner {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 15px;
-}
-
-.app-social {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-
-  &__link {
-    // background-color: var(--colors-grey-100);
-
-    & + & {
-      margin-left: 15px;
-    }
-
-    svg {
-      @include size(20px);
-    }
-  }
-}
-
-.app-footer__actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.app-footer__install-button {
-  color: var(--colors-accent);
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-
-  &:focus {
-    outline: 2px solid var(--colors-accent);
-    outline-offset: 2px;
-  }
-}
-
-.app-footer__install-icon {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-
-@media screen and (max-width: 992px) {
-  .app-footer__inner {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-    justify-items: center;
-  }
-
-  .app-copyright {
-    display: none;
-  }
-
-  .app-footer__actions {
-    justify-content: center;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .app-footer__install-button {
-    font-size: rem(11);
-    padding: 5px 12px;
-  }
-
-  .app-social {
-    &__link {
-      svg {
-        @include size(30px);
-      }
-    }
-  }
-}
-</style>

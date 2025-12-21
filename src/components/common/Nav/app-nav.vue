@@ -1,15 +1,13 @@
 <template>
-  <nav class="app-nav">
-    <div class="app-nav__inner">
-      <ul
-        :class="{
-          'app-nav__list': true,
-          'app-nav__list--open': isOpen,
-        }"
-      >
-        <slot></slot>
-      </ul>
-    </div>
+  <nav class="app-nav relative">
+    <ul
+      class="flex flex-col lg:flex-row"
+      :class="{
+        'app-nav__list--open': isOpen,
+      }"
+    >
+      <slot></slot>
+    </ul>
   </nav>
 </template>
 
@@ -27,15 +25,6 @@ export default {
 
 <style lang="scss">
 .app-nav {
-  position: relative;
-
-  &__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-
   @include media-breakpoint-up(lg) {
     &::before {
       content: "";

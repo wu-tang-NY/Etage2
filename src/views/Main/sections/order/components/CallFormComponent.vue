@@ -1,16 +1,17 @@
 <template>
   <div class="call-form">
     <div class="mobile-wrapper">
-      <div
-        v-if="mobile || tablet"
-        class="call-form__close"
-        @click="$emit('closeModal')"
-      ></div>
-
-      <div v-if="mobile || tablet" class="call-form__title">
-        <h2>{{ $t("callForm.title") }}</h2>
-        <div class="subtitle">{{ $t("callForm.subtitle") }}</div>
-      </div>
+      <header class="flex justify-between">
+        <div v-if="mobile || tablet" class="call-form__title">
+          <h2>{{ $t("callForm.title") }}</h2>
+          <div class="subtitle">{{ $t("callForm.subtitle") }}</div>
+        </div>
+        <div
+          v-if="mobile || tablet"
+          class="call-form__close"
+          @click="$emit('closeModal')"
+        ></div>
+      </header>
 
       <div class="row" v-if="unsend">
         <div class="col-lg-4">
@@ -142,8 +143,8 @@ export default {
     &__close {
       @include size(16px);
       overflow: hidden;
-      position: absolute;
-      top: 16px;
+      position: relative;
+      top: 4px;
       right: 0;
 
       &::before {

@@ -1,7 +1,6 @@
 <template>
   <ClientOnly>
     <div class="services">
-      <!-- <svg-icon name="mobile_bg" original v-if="mobile || tablet" class="services__bg" /> -->
       <h1>
         {{ $t("services.title") }}
         <br v-if="!mobile && !tablet" />
@@ -56,8 +55,6 @@ export default {
 
 <style lang="scss">
 .services {
-  padding-top: 70px;
-
   h1 {
     margin-top: 20px;
     margin-bottom: 50px;
