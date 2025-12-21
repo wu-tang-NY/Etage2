@@ -13,7 +13,7 @@ import {
 } from "workbox-strategies";
 
 // Service Worker version - increment this when you need to force update
-const SW_VERSION = "v2.0.0";
+const SW_VERSION = "v2.0.1";
 
 // Clean up old caches from previous service worker versions
 cleanupOutdatedCaches();
@@ -86,7 +86,10 @@ self.addEventListener("activate", (event) => {
                 cacheName.startsWith(whitelist)
               );
               if (!shouldKeep) {
-                console.log("[Service Worker] Will delete old cache:", cacheName);
+                console.log(
+                  "[Service Worker] Will delete old cache:",
+                  cacheName
+                );
               }
               return !shouldKeep;
             })
@@ -103,7 +106,10 @@ self.addEventListener("activate", (event) => {
           cacheNames
             .filter((cacheName) => cacheName.startsWith("workbox-precache"))
             .map((cacheName) => {
-              console.log("[Service Worker] Clearing workbox precache:", cacheName);
+              console.log(
+                "[Service Worker] Clearing workbox precache:",
+                cacheName
+              );
               return caches.open(cacheName).then((cache) => {
                 return cache.keys().then((requests) => {
                   return Promise.all(
@@ -115,7 +121,9 @@ self.addEventListener("activate", (event) => {
         );
       }),
     ]).then(() => {
-      console.log(`[Service Worker ${SW_VERSION}] Cleanup complete, all clients claimed`);
+      console.log(
+        `[Service Worker ${SW_VERSION}] Cleanup complete, all clients claimed`
+      );
     })
   );
 });
