@@ -320,6 +320,8 @@ export default defineNuxtConfig({
       cssCodeSplit: true,
       // Minify CSS in production (uses esbuild by default)
       cssMinify: true,
+      // Minify JavaScript in production (esbuild is fastest, 'terser' for better compression)
+      minify: "terser",
       rollupOptions: {
         output: {
           // Optimize chunk naming for better caching
