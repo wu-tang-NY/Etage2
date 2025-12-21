@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <InfoLayout>
     <h2>{{ $t("auto.title") }}</h2>
     <p>{{ $t("auto.question1") }}</p>
     <p>{{ $t("auto.paragraph1") }}</p>
@@ -21,14 +21,17 @@
       </li>
     </ul>
     <p>{{ $t("auto.price") }}</p>
-  </div>
+  </InfoLayout>
 </template>
 
 <script>
-definePageMeta({});
+import InfoLayout from "~/layouts/info.vue";
 
 export default {
   name: "InfoAuto",
+  components: {
+    InfoLayout,
+  },
   head() {
     const title = this.$t("auto.title");
     const description = this.$t(`seo.auto.description`, {

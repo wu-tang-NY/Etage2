@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <InfoLayout>
     <h2>{{ $t("flatMove.title") }}</h2>
     <p>{{ $t("flatMove.paragraph1") }}</p>
     <p>{{ $t("flatMove.question") }}</p>
@@ -18,13 +18,16 @@
         <p>{{ $t("flatMove.step4Desc") }}</p>
       </li>
     </ol>
-  </div>
+  </InfoLayout>
 </template>
 
 <script>
-definePageMeta({});
+import InfoLayout from "~/layouts/info.vue";
 
 export default {
+  components: {
+    InfoLayout,
+  },
   name: "InfoFlatMove",
   head() {
     const title = this.$t("flatMove.title");

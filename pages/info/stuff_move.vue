@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <InfoLayout>
     <h2>{{ $t("stuffMove.title") }}</h2>
     <p>{{ $t("stuffMove.paragraph1") }}</p>
     <p>{{ $t("stuffMove.optionsTitle") }}</p>
@@ -12,13 +12,16 @@
       </li>
       <li>{{ $t("stuffMove.option4") }}</li>
     </ul>
-  </div>
+  </InfoLayout>
 </template>
 
 <script>
-definePageMeta({});
+import InfoLayout from "~/layouts/info.vue";
 
 export default {
+  components: {
+    InfoLayout,
+  },
   name: "InfoStuffMove",
   head() {
     const title = this.$t("stuffMove.title");

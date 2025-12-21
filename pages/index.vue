@@ -7,7 +7,11 @@
             :src="theme === 'dark' ? '/images/bg_dark.png' : '/images/bg.png'"
             alt=""
             title="Background"
-            class="w-full !h-[150px] object-cover"
+            class="w-full object-cover"
+            :class="{
+              'object-[-300px_0px] !h-[180px]': theme === 'light',
+              '!h-[150px]': theme === 'dark',
+            }"
           />
         </div>
         <div class="page-main__inner">
@@ -134,6 +138,7 @@ export default {
     maxInitRetries: 3,
     scrollTimeout: null,
     isDark: themeManager.isDark(),
+    theme: themeManager.currentTheme,
     themeChangeHandler: null,
     breakpointChangeHandler: null,
   }),
@@ -144,10 +149,6 @@ export default {
 
     getCarPos() {
       return this.$refs.car?.getBoundingClientRect();
-    },
-
-    theme() {
-      return themeManager.currentTheme;
     },
 
     mobile() {
@@ -592,6 +593,7 @@ export default {
     // Listen for theme changes
     this.themeChangeHandler = (event) => {
       this.isDark = event.detail.isDark;
+      this.theme = event.detail.theme;
     };
     if (typeof window !== "undefined") {
       window.addEventListener("themechange", this.themeChangeHandler);
@@ -638,6 +640,23 @@ export default {
             } else {
               // For desktop, trigger scroll detection which will check ScrollTrigger state
               this.onScroll();
+            }
+          }
+        }
+
+        // Check if we need to scroll to a specific section (from navigation)
+        if (typeof window !== "undefined" && window.sessionStorage) {
+          const scrollToSection =
+            window.sessionStorage.getItem("scrollToSection");
+          if (scrollToSection !== null) {
+            const sectionIndex = parseInt(scrollToSection, 10);
+            if (!isNaN(sectionIndex)) {
+              // Wait a bit more for everything to be ready, then scroll
+              setTimeout(() => {
+                this.onSectionChange(sectionIndex);
+                // Clear the stored value
+                window.sessionStorage.removeItem("scrollToSection");
+              }, 300);
             }
           }
         }
@@ -871,7 +890,7 @@ export default {
   }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(lg) {
   .theme-dark {
     .page-main__bg-image {
       background-size: auto 123px;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <InfoLayout>
     <h2>{{ $t("feedback.title") }}</h2>
     <div
       class="info-feedback__comment"
@@ -10,14 +10,17 @@
       <div class="info-feedback__category">{{ comment.category }}</div>
       <p>{{ comment.comment }}</p>
     </div>
-  </div>
+  </InfoLayout>
 </template>
 
 <script>
-definePageMeta({});
+import InfoLayout from "~/layouts/info.vue";
 
 export default {
   name: "InfoReviews",
+  components: {
+    InfoLayout,
+  },
   computed: {
     comments() {
       const slides = this.$t("reviews.slides", { returnObjects: true });

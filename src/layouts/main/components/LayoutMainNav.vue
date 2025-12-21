@@ -89,6 +89,13 @@ export default {
   methods: {
     handleClick(index) {
       if (this.isInfoRoute) {
+        // Store the section index to scroll to after navigation
+        if (typeof window !== "undefined" && window.sessionStorage) {
+          window.sessionStorage.setItem("scrollToSection", index.toString());
+        }
+        // Navigate to the main page
+        const locale = this.$i18n?.locale || "ua";
+        this.$router.push(`/${locale}`);
         return;
       }
       this.activePage = index;

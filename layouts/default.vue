@@ -50,7 +50,7 @@
       />
 
       <main class="relative lg:top-[200px] pt-[150px] lg:pt-0">
-        <NuxtPage />
+        <slot />
       </main>
 
       <layout-main-footer class="mt-2 lg:fixed bottom-0 left-0 w-full" />
@@ -412,7 +412,7 @@ $footer-height: 65px;
   }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(lg) {
   .menu-open {
     @include fixed(0, 0, 0, 0);
     overflow-y: scroll;

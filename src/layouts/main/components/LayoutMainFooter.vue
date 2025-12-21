@@ -17,6 +17,7 @@
               :icon-name="icon.iconName"
               :original="icon.original"
               :aria-label="icon.ariaLabel"
+              class="size-7 lg:size-5"
             />
           </div>
           <div class="flex items-center justify-center gap-12 order-2">

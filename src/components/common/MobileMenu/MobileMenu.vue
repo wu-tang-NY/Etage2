@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-light dark:bg-dark fixed left-0 top-0 bottom-0 py-4 w-full lg:translate-x-0 pt-4 box-border overflow-visible z-[999] transition-all duration-300 lg:relative"
+    class="bg-light dark:bg-dark fixed left-0 top-0 bottom-0 py-4 w-full lg:translate-x-0 pt-4 box-border overflow-y-scroll z-[999] transition-all duration-300 lg:relative"
     :class="{
       'translate-none': navOpen,
       '-translate-x-full': !navOpen,
@@ -16,7 +16,7 @@
                 <span>{{ $t("common.menu") }}</span>
               </div>
 
-              <div class="nav-block__content">
+              <div class="nav-block__content max-w-[300px]">
                 <LayoutMainNav />
               </div>
             </li>
@@ -48,7 +48,7 @@
               </li>
             </ul>
 
-            <LayoutMainFooter class="mt-auto" />
+            <LayoutMainFooter class="mt-auto pt-10" />
           </div>
         </div>
       </div>

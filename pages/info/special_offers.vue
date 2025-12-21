@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <InfoLayout>
     <h2>{{ $t("specialOffers.title") }}</h2>
     <ul>
       <li>{{ $t("specialOffers.offer1") }}</li>
@@ -9,14 +9,17 @@
       </li>
       <li>{{ $t("specialOffers.offer3") }}</li>
     </ul>
-  </div>
+  </InfoLayout>
 </template>
 
 <script>
-definePageMeta({});
+import InfoLayout from "~/layouts/info.vue";
 
 export default {
   name: "InfoSpecialOffers",
+  components: {
+    InfoLayout,
+  },
   head() {
     const title = this.$t("specialOffers.title");
     const description = this.$t(`seo.specialOffers.description`, {

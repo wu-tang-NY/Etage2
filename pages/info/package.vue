@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <InfoLayout>
     <h2>{{ $t("package.title") }}</h2>
     <p>{{ $t("package.paragraph1") }}</p>
     <p>{{ $t("package.typesTitle") }}</p>
@@ -115,18 +115,18 @@
     <ul>
       <li>{{ $t("package.pickupDesc") }}</li>
     </ul>
-  </div>
+  </InfoLayout>
 </template>
 
 <script>
 import BoosterImage from "#booster/components/BoosterImage";
-
-definePageMeta({});
+import InfoLayout from "~/layouts/info.vue";
 
 export default {
   name: "InfoPackage",
   components: {
     BoosterImage,
+    InfoLayout,
   },
   head() {
     const title = this.$t("package.title");

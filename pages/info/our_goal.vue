@@ -1,16 +1,19 @@
 <template>
-  <div>
+  <InfoLayout>
     <h2>{{ $t("ourGoal.title") }}</h2>
     <p>{{ $t("ourGoal.paragraph1") }}</p>
     <p>{{ $t("ourGoal.paragraph2") }}</p>
-  </div>
+  </InfoLayout>
 </template>
 
 <script>
-definePageMeta({});
+import InfoLayout from "~/layouts/info.vue";
 
 export default {
   name: "InfoOurGoal",
+  components: {
+    InfoLayout,
+  },
   head() {
     const title = this.$t("ourGoal.title");
     const description = this.$t(`seo.ourGoal.description`, {

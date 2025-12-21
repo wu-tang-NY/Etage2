@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <InfoLayout>
     <h2>{{ $t("officeMove.title") }}</h2>
     <p>{{ $t("officeMove.paragraph1") }}</p>
     <p>{{ $t("officeMove.question") }}</p>
@@ -11,14 +11,17 @@
       <li>{{ $t("officeMove.reason5") }}</li>
       <li>{{ $t("officeMove.reason6") }}</li>
     </ul>
-  </div>
+  </InfoLayout>
 </template>
 
 <script>
-definePageMeta({});
+import InfoLayout from "~/layouts/info.vue";
 
 export default {
   name: "InfoOfficeMove",
+  components: {
+    InfoLayout,
+  },
   head() {
     const title = this.$t("officeMove.title");
     const description = this.$t(`seo.officeMove.description`, {

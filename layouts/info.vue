@@ -300,7 +300,7 @@ export default {
 .info-layout {
   width: 100%;
   min-height: calc(100vh - 200px);
-  padding: 30px 0 60px;
+  padding: 0 0 60px;
   display: flex;
 
   .sticky {
@@ -500,6 +500,14 @@ export default {
 
     &__nav {
       margin-top: 40px;
+    }
+  }
+
+  .has-christmas-lights {
+    .info-layout {
+      &__nav {
+        margin-top: 100px;
+      }
     }
   }
 }

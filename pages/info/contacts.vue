@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <InfoLayout>
     <h2>{{ $t("contacts.title") }}</h2>
     <h3>{{ $t("contacts.company") }}</h3>
     <p>{{ $t("contacts.address") }}</p>
@@ -24,14 +24,17 @@
         loading="lazy"
       />
     </div>
-  </div>
+  </InfoLayout>
 </template>
 
 <script>
-definePageMeta({});
+import InfoLayout from "~/layouts/info.vue";
 
 export default {
   name: "InfoContacts",
+  components: {
+    InfoLayout,
+  },
   head() {
     const title = this.$t("contacts.title");
     const description = this.$t(`seo.contacts.description`, {

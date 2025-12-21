@@ -50,6 +50,14 @@ export default {
         }
       }
     }
+
+    .nav-item:last-child {
+      .nav-item {
+        &__bg {
+          clip-path: polygon(20px 0, 100% 0, 100% 100%, 0% 100%);
+        }
+      }
+    }
   }
 }
 
