@@ -53,6 +53,20 @@ export default defineNuxtConfig({
 
     targetFormats: ["webp", "avif", "jpg|jpeg|png|gif"],
 
+    image: {
+      screens: {
+        default: 320,
+        xxs: 480,
+        xs: 576,
+        sm: 768,
+        md: 996,
+        lg: 1200,
+        xl: 1367,
+        xxl: 1600,
+        "4k": 1921,
+      },
+    },
+
     componentAutoImport: false,
   },
 
@@ -67,6 +81,18 @@ export default defineNuxtConfig({
     // Use default provider for local images
     provider: "ipx",
     domains: [],
+
+    screens: {
+      default: 320,
+      xxs: 480,
+      xs: 576,
+      sm: 768,
+      md: 996,
+      lg: 1200,
+      xl: 1367,
+      xxl: 1600,
+      "4k": 1921,
+    },
   },
 
   // Alias configuration
@@ -304,6 +330,17 @@ export default defineNuxtConfig({
               return `_nuxt/fonts/[name]-[hash][extname]`;
             }
             return `_nuxt/assets/[name]-[hash][extname]`;
+          },
+          // Manual chunk splitting for better code splitting and caching
+          manualChunks(id) {
+            // Put GSAP in a separate chunk (only loaded on desktop)
+            if (id.includes("node_modules/gsap")) {
+              return "gsap";
+            }
+            // Keep main animation logic separate
+            if (id.includes("mainPageAnimations")) {
+              return "animations";
+            }
           },
         },
       },

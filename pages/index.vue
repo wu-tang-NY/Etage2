@@ -3,15 +3,14 @@
     <ClientOnly>
       <template #default>
         <div v-if="mobile || tablet">
-          <BoosterImage
-            :src="theme === 'dark' ? '/images/bg_dark.png' : '/images/bg.png'"
+          <img
+            :src="bgImageSrc"
+            :srcset="bgImageSrcset"
+            :sizes="bgImageAttrs.sizes"
+            loading="lazy"
             alt=""
             title="Background"
-            class="w-full object-cover"
-            :class="{
-              'object-[-300px_0px] !h-[180px]': theme === 'light',
-              '!h-[150px]': theme === 'dark',
-            }"
+            class="w-full h-[160px] md:h-[300px] object-cover"
           />
         </div>
         <div class="page-main__inner">
@@ -42,7 +41,18 @@
             </section>
           </div>
 
-          <div class="page-main__bg bg">
+          <div v-if="mobile || tablet" class="mb-10">
+            <img
+              :src="bgImageSrc"
+              :srcset="bgImageSrcset"
+              :sizes="bgImageAttrs.sizes"
+              loading="lazy"
+              alt=""
+              title="Background"
+              class="w-full h-[160px] md:h-[300px] object-cover"
+            />
+          </div>
+          <div v-else class="page-main__bg bg">
             <div class="page-main__bg-inner">
               <div
                 class="page-main__bg-image"
@@ -98,6 +108,7 @@
           </div>
         </div>
       </template>
+
       <template #fallback>
         <div class="page-main__inner"></div>
       </template>
@@ -106,22 +117,16 @@
 </template>
 
 <script>
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { unref } from "vue";
-import BoosterImage from "#booster/components/BoosterImage";
-
-gsap.registerPlugin(ScrollTrigger);
+import themeManager from "@/utils/theme";
 
 import sectionsComponents from "~/src/views/Main/sections";
-import CarCloud from "~/src/views/Main/components/PageMainCarCloud";
-import themeManager from "@/utils/theme";
+import CarCloud from "~/src/views/Main/components/PageMainCarCloud.vue";
 
 export default {
   name: "AppPageMain",
   components: {
     CarCloud,
-    BoosterImage,
     ...sectionsComponents,
   },
   data: () => ({
@@ -132,6 +137,8 @@ export default {
 
     scrollTriggers: [],
     scrollbarWidth: 0,
+    animationModule: null,
+    ScrollTrigger: null,
 
     hasScroll: false,
     initRetryCount: 0,
@@ -161,6 +168,42 @@ export default {
 
     desktop() {
       return unref(this.$desktop);
+    },
+
+    bgImageSrc() {
+      return this.theme === "dark"
+        ? "/images/bg_dark_mobile-600.png"
+        : "/images/bg_mobile-600.png";
+    },
+
+    bgImageSrcset() {
+      return this.bgImageAttrs.srcset;
+    },
+
+    bgImageAttrs() {
+      if (this.theme === "dark") {
+        // Return srcset and sizes for dark theme with different mobile sizes
+        // Only include mobile sizes since these images are only shown on mobile/tablet
+        return {
+          srcset:
+            "/images/bg_dark_mobile-600.png 600w, /images/bg_dark_mobile-800.png 800w, /images/bg_dark_mobile-1000.png 1000w",
+          sizes: "100vw",
+        };
+      }
+
+      if (this.theme === "light") {
+        // Only include mobile sizes since these images are only shown on mobile/tablet
+        return {
+          srcset:
+            "/images/bg_mobile-600.png 600w, /images/bg_mobile-800.png 800w, /images/bg_mobile-1000.png 1000w",
+          sizes: "100vw",
+        };
+      }
+
+      return {
+        srcset: "/images/bg.png 1920w",
+        sizes: "100vw",
+      };
     },
   },
   methods: {
@@ -243,10 +286,12 @@ export default {
       this.totalWidth =
         Object.keys(sectionsComponents).length * this.windowWidth;
 
-      // Clean up existing ScrollTriggers
-      this.scrollTriggers.forEach((trigger) => trigger.kill());
-      this.scrollTriggers = [];
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      // Clean up existing ScrollTriggers (only on desktop)
+      if (this.ScrollTrigger) {
+        this.scrollTriggers.forEach((trigger) => trigger.kill());
+        this.scrollTriggers = [];
+        this.ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      }
 
       // Reset document heights before reinitializing
       document.documentElement.style.height = "";
@@ -331,7 +376,7 @@ export default {
         return;
       }
 
-      // Only load ScrollTrigger on client side for desktop
+      // Only load animations on client side for desktop
       if (typeof window === "undefined") {
         return;
       }
@@ -387,188 +432,55 @@ export default {
 
       this.initRetryCount = 0; // Reset retry count on success
 
-      const [cloud1, cloud2] = clouds.children;
-      const sections = sectionsWrapper.children;
-
-      const pageWidth = window.innerWidth;
-
-      // SECTION 1
-
-      const tween1 = gsap
-        .timeline()
-        .set(sections[0], { opacity: 1, immediateRender: true })
-        .add(
-          gsap.to(sectionsWrapper, {
-            duration: 1,
-            x: -pageWidth,
-            ease: "none",
-          }),
-          0
-        )
-        .add(gsap.to(sections[0], { duration: 0.5, opacity: 0 }), 0.1)
-        .add(
-          gsap.fromTo(
-            sections[1],
-            { opacity: 0 },
-            { duration: 0.5, opacity: 1 }
-          ),
-          0.4
-        )
-        .add(
-          gsap.fromTo(
-            cloud1,
-            { opacity: 0, y: -20 },
-            { duration: 0.15, opacity: 1, y: 0 }
-          ),
-          0.7
+      try {
+        // Lazy load animation module (includes GSAP)
+        const { initScrollAnimations } = await import(
+          "~/src/utils/mainPageAnimations.js"
         );
 
-      // SECTION 2
+        const result = await initScrollAnimations({
+          refs: this.$refs,
+          windowWidth: this.windowWidth,
+          sectionsComponents,
+          onSectionChange: this.onSectionChange,
+          eventbus: this.$eventbus,
+        });
 
-      const tween2 = gsap
-        .timeline()
-        .add(
-          gsap.to(sectionsWrapper, {
-            duration: 1,
-            x: -pageWidth * 2,
-            ease: "none",
-          })
-        )
-        .add(gsap.to(sections[1], { duration: 0.5, opacity: 0 }), 0.1)
-        .add(
-          gsap.fromTo(
-            sections[2],
-            { opacity: 0 },
-            { duration: 0.5, opacity: 1 }
-          ),
-          0.4
-        )
-        .add(gsap.to(cloud1, { duration: 0.15, opacity: 0, y: -20 }), 0.7)
-        .add(
-          gsap.fromTo(
-            cloud2,
-            { opacity: 0, y: -20 },
-            { duration: 0.15, opacity: 1, y: 0 }
-          ),
-          0.85
-        );
+        this.scrollTriggers = result.scrollTriggers;
+        this.ScrollTrigger = result.ScrollTrigger;
+        this.animationModule = result;
 
-      // SECTION 3
-      const tween3 = gsap
-        .timeline()
-        .add(
-          gsap.to(sectionsWrapper, {
-            duration: 1,
-            x: -pageWidth * 3,
-            ease: "none",
-          })
-        )
-        .add(gsap.to(sections[2], { duration: 0.5, opacity: 0 }), 0.1)
-        .add(
-          gsap.fromTo(
-            sections[3],
-            { opacity: 0 },
-            { duration: 0.5, opacity: 1 }
-          ),
-          0.4
-        )
-        .add(gsap.to(cloud2, { duration: 0.15, opacity: 0, y: -20 }), 0.7);
+        // Refresh ScrollTrigger after DOM updates
+        this.$nextTick(() => {
+          this.ScrollTrigger.refresh();
 
-      // SECTION 4
-
-      const tween4 = gsap
-        .timeline()
-        .add(gsap.to(car, { duration: 0.4, x: 600, ease: "none" }))
-        .add(gsap.to(car, { duration: 0.6, x: 600, ease: "none" }));
-
-      // Background animation timeline
-      const bgTween = gsap
-        .timeline()
-        .set(home1, { x: pageWidth + 700, immediateRender: true })
-        .set(home2, { x: pageWidth * 3 + 720, immediateRender: true })
-        .set(workers2, { opacity: 0, immediateRender: true })
-        .set(bg, { x: 0, immediateRender: true })
-        .to(bg, { duration: 1, ease: "none", x: -pageWidth }, 0)
-        .to(workers1, { duration: 0.3, x: -350, ease: "none" }, 0.5)
-        .set(workers1, { opacity: 0, immediateRender: true }, 0.8)
-        .to(bg, { duration: 1, ease: "none", x: -pageWidth * 2 }, 1)
-        .to(bg, { duration: 1, ease: "none", x: -pageWidth * 3 }, 2)
-        .set(workers2, { opacity: 1, x: 200, immediateRender: true }, 2.5)
-        .to(workers2, { duration: 0.3, x: -100, ease: "none" }, 2.5);
-
-      // TIMELINE
-      // In GSAP 3, sequence the tweens with proper timing
-      // Each tween should play after the previous one with a 0.5s stagger
-      const timeline = gsap
-        .timeline({ paused: true })
-        .set(car, { left: 320, x: 0, immediateRender: true })
-        .set(cloud2, { opacity: 0, immediateRender: true })
-        .set(sectionsWrapper, { x: 0, immediateRender: true })
-        .add(tween1, 0)
-        .add(tween2, ">0.5") // Start 0.5s before tween1 ends (overlap)
-        .add(tween3, ">0.5") // Start 0.5s before tween2 ends (overlap)
-        .add(tween4, ">0.5") // Start 0.5s before tween3 ends (overlap)
-        .add(bgTween, 0); // Add bgTween at the start, synchronized with main timeline
-
-      // Calculate the available height for the page when it gets pinned
-      // When pinned at "top top", page fills the full viewport
-      // Footer (65px, z-index: 1) will overlay at bottom, which is acceptable
-      const pageHeight = window.innerHeight - 200;
-
-      gsap.set(page, {
-        width: "100%",
-        height: `${pageHeight}px`,
-        overflow: "hidden",
-      });
-
-      // ScrollTrigger will create the scroll space automatically via pin-spacer
-      const scrollDuration = pageWidth * 4;
-
-      // Create main ScrollTrigger that pins the page and controls the timeline
-      const mainTrigger = ScrollTrigger.create({
-        trigger: page,
-        start: "-200px top",
-        end: `+=${scrollDuration}`,
-        pin: true,
-        pinSpacing: true,
-        animation: timeline,
-        scrub: true,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          const sectionIndex = Math.floor(progress * sections.length);
-          const clampedIndex = Math.min(sectionIndex, sections.length - 1);
-
-          // Remove active from all sections
-          Array.from(sections).forEach((s) => s.classList.remove("active"));
-
-          // Add active to current section
-          if (sections[clampedIndex]) {
-            sections[clampedIndex].classList.add("active");
-            this.activeSectionIndex = clampedIndex;
+          // Ensure first section is active on initial load
+          const sections = sectionsWrapper.children;
+          if (
+            sections.length > 0 &&
+            !sections[0].classList.contains("active")
+          ) {
+            sections[0].classList.add("active");
+            this.activeSectionIndex = 0;
             if (this.$eventbus) {
-              this.$eventbus.$emit("section:scroll", clampedIndex);
+              this.$eventbus.$emit("section:scroll", 0);
             }
           }
-        },
-      });
-      this.scrollTriggers.push(mainTrigger);
+        });
 
-      // Refresh ScrollTrigger after DOM updates
-      this.$nextTick(() => {
-        ScrollTrigger.refresh();
-
-        // Ensure first section is active on initial load
-        const sections = sectionsWrapper.children;
-        if (sections.length > 0 && !sections[0].classList.contains("active")) {
-          sections[0].classList.add("active");
-          this.activeSectionIndex = 0;
-          if (this.$eventbus) {
-            this.$eventbus.$emit("section:scroll", 0);
-          }
+        this.hasScroll = this.isScrollPresent();
+      } catch (error) {
+        console.error("Failed to initialize animations:", error);
+        // Retry if error occurs
+        if (this.initRetryCount < this.maxInitRetries) {
+          this.initRetryCount++;
+          setTimeout(() => {
+            this.$nextTick(() => {
+              this.initAnimations();
+            });
+          }, 200);
         }
-      });
-
-      this.hasScroll = this.isScrollPresent();
+      }
     },
     isScrollPresent() {
       if (typeof window === "undefined" || typeof document === "undefined")
@@ -724,10 +636,13 @@ export default {
       document.body.style.height = "";
     }
 
-    // Clean up ScrollTriggers
-    this.scrollTriggers.forEach((trigger) => trigger.kill());
+    // Clean up ScrollTriggers (only if they exist - desktop only)
+    if (this.animationModule && this.animationModule.cleanup) {
+      this.animationModule.cleanup();
+    }
     this.scrollTriggers = [];
-    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    this.ScrollTrigger = null;
+    this.animationModule = null;
   },
 };
 </script>
@@ -742,37 +657,6 @@ export default {
     display: flex;
     @include media-breakpoint-up(lg) {
       height: 100%;
-    }
-  }
-
-  &__bg {
-    z-index: -1;
-
-    &-inner {
-      overflow: hidden;
-    }
-
-    &-image {
-      background: url("/static/images/bg.png") -100px 12px repeat-x;
-      background-size: auto 150px;
-      height: 150px;
-      position: relative;
-    }
-
-    &-home {
-      @include size(170px, 95px);
-      @include absolute(null, 120px, 10px);
-
-      svg {
-        @include size(100%);
-      }
-    }
-
-    &-car {
-      position: absolute;
-      bottom: 10px;
-      left: 0;
-      @include size(130px, 58px);
     }
   }
 }
@@ -848,15 +732,46 @@ export default {
   opacity: 0 !important;
 }
 
-// Dark theme: switch to dark version background image
-.theme-dark {
-  .page-main__bg-image {
-    background-image: url("/static/images/bg_dark.png") !important;
-    background-size: auto 163px;
-  }
-}
-
 @include media-breakpoint-up(lg) {
+  .page-main {
+    &__bg {
+      z-index: -1;
+
+      &-inner {
+        overflow: hidden;
+      }
+
+      &-image {
+        background: url("/static/images/bg.png") -100px 12px repeat-x;
+        background-size: auto 150px;
+        height: 150px;
+        position: relative;
+      }
+
+      &-home {
+        @include size(170px, 95px);
+        @include absolute(null, 120px, 10px);
+
+        svg {
+          @include size(100%);
+        }
+      }
+
+      &-car {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        @include size(130px, 58px);
+      }
+    }
+  }
+  // Dark theme: switch to dark version background image
+  .theme-dark {
+    .page-main__bg-image {
+      background-image: url("/static/images/bg_dark.png") !important;
+      background-size: auto 163px;
+    }
+  }
   .page-main {
     &__bg {
       position: absolute;
@@ -915,31 +830,9 @@ export default {
 }
 
 @include media-breakpoint-down(lg) {
-  .theme-dark {
-    .page-main__bg-image {
-      background-size: auto 123px;
-    }
-  }
   .page-main {
     &__sections {
       flex-direction: column;
-    }
-
-    &__bg {
-      &-car {
-        display: none;
-      }
-
-      &-home {
-        display: none;
-      }
-    }
-  }
-
-  .bg {
-    &__from,
-    &__to {
-      display: none;
     }
   }
 }
