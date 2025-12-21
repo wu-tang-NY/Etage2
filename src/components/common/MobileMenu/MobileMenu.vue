@@ -17,7 +17,7 @@
               </div>
 
               <div class="nav-block__content max-w-[300px]">
-                <LayoutMainNav />
+                <LayoutMainNav @close="$emit('close')" />
               </div>
             </li>
           </ul>
@@ -70,6 +70,7 @@ export default {
     AppCallback,
     AppPhones,
   },
+  emits: ["close"],
   props: {
     navOpen: {
       type: Boolean,

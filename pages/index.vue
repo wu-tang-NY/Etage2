@@ -297,6 +297,28 @@ export default {
       }
 
       window.scrollTo({ top, behavior: instant ? "auto" : "smooth" });
+
+      // Update active section immediately when programmatically scrolling
+      // The scroll detection will keep it in sync if needed
+      if (this.activeSectionIndex !== index) {
+        this.activeSectionIndex = index;
+
+        // Update active class on sections
+        if (typeof document !== "undefined") {
+          const sections = document.querySelector("#sections");
+          if (sections) {
+            const sectionsArray = Array.from(sections.children);
+            sectionsArray.forEach((section, i) => {
+              section.classList.toggle("active", i === index);
+            });
+          }
+        }
+
+        // Emit section:scroll event to update navigation
+        if (this.$eventbus) {
+          this.$eventbus.$emit("section:scroll", index);
+        }
+      }
     },
 
     async initAnimations() {

@@ -10,6 +10,7 @@
       :active="!isInfoRoute && index === activePage"
       :visited="!isInfoRoute && index < activePage"
       @click="handleClick(index)"
+      @close="$emit('close')"
     />
 
     <app-nav-item
@@ -19,6 +20,7 @@
       :active="isInfoRoute"
       :visited="isInfoRoute"
       class="nav-info"
+      @close="$emit('close')"
     />
   </app-nav>
 </template>
@@ -26,6 +28,7 @@
 <script>
 export default {
   name: "LayoutMainNav",
+  emits: ["click", "close"],
   computed: {
     pages() {
       return [
@@ -96,12 +99,32 @@ export default {
         // Navigate to the main page
         const locale = this.$i18n?.locale || "ua";
         this.$router.push(`/${locale}`);
+        // Emit close event for mobile menu
+        this.$emit("close");
         return;
       }
       this.activePage = index;
 
       this.$emit("click");
-      this.$eventbus.$emit("section:change", index);
+      // Close menu first to ensure correct layout for scroll calculation
+      this.$emit("close");
+      // Wait for DOM to update after menu closes, then trigger scroll
+      this.$nextTick(() => {
+        if (typeof window !== "undefined" && window.requestAnimationFrame) {
+          requestAnimationFrame(() => {
+            if (this.$eventbus) {
+              this.$eventbus.$emit("section:change", index);
+            }
+          });
+        } else {
+          // Fallback if requestAnimationFrame is not available
+          setTimeout(() => {
+            if (this.$eventbus) {
+              this.$eventbus.$emit("section:change", index);
+            }
+          }, 50);
+        }
+      });
     },
   },
   watch: {

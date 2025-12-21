@@ -91,7 +91,7 @@ export default {
       return Array.isArray(this.children) && this.children.length > 0;
     },
   },
-  emits: ["click"],
+  emits: ["click", "close"],
   data: () => ({
     hovered: false,
   }),
@@ -99,6 +99,10 @@ export default {
     handleClick(event) {
       this.hovered = false;
       this.$emit("click", event);
+      // If this nav item has a route (to prop), emit close event for mobile menu
+      if (this.to) {
+        this.$emit("close");
+      }
     },
     handleKeydown(event) {
       // Handle Enter and Space keys
@@ -166,6 +170,8 @@ export default {
       const route = routeMap[path];
       const locale = this.$i18n?.locale || "ua";
       this.$router.push(`/${locale}/info/${route}`);
+      // Emit close event for mobile menu when child item is clicked
+      this.$emit("close");
     },
     handleChildKeydown(event, path) {
       // Handle Enter and Space keys

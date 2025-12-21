@@ -47,6 +47,7 @@
         v-if="mobile || tablet"
         :navOpen="navOpen"
         :showDecorations="showDecorations"
+        @close="handleCloseMenu"
       />
 
       <main class="relative lg:top-[200px] pt-[150px] lg:pt-0">
@@ -92,6 +93,7 @@ export default {
   },
   data: () => ({
     navOpen: false,
+    scrollPosition: 0,
 
     device: "desktop",
     mobile: false,
@@ -112,19 +114,35 @@ export default {
       const navOpenClassName = "menu-open";
 
       if (this.navOpen) {
+        // Save current scroll position
+        this.scrollPosition =
+          window.pageYOffset || document.documentElement.scrollTop;
+        // Apply fixed positioning and restore scroll position
         document.body.classList.add(navOpenClassName);
+        document.body.style.top = `-${this.scrollPosition}px`;
       } else {
+        // Restore scroll position before removing the class
+        const scrollPosition = this.scrollPosition;
         document.body.classList.remove(navOpenClassName);
+        document.body.style.top = "";
+        window.scrollTo(0, scrollPosition);
       }
     },
 
     handleCloseMenu() {
       if (typeof document === "undefined") return;
 
+      // Restore scroll position before removing the class
+      const scrollPosition = this.scrollPosition;
       this.navOpen = false;
 
       document.body.classList.remove("modal-open");
       document.body.classList.remove("menu-open");
+      document.body.style.top = "";
+      // Restore scroll position
+      if (scrollPosition > 0) {
+        window.scrollTo(0, scrollPosition);
+      }
     },
 
     isMobile() {
