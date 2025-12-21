@@ -282,7 +282,7 @@ export default {
       }
     },
 
-    onSectionChange(index) {
+    onSectionChange(index, instant = false) {
       if (typeof window === "undefined" || typeof document === "undefined")
         return;
       document.body.classList.remove("modal-open");
@@ -296,7 +296,7 @@ export default {
         }
       }
 
-      window.scrollTo({ top, behavior: "smooth" });
+      window.scrollTo({ top, behavior: instant ? "auto" : "smooth" });
     },
 
     async initAnimations() {
@@ -651,12 +651,12 @@ export default {
           if (scrollToSection !== null) {
             const sectionIndex = parseInt(scrollToSection, 10);
             if (!isNaN(sectionIndex)) {
-              // Wait a bit more for everything to be ready, then scroll
-              setTimeout(() => {
-                this.onSectionChange(sectionIndex);
+              // Scroll instantly without animation when coming from another page
+              requestAnimationFrame(() => {
+                this.onSectionChange(sectionIndex, true);
                 // Clear the stored value
                 window.sessionStorage.removeItem("scrollToSection");
-              }, 300);
+              });
             }
           }
         }
@@ -667,7 +667,9 @@ export default {
     document.addEventListener("keypress", this.onSpacePress);
 
     if (this.$eventbus) {
-      this.$eventbus.$on("section:change", this.onSectionChange);
+      this.$eventbus.$on("section:change", (index) => {
+        this.onSectionChange(index, true);
+      });
     }
   },
   beforeUnmount() {
