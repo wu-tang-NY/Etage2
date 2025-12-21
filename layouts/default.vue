@@ -50,7 +50,7 @@
       />
 
       <main class="relative lg:top-[200px] pt-[150px] lg:pt-0">
-        <slot />
+        <NuxtPage />
       </main>
 
       <layout-main-footer class="mt-2 lg:fixed bottom-0 left-0 w-full" />

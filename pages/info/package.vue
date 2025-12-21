@@ -9,6 +9,7 @@
         <BoosterImage
           src="/images/packages/img_1_2x.jpg"
           :alt="$t('package.boxTitle')"
+          :title="$t('package.boxTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />
@@ -19,6 +20,7 @@
         <BoosterImage
           src="/images/packages/img_2_2x.jpg"
           :alt="$t('package.stretchTitle')"
+          :title="$t('package.stretchTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />
@@ -29,6 +31,7 @@
         <BoosterImage
           src="/images/packages/img_3_2x.jpg"
           :alt="$t('package.bubbleTitle')"
+          :title="$t('package.bubbleTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />
@@ -39,6 +42,7 @@
         <BoosterImage
           src="/images/packages/img_4_2x.jpg"
           :alt="$t('package.tapeTitle')"
+          :title="$t('package.tapeTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />
@@ -49,6 +53,7 @@
         <BoosterImage
           src="/images/packages/img_5_2x.jpg"
           :alt="$t('package.cornerTitle')"
+          :title="$t('package.cornerTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />
@@ -59,6 +64,7 @@
         <BoosterImage
           src="/images/packages/img_6_2x.jpg"
           :alt="$t('package.bagTitle')"
+          :title="$t('package.bagTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />
@@ -69,6 +75,7 @@
         <BoosterImage
           src="/images/packages/img_7_2x.jpg"
           :alt="$t('package.foamTitle')"
+          :title="$t('package.foamTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />
@@ -79,6 +86,7 @@
         <BoosterImage
           src="/images/packages/img_8_2x.jpg"
           :alt="$t('package.polybagTitle')"
+          :title="$t('package.polybagTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />
@@ -89,6 +97,7 @@
         <BoosterImage
           src="/images/packages/img_9_2x.jpg"
           :alt="$t('package.paperTitle')"
+          :title="$t('package.paperTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />
@@ -99,6 +108,7 @@
         <BoosterImage
           src="/images/packages/img_10_2x.jpg"
           :alt="$t('package.cardboardTitle')"
+          :title="$t('package.cardboardTitle')"
           sizes="(max-width: 767px) 100vw, (max-width: 992px) 50vw, 33vw"
           loading="lazy"
         />

@@ -29,28 +29,24 @@
       </div>
 
       <div class="nav-item__bg"></div>
-
-      <ul class="nav-inner" v-if="hasChildren" role="menu">
-        <template v-for="(child, index) in children" :key="index">
-          <li
-            class="nav-inner__item"
-            role="menuitem"
-            @click="handleChildClick(child.path)"
-          >
-            <NuxtLink
-              :to="to"
-              class="nav-inner__link"
-              role="button"
-              tabindex="0"
-              @click.prevent="handleChildClick(child.path)"
-              @keydown="handleChildKeydown($event, child.path)"
-            >
-              {{ child.title }}
-            </NuxtLink>
-          </li>
-        </template>
-      </ul>
     </NuxtLink>
+
+    <ul class="nav-inner" v-if="hasChildren" role="menu">
+      <template v-for="(child, index) in children" :key="index">
+        <li class="nav-inner__item" role="menuitem">
+          <NuxtLink
+            :to="getChildRoute(child.path)"
+            class="nav-inner__link"
+            role="button"
+            tabindex="0"
+            @click.prevent="handleChildClick(child.path)"
+            @keydown="handleChildKeydown($event, child.path)"
+          >
+            {{ child.title }}
+          </NuxtLink>
+        </li>
+      </template>
+    </ul>
   </li>
 </template>
 
@@ -121,7 +117,8 @@ export default {
       else if (event.key === "ArrowDown" && this.hasChildren) {
         event.preventDefault();
         this.hovered = true;
-        const firstChild = event.target.querySelector(".nav-inner__link");
+        const navItem = event.target.closest(".nav-item");
+        const firstChild = navItem?.querySelector(".nav-inner__link");
         if (firstChild) {
           // Use setTimeout to ensure dropdown is visible
           setTimeout(() => {
@@ -133,8 +130,9 @@ export default {
       else if (event.key === "ArrowUp" && this.hasChildren) {
         event.preventDefault();
         this.hovered = true;
-        const children = event.target.querySelectorAll(".nav-inner__link");
-        if (children.length > 0) {
+        const navItem = event.target.closest(".nav-item");
+        const children = navItem?.querySelectorAll(".nav-inner__link");
+        if (children && children.length > 0) {
           const lastChild = children[children.length - 1];
           // Use setTimeout to ensure dropdown is visible
           setTimeout(() => {
@@ -142,6 +140,19 @@ export default {
           }, 0);
         }
       }
+    },
+    getChildRoute(path) {
+      const routeMap = {
+        PopupContentFlatMove: "flat_move",
+        PopupContentOfficeMove: "office_move",
+        PopupContentStuffMove: "stuff_move",
+        PopupContentSpecialists: "specialists",
+        PopupContentPackage: "package",
+      };
+
+      const route = routeMap[path];
+      const locale = this.$i18n?.locale || "ua";
+      return `/${locale}/info/${route}`;
     },
     handleChildClick(path) {
       const routeMap = {
@@ -153,10 +164,8 @@ export default {
       };
 
       const route = routeMap[path];
-      if (route && this.$router) {
-        const locale = this.$i18n?.locale || "ua";
-        this.$router.push(`/${locale}/info/${route}`);
-      }
+      const locale = this.$i18n?.locale || "ua";
+      this.$router.push(`/${locale}/info/${route}`);
     },
     handleChildKeydown(event, path) {
       // Handle Enter and Space keys
