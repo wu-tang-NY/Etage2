@@ -120,18 +120,12 @@ export default {
         clearInterval(this.installCheckInterval);
         this.installCheckInterval = null;
       }
-      // If we prevented default but haven't called prompt(), we must call it
-      // to satisfy the browser requirement
+      // Clear the deferred prompt without calling prompt()
+      // Calling prompt() on unmount can cause issues on mobile Chrome
       if (this.deferredPrompt) {
         console.log(
-          "[PWA Install] Component unmounting with deferred prompt, calling prompt()"
+          "[PWA Install] Component unmounting with deferred prompt, clearing it"
         );
-        this.deferredPrompt.prompt().catch((error) => {
-          console.error(
-            "[PWA Install] Error calling prompt on unmount:",
-            error
-          );
-        });
         this.deferredPrompt = null;
       }
     }
@@ -553,19 +547,24 @@ export default {
       e.preventDefault();
       // Store the event for later use
       this.deferredPrompt = e;
+      
+      console.log("[PWA Install] Deferred prompt stored, event details:", {
+        platforms: e.platforms,
+        hasPrompt: typeof e.prompt === 'function',
+        hasUserChoice: !!e.userChoice,
+      });
+      
       // Show the prompt after a short delay
       setTimeout(() => {
         // Check again if installed before showing
         if (!this.isInstalled() && !this.showPrompt && !this.dismissedPrompt) {
           console.log("[PWA Install] Showing prompt after beforeinstallprompt");
           this.showPrompt = true;
-        } else if (this.isInstalled()) {
-          console.log(
-            "[PWA Install] App installed during delay, not showing prompt"
-          );
-          // Since we prevented default, we need to call prompt() to satisfy browser
-          e.prompt().catch((error) => {
-            console.error("[PWA Install] Error calling prompt:", error);
+        } else {
+          console.log("[PWA Install] Not showing prompt:", {
+            installed: this.isInstalled(),
+            alreadyShowing: this.showPrompt,
+            dismissed: this.dismissedPrompt,
           });
         }
       }, 2000);
@@ -615,50 +614,16 @@ export default {
             Object.keys(this.deferredPrompt)
           );
 
-          // Verify userChoice exists before calling prompt()
-          if (!this.deferredPrompt.userChoice) {
-            throw new Error("Deferred prompt is missing userChoice property");
-          }
-
           // Show the install prompt - this must be called in response to a user gesture
           // The prompt() method triggers the browser's native install prompt
-          // Note: prompt() is synchronous and doesn't return a promise, but it can throw
-          try {
-            this.deferredPrompt.prompt();
-            console.log(
-              "[PWA Install] prompt() called successfully, waiting for user choice..."
-            );
-          } catch (promptError) {
-            // If prompt() throws immediately, the event might be invalid
-            console.error(
-              "[PWA Install] prompt() threw an error:",
-              promptError
-            );
-            throw new Error(
-              `Failed to show install prompt: ${promptError.message}`
-            );
-          }
+          this.deferredPrompt.prompt();
+          console.log(
+            "[PWA Install] prompt() called successfully, waiting for user choice..."
+          );
 
           // Wait for the user to respond to the prompt
           // userChoice is a Promise that resolves when the user interacts with the prompt
-          // Add a timeout to detect if the prompt doesn't show (30 seconds should be enough)
-          const userChoicePromise = this.deferredPrompt.userChoice;
-          const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(
-              () =>
-                reject(
-                  new Error(
-                    "Prompt timeout - browser prompt may not have appeared. The prompt() method was called but the browser didn't show the install dialog."
-                  )
-                ),
-              30000
-            )
-          );
-
-          const { outcome } = await Promise.race([
-            userChoicePromise,
-            timeoutPromise,
-          ]);
+          const { outcome } = await this.deferredPrompt.userChoice;
           console.log("[PWA Install] User choice:", outcome);
 
           if (outcome === "accepted") {
@@ -666,7 +631,8 @@ export default {
             this.$emit("installed");
           } else {
             console.log("[PWA Install] User dismissed installation");
-            this.handleDismiss();
+            // Don't call handleDismiss here, just clear the prompt
+            localStorage.setItem("pwa-install-dismissed", Date.now().toString());
           }
 
           // Clear the deferred prompt after use (can only be used once)
@@ -679,7 +645,7 @@ export default {
             message: error?.message,
             stack: error?.stack,
           });
-          // If prompt() fails or userChoice rejects, the deferredPrompt might be invalid
+          // If prompt() fails, the deferredPrompt might be invalid
           // Clear it and try fallback
           this.deferredPrompt = null;
           // Try fallback methods
@@ -733,26 +699,12 @@ export default {
       this.dismissedPrompt = true;
       this.showPrompt = false;
 
-      // If we prevented default, we must call prompt() to satisfy browser requirement
-      // This ensures the browser's install prompt can still be shown (even if user dismissed ours)
+      // Clear the deferred prompt - we don't call prompt() on dismiss
+      // because it should only be called in response to user action (install button click)
+      // Calling it on dismiss can cause issues on mobile Chrome
       if (this.deferredPrompt) {
-        console.log(
-          "[PWA Install] User dismissed, calling prompt() to satisfy browser requirement"
-        );
-        try {
-          // Call prompt() to satisfy browser requirement - this allows the browser's
-          // native install prompt to be shown, giving user another opportunity
-          await this.deferredPrompt.prompt();
-          // Wait for user choice to properly complete the prompt lifecycle
-          await this.deferredPrompt.userChoice;
-        } catch (error) {
-          console.error(
-            "[PWA Install] Error calling prompt on dismiss:",
-            error
-          );
-        } finally {
-          this.deferredPrompt = null;
-        }
+        console.log("[PWA Install] User dismissed, clearing deferred prompt");
+        this.deferredPrompt = null;
       }
     },
     showManualInstallInstructions() {

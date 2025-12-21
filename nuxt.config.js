@@ -222,10 +222,13 @@ export default defineNuxtConfig({
     { src: "~/plugins/theme.js", mode: "client" },
     { src: "~/plugins/breakpoints.js", mode: "client" }, // Global breakpoint variables (mobile, tablet, target)
     { src: "~/plugins/html-lang.js", mode: "client" }, // Update HTML lang attribute based on locale
-    // PWA plugin - only in production
+    // PWA plugins - only in production
     ...(process.env.NODE_ENV === "production"
-      ? [{ src: "~/plugins/pwa-update.js", mode: "client" }]
-      : []), // PWA service worker update handler
+      ? [
+          { src: "~/plugins/pwa-register.client.js", mode: "client" }, // PWA service worker registration
+          { src: "~/plugins/pwa-update.js", mode: "client" }, // PWA service worker update handler
+        ]
+      : []),
   ],
 
   // Modules - @nuxt/image should come before nuxt-booster to avoid conflicts
@@ -484,7 +487,7 @@ export default defineNuxtConfig({
             }
           }
 
-          // Copy sitemap.xml and robots.txt from public directory if they exist
+          // Copy sitemap.xml, robots.txt, and manifest.webmanifest from public directory if they exist
           const publicSitemap = resolve(__dirname, "public/sitemap.xml");
           const outputSitemap = resolve(outputDir, "sitemap.xml");
           try {
@@ -505,6 +508,21 @@ export default defineNuxtConfig({
             }
           } catch (e) {
             // robots.txt might not exist in public yet, that's okay
+          }
+
+          // Copy manifest.webmanifest from public directory (critical for PWA on mobile)
+          const publicManifest = resolve(
+            __dirname,
+            "public/manifest.webmanifest"
+          );
+          const outputManifest = resolve(outputDir, "manifest.webmanifest");
+          try {
+            if (statSync(publicManifest).isFile()) {
+              copyFileSync(publicManifest, outputManifest);
+              console.log("Copied manifest.webmanifest to output directory");
+            }
+          } catch (e) {
+            console.warn("Failed to copy manifest.webmanifest:", e.message);
           }
         } catch (e) {
           // Ignore if static directory doesn't exist or copy fails
@@ -529,124 +547,14 @@ export default defineNuxtConfig({
     ? {
         pwa: {
           registerType: "autoUpdate",
-          manifest: {
-            name: "Етаж - Сервіс переїздів та вантажоперевезень",
-            short_name: "Етаж",
-            description:
-              "Професійний сервіс переїздів та вантажоперевезень в Дніпрі та Одесі. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників",
-            lang: "uk",
-            dir: "ltr",
-            start_url: "/?source=pwa",
-            scope: "/",
-            id: "/?source=pwa",
-            display: "standalone",
-            display_override: [
-              "window-controls-overlay",
-              "standalone",
-              "minimal-ui",
-            ],
-            orientation: "any",
-            theme_color: "#ffffff",
-            background_color: "#ffffff",
-            // Add dark theme color support for PWA
-            // Note: PWA manifest doesn't support media queries, so we use light as default
-            // The theme-color meta tags handle the dynamic switching
-            categories: ["business", "utilities"],
-            icons: [
-              {
-                src: "/favicon/android-chrome-192x192.png",
-                sizes: "192x192",
-                type: "image/png",
-                purpose: "any maskable",
-              },
-              {
-                src: "/favicon/android-chrome-512x512.png",
-                sizes: "512x512",
-                type: "image/png",
-                purpose: "any maskable",
-              },
-              {
-                src: "/favicon/apple-touch-icon.png",
-                sizes: "180x180",
-                type: "image/png",
-                purpose: "any",
-              },
-              {
-                src: "/favicon/favicon-32x32.png",
-                sizes: "32x32",
-                type: "image/png",
-                purpose: "any",
-              },
-              {
-                src: "/favicon/favicon-16x16.png",
-                sizes: "16x16",
-                type: "image/png",
-                purpose: "any",
-              },
-            ],
-            shortcuts: [
-              {
-                name: "Замовити переїзд",
-                short_name: "Замовити",
-                description: "Швидке замовлення переїзду",
-                url: "/?action=order",
-                icons: [
-                  {
-                    src: "/favicon/android-chrome-192x192.png",
-                    sizes: "192x192",
-                    type: "image/png",
-                  },
-                ],
-              },
-              {
-                name: "Передзвонити",
-                short_name: "Дзвінок",
-                description: "Замовити дзвінок",
-                url: "/?action=callback",
-                icons: [
-                  {
-                    src: "/favicon/android-chrome-192x192.png",
-                    sizes: "192x192",
-                    type: "image/png",
-                  },
-                ],
-              },
-            ],
-            // Screenshots improve the install prompt on Android
-            // To add screenshots:
-            // 1. Take screenshots of your app (ideally 540x720 for narrow, 720x540 for wide)
-            // 2. Place them in static/images/screenshots/
-            // 3. Add them here with proper dimensions and labels
-            screenshots: [
-              // Example:
-              // {
-              //   src: "/images/screenshots/home.jpg",
-              //   sizes: "540x720",
-              //   type: "image/jpeg",
-              //   form_factor: "narrow",
-              //   label: "Home screen"
-              // },
-            ],
-            share_target: {
-              action: "/",
-              method: "GET",
-              params: {
-                title: "title",
-                text: "text",
-                url: "url",
-              },
-            },
-            launch_handler: {
-              client_mode: "navigate-existing",
-            },
-            edge_side_panel: {
-              preferred_width: 400,
-            },
-            prefer_related_applications: false,
-          },
+          // Use manifest from public folder for better static hosting compatibility
+          manifest: false, // Disable auto-generation, use public/manifest.webmanifest
           strategies: "injectManifest",
+          srcDir: "public",
+          filename: "sw.js",
           injectManifest: {
             swSrc: "public/sw.js",
+            swDest: ".output/public/sw.js",
             // Glob patterns for precaching (injected into service worker)
             globPatterns: [
               "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
@@ -656,9 +564,27 @@ export default defineNuxtConfig({
               "**/node_modules/**/*",
               "**/sw.js",
               "**/workbox-*.js",
+              "**/*.map",
             ],
+            // Directory to scan for files to precache
+            globDirectory: ".output/public",
             // Maximum file size to precache (in bytes)
             maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
+            // Inject manifest into specific placeholder in sw.js
+            injectionPoint: "self.__WB_MANIFEST",
+          },
+          // Workbox options for better mobile support
+          workbox: {
+            // Enable navigation preload for faster loading
+            navigationPreload: true,
+            // Clean up outdated caches
+            cleanupOutdatedCaches: true,
+            // Client claim to take control immediately
+            clientsClaim: true,
+            // Skip waiting to activate immediately
+            skipWaiting: true,
+            // Increase timeout for slow mobile connections
+            navigationPreloadTimeout: 3000,
           },
           client: {
             installPrompt: true,
