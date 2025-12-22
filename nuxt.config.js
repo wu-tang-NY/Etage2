@@ -266,7 +266,7 @@ const config = {
   // Experimental features for performance
   experimental: {
     // Extract CSS to separate files for better caching and code splitting
-    inlineSSRStyles: false,
+    inlineSSRStyles: true,
   },
 
   // Vite configuration for SCSS
