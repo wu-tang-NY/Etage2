@@ -153,8 +153,8 @@ const navigationStrategy = new NetworkFirst({
 
 // Custom navigation handler that properly handles preloadResponse
 const navigationHandler = async ({ event, request, url }) => {
-  // Only handle navigation requests, exclude root URL
-  if (request.mode !== "navigate" || url.pathname === "/") {
+  // Only handle navigation requests
+  if (request.mode !== "navigate") {
     return;
   }
 
@@ -183,10 +183,7 @@ const navigationHandler = async ({ event, request, url }) => {
 };
 
 // Register navigation route with custom handler
-registerRoute(
-  ({ request, url }) => request.mode === "navigate" && url.pathname !== "/",
-  navigationHandler
-);
+registerRoute(({ request }) => request.mode === "navigate", navigationHandler);
 
 // Google Fonts - Cache first
 registerRoute(
