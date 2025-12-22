@@ -325,7 +325,7 @@ const config = {
       // Disable source maps in production for smaller bundle size
       sourcemap: false,
       // Enable minification in production
-      minify: "esbuild",
+      minify: "terser",
       rollupOptions: {
         output: {
           // Disable source maps for all output files
