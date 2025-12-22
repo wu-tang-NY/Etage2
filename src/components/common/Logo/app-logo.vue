@@ -1,11 +1,11 @@
 <template>
   <ClientOnly>
     <div class="app-logo">
-      <a href="/" class="app-logo__title" aria-label="Home">
+      <NuxtLink to="/" class="app-logo__title" aria-label="Home">
         <span class="app-logo__icon">
           <svg-icon :name="logoIconName" original />
         </span>
-      </a>
+      </NuxtLink>
       <span class="app-logo__subtitle">{{ $t("logo.subtitle") }}</span>
     </div>
   </ClientOnly>

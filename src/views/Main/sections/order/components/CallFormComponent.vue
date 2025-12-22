@@ -155,32 +155,8 @@ export default {
     background-color: #fff;
     margin-top: 0;
 
-    &__close {
-      @include size(16px);
-      overflow: hidden;
-      position: relative;
-      top: 4px;
-      right: 0;
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotateZ(-45deg);
-        @include size(20px, 2px);
-        background-color: var(--colors-text-primary);
-      }
-
-      &::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotateZ(45deg);
-        @include size(20px, 2px);
-        background-color: var(--colors-text-primary);
-      }
+    &__button {
+      width: 100%;
     }
 
     &__btn-wrapper {

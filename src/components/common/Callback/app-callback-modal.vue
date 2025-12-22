@@ -66,26 +66,26 @@ export default {
   props: {
     modelValue: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Legacy support for 'open' prop
     open: {
       type: Boolean,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
   emits: ["update:modelValue"],
   data: () => ({
     name: null,
     phone: null,
     unsend: true,
-    required: null
+    required: null,
   }),
   computed: {
     isOpen() {
       // Support both modelValue (v-model) and legacy 'open' prop
       return this.open !== undefined ? this.open : this.modelValue;
-    }
+    },
   },
   methods: {
     async handleSendEmail() {
@@ -93,7 +93,7 @@ export default {
         try {
           await emailService.sendCallback({
             name: this.name,
-            phone: this.phone
+            phone: this.phone,
           });
           this.unsend = false;
         } catch (error) {
@@ -104,8 +104,8 @@ export default {
     },
     closeModal() {
       this.$emit("update:modelValue", false);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -119,9 +119,10 @@ export default {
   color: var(--white);
   font-size: rem(14);
   line-height: 1;
-  letter-spacing: 0.3px;
+  font-weight: 600;
   transition: 0.3s ease-in-out;
   cursor: pointer;
+  width: 100%;
 
   &:hover {
     color: var(--white);

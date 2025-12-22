@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-light dark:bg-dark">
     <AppLoadingScreen />
     <NuxtLayout>
       <NuxtPage />
@@ -10,4 +10,3 @@
 <script setup>
 // This is the root app component
 </script>
-

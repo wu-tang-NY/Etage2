@@ -15,16 +15,22 @@
               <div class="modal-header" v-if="title">
                 <h5 class="modal-title">{{ title }}</h5>
 
-                <button
-                  type="button"
-                  class="modal-close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  @click="handleCloseModal"
-                >
-                  <span class="modal-close__line"></span>
-                  <span class="modal-close__line"></span>
-                </button>
+                <AppButton :icon="true" @click="handleCloseModal">
+                  <svg
+                    class="h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    /></svg
+                ></AppButton>
               </div>
 
               <div class="modal-body">
@@ -43,24 +49,26 @@
 </template>
 
 <script>
+import AppButton from "../Button/app-button.vue";
+
 export default {
   name: "AppModal",
   props: {
     show: {
-      type: Boolean
+      type: Boolean,
     },
     title: String,
     small: Boolean,
     large: Boolean,
     centered: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   emits: ["update:show", "input"],
   data() {
     return {
-      scrollPosition: 0
+      scrollPosition: 0,
     };
   },
   watch: {
@@ -80,7 +88,7 @@ export default {
         document.body.style.top = "";
         window.scrollTo(0, this.scrollPosition);
       }
-    }
+    },
   },
   computed: {
     modalDialogClasses() {
@@ -88,15 +96,15 @@ export default {
         "modal-dialog": true,
         "modal-dialog-sm": this.small,
         "modal-dialog-lg": this.large,
-        "modal-dialog-centered": this.centered
+        "modal-dialog-centered": this.centered,
       };
-    }
+    },
   },
   methods: {
     handleCloseModal() {
       this.$emit("update:show", false);
       this.$emit("input", false);
-    }
+    },
   },
   beforeUnmount() {
     // Cleanup: remove modal-open class if component is destroyed while modal is open
@@ -105,7 +113,7 @@ export default {
       document.body.style.top = "";
       window.scrollTo(0, this.scrollPosition);
     }
-  }
+  },
 };
 </script>
 
@@ -195,35 +203,6 @@ export default {
     font-weight: 900;
   }
 
-  &-close {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    margin: -1rem -1rem -1rem 0;
-    color: rgba(0, 0, 0, 0.5);
-    position: relative;
-    @include size(20px);
-    margin-right: 0px;
-
-    &::before,
-    &::after {
-      content: "";
-      background-color: var(--colors-text-primary);
-      @include absolute(0, 0);
-      @include size(100%, 2px);
-      transform-origin: 50% 50%;
-      margin-top: 10px;
-    }
-
-    &::before {
-      transform: rotate(45deg);
-    }
-
-    &::after {
-      transform: rotate(-45deg);
-    }
-  }
-
   .welcome-block {
     text-align: center;
 
@@ -270,8 +249,8 @@ export default {
   }
 
   // Add padding-top when New Year decorations are active
-  body.has-christmas-lights .modal-dialog {
-    padding-top: 50px;
+  body.has-christmas-lights .modal-content {
+    padding-top: 25px;
   }
 }
 </style>

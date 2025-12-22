@@ -19,13 +19,9 @@ export default {
     };
   },
   mounted() {
-    // Hide loading after minimum display time
-    const elapsed = Date.now() - this.startTime;
-    const remainingTime = Math.max(0, this.minDisplayTime - elapsed);
-
     setTimeout(() => {
       this.isLoading = false;
-    }, remainingTime);
+    }, 0);
   },
 };
 </script>
@@ -40,15 +36,8 @@ export default {
   z-index: 999999;
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-:global(.theme-dark) .app-loading-screen {
   background-color: #0e1a28;
-}
-
-:global(.theme-dark) .loader::after {
-  background: #fff;
+  justify-content: center;
 }
 
 .loader {
@@ -76,7 +65,7 @@ export default {
   top: 0;
   width: 24px;
   height: 24px;
-  background: rgba(#0e1a28, 1);
+  background: #fff;
   animation: animloader2 2s ease infinite;
 }
 

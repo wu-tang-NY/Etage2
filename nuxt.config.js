@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { copyFileSync, mkdirSync, readdirSync, statSync } from "fs";
-import { dirname, resolve } from "path";
+import { copyFileSync, mkdirSync, readdirSync, statSync, unlinkSync } from "fs";
+import { dirname, join, resolve } from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +18,28 @@ function copyDir(src, dest) {
     } else {
       copyFileSync(srcPath, destPath);
     }
+  }
+}
+
+// Helper function to remove source map files recursively
+function removeSourceMaps(dir) {
+  try {
+    const entries = readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        removeSourceMaps(fullPath);
+      } else if (entry.name.endsWith(".map")) {
+        try {
+          unlinkSync(fullPath);
+          console.log(`Removed source map: ${entry.name}`);
+        } catch (e) {
+          console.warn(`Failed to remove ${fullPath}:`, e.message);
+        }
+      }
+    }
+  } catch (e) {
+    // Directory might not exist, that's okay
   }
 }
 
@@ -300,8 +322,14 @@ const config = {
       cssCodeSplit: true,
       // Minify CSS in production (uses esbuild by default)
       cssMinify: true,
+      // Disable source maps in production for smaller bundle size
+      sourcemap: false,
+      // Enable minification in production
+      minify: "esbuild",
       rollupOptions: {
         output: {
+          // Disable source maps for all output files
+          sourcemap: false,
           // Optimize chunk naming for better caching
           assetFileNames: (assetInfo) => {
             const info = assetInfo.name.split(".");
@@ -489,6 +517,11 @@ const config = {
           } catch (e) {
             // robots.txt might not exist in public yet, that's okay
           }
+
+          // Remove all source map files from output directory
+          console.log("Removing source map files...");
+          removeSourceMaps(outputDir);
+          console.log("Source map cleanup completed");
         } catch (e) {
           // Ignore if static directory doesn't exist or copy fails
           console.warn("Failed to copy static files:", e.message);

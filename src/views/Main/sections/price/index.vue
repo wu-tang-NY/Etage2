@@ -64,7 +64,7 @@
         </div>
       </div>
 
-      <div class="row" v-if="mobile || tablet">
+      <div class="row mt-12" v-if="mobile || tablet">
         <div v-for="category in categories" :key="category.name" class="col-12">
           <div class="category-mini p-4 flex flex-col mb-4">
             <div class="flex items-center mb-4">
@@ -565,6 +565,8 @@ export default {
 }
 
 .category-mini {
+  background-color: var(--colors-grey-100);
+
   &__icon {
     @include size(60px);
     margin-right: 16px;

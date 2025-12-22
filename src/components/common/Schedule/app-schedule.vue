@@ -14,7 +14,7 @@
         </div>
 
         <div class="font-semibold">
-          <div>{{ $t("schedule.time", { from: "6:00", to: "22:00" }) }}</div>
+          <div>{{ $t("schedule.time", { from: "5:00", to: "23:00" }) }}</div>
           <div>{{ $t("schedule.noDaysOff") }}</div>
         </div>
       </div>

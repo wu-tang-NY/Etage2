@@ -36,6 +36,13 @@
               </li>
             </ul>
           </div>
+
+          <h4
+            v-if="mobile || tablet"
+            class="text-gray-400 text-center text-sm mt-2"
+          >
+            {{ $t("logo.subtitle") }}
+          </h4>
         </div>
 
         <div v-if="!mobile && !tablet" class="container mt-8">

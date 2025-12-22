@@ -3,7 +3,7 @@
     <ClientOnly>
       <h2>{{ $t("order.title") }}</h2>
 
-      <div class="subtitle dark-gray">
+      <div class="subtitle dark:text-gray-400">
         {{ $t("order.subtitle") }}
       </div>
 
