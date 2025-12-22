@@ -123,14 +123,14 @@
           </div>
         </div>
       </div>
-      <!-- <div class="row items-stretch">
+      <div class="row items-stretch">
         <div
           v-for="category in categories"
           :key="category.name"
           class="col-lg-4"
         >
           <transition name="component-fade">
-            <div class="price__category category">
+            <div v-if="!mobile && !tablet" class="price__category category">
               <div class="mobile-wrapper">
                 <div class="category__header-wrapper">
                   <h3 class="category__title">{{ category.name }}</h3>
@@ -149,17 +149,40 @@
                   class="category__icon"
                   original
                 />
+              </div>
 
-                <div
-                  class="category__close"
-                  v-if="mobile || tablet"
-                  @click="handleCloseFullSize(category)"
-                ></div>
+              <div
+                class="category__price-wrapper"
+                v-for="item in category.items"
+                :key="item.id"
+              >
+                <div class="category__additional" v-if="item.additional">
+                  {{ item.additional }}
+                </div>
+
+                <div class="category__price">
+                  <div class="category__tooltip-wrapper">
+                    <span class="category__price-value"
+                      >{{ item.time }}&nbsp;</span
+                    >
+                    <span
+                      class="category__price-value category__price-value--highlighted"
+                      >{{ item.price }}</span
+                    >
+
+                    <div class="category__tooltip" v-if="item.info">
+                      <svg-icon name="info" />
+                      <div class="category__info">{{ item.info }}</div>
+                    </div>
+                  </div>
+
+                  <p class="category__description">{{ item.description }}</p>
+                </div>
               </div>
             </div>
           </transition>
         </div>
-      </div> -->
+      </div>
 
       <div class="row justify-center">
         <div class="price__examples" @click="navigateToInfo('flat_move')">
