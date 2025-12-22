@@ -451,7 +451,7 @@ export default {
     desktopSubtitle6: "упаковочных материалов",
     carRental: "Аренда автомобиля",
     specialistsServices: "Услуги специалистов",
-    categoryTransport: "ПЕРЕВОЗКИ",
+    categoryTransport: "Перевозки",
     categoryTransportSubtitle: "Мебель, бытовая техника, сейфы и тд.",
     categoryTransportUndertext:
       "В стоимость включены: прокладочные материалы, стяжные стропы.",
@@ -463,7 +463,7 @@ export default {
     categoryTransportItem2Time: "1 час -",
     categoryTransportItem2Price: "450 грн",
     categoryTransportItem2Desc: "Межгород (с точки А до точки Б) - 45 грн/км",
-    categoryMove: "ПЕРЕЕЗДЫ",
+    categoryMove: "Переезды",
     categoryMoveSubtitle:
       "Квартирный, офисный переезды, переезд коммерческих помещений",
     categoryMoveUndertext:
@@ -478,7 +478,7 @@ export default {
     categoryMoveItem2Price: "850 грн",
     categoryMoveItem2Desc: "Межгород (с точки А до точки Б) - 60 грн/км",
     categoryMoveItem2Additional: "до 5т",
-    categoryWorkers: "ГРУЗЧИКИ",
+    categoryWorkers: "Грузчики",
     categoryWorkersSubtitle: "Для транспортировки личных вещей, мебели, и т.д.",
     categoryWorkersUndertext:
       "В стоимость включены: упаковка и маркировка имущества, разборка и сборка мебели, полный цикл ручной транспортировки.",

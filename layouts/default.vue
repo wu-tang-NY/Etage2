@@ -56,11 +56,6 @@
 
       <layout-main-footer class="mt-2 lg:fixed bottom-0 left-0 w-full" />
 
-      <!-- PWA Install Prompt -->
-      <ClientOnly>
-        <app-install-prompt />
-      </ClientOnly>
-
       <div id="modal-portal"></div>
     </div>
   </ClientOnly>
@@ -71,7 +66,6 @@ import AppButton from "@/components/ui/Button/app-button.vue";
 import MenuToggle from "@/components/common/MenuToggle/MenuToggle.vue";
 import LayoutMainNav from "@/layouts/main/components/LayoutMainNav.vue";
 import LayoutMainFooter from "@/layouts/main/components/LayoutMainFooter.vue";
-import AppInstallPrompt from "@/components/common/InstallPrompt/app-install-prompt.vue";
 import MobileMenu from "@/components/common/MobileMenu/MobileMenu.vue";
 
 export default {
@@ -79,7 +73,6 @@ export default {
   components: {
     LayoutMainNav,
     LayoutMainFooter,
-    AppInstallPrompt,
     AppButton,
     MobileMenu,
     MenuToggle,

@@ -1,22 +1,32 @@
 <template>
   <form class="order-form">
     <div class="mobile-wrapper">
-      <header class="flex justify-between">
+      <header class="flex justify-between mb-6">
         <div v-if="mobile || tablet" class="order-form__title">
-          <h2>{{ $t("orderForm.title") }}</h2>
-          <div class="subtitle">{{ $t("orderForm.subtitle") }}</div>
+          <h3>{{ $t("orderForm.title") }}</h3>
+          <div class="text-sm">{{ $t("orderForm.subtitle") }}</div>
         </div>
-        <div
+        <AppButton
           v-if="mobile || tablet"
-          class="order-form__close"
+          :icon="true"
           @click="$emit('closeModal')"
-        ></div>
+        >
+          <svg
+            class="h-4 w-4"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            /></svg
+        ></AppButton>
       </header>
-
-      <div v-if="mobile || tablet" class="order-form__title">
-        <h2>{{ $t("orderForm.title") }}</h2>
-        <div class="subtitle">{{ $t("orderForm.subtitle") }}</div>
-      </div>
 
       <div class="row" v-if="unsend">
         <div class="col-lg-3">

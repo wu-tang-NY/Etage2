@@ -1,6 +1,6 @@
 <template>
   <button
-    class="bg-transparent border border-solid border-text-primary text-xs font-bold text-gray-700 cursor-pointer transition-all duration-200 rounded-sm flex items-center justify-center box-border dark:bg-gray-800 dark:fill-white dark:text-white"
+    class="bg-transparent flex-0 shrink-0 border border-solid border-text-primary text-xs font-bold text-gray-700 cursor-pointer transition-all duration-200 rounded-sm flex items-center justify-center box-border dark:bg-gray-800 dark:fill-white dark:text-white"
     :type="type"
     :class="[
       classes,

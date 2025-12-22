@@ -63,35 +63,74 @@
           </div>
         </div>
       </div>
+
       <div class="row" v-if="mobile || tablet">
         <div v-for="category in categories" :key="category.name" class="col-12">
-          <div class="category-mini" @click="handleOpenFullSize(category)">
-            <svg-icon
-              :name="category.iconName"
-              class="category-mini__icon"
-              original
-            />
-            <div class="category-mini__info">
-              <h3 class="category-mini__title">{{ category.name }}</h3>
-              <p class="category-mini__subtitle dark-gray">
-                {{ category.subtitle }}
-              </p>
+          <div class="category-mini p-4 flex flex-col mb-4">
+            <div class="flex items-center mb-4">
+              <svg-icon
+                :name="category.iconName"
+                class="category-mini__icon"
+                original
+              />
+              <div class="category-mini__info">
+                <h3 class="capitalize">
+                  {{ category.name }}
+                </h3>
+                <p class="category-mini__subtitle dark-gray">
+                  {{ category.subtitle }}
+                </p>
+              </div>
             </div>
-            <svg-icon class="category-mini__arrow" name="arrow_m" original />
+            <div
+              class="category__price-wrapper"
+              v-for="item in category.items"
+              :key="item.id"
+            >
+              <div class="category__additional" v-if="item.additional">
+                {{ item.additional }}
+              </div>
+
+              <div class="category__price">
+                <div class="category__tooltip-wrapper">
+                  <span class="category__price-value"
+                    >{{ item.time }}&nbsp;</span
+                  >
+                  <span
+                    class="category__price-value category__price-value--highlighted"
+                    >{{ item.price }}</span
+                  >
+
+                  <div class="category__tooltip" v-if="item.info">
+                    <svg-icon name="info" />
+                    <div class="category__info">{{ item.info }}</div>
+                  </div>
+                </div>
+
+                <p class="category__description">{{ item.description }}</p>
+              </div>
+            </div>
+            <p class="category__undertext">{{ category.undertext }}</p>
+            <div class="row justify-center">
+              <div
+                v-if="mobile"
+                @click="openForm(category)"
+                class="price__examples price__examples--mobile"
+              >
+                {{ $t("price.orderButton") }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row items-stretch">
+      <!-- <div class="row items-stretch">
         <div
           v-for="category in categories"
           :key="category.name"
           class="col-lg-4"
         >
           <transition name="component-fade">
-            <div
-              class="price__category category"
-              v-if="(!mobile && !tablet) || category.opened"
-            >
+            <div class="price__category category">
               <div class="mobile-wrapper">
                 <div class="category__header-wrapper">
                   <h3 class="category__title">{{ category.name }}</h3>
@@ -116,50 +155,11 @@
                   v-if="mobile || tablet"
                   @click="handleCloseFullSize(category)"
                 ></div>
-
-                <div
-                  class="category__price-wrapper"
-                  v-for="item in category.items"
-                  :key="item.id"
-                >
-                  <div class="category__additional" v-if="item.additional">
-                    {{ item.additional }}
-                  </div>
-
-                  <div class="category__price">
-                    <div class="category__tooltip-wrapper">
-                      <span class="category__price-value"
-                        >{{ item.time }}&nbsp;</span
-                      >
-                      <span
-                        class="category__price-value category__price-value--highlighted"
-                        >{{ item.price }}</span
-                      >
-
-                      <div class="category__tooltip" v-if="item.info">
-                        <svg-icon name="info" />
-                        <div class="category__info">{{ item.info }}</div>
-                      </div>
-                    </div>
-
-                    <p class="category__description">{{ item.description }}</p>
-                  </div>
-                </div>
-                <p class="category__undertext">{{ category.undertext }}</p>
-                <div class="row justify-center">
-                  <div
-                    v-if="mobile"
-                    @click="openForm(category)"
-                    class="price__examples price__examples--mobile"
-                  >
-                    {{ $t("price.orderButton") }}
-                  </div>
-                </div>
               </div>
             </div>
           </transition>
         </div>
-      </div>
+      </div> -->
 
       <div class="row justify-center">
         <div class="price__examples" @click="navigateToInfo('flat_move')">
@@ -187,6 +187,7 @@ export default {
           subtitle: this.$t("price.categoryTransportSubtitle"),
           undertext: this.$t("price.categoryTransportUndertext"),
           iconName: "price_transport",
+          route: "auto",
           opened: false,
           items: [
             {
@@ -209,6 +210,7 @@ export default {
           subtitle: this.$t("price.categoryMoveSubtitle"),
           undertext: this.$t("price.categoryMoveUndertext"),
           iconName: "price_moving",
+          route: "flat_move",
           opened: false,
           items: [
             {
@@ -233,6 +235,7 @@ export default {
           subtitle: this.$t("price.categoryWorkersSubtitle"),
           undertext: this.$t("price.categoryWorkersUndertext"),
           iconName: "price_workers",
+          route: "specialists",
           opened: false,
           items: [
             {
@@ -449,7 +452,7 @@ export default {
     padding-left: 9px;
     line-height: 37px;
     font-family: var(--font-family-secondary);
-    font-size: rem(18);
+    font-size: rem(16);
     font-weight: 800;
     letter-spacing: 0.4px;
     color: var(--colors-accent);
@@ -539,30 +542,11 @@ export default {
 }
 
 .category-mini {
-  height: 100px;
-  background-color: #f6f6f6;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-
-  &:hover {
-    .category-mini__icon {
-      transform: scale(1.2);
-    }
-  }
-
   &__icon {
-    @include size(40px);
+    @include size(60px);
     margin-right: 16px;
     flex-shrink: 0;
     transition: 0.3s ease-in-out;
-  }
-
-  &__arrow {
-    @include size(14px);
-    margin-left: auto;
-    flex-shrink: 0;
   }
 }
 
