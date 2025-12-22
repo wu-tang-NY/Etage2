@@ -13,7 +13,7 @@ import {
 } from "workbox-strategies";
 
 // Service Worker version - increment this when you need to force update
-const SW_VERSION = "v2.0.1";
+const SW_VERSION = "v2.0.2";
 
 // Clean up old caches from previous service worker versions
 cleanupOutdatedCaches();

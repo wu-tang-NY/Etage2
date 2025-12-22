@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="info-layout">
+    <div class="info-layout flex flex-col lg:flex-row">
       <div class="info-layout__sidebar sticky">
         <div class="info-layout__nav">
           <template v-if="navItems && navItems.length > 0">
@@ -315,16 +315,11 @@ export default {
     align-self: flex-start;
 
     @media screen and (max-width: 992px) {
-      position: fixed;
+      position: relative;
       top: 0;
-      left: 0;
-      max-width: 100%;
       width: 100%;
-      min-width: 100%;
-      max-height: 100vh;
-      background-color: #0e1a28;
-      z-index: 2;
-      padding-bottom: 16px;
+      max-height: none;
+      max-width: 100%;
 
       &--open {
         min-height: 100vh;
@@ -445,6 +440,12 @@ export default {
       font-size: rem(15);
       line-height: 1.6;
       letter-spacing: 0.3px;
+
+      @media screen and (max-width: 992px) {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        letter-spacing: 0.2px;
+      }
     }
 
     p + p,

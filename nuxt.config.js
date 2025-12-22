@@ -21,7 +21,8 @@ function copyDir(src, dest) {
   }
 }
 
-export default defineNuxtConfig({
+// Build config object conditionally
+const config = {
   compatibilityDate: "2024-04-03",
 
   // Modules will be defined later to include all modules
@@ -317,8 +318,6 @@ export default defineNuxtConfig({
       cssCodeSplit: true,
       // Minify CSS in production (uses esbuild by default)
       cssMinify: true,
-      // Minify JavaScript in production (esbuild is fastest, 'terser' for better compression)
-      minify: "terser",
       rollupOptions: {
         output: {
           // Optimize chunk naming for better caching
@@ -525,135 +524,127 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+};
 
-  // PWA configuration - only in production
-  ...(process.env.NODE_ENV === "production"
-    ? {
-        pwa: {
-          registerType: "autoUpdate",
-          manifest: {
-            name: "Етаж - Сервіс переїздів та вантажоперевезень",
-            short_name: "Етаж",
-            description:
-              "Професійний сервіс переїздів та вантажоперевезень в Дніпрі та Одесі. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників",
-            lang: "uk",
-            dir: "ltr",
-            start_url: "/?source=pwa",
-            scope: "/",
-            id: "/?source=pwa",
-            display: "standalone",
-            display_override: [
-              "window-controls-overlay",
-              "standalone",
-              "minimal-ui",
-            ],
-            orientation: "any",
-            theme_color: "#ffffff",
-            background_color: "#ffffff",
-            categories: ["business", "utilities"],
-            icons: [
-              {
-                src: "/favicon/android-chrome-192x192.png",
-                sizes: "192x192",
-                type: "image/png",
-                purpose: "any maskable",
-              },
-              {
-                src: "/favicon/android-chrome-512x512.png",
-                sizes: "512x512",
-                type: "image/png",
-                purpose: "any maskable",
-              },
-              {
-                src: "/favicon/apple-touch-icon.png",
-                sizes: "180x180",
-                type: "image/png",
-                purpose: "any",
-              },
-              {
-                src: "/favicon/favicon-32x32.png",
-                sizes: "32x32",
-                type: "image/png",
-                purpose: "any",
-              },
-              {
-                src: "/favicon/favicon-16x16.png",
-                sizes: "16x16",
-                type: "image/png",
-                purpose: "any",
-              },
-            ],
-            shortcuts: [
-              {
-                name: "Замовити переїзд",
-                short_name: "Замовити",
-                description: "Швидке замовлення переїзду",
-                url: "/?action=order",
-                icons: [
-                  {
-                    src: "/favicon/android-chrome-192x192.png",
-                    sizes: "192x192",
-                    type: "image/png",
-                  },
-                ],
-              },
-              {
-                name: "Передзвонити",
-                short_name: "Дзвінок",
-                description: "Замовити дзвінок",
-                url: "/?action=callback",
-                icons: [
-                  {
-                    src: "/favicon/android-chrome-192x192.png",
-                    sizes: "192x192",
-                    type: "image/png",
-                  },
-                ],
-              },
-            ],
-            share_target: {
-              action: "/",
-              method: "GET",
-              params: {
-                title: "title",
-                text: "text",
-                url: "url",
-              },
-            },
-            prefer_related_applications: false,
-          },
-          strategies: "injectManifest",
-          injectManifest: {
-            swSrc: "public/sw.js",
-            // Glob patterns for precaching (injected into service worker)
-            globPatterns: [
-              "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
-            ],
-            // Exclude patterns from precaching
-            globIgnores: [
-              "**/node_modules/**/*",
-              "**/sw.js",
-              "**/workbox-*.js",
-            ],
-            // Maximum file size to precache (in bytes)
-            maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
-          },
-          workbox: {
-            cleanupOutdatedCaches: true,
-            clientsClaim: true,
-            skipWaiting: true,
-          },
-          client: {
-            installPrompt: true,
-            periodicSyncForUpdates: 20,
-            registerPlugin: true,
-          },
-          devOptions: {
-            enabled: false, // Disable in dev to avoid issues
-            suppressWarnings: true,
-            type: "module",
-          },
+// Add PWA configuration only in production
+if (process.env.NODE_ENV === "production") {
+  config.pwa = {
+    registerType: "autoUpdate",
+    manifest: {
+      name: "Етаж - Сервіс переїздів та вантажоперевезень",
+      short_name: "Етаж",
+      description:
+        "Професійний сервіс переїздів та вантажоперевезень в Дніпрі та Одесі. Квартирні та офісні переїзди під ключ, перевезення меблів та майна, послуги досвідчених вантажників",
+      lang: "uk",
+      dir: "ltr",
+      start_url: "/?source=pwa",
+      scope: "/",
+      id: "/?source=pwa",
+      display: "standalone",
+      display_override: ["window-controls-overlay", "standalone", "minimal-ui"],
+      orientation: "any",
+      theme_color: "#ffffff",
+      background_color: "#ffffff",
+      categories: ["business", "utilities"],
+      icons: [
+        {
+          src: "/favicon/android-chrome-192x192.png",
+          sizes: "192x192",
+          type: "image/png",
+          purpose: "any maskable",
         },
-      }
-    : {}),
-});
+        {
+          src: "/favicon/android-chrome-512x512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any maskable",
+        },
+        {
+          src: "/favicon/apple-touch-icon.png",
+          sizes: "180x180",
+          type: "image/png",
+          purpose: "any",
+        },
+        {
+          src: "/favicon/favicon-32x32.png",
+          sizes: "32x32",
+          type: "image/png",
+          purpose: "any",
+        },
+        {
+          src: "/favicon/favicon-16x16.png",
+          sizes: "16x16",
+          type: "image/png",
+          purpose: "any",
+        },
+      ],
+      shortcuts: [
+        {
+          name: "Замовити переїзд",
+          short_name: "Замовити",
+          description: "Швидке замовлення переїзду",
+          url: "/?action=order",
+          icons: [
+            {
+              src: "/favicon/android-chrome-192x192.png",
+              sizes: "192x192",
+              type: "image/png",
+            },
+          ],
+        },
+        {
+          name: "Передзвонити",
+          short_name: "Дзвінок",
+          description: "Замовити дзвінок",
+          url: "/?action=callback",
+          icons: [
+            {
+              src: "/favicon/android-chrome-192x192.png",
+              sizes: "192x192",
+              type: "image/png",
+            },
+          ],
+        },
+      ],
+      share_target: {
+        action: "/",
+        method: "GET",
+        params: {
+          title: "title",
+          text: "text",
+          url: "url",
+        },
+      },
+      prefer_related_applications: false,
+    },
+    strategies: "injectManifest",
+    injectManifest: {
+      swSrc: "public/sw.js",
+      // Glob patterns for precaching (injected into service worker)
+      globPatterns: [
+        "**/*.{js,css,html,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,ico}",
+      ],
+      // Exclude patterns from precaching
+      globIgnores: ["**/node_modules/**/*", "**/sw.js", "**/workbox-*.js"],
+      // Maximum file size to precache (in bytes)
+      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
+    },
+    workbox: {
+      cleanupOutdatedCaches: true,
+      clientsClaim: true,
+      skipWaiting: true,
+    },
+    client: {
+      installPrompt: true,
+      periodicSyncForUpdates: 20,
+      registerPlugin: true,
+    },
+    devOptions: {
+      enabled: false, // Disable in dev to avoid issues
+      suppressWarnings: true,
+      type: "module",
+    },
+  };
+}
+
+export default defineNuxtConfig(config);

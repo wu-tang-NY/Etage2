@@ -12,7 +12,7 @@
           <button
             class="section-order__tab section-order__tab--left"
             :class="{
-              'section-order__tab--active': tabs[activeTab] === 'call'
+              'section-order__tab--active': tabs[activeTab] === 'call',
             }"
             @click="handleOpenOrderComponent"
           >
@@ -23,7 +23,7 @@
             class="section-order__tab-description"
             :class="{
               'section-order__tab-description--active':
-                tabs[activeTab] === 'call'
+                tabs[activeTab] === 'call',
             }"
           >
             {{ $t("order.leaveNumberDesc") }}
@@ -40,7 +40,7 @@
           <button
             class="section-order__tab section-order__tab--right"
             :class="{
-              'section-order__tab--active': tabs[activeTab] === 'order'
+              'section-order__tab--active': tabs[activeTab] === 'order',
             }"
             @click="handleOpenPhoneComponent"
           >
@@ -51,7 +51,7 @@
             class="section-order__tab-description section-order__tab-description--right"
             :class="{
               'section-order__tab-description--active':
-                tabs[activeTab] === 'order'
+                tabs[activeTab] === 'order',
             }"
           >
             {{ $t("order.fillFormDesc") }}
@@ -84,20 +84,20 @@ export default {
   name: "AppPageMainSectionOrder",
   components: {
     order: OrderFormComponent,
-    call: CallFormComponent
+    call: CallFormComponent,
   },
   props: {
     active: {
-      type: Boolean
+      type: Boolean,
     },
     mobile: Boolean,
-    tablet: Boolean
+    tablet: Boolean,
   },
   data: () => ({
     tabs: ["call", "order"],
     activeTab: 0,
     isModalOpen: false,
-    scrollPosition: 0
+    scrollPosition: 0,
   }),
   watch: {
     mobile() {
@@ -115,7 +115,7 @@ export default {
         window.scrollTo(0, this.scrollPosition);
       }
       this.isModalOpen = false;
-    }
+    },
   },
   methods: {
     handleOpenOrderComponent() {
@@ -145,7 +145,7 @@ export default {
         document.body.style.top = "";
         window.scrollTo(0, this.scrollPosition);
       }
-    }
+    },
   },
   created() {
     if (this.$eventbus) {
@@ -156,7 +156,7 @@ export default {
     if (this.$eventbus) {
       this.$eventbus.$off("openFormModal", this.handleOpenPhoneComponent);
     }
-  }
+  },
 };
 </script>
 
@@ -289,7 +289,7 @@ export default {
     &__tab {
       margin-bottom: 10px;
       text-transform: none;
-      font-size: rem(14);
+      font-size: rem(20);
       font-weight: bold;
       height: 40px;
       line-height: 40px;
@@ -302,8 +302,8 @@ export default {
     }
 
     &__tab-description {
-      font-size: rem(10);
-      line-height: 2;
+      font-size: rem(14);
+      line-height: 1.5;
       letter-spacing: 0.2px;
       text-align: center;
       margin: 0 auto;

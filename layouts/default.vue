@@ -50,7 +50,7 @@
         @close="handleCloseMenu"
       />
 
-      <main class="relative lg:top-[200px] pt-[150px] lg:pt-0">
+      <main class="relative">
         <NuxtPage />
       </main>
 

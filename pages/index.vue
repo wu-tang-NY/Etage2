@@ -1,5 +1,8 @@
 <template>
-  <div class="app-page app-page--main page-main" ref="page">
+  <div
+    class="app-page app-page--main page-main lg:top-[200px] pt-[150px] lg:pt-0"
+    ref="page"
+  >
     <ClientOnly>
       <template #default>
         <div v-if="mobile || tablet">
