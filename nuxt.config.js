@@ -94,6 +94,11 @@ const config = {
       xxl: 1600,
       "4k": 1921,
     },
+    optimizeSSR: {
+      cleanPreloads: true,
+      cleanPrefetches: true,
+      inlineStyles: true,
+    },
   },
 
   // Alias configuration
