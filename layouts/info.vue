@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="info-layout flex flex-col lg:flex-row">
+    <div class="info-layout flex flex-col lg:flex-row relative lg:top-[200px]">
       <div class="info-layout__sidebar sticky">
         <div class="info-layout__nav">
           <template v-if="navItems && navItems.length > 0">
@@ -320,6 +320,7 @@ export default {
       width: 100%;
       max-height: none;
       max-width: 100%;
+      overflow: visible;
 
       &--open {
         min-height: 100vh;
@@ -351,10 +352,6 @@ export default {
       }
       .info-layout__panel-content {
         max-height: 10000px;
-      }
-
-      .info-layout__panel-link {
-        max-height: 36px;
       }
     }
   }
@@ -397,7 +394,7 @@ export default {
     display: block;
     height: 36px;
     padding-left: 26px;
-    opacity: 0.5;
+    opacity: 0.75;
     font-size: rem(14);
     line-height: 36px;
     font-weight: 500;
@@ -420,7 +417,6 @@ export default {
     // padding-top: 60px;
 
     @media screen and (max-width: 992px) {
-      margin-top: 100px;
       margin-left: 0;
       padding-top: 24px;
     }
@@ -500,7 +496,20 @@ export default {
     min-height: 100vh;
 
     &__nav {
-      margin-top: 40px;
+      margin: 40px -16px 0;
+    }
+
+    &__panel-header {
+      font-size: 1rem;
+      height: 42px;
+      line-height: 42px;
+    }
+
+    &__panel-link {
+      font-size: 0.9rem;
+      max-height: none;
+      height: 42px;
+      line-height: 42px;
     }
   }
 
