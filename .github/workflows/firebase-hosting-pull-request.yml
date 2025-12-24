@@ -5,12 +5,8 @@ name: Deploy to Firebase Hosting on PR
 on:
   push:
     branches: ["dev"]
-permissions:
-  checks: write
-  contents: read
-  pull-requests: write
 jobs:
-  build_and_preview:
+  deploy_live_website:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,3 +17,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ETAGE_STATIC_APP }}
           projectId: etage-static-app
+          channelId: live
