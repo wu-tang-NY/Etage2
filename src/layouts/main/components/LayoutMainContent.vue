@@ -1,15 +1,11 @@
 <template>
   <ClientOnly>
-    <div>
-    </div>
+    <div></div>
   </ClientOnly>
 </template>
 
 <script>
 export default {
-  name: 'LayoutMainContent',
+  name: "LayoutMainContent",
 };
 </script>
-
-<style lang="scss">
-</style>

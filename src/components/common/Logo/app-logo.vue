@@ -1,12 +1,17 @@
 <template>
   <ClientOnly>
-    <div class="app-logo">
-      <NuxtLink to="/" class="app-logo__title" aria-label="Home">
-        <span class="app-logo__icon">
+    <div class="flex items-center">
+      <NuxtLink to="/" aria-label="Home">
+        <span
+          class="block w-[110px] h-[22px] md:w-[90px] md:h-[18px] [&_svg]:align-top [&_svg]:w-full"
+        >
           <svg-icon :name="logoIconName" original />
         </span>
       </NuxtLink>
-      <span class="app-logo__subtitle">{{ $t("logo.subtitle") }}</span>
+      <span
+        class="hidden xl:inline-block font-medium text-gray-500 whitespace-nowrap before:content-[''] before:bg-gray-300 dark:before:bg-gray-700 before:inline-block before:w-[2px] before:h-[28px] before:mx-4 before:align-middle"
+        >{{ $t("logo.subtitle") }}</span
+      >
     </div>
   </ClientOnly>
 </template>
@@ -45,54 +50,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-$logo-separator-color: #e6e6e6;
-
-.app-logo {
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.3px;
-
-  &__icon {
-    display: block;
-    @include size(110px, 22px);
-
-    svg {
-      vertical-align: top;
-      width: 100%;
-    }
-  }
-
-  &__subtitle {
-    font-weight: 500;
-    color: var(--colors-text-secondary);
-    white-space: nowrap;
-
-    &::before {
-      content: "";
-      background-color: $logo-separator-color;
-      display: inline-block;
-      @include size(2px, 28px);
-      margin: 0 1rem;
-      vertical-align: middle;
-    }
-  }
-
-  @include media-breakpoint-down(xl) {
-    &__subtitle {
-      display: none;
-    }
-  }
-
-  @include media-breakpoint-down(md) {
-    &__icon {
-      @include size(90px, 18px);
-    }
-
-    &__subtitle {
-      display: none;
-    }
-  }
-}
-</style>

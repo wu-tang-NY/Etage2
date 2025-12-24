@@ -1,6 +1,6 @@
 <template>
   <div
-    class="app-page app-page--main page-main lg:top-[200px] pt-[150px] lg:pt-0"
+    class="app-page app-page--main page-main relative lg:top-[200px] pt-[150px] lg:pt-0"
     ref="page"
   >
     <ClientOnly>
@@ -32,7 +32,7 @@
               :key="section"
               :id="`section-${index + 1}`"
             >
-              <div class="container">
+              <div class="container mx-auto">
                 <component
                   :is="section"
                   :active="activeSectionIndex === index"
@@ -651,9 +651,9 @@ export default {
 </script>
 
 <style lang="scss">
-.app-page {
-  position: relative;
-}
+// .app-page {
+//   position: relative;
+// }
 
 .page-main {
   &__sections {

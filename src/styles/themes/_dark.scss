@@ -50,17 +50,6 @@ canvas,
     color: var(--colors-dark-text-secondary);
   }
 
-  .install-toast {
-    &__content {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: var(--colors-text-primary);
-    }
-
-    &__message {
-      color: var(--colors-dark-text-primary);
-    }
-  }
-
   // App header
   .app-header {
     background-color: var(--colors-dark-surface);
@@ -82,15 +71,15 @@ canvas,
   }
 
   // Footer
-  .app-footer {
-    background-color: var(--colors-dark-surface);
-    color: var(--colors-dark-text-secondary);
-  }
+  // .app-footer {
+  //   background-color: var(--colors-dark-surface);
+  //   color: var(--colors-dark-text-secondary);
+  // }
 
   // App content
-  .app-content {
-    background-color: var(--colors-dark-bg);
-  }
+  // .app-content {
+  //   background-color: var(--colors-dark-bg);
+  // }
 
   // Page main
   .page-main {
@@ -98,31 +87,31 @@ canvas,
   }
 
   // Inputs
-  input,
-  textarea,
-  select {
-    background-color: var(--colors-dark-surface);
-    border-color: var(--colors-dark-border);
-    color: var(--colors-dark-text-primary);
+  // input,
+  // textarea,
+  // select {
+  //   background-color: var(--colors-dark-surface);
+  //   border-color: var(--colors-dark-border);
+  //   color: var(--colors-dark-text-primary);
 
-    &::placeholder {
-      color: var(--colors-dark-text-secondary);
-    }
-  }
+  //   &::placeholder {
+  //     color: var(--colors-dark-text-secondary);
+  //   }
+  // }
 
-  // Buttons
-  .btn {
-    &-primary {
-      background-color: var(--colors-accent);
-      border-color: var(--colors-accent);
-      color: var(--colors-dark-bg);
+  // // Buttons
+  // .btn {
+  //   &-primary {
+  //     background-color: var(--colors-accent);
+  //     border-color: var(--colors-accent);
+  //     color: var(--colors-dark-bg);
 
-      &:hover {
-        background-color: color-mix(in srgb, var(--colors-accent) 90%, black);
-        border-color: color-mix(in srgb, var(--colors-accent) 90%, black);
-      }
-    }
-  }
+  //     &:hover {
+  //       background-color: color-mix(in srgb, var(--colors-accent) 90%, black);
+  //       border-color: color-mix(in srgb, var(--colors-accent) 90%, black);
+  //     }
+  //   }
+  // }
 
   // Links
   a {
@@ -131,12 +120,6 @@ canvas,
     &:hover {
       color: color-mix(in srgb, var(--colors-accent) 90%, white);
     }
-  }
-
-  // Borders
-  .border,
-  [class*="border-"] {
-    border-color: var(--colors-dark-border) !important;
   }
 
   // Cards and modals
@@ -245,86 +228,6 @@ canvas,
     }
   }
 
-  // Form components
-  .order-form,
-  .call-form {
-    background-color: var(--colors-dark-surface);
-  }
-
-  // Input components
-  .app-input,
-  .app-form {
-    &__label {
-      color: var(--colors-dark-text-primary);
-    }
-
-    &__input {
-      border-bottom-color: var(--colors-dark-border);
-      color: var(--colors-dark-text-primary);
-
-      &::placeholder {
-        color: var(--colors-dark-text-secondary);
-      }
-
-      &:hover,
-      &:focus,
-      &:active {
-        & + .app-form__line {
-          background-color: var(--colors-accent);
-        }
-      }
-    }
-
-    &__line {
-      background-color: var(--colors-accent);
-    }
-
-    &--required {
-      .app-form__input {
-        border-color: #ff1e3a;
-
-        &::placeholder {
-          color: #ff1e3a;
-        }
-      }
-    }
-  }
-
-  // Select components
-  .app-select {
-    &__label {
-      color: var(--colors-dark-text-primary);
-    }
-
-    &__line {
-      background-color: var(--colors-accent);
-    }
-
-    &__select {
-      color: var(--colors-dark-text-primary);
-      border-bottom-color: var(--colors-dark-border);
-
-      &:hover,
-      &:active,
-      &:focus {
-        & + .app-select__line {
-          background-color: var(--colors-accent);
-        }
-      }
-
-      option {
-        background-color: var(--colors-dark-surface);
-        color: var(--colors-dark-text-primary);
-      }
-    }
-
-    &__control {
-      &::after {
-        border-top-color: var(--colors-dark-text-primary);
-      }
-    }
-  }
-
   // Scrollbar styling for dark mode
   ::-webkit-scrollbar {
     width: 8px;
@@ -341,81 +244,6 @@ canvas,
 
     &:hover {
       background: var(--colors-dark-grey-200);
-    }
-  }
-
-  // Dropdowns
-  .dropdown-menu {
-    background-color: var(--colors-dark-surface);
-    border-color: var(--colors-dark-border);
-
-    .dropdown-item {
-      color: var(--colors-dark-text-primary);
-
-      &:hover {
-        background-color: var(--colors-dark-grey-200);
-        color: var(--colors-dark-text-primary);
-      }
-    }
-  }
-
-  // Tables
-  .table {
-    color: var(--colors-dark-text-primary);
-
-    thead th {
-      border-color: var(--colors-dark-border);
-    }
-
-    tbody td {
-      border-color: var(--colors-dark-border);
-    }
-  }
-
-  // Language switcher
-  .app-language-switcher {
-    &__button {
-      background: var(--colors-dark-grey-200) !important;
-      border-color: var(--colors-dark-border) !important;
-      color: var(--colors-dark-text-primary) !important;
-
-      &:not(.app-language-switcher__button--active) {
-        &:hover {
-          background-color: var(--colors-dark-text-primary) !important;
-          color: var(--colors-dark-bg) !important;
-        }
-      }
-
-      &--active {
-        background-color: var(--colors-dark-text-primary) !important;
-        color: var(--colors-dark-bg) !important;
-        border-color: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Theme toggle
-  .app-theme-toggle {
-    background: var(--colors-dark-grey-200);
-    border-color: var(--colors-dark-border);
-    color: var(--colors-dark-text-primary);
-
-    &:hover {
-      background-color: var(--colors-dark-text-primary) !important;
-      color: var(--colors-dark-bg) !important;
-
-      svg {
-        fill: var(--colors-dark-bg);
-      }
-    }
-
-    &:focus {
-      outline: 2px solid var(--colors-accent);
-      outline-offset: 2px;
-    }
-
-    svg {
-      fill: var(--colors-dark-text-primary);
     }
   }
 
@@ -445,57 +273,6 @@ canvas,
 
       strong {
         color: var(--colors-dark-text-primary);
-      }
-    }
-  }
-
-  // Phone component
-  .app-phones {
-    color: var(--colors-dark-text-primary);
-
-    &__code {
-      color: var(--colors-dark-text-primary);
-    }
-
-    &__code-icon {
-      svg {
-        fill: var(--colors-dark-text-primary);
-      }
-    }
-
-    &__code-text {
-      color: var(--colors-dark-text-primary);
-
-      span {
-        color: var(--colors-dark-text-secondary);
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-        color: var(--colors-dark-text-primary);
-
-        span {
-          color: var(--colors-accent);
-        }
-      }
-    }
-  }
-
-  // Callback component
-  .app-callback {
-    &__text {
-      color: var(--colors-dark-text-primary);
-      text-decoration-color: var(--colors-dark-text-primary);
-
-      &:hover {
-        color: var(--colors-accent);
-        text-decoration-color: var(--colors-accent);
-      }
-
-      &:focus {
-        outline: 2px solid var(--colors-accent);
-        outline-offset: 2px;
       }
     }
   }
@@ -586,19 +363,6 @@ canvas,
           background-color: var(--colors-dark-text-primary);
         }
       }
-    }
-  }
-
-  // Order form component
-  .order-form-component {
-    background-color: var(--colors-dark-surface);
-  }
-
-  // Call form component close button
-  .call-form__close {
-    &::before,
-    &::after {
-      background-color: var(--colors-dark-text-primary);
     }
   }
 

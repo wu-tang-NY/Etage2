@@ -1,8 +1,15 @@
 <template>
   <ClientOnly>
-    <div class="cloud" :style="{ width: `${iconWidth}px` }">
-      <div class="cloud__title">
-        <slot>{{ title }}</slot>
+    <div
+      class="cloud relative select-none"
+      :style="{ width: `${iconWidth}px` }"
+    >
+      <div
+        class="cloud__title font-bold text-sm leading-normal absolute top-1/2 left-0 -mt-1 px-7 -translate-y-1/2"
+      >
+        <slot>
+          <span class="text-lg font-extrabold text-accent">{{ title }}</span>
+        </slot>
       </div>
 
       <div class="cloud__icon">
@@ -31,27 +38,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.cloud {
-  position: relative;
-  user-select: none;
-
-  span {
-    font-size: rem(18);
-    font-weight: 800;
-    letter-spacing: 0.4px;
-    color: var(--colors-accent);
-  }
-
-  &__title {
-    font-weight: 700;
-    font-size: rem(13);
-    line-height: 1.25;
-    @include absolute(50%, 0);
-    margin-top: -4px;
-    padding: 0 30px;
-    transform: translate(0, -50%);
-  }
-}
-</style>

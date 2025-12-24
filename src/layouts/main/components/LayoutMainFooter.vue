@@ -3,7 +3,7 @@
     <footer
       class="lg:border-t lg:fixed bottom-0 left-0 w-full font-medium text-xs border-solid border-grey-200 bg-white dark:bg-dark"
     >
-      <div class="container">
+      <div class="container mx-auto">
         <div
           class="lg:py-2 lg:h-[50px] grid lg:grid-cols-3 lg:items-center gap-4"
         >

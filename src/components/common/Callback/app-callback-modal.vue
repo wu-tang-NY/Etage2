@@ -9,6 +9,7 @@
         <div class="row">
           <div class="col-lg-12">
             <app-input
+              id="callback-name"
               :requiredField="!name && name !== null"
               :label="$t('callback.nameLabel')"
               type="text"
@@ -21,6 +22,7 @@
         <div class="row">
           <div class="col-lg-12">
             <app-input
+              id="callback-phone"
               :requiredField="!phone && phone !== null"
               :label="$t('callback.phoneLabel')"
               type="text"
@@ -108,25 +110,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.btn {
-  background-color: var(--colors-accent);
-  border-radius: 0;
-  padding: 0 20px;
-  height: 40px;
-  line-height: 40px;
-  color: var(--white);
-  font-size: rem(14);
-  line-height: 1;
-  font-weight: 600;
-  transition: 0.3s ease-in-out;
-  cursor: pointer;
-  width: 100%;
-
-  &:hover {
-    color: var(--white);
-    filter: brightness(1.1);
-  }
-}
-</style>

@@ -1,6 +1,8 @@
 <template>
-  <div class="container">
-    <div class="info-layout flex flex-col lg:flex-row relative lg:top-[200px]">
+  <div class="container mx-auto">
+    <div
+      class="info-layout w-full flex flex-col lg:flex-row relative lg:top-[200px]"
+    >
       <div class="info-layout__sidebar sticky">
         <div class="info-layout__nav">
           <template v-if="navItems && navItems.length > 0">
@@ -301,7 +303,6 @@ export default {
   width: 100%;
   min-height: calc(100vh - 200px);
   padding: 0 0 60px;
-  display: flex;
 
   .sticky {
     position: sticky;

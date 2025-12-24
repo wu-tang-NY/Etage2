@@ -1,13 +1,9 @@
 <template>
   <InfoLayout>
     <h2>{{ $t("feedback.title") }}</h2>
-    <div
-      class="info-feedback__comment"
-      v-for="(comment, index) in comments"
-      :key="index"
-    >
-      <h5>{{ comment.name }}</h5>
-      <div class="info-feedback__category">{{ comment.category }}</div>
+    <div class="mb-10" v-for="(comment, index) in comments" :key="index">
+      <h5 class="text-accent mb-0">{{ comment.name }}</h5>
+      <div class="text-sm text-gray-500 mb-2">{{ comment.category }}</div>
       <p>{{ comment.comment }}</p>
     </div>
   </InfoLayout>
@@ -69,18 +65,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.info-feedback__comment {
-  margin-bottom: 30px;
-  h5 {
-    color: var(--colors-accent);
-    margin-bottom: 0;
-  }
-  .info-feedback__category {
-    font-size: rem(12);
-    color: color-mix(in srgb, var(--colors-accent) 60%, transparent);
-    margin-bottom: 10px;
-  }
-}
-</style>

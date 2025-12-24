@@ -55,35 +55,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.app-theme-toggle {
-  background: transparent;
-  border: 1px solid var(--colors-text-primary);
-  color: var(--colors-text-primary);
-  padding: 0;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  @include size(32px, 32px);
-  box-sizing: border-box;
-
-  &:hover {
-    background-color: var(--colors-text-primary);
-    color: var(--white);
-    fill: var(--white);
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &__icon {
-    @include size(18px, 18px);
-    display: block;
-  }
-}
-</style>

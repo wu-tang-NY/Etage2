@@ -9,6 +9,7 @@
         <div class="row">
           <div class="col-lg-12">
             <app-input
+              id="feedback-name"
               :requiredField="!name && name !== null"
               :label="$t('feedback.nameLabel')"
               type="text"
@@ -21,6 +22,7 @@
         <div class="row">
           <div class="col-lg-12">
             <app-input
+              id="feedback-from"
               :requiredField="!from && from !== null"
               :label="$t('feedback.fromLabel')"
               type="text"
@@ -33,6 +35,7 @@
         <div class="row">
           <div class="col-lg-12">
             <app-input
+              id="feedback-phone"
               :requiredField="!phone && phone !== null"
               :label="$t('feedback.phoneLabel')"
               type="text"
@@ -47,6 +50,7 @@
         <div class="row">
           <div class="col-lg-12">
             <app-textarea
+              id="feedback-comment"
               :requiredField="!comment && comment !== null"
               :label="$t('feedback.commentLabel')"
               :placeholder="$t('feedback.commentPlaceholder')"
@@ -85,13 +89,13 @@ export default {
   props: {
     modelValue: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // Legacy support for 'open' prop
     open: {
       type: Boolean,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
   emits: ["update:modelValue"],
   data: () => ({
@@ -99,13 +103,13 @@ export default {
     phone: null,
     from: null,
     comment: null,
-    unsend: true
+    unsend: true,
   }),
   computed: {
     isOpen() {
       // Support both modelValue (v-model) and legacy 'open' prop
       return this.open !== undefined ? this.open : this.modelValue;
-    }
+    },
   },
   methods: {
     async handleSendEmail() {
@@ -115,7 +119,7 @@ export default {
             name: this.name,
             phone: this.phone,
             from: this.from,
-            comment: this.comment
+            comment: this.comment,
           });
           this.unsend = false;
         } catch (error) {
@@ -123,28 +127,7 @@ export default {
           // Optionally show error message to user
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style lang="scss">
-.btn {
-  background-color: var(--colors-accent);
-  border-radius: 0;
-  padding: 0 20px;
-  height: 40px;
-  line-height: 40px;
-  color: var(--white);
-  font-size: rem(14);
-  line-height: 1;
-  letter-spacing: 0.3px;
-  transition: 0.3s ease-in-out;
-  cursor: pointer;
-
-  &:hover {
-    color: var(--white);
-    filter: brightness(1.1);
-  }
-}
-</style>

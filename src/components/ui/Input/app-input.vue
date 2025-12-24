@@ -1,14 +1,13 @@
 <template>
   <ClientOnly>
-    <div class="app-form" :class="{ 'app-form--required': requiredField }">
-      <label class="app-form__label" v-if="label">
-        {{ label }}
-      </label>
+    <div class="w-full inline-block mb-5">
+      <app-label :label="label" :forAttr="inputId" />
 
-      <div class="app-form__control">
+      <div class="group relative overflow-hidden w-full">
         <input
+          :id="inputId"
           ref="input"
-          class="app-form__input"
+          class="border-0 border-b bg-transparent w-full text-sm leading-normal py-2 px-0 outline-none active:outline-none hover:outline-none focus:border-primary cursor-text transition-all duration-300 ease-in-out dark:border-gray-700 dark:placeholder:text-gray-400"
           :type="type"
           :value="displayValue"
           :placeholder="placeholder"
@@ -16,8 +15,6 @@
           @keypress="handleKeyPress"
           @keydown="handleKeyDown"
         />
-
-        <div class="app-form__line"></div>
       </div>
     </div>
   </ClientOnly>
@@ -58,14 +55,22 @@ export default {
       type: Boolean,
       default: false,
     },
+    id: {
+      type: String,
+      default: "",
+    },
   },
   emits: ["update:modelValue", "input"],
   data() {
     return {
       rawValue: "",
+      generatedId: `input-${Math.random().toString(36).slice(2, 11)}`,
     };
   },
   computed: {
+    inputId() {
+      return this.id || this.generatedId;
+    },
     inputValue: {
       get() {
         return this.modelValue !== undefined ? this.modelValue : this.value;
@@ -264,70 +269,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.app-form {
-  width: 100%;
-  display: inline-block;
-  margin-bottom: 20px;
-
-  &__label {
-    font-weight: 700;
-    font-size: rem(13);
-    line-height: 2;
-    cursor: pointer;
-  }
-
-  &__control {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  &__input {
-    border: none;
-    border-bottom: 1px solid var(--colors-grey-200);
-    background-color: transparent;
-    width: 100%;
-    font-size: rem(13);
-    line-height: 2;
-    padding: 4px 0;
-
-    &::placeholder {
-      color: var(--colors-text-secondary);
-    }
-
-    &:hover,
-    &:focus,
-    &:active {
-      outline: none;
-
-      & + .app-form__line {
-        width: 100%;
-        left: 0;
-      }
-    }
-  }
-
-  &__line {
-    background-color: var(--colors-text-primary);
-    position: absolute;
-    left: auto;
-    right: 0;
-    bottom: 0;
-    height: 1px;
-    width: 0;
-    transition: 0.3s ease-in-out;
-  }
-
-  &--required {
-    .app-form__input {
-      border-color: #ff1e3a;
-
-      &::placeholder {
-        color: #ff1e3a;
-      }
-    }
-  }
-}
-</style>

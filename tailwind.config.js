@@ -12,9 +12,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Add your custom colors here if needed
-        // Example:
-        // primary: '#ffa511',
+        primary: "#ffa511",
+        secondary: "#1f2a3a",
       },
       fontFamily: {
         // Add your custom fonts here if needed

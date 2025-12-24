@@ -1,19 +1,16 @@
 <template>
   <ClientOnly>
-    <div class="app-form app-form--textarea">
-      <label class="app-form__label" v-if="label">
-        {{ label }}
-      </label>
+    <div class="w-full inline-block mb-5">
+      <app-label :label="label" :forAttr="inputId" />
 
-      <div class="app-form__control">
+      <div class="group relative overflow-hidden w-full flex">
         <textarea
-          class="app-form__input app-form__input--textarea"
+          :id="inputId"
+          class="border-0 border-b bg-transparent w-full text-sm leading-normal py-2 px-0 outline-none active:outline-none hover:outline-none focus:border-primary cursor-text transition-all duration-300 ease-in-out dark:border-gray-700 dark:placeholder:text-gray-400 h-20 resize-none"
           :value="textareaValue"
           :placeholder="placeholder"
           @input="textareaValue = $event.target.value"
         />
-
-        <div class="app-form__line"></div>
       </div>
     </div>
   </ClientOnly>
@@ -24,23 +21,35 @@ export default {
   name: "AppTextarea",
   props: {
     label: {
-      type: String
+      type: String,
     },
 
     placeholder: {
-      type: String
+      type: String,
     },
 
     modelValue: {
-      required: false
+      required: false,
     },
     // Backward compatibility
     value: {
-      required: false
-    }
+      required: false,
+    },
+    id: {
+      type: String,
+      default: "",
+    },
   },
   emits: ["update:modelValue", "input"],
+  data() {
+    return {
+      generatedId: `textarea-${Math.random().toString(36).slice(2, 11)}`,
+    };
+  },
   computed: {
+    inputId() {
+      return this.id || this.generatedId;
+    },
     textareaValue: {
       get() {
         return this.modelValue !== undefined ? this.modelValue : this.value;
@@ -48,66 +57,8 @@ export default {
       set(val) {
         this.$emit("update:modelValue", val);
         this.$emit("input", val);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
-
-<style lang="scss">
-.app-form {
-  width: 100%;
-  display: inline-block;
-  margin-bottom: 20px;
-
-  &__label {
-    font-weight: 700;
-    font-size: rem(13);
-    line-height: 2;
-    cursor: pointer;
-  }
-
-  &__control {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    display: flex;
-  }
-
-  &__input {
-    border: none;
-    border-bottom: 1px solid var(--colors-grey-200);
-    background-color: transparent;
-    width: 100%;
-    font-size: rem(13);
-    line-height: 2;
-    padding: 4px 0;
-
-    &--textarea {
-      height: 80px;
-      resize: none;
-    }
-
-    &::placeholder {
-      color: var(--colors-text-secondary);
-    }
-
-    &:hover,
-    &:focus,
-    &:active {
-      outline: none;
-
-      & + .app-form__line {
-        width: 100%;
-        left: 0;
-      }
-    }
-  }
-
-  &--textarea {
-    .app-form__line {
-      bottom: 5px;
-    }
-  }
-}
-</style>

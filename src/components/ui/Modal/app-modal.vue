@@ -5,15 +5,35 @@
       <Teleport to="body">
         <div
           v-if="show"
-          class="modal"
+          class="fixed top-0 left-0 z-[1000] w-full h-full overflow-x-hidden overflow-y-auto outline-0 bg-black/50 flex items-center justify-center max-sm:overflow-hidden max-sm:h-screen"
           tabindex="-1"
           role="dialog"
           @click.self="handleCloseModal"
         >
-          <div :class="modalDialogClasses" role="document">
-            <div class="modal-content" v-if="show">
-              <div class="modal-header" v-if="title">
-                <h5 class="modal-title">{{ title }}</h5>
+          <div
+            :class="[
+              'relative w-auto m-2 pointer-events-none flex items-center min-h-[calc(100%-1rem)]',
+              'max-sm:bg-white max-sm:m-0 max-sm:h-full max-sm:w-full max-sm:items-start',
+              {
+                'max-w-[300px]': small,
+                'max-w-[800px]': large,
+              },
+              centered && 'flex items-center min-h-[calc(100%-1rem)]',
+            ]"
+            role="document"
+          >
+            <div
+              class="modal-content relative flex flex-col w-[400px] pointer-events-auto bg-white bg-clip-padding border border-black/20 rounded outline-0 max-sm:border-0 max-sm:w-full max-sm:h-screen max-sm:overflow-auto"
+              v-if="show"
+            >
+              <div class="flex justify-between p-4">
+                <div v-if="title">
+                  <h5 class="text-xl font-black">{{ title }}</h5>
+
+                  <div v-if="subtitle" class="text-sm text-gray-500">
+                    {{ subtitle }}
+                  </div>
+                </div>
 
                 <AppButton :icon="true" @click="handleCloseModal">
                   <svg
@@ -33,11 +53,14 @@
                 ></AppButton>
               </div>
 
-              <div class="modal-body">
+              <div class="relative flex-1 p-4">
                 <slot></slot>
               </div>
 
-              <div class="modal-footer" v-if="$slots.footer">
+              <div
+                class="flex items-center justify-end p-4 border-t border-black/10"
+                v-if="$slots.footer"
+              >
                 <slot name="footer"></slot>
               </div>
             </div>
@@ -58,6 +81,7 @@ export default {
       type: Boolean,
     },
     title: String,
+    subtitle: String,
     small: Boolean,
     large: Boolean,
     centered: {
@@ -76,30 +100,13 @@ export default {
       if (typeof document === "undefined") return;
       const className = "modal-open";
       if (value) {
-        // Save current scroll position
-        this.scrollPosition =
-          window.pageYOffset || document.documentElement.scrollTop;
-        // Apply modal-open class and block scrolling
         document.body.classList.add(className);
-        document.body.style.top = `-${this.scrollPosition}px`;
       } else {
-        // Remove modal-open class and restore scroll position
         document.body.classList.remove(className);
-        document.body.style.top = "";
-        window.scrollTo(0, this.scrollPosition);
       }
     },
   },
-  computed: {
-    modalDialogClasses() {
-      return {
-        "modal-dialog": true,
-        "modal-dialog-sm": this.small,
-        "modal-dialog-lg": this.large,
-        "modal-dialog-centered": this.centered,
-      };
-    },
-  },
+  computed: {},
   methods: {
     handleCloseModal() {
       this.$emit("update:show", false);
@@ -107,150 +114,9 @@ export default {
     },
   },
   beforeUnmount() {
-    // Cleanup: remove modal-open class if component is destroyed while modal is open
     if (typeof document !== "undefined" && this.show) {
       document.body.classList.remove("modal-open");
-      document.body.style.top = "";
-      window.scrollTo(0, this.scrollPosition);
     }
   },
 };
 </script>
-
-<style lang="scss">
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1050;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  outline: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &-dialog {
-    position: relative;
-    width: auto;
-    margin: 0.5rem;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    min-height: calc(100% - 1rem);
-
-    &-centered {
-      display: flex;
-      align-items: center;
-      min-height: calc(100% - 1rem);
-    }
-
-    &-sm {
-      max-width: 300px;
-    }
-
-    &-lg {
-      max-width: 800px;
-    }
-  }
-
-  &-content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-    pointer-events: auto;
-    background-color: var(--white);
-    background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 0.3rem;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    outline: 0;
-  }
-
-  &-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    border-top-left-radius: calc(0.3rem - 1px);
-    border-top-right-radius: calc(0.3rem - 1px);
-    align-items: center;
-  }
-
-  &-body {
-    position: relative;
-    flex: 1 1 auto;
-    padding: 1rem;
-  }
-
-  &-footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 1rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom-right-radius: calc(0.3rem - 1px);
-    border-bottom-left-radius: calc(0.3rem - 1px);
-  }
-
-  &-title {
-    font-size: rem(20);
-    font-weight: 900;
-  }
-
-  .welcome-block {
-    text-align: center;
-
-    .svg-icon {
-      width: 36px;
-      height: 36px;
-      margin-bottom: 12px;
-    }
-
-    .btn {
-      margin-top: 24px;
-    }
-  }
-}
-
-@include media-breakpoint-up(lg) {
-  .modal-open {
-    padding-right: var(--scrollbar-width, 0px);
-  }
-}
-
-@include media-breakpoint-down(sm) {
-  .modal {
-    overflow: hidden;
-    height: 100vh;
-    &-dialog {
-      background-color: var(--white);
-      margin: 0;
-      height: 100%;
-      width: 100%;
-      align-items: flex-start;
-    }
-
-    .btn {
-      margin-bottom: 40px;
-    }
-
-    &-content {
-      border: none;
-      width: 100%;
-      height: 100vh;
-      overflow: auto;
-    }
-  }
-
-  // Add padding-top when New Year decorations are active
-  body.has-christmas-lights .modal-content {
-    padding-top: 25px;
-  }
-}
-</style>

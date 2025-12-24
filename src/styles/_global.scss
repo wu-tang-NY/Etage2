@@ -61,6 +61,12 @@
 // Block body scrolling when modal is open
 body.modal-open {
   overflow: hidden;
-  position: fixed;
   width: 100%;
+}
+
+@include media-breakpoint-down(sm) {
+  // Add padding-top when New Year decorations are active
+  body.has-christmas-lights .modal-content {
+    padding-top: 25px;
+  }
 }

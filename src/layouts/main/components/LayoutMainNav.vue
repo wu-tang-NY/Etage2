@@ -19,7 +19,7 @@
       :to="localizedInfoPath"
       :active="isInfoRoute"
       :visited="isInfoRoute"
-      class="nav-info"
+      class="lg:ml-auto"
       @close="$emit('close')"
     />
   </app-nav>
@@ -164,11 +164,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-@include media-breakpoint-up(lg) {
-  .nav-info {
-    margin-left: auto;
-  }
-}
-</style>

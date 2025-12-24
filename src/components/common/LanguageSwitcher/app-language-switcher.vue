@@ -4,10 +4,8 @@
       <AppButton
         v-for="lang in availableLanguages"
         :key="lang.code"
+        :active="currentLocale === lang.code"
         type="button"
-        :class="{
-          'app-language-switcher__button--active': currentLocale === lang.code,
-        }"
         @click="switchLanguage(lang.code)"
       >
         {{ lang.label }}
@@ -54,14 +52,3 @@ async function switchLanguage(newLocale) {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.app-language-switcher {
-  &__button {
-    &--active {
-      background-color: var(--colors-text-primary);
-      color: var(--white);
-    }
-  }
-}
-</style>

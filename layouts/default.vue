@@ -6,7 +6,7 @@
         :class="{ 'pt-[40px]': showDecorations }"
         class="app-header bg-light fixed left-0 top-0 w-full pb-3 box-border overflow-visible z-[1000] dark:bg-dark"
       >
-        <div class="container">
+        <div class="container mx-auto">
           <div class="flex items-center justify-between">
             <app-logo />
 
@@ -45,7 +45,7 @@
           </h4>
         </div>
 
-        <div v-if="!mobile && !tablet" class="container mt-8">
+        <div v-if="!mobile && !tablet" class="container mx-auto mt-8">
           <layout-main-nav @click="handleCloseMenu" />
         </div>
       </header>
@@ -434,17 +434,6 @@ $footer-height: 65px;
   .menu-open {
     @include fixed(0, 0, 0, 0);
     overflow-y: scroll;
-  }
-
-  .modal-open {
-    @include fixed(0, 0, 0, 0);
-    overflow-y: scroll;
-
-    .app-content {
-      top: 0;
-      height: 100vh;
-      z-index: 100;
-    }
   }
 
   .app-header {

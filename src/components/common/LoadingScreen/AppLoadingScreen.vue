@@ -1,8 +1,11 @@
 <template>
   <Teleport to="body">
     <Transition name="fade">
-      <div v-if="isLoading" class="app-loading-screen">
-        <span class="loader"></span>
+      <div
+        v-if="isLoading"
+        class="app-loading-screen flex items-center justify-center bg-dark fixed top-0 left-0 size-full z-[9999999]"
+      >
+        <span class="loader inline-block size-12 relative rotate-45"></span>
       </div>
     </Transition>
   </Teleport>
@@ -14,8 +17,6 @@ export default {
   data() {
     return {
       isLoading: true,
-      minDisplayTime: 0,
-      startTime: Date.now(),
     };
   },
   mounted() {
@@ -27,26 +28,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999999;
-  display: flex;
-  align-items: center;
-  background-color: #0e1a28;
-  justify-content: center;
-}
-
-.loader {
-  width: 48px;
-  height: 48px;
-  display: inline-block;
-  position: relative;
-  transform: rotate(45deg);
-}
 .loader::before {
   content: "";
   box-sizing: border-box;

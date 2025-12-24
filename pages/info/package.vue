@@ -3,9 +3,13 @@
     <h2>{{ $t("package.title") }}</h2>
     <p>{{ $t("package.paragraph1") }}</p>
     <p>{{ $t("package.typesTitle") }}</p>
-    <ul class="info-packages">
+    <ul
+      class="list-none m-0 p-0 [&>li]:mt-6 [&>li]:mr-2 [&>li]:mb-8 [&>li]:ml-0 [&>li>h6]:mb-4"
+    >
       <li>
-        <h6>{{ $t("package.boxTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.boxTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_1_2x.jpg"
           :alt="$t('package.boxTitle')"
@@ -16,7 +20,9 @@
         <p>{{ $t("package.boxDesc") }}</p>
       </li>
       <li>
-        <h6>{{ $t("package.stretchTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.stretchTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_2_2x.jpg"
           :alt="$t('package.stretchTitle')"
@@ -27,7 +33,9 @@
         <p>{{ $t("package.stretchDesc") }}</p>
       </li>
       <li>
-        <h6>{{ $t("package.bubbleTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.bubbleTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_3_2x.jpg"
           :alt="$t('package.bubbleTitle')"
@@ -38,7 +46,9 @@
         <p>{{ $t("package.bubbleDesc") }}</p>
       </li>
       <li>
-        <h6>{{ $t("package.tapeTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.tapeTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_4_2x.jpg"
           :alt="$t('package.tapeTitle')"
@@ -49,7 +59,9 @@
         <p>{{ $t("package.tapeDesc") }}</p>
       </li>
       <li>
-        <h6>{{ $t("package.cornerTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.cornerTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_5_2x.jpg"
           :alt="$t('package.cornerTitle')"
@@ -60,7 +72,9 @@
         <p>{{ $t("package.cornerDesc") }}</p>
       </li>
       <li>
-        <h6>{{ $t("package.bagTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.bagTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_6_2x.jpg"
           :alt="$t('package.bagTitle')"
@@ -71,7 +85,9 @@
         <p>{{ $t("package.bagDesc") }}</p>
       </li>
       <li>
-        <h6>{{ $t("package.foamTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.foamTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_7_2x.jpg"
           :alt="$t('package.foamTitle')"
@@ -82,7 +98,9 @@
         <p>{{ $t("package.foamDesc") }}</p>
       </li>
       <li>
-        <h6>{{ $t("package.polybagTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.polybagTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_8_2x.jpg"
           :alt="$t('package.polybagTitle')"
@@ -93,7 +111,9 @@
         <p>{{ $t("package.polybagDesc") }}</p>
       </li>
       <li>
-        <h6>{{ $t("package.paperTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.paperTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_9_2x.jpg"
           :alt="$t('package.paperTitle')"
@@ -104,7 +124,9 @@
         <p>{{ $t("package.paperDesc") }}</p>
       </li>
       <li>
-        <h6>{{ $t("package.cardboardTitle") }}</h6>
+        <h6 style="color: color-mix(in srgb, var(--colors-accent) 90%, white)">
+          {{ $t("package.cardboardTitle") }}
+        </h6>
         <BoosterImage
           src="/images/packages/img_10_2x.jpg"
           :alt="$t('package.cardboardTitle')"
@@ -167,32 +189,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.info-packages {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  & > li {
-    margin: 1.5rem 0.5rem 2rem 0;
-
-    & > h6 {
-      color: color-mix(in srgb, var(--colors-accent) 90%, white);
-      margin-bottom: 1rem;
-    }
-  }
-}
-
-// Ensure BoosterImage displays correctly
-:deep(img),
-:deep(picture),
-:deep(picture img) {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  object-position: center;
-  margin: 1rem 0;
-}
-</style>

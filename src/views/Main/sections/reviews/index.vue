@@ -1,11 +1,13 @@
 <template>
   <ClientOnly>
-    <section class="reviews">
-      <div class="reviews__btnholder">
-        <h2>{{ $t("reviews.title") }}</h2>
+    <section class="pt-10 max-lg:pt-[50px]">
+      <div
+        class="flex justify-between items-start max-lg:flex-col max-lg:items-center"
+      >
+        <h2 class="mb-9 max-lg:mb-[10px]">{{ $t("reviews.title") }}</h2>
         <div
           id="feedback-btn"
-          class="reviews__next reviews__next"
+          class="inline-flex items-center justify-center h-10 px-[30px] bg-[var(--colors-accent)] text-[var(--white)] font-bold cursor-pointer transition-all duration-300 ease-in-out tracking-[0.3px] [clip-path:polygon(0_0,calc(100%-10px)_0,100%_100%,10px_100%)] hover:brightness-110 max-lg:hidden"
           @click.prevent="modalFeedbackOpen = true"
           v-if="!mobile && !tablet"
         >
@@ -13,39 +15,60 @@
         </div>
       </div>
 
-      <div class="reviews__list">
+      <div class="flex items-start justify-between flex-wrap max-lg:flex-wrap">
         <div
-          v-for="item in items"
+          v-for="(item, index) in items"
           :key="item.feature"
-          class="reviews__block"
+          :class="[
+            'flex flex-col items-center cursor-pointer w-1/5 max-lg:w-[calc(50%-8px)] max-lg:mb-4 max-lg:h-[120px] max-lg:bg-[var(--colors-grey-100)] max-lg:px-[9px] max-lg:py-[14px] max-lg:pb-4 max-lg:justify-center',
+            index === 1 && 'max-lg:order-[-1] max-lg:w-full',
+          ]"
           @click="openPopup(item.component)"
         >
-          <svg-icon :name="item.svg" original class="reviews__icon" />
+          <svg-icon
+            :name="item.svg"
+            original
+            class="w-[39px] h-[39px] mb-[10px] max-lg:mb-3 max-lg:flex-shrink-0"
+          />
 
-          <div class="reviews__title" v-html="item.feature"></div>
+          <div
+            class="text-center font-[var(--font-family-secondary)] text-base font-medium tracking-[0.3px] max-lg:text-xs max-lg:tracking-[0.2px] max-lg:text-[var(--colors-text-primary)]"
+            v-html="item.feature"
+          ></div>
 
-          <svg-icon name="chevron_feature" original class="reviews__chevron" />
+          <svg-icon
+            name="chevron_feature"
+            original
+            class="h-3 mt-3 max-lg:hidden"
+          />
         </div>
       </div>
 
-      <div class="reviews__swiper">
-        <div class="reviews__carousel" ref="carousel">
+      <div class="mt-[70px] mb-10 relative max-lg:mt-[50px] max-lg:mb-[88px]">
+        <div
+          class="flex overflow-x-auto scroll-smooth gap-[70px] [scrollbar-width:none] max-lg:gap-0 snap-x snap-mandatory [scroll-behavior:smooth] [-webkit-overflow-scrolling:touch]"
+          ref="carousel"
+        >
           <div
             v-for="(slide, index) in slides"
             :key="index"
-            class="reviews__slide"
+            class="text-center w-[400px] min-w-[400px] cursor-pointer snap-center max-lg:w-full max-lg:min-w-full"
             @click="navigateToInfo('reviews')"
           >
-            <div class="reviews__slide-title">{{ slide.title }}</div>
+            <div
+              class="text-primary text-base leading-none tracking-[0.3px] font-bold mb-[7px]"
+            >
+              {{ slide.title }}
+            </div>
 
-            <p class="reviews__slide-desc dark-gray" v-line-clamp="3">
+            <p class="dark-gray leading-4 break-normal" v-line-clamp="3">
               {{ slide.desc }}
             </p>
           </div>
         </div>
 
         <button
-          class="reviews__swiper-button reviews__swiper-button--prev"
+          class="w-7 h-7 bg-[var(--colors-accent)] bg-no-repeat bg-center rounded-full border-none cursor-pointer absolute top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 left-[-30px] bg-[length:8px_14px] hover:brightness-110 focus:brightness-110 active:brightness-110 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed max-lg:top-auto max-lg:bottom-[-48px] max-lg:translate-y-0 max-lg:left-[20%] [background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%208%2014%27%3E%3Cpath%20fill=%27white%27%20d=%27M7%200l1%201-6%206%206%206-1%201-7-7z%27/%3E%3C/svg%3E')]"
           @click="scrollCarousel('prev')"
           :disabled="!canScrollPrev"
           aria-label="Previous review"
@@ -54,20 +77,22 @@
           name="divider"
           original
           v-if="mobile || tablet"
-          class="reviews__swiper-divider"
+          class="absolute bottom-[-48px] h-7 left-1/2 -translate-x-1/2 w-[35%]"
         ></svg-icon>
         <button
-          class="reviews__swiper-button reviews__swiper-button--next"
+          class="w-7 h-7 bg-[var(--colors-accent)] bg-no-repeat bg-center rounded-full border-none cursor-pointer absolute top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 right-[-30px] bg-[length:8px_14px] hover:brightness-110 focus:brightness-110 active:brightness-110 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed max-lg:top-auto max-lg:bottom-[-48px] max-lg:translate-y-0 max-lg:right-[20%] [background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%208%2014%27%3E%3Cpath%20fill=%27white%27%20d=%27M1%200L0%201l6%206-6%206%201%201%207-7z%27/%3E%3C/svg%3E')]"
           @click="scrollCarousel('next')"
           :disabled="!canScrollNext"
           aria-label="Next review"
         ></button>
       </div>
 
-      <div class="reviews__btnholder">
+      <div
+        class="flex justify-between items-start max-lg:flex-col max-lg:items-center"
+      >
         <div
           id="feedback-btn-mobile"
-          class="reviews__next reviews__next"
+          class="inline-flex items-center justify-center h-10 px-[30px] bg-[var(--colors-accent)] text-[var(--white)] font-bold cursor-pointer transition-all duration-300 ease-in-out tracking-[0.3px] [clip-path:polygon(0_0,calc(100%-10px)_0,100%_100%,10px_100%)] hover:brightness-110 max-lg:clip-path-none max-lg:mt-0 hidden max-lg:flex"
           @click.prevent="modalFeedbackOpen = true"
           v-if="mobile || tablet"
         >
@@ -227,370 +252,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.reviews {
-  padding-top: 40px;
-
-  h2 {
-    margin-bottom: 36px;
-  }
-
-  .subtitle {
-    margin-bottom: 50px;
-  }
-
-  &__list {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-
-  &__block {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  &__title {
-    text-align: center;
-    font-family: var(--font-family-secondary);
-    font-size: rem(16);
-    font-weight: 500;
-    letter-spacing: 0.3px;
-  }
-
-  &__icon {
-    @include size(39px);
-    margin-bottom: 10px;
-  }
-
-  &__chevron {
-    height: 12px;
-    margin-top: 12px;
-  }
-
-  &__swiper {
-    margin-top: 70px;
-    margin-bottom: 40px;
-    position: relative;
-
-    &::before {
-      content: "";
-      z-index: 10;
-      display: block;
-      position: absolute;
-      left: -2px;
-      top: 0;
-      width: 200px;
-      height: 100%;
-      background-image: linear-gradient(
-        to right,
-        #ffffff 10%,
-        rgba(255, 255, 255, 0)
-      );
-    }
-
-    &::after {
-      content: "";
-      z-index: 10;
-      display: block;
-      position: absolute;
-      right: -2px;
-      top: 0;
-      width: 200px;
-      height: 100%;
-      background-image: linear-gradient(
-        to left,
-        #ffffff 10%,
-        rgba(255, 255, 255, 0)
-      );
-    }
-  }
-
-  &__carousel {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    gap: 70px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  &__swiper-divider {
-    position: absolute;
-    bottom: -48px;
-    height: 28px;
-    left: 50%;
-    width: 35%;
-    transform: translateX(-50%);
-  }
-
-  &__swiper-button {
-    @include size(28px);
-    background-color: var(--colors-accent);
-    background-size: 8px 14px;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: none;
-    border-radius: 50%;
-    transform: translateY(-50%);
-    margin-top: 0;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    z-index: 20;
-    transition: opacity 0.3s;
-
-    &--next {
-      right: -30px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 14'%3E%3Cpath fill='white' d='M1 0L0 1l6 6-6 6 1 1 7-7z'/%3E%3C/svg%3E");
-    }
-
-    &--prev {
-      left: -30px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 14'%3E%3Cpath fill='white' d='M7 0l1 1-6 6 6 6-1 1-7-7z'/%3E%3C/svg%3E");
-    }
-
-    &:hover:not(:disabled),
-    &:focus:not(:disabled),
-    &:active:not(:disabled) {
-      outline: none;
-      filter: brightness(1.1);
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-
-  &__slide {
-    text-align: center;
-    width: 400px;
-    min-width: 400px;
-    cursor: pointer;
-    scroll-snap-align: center;
-  }
-
-  &__slide-desc {
-    line-height: 16px;
-    word-break: normal !important;
-  }
-
-  &__slide-title {
-    color: var(--colors-accent);
-    font-size: rem(16);
-    line-height: 1;
-    letter-spacing: 0.3px;
-    font-weight: bold;
-    margin-bottom: 7px;
-  }
-
-  &__btnholder {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  &__next {
-    background-color: var(--colors-accent);
-    color: var(--white);
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 30px;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
-    letter-spacing: 0.3px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-
-    &--feedback {
-      background-color: var(--colors-grey-200);
-      color: var(--colors-text-primary);
-
-      &:hover {
-        color: var(--white);
-        background-color: var(--colors-text-primary);
-      }
-    }
-
-    & + & {
-      margin-left: 10px;
-    }
-
-    svg {
-      @include size(18px);
-      margin-left: 14px;
-      transition: 0.3s ease-in-out;
-    }
-
-    &:hover {
-      filter: brightness(1.1);
-
-      svg {
-        transform: translateX(6px);
-      }
-    }
-  }
-}
-
-@media screen and (min-width: 993px) and (max-height: 890px) {
-  .reviews {
-    padding-top: 0;
-
-    .subtitle {
-      margin-bottom: 30px;
-    }
-
-    &__icon {
-      @include size(36px);
-    }
-
-    &__title {
-      font-size: rem(14);
-    }
-
-    &__chevron {
-      display: none;
-    }
-
-    &__swiper {
-      margin-top: 60px;
-      margin-bottom: 30px;
-    }
-
-    &__swiper-button {
-      @include size(24px);
-      background-size: 7px 12px;
-
-      &--next {
-        right: -26px;
-      }
-
-      &--prev {
-        left: -26px;
-      }
-    }
-
-    &__next {
-      height: 38px;
-    }
-  }
-}
-
-@media screen and (min-width: 993px) and (max-height: 730px) {
-  .reviews {
-    padding-top: 10px;
-  }
-}
-
-@media screen and (max-width: 993px) {
-  .reviews {
-    padding-top: 50px;
-
-    h2 {
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      margin-bottom: 20px;
-    }
-
-    &__list {
-      flex-wrap: wrap;
-    }
-
-    &__block {
-      width: calc(50% - 8px);
-      margin-right: 16px;
-      margin-bottom: 16px;
-      height: 120px;
-      background-color: var(--colors-grey-100);
-      padding: 14px 9px 16px 9px;
-      justify-content: center;
-      margin-right: 0;
-
-      &:nth-child(2) {
-        order: -1;
-        width: 100%;
-      }
-    }
-
-    &__icon {
-      @include size(39px);
-      margin-bottom: 12px;
-      flex-shrink: 0;
-    }
-
-    &__title {
-      font-size: rem(12);
-      font-weight: 500;
-      letter-spacing: 0.2px;
-      color: var(--colors-text-primary);
-    }
-
-    &__chevron {
-      display: none;
-    }
-
-    &__swiper {
-      margin-top: 50px;
-      margin-bottom: 88px;
-
-      &::before,
-      &::after {
-        display: none;
-      }
-    }
-
-    &__carousel {
-      gap: 0;
-    }
-
-    &__slide {
-      width: 100%;
-      min-width: 100%;
-    }
-
-    &__swiper-button {
-      top: auto;
-      bottom: -48px;
-      transform: translateY(0);
-
-      &--next {
-        right: 20%;
-      }
-
-      &--prev {
-        left: 20%;
-      }
-    }
-
-    &__btnholder {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    &__next {
-      margin-top: 0;
-      clip-path: none;
-
-      & + & {
-        margin-left: 0;
-        margin-top: 16px;
-      }
-    }
-  }
-}
-</style>

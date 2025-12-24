@@ -7,7 +7,7 @@
       'pt-[60px]': showDecorations,
     }"
   >
-    <div class="container h-full pt-6">
+    <div class="container mx-auto h-full pt-6">
       <div class="nav-wrapper__inner">
         <div class="nav-wrapper__container">
           <ul class="nav-wrapper__blocks nav-wrapper__menu">
