@@ -137,6 +137,15 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
+    openOrderModal() {
+      this.openModal("order");
+    },
+  },
+  mounted() {
+    this.$eventbus.$on("openFormModal", this.openOrderModal);
+  },
+  beforeUnmount() {
+    this.$eventbus.$off("openFormModal", this.openOrderModal);
   },
 };
 </script>

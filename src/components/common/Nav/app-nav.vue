@@ -1,15 +1,11 @@
 <template>
-  <nav
-    class="app-nav relative lg:before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-[2px] before:bg-gradient-to-r before:from-[#e6e6e6] before:to-transparent"
-  >
-    <ul
-      class="flex flex-col justify-start lg:flex-row"
-      :class="{
-        'app-nav__list--open': isOpen,
-      }"
-    >
+  <nav class="relative">
+    <ul class="flex flex-col justify-start gap-1 lg:gap-0 lg:flex-row">
       <slot></slot>
     </ul>
+    <div
+      class="hidden lg:block absolute top-full left-0 w-full h-[2px] bg-gradient-to-r from-gray-100 dark:from-gray-800 to-transparent"
+    ></div>
   </nav>
 </template>
 

@@ -1,10 +1,10 @@
 <template>
   <app-nav>
     <li
-      class="group"
+      class="group relative"
       v-for="({ id, title, icon, children }, index) in pages"
       :class="{
-        '-ml-4': index > 0,
+        'lg:-ml-4': index > 0,
       }"
       :key="title"
     >
@@ -21,19 +21,19 @@
       />
 
       <ul
-        class="group-hover:block bg-gray-100 p-2.5 absolute top-full left-0 w-60 hidden list-none group-focus-within/item:block"
+        class="group-hover:flex flex-col gap-1 bg-gray-100 dark:bg-gray-800 p-3 absolute top-full z-10 left-0 w-60 hidden group-focus-within/item:block"
         v-if="children?.length > 0"
         role="menu"
         :class="{
-          'bg-primary': isInfoRoute && index === activePage,
+          '!bg-primary': !isInfoRoute && index === activePage,
         }"
       >
         <template v-for="child in children" :key="child.title">
           <li role="menuitem">
             <NuxtLink
               :to="`/${$i18n?.locale || 'ua'}/info/${child.path}`"
-              class="block p-2.5 font-medium transition-colors duration-150 ease-in-out hover:bg-black/5 focus:bg-black/5"
-              :exactActiveClass="'text-white hover:bg-white/20'"
+              class="block py-2.5 rounded px-4 font-medium transition-colors duration-150 ease-in-out hover:bg-black/5 dark:hover:bg-white/10 focus:bg-black/5 dark:focus:bg-white/20"
+              :exactActiveClass="'text-white bg-white/10'"
               role="link"
               tabindex="0"
             >
@@ -51,7 +51,7 @@
         :to="localizedInfoPath"
         :active="isInfoRoute"
         :visited="isInfoRoute"
-        class="[clip-path:polygon(20px_0,100%_0,100%_100%,0%_100%)]"
+        class="[clip-path:polygon(0_0,calc(100%-20px)_0,100%_100%,0_100%)] lg:[clip-path:polygon(20px_0,100%_0,100%_100%,0%_100%)]"
         @close="$emit('close')"
       />
     </li>

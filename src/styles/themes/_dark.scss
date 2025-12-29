@@ -1,6 +1,6 @@
 @use "../utils/mixins" as *;
 
-// Dark mode theme styles
+// Dark mode theme - SVG colors are now handled via CSS variables in the SVG markup
 .theme-dark {
   // Override CSS variables for dark mode
   --colors-surface: #15202f;
@@ -10,7 +10,21 @@
   --colors-grey-200: var(--colors-dark-grey-200);
   --colors-grey-300: var(--colors-dark-grey-300);
 
-  // Headers
+  // Override SVG color variables for dark mode
+  --svg-color-primary: var(--colors-dark-text-primary);
+  --svg-color-white: var(--colors-dark-text-primary);
+  --svg-color-grey-light: var(--colors-dark-grey-200);
+  --svg-color-grey-medium: var(--colors-dark-grey-300);
+  --svg-color-accent: #ffa511;
+  --svg-color-red: #ff3939;
+  --svg-color-blue-light: color-mix(
+    in srgb,
+    var(--colors-dark-text-primary) 50%,
+    transparent
+  );
+  --svg-color-dark-alt: #50626b;
+  --svg-color-black-alt: rgba(255, 255, 255, 0.5);
+
   h1,
   h2,
   h3 {
@@ -21,7 +35,6 @@
     background-color: var(--colors-dark-bg);
   }
 
-  // Text colors
   .dark-gray {
     color: var(--colors-dark-text-primary);
   }
@@ -30,867 +43,112 @@
     color: var(--colors-dark-text-secondary);
   }
 
-  // New Year Decorations
-  .app-new-year-decorations {
-    // Snowflakes and sparkles work fine in dark mode
-    // Christmas lights wire color adjustment
-    .christmas-lights {
-      li:before,
-      li:after {
-        background: var(--colors-dark-grey-300);
-        border-bottom-color: var(--colors-dark-grey-300);
-      }
+  // New Year Decorations - Christmas lights wire color
+  .app-new-year-decorations .christmas-lights li:before,
+  .app-new-year-decorations .christmas-lights li:after {
+    background: var(--colors-dark-grey-300);
+    border-bottom-color: var(--colors-dark-grey-300);
+  }
+
+  // Special overrides for specific contexts
+  .page-main__bg-home svg g:first-child path[fill*="svg-color-white"],
+  .bg__from .bg__home svg path[fill*="svg-color-white"],
+  .bg__to .bg__home svg path[fill*="svg-color-white"] {
+    fill: var(--colors-dark-bg) !important;
+  }
+
+  // Background SVGs - subtle variations
+  .bg svg,
+  .bg_dark svg,
+  .mobile_bg svg,
+  .page-main__bg svg,
+  .bg-car svg,
+  .bg__from svg,
+  .bg__to svg,
+  .bg__home svg,
+  .bg__workers svg,
+  .services__bg svg {
+    path[fill*="svg-color-grey-light"] {
+      fill: color-mix(
+        in srgb,
+        var(--colors-dark-text-primary) 30%,
+        transparent
+      ) !important;
+    }
+
+    path[fill*="svg-color-white"] {
+      fill: color-mix(
+        in srgb,
+        var(--colors-dark-text-primary) 90%,
+        transparent
+      ) !important;
     }
   }
 
-  svg {
-    // Dark text colors -> white (with !important to override inline styles)
-    path[fill="#1B1B1B"],
-    path[fill="#1b1b1b"],
-    path[fill="#000"],
-    path[fill="#000000"],
-    rect[fill="#1B1B1B"],
-    rect[fill="#1b1b1b"],
-    rect[fill="#000"],
-    rect[fill="#000000"],
-    circle[fill="#1B1B1B"],
-    circle[fill="#1b1b1b"],
-    circle[fill="#000"],
-    circle[fill="#000000"],
-    polygon[fill="#1B1B1B"],
-    polygon[fill="#1b1b1b"],
-    polygon[fill="#000"],
-    polygon[fill="#000000"],
-    text[fill="#1B1B1B"],
-    text[fill="#1b1b1b"],
-    text[fill="#000"],
-    text[fill="#000000"] {
-      fill: var(--colors-dark-text-primary) !important;
+  // Car background specific styling
+  .bg-car__image svg {
+    mask#e {
+      display: none;
     }
 
-    // Light grey backgrounds -> dark grey
-    path[fill="#F6F6F6"],
-    path[fill="#f6f6f6"],
-    path[fill="#E6E6E6"],
-    path[fill="#e6e6e6"],
-    path[fill="#E8E8E8"],
-    path[fill="#e8e8e8"],
-    rect[fill="#F6F6F6"],
-    rect[fill="#f6f6f6"],
-    rect[fill="#E6E6E6"],
-    rect[fill="#e6e6e6"],
-    rect[fill="#E8E8E8"],
-    rect[fill="#e8e8e8"] {
-      fill: var(--colors-dark-grey-200) !important;
+    path[fill*="svg-color-white"] {
+      fill: var(--colors-dark-grey-100) !important;
     }
 
-    // Medium grey -> lighter grey
-    path[fill="#D0D0D0"],
-    path[fill="#d0d0d0"],
-    path[fill="#C6C6C6"],
-    path[fill="#c6c6c6"],
-    path[fill="#505050"],
-    rect[fill="#D0D0D0"],
-    rect[fill="#d0d0d0"],
-    rect[fill="#C6C6C6"],
-    rect[fill="#c6c6c6"],
-    rect[fill="#505050"] {
-      fill: var(--colors-dark-grey-300) !important;
-    }
-
-    // White -> primary text color
-    path[fill="#FFF"],
-    path[fill="#FFFFFF"],
-    path[fill="#fff"],
-    path[fill="#ffffff"],
-    rect[fill="#FFF"],
-    rect[fill="#FFFFFF"],
-    rect[fill="#fff"],
-    rect[fill="#ffffff"],
-    text[fill="#FFF"],
-    text[fill="#FFFFFF"],
-    text[fill="#fff"],
-    text[fill="#ffffff"] {
-      fill: var(--colors-dark-text-primary) !important;
-    }
-
-    // Strokes - dark colors -> white
     path[stroke="#000"],
-    path[stroke="#000000"],
-    line[stroke="#000"],
-    line[stroke="#000000"],
-    line[stroke="#1B1B1B"],
-    line[stroke="#1b1b1b"] {
-      stroke: var(--colors-dark-text-primary) !important;
+    path[stroke="#000000"] {
+      stroke: rgba(255, 255, 255, 1) !important;
     }
 
-    path[stroke="#1B1B1B"],
-    path[stroke="#1b1b1b"] {
-      stroke: rgba(255, 255, 255, 0.3) !important;
+    path[fill="url(#svgicon_car_h)"],
+    path[fill="url(#svgicon_car_a)"] {
+      fill: #50626b !important;
     }
   }
 
-  // SVG icon component wrapper
-  .svg-icon {
+  // Cloud icons in background - more subtle
+  .bg-car__cloud .cloud__icon svg {
+    path[fill*="svg-color-white"] {
+      fill: color-mix(
+        in srgb,
+        var(--colors-dark-text-primary) 10%,
+        transparent
+      ) !important;
+    }
+
+    path[stroke*="svg-color-primary"] {
+      stroke: color-mix(
+        in srgb,
+        var(--colors-dark-text-primary) 10%,
+        transparent
+      ) !important;
+    }
+  }
+
+  .bg-car__cloud .cloud__title {
     color: var(--colors-dark-text-primary);
-
-    svg {
-      // Set default fill to currentColor for icons that should inherit
-      fill: currentColor;
-
-      // Ensure child elements inherit currentColor by default
-      path,
-      rect,
-      circle,
-      polygon,
-      ellipse,
-      line,
-      polyline,
-      text {
-        fill: currentColor;
-
-        // Override for specific color patterns
-        &[fill="#1B1B1B"],
-        &[fill="#1b1b1b"],
-        &[fill="#000"],
-        &[fill="#000000"] {
-          fill: var(--colors-dark-text-primary) !important;
-        }
-
-        &[fill="#F6F6F6"],
-        &[fill="#f6f6f6"],
-        &[fill="#E6E6E6"],
-        &[fill="#e6e6e6"] {
-          fill: var(--colors-dark-grey-200) !important;
-        }
-
-        &[fill="#D0D0D0"],
-        &[fill="#d0d0d0"] {
-          fill: var(--colors-dark-grey-300) !important;
-        }
-
-        // Keep fill="none" as transparent
-        &[fill="none"] {
-          fill: none !important;
-        }
-      }
-    }
   }
 
-  // Icon components with specific styling needs
-  .nav-item__icon,
-  .category-mini__icon,
-  .category__icon,
-  .reviews__icon,
-  .app-phones__code-icon,
-  .app-schedule__icon {
-    svg {
-      fill: currentColor;
-
-      path,
-      rect,
-      circle {
-        &[fill="#1B1B1B"],
-        &[fill="#1b1b1b"],
-        &[fill="#000"],
-        &[fill="#000000"] {
-          fill: currentColor !important;
-        }
-      }
-    }
+  // Mobile background - subtle
+  .page-main svg.mobile_bg path[fill*="svg-color-primary"] {
+    fill: color-mix(
+      in srgb,
+      var(--colors-dark-text-primary) 20%,
+      transparent
+    ) !important;
   }
 
-  // Feature icons
-  .individual_feature,
-  .team_feature,
-  .pack_feature,
-  .auto_feature,
-  .price_feature {
-    svg {
-      path[fill="#000"],
-      path[fill="#000000"],
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Info icon
-  .info {
-    svg {
-      path[fill="#D0D0D0"],
-      path[fill="#d0d0d0"] {
-        fill: var(--colors-dark-grey-300) !important;
-      }
-    }
-  }
-
-  // Operator icons (phone operators)
-  .operator_1,
-  .operator_2,
-  .operator_3 {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Workers icons
-  .workers_1,
-  .workers_2 {
-    svg {
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-
-      path[stroke="#000"],
-      path[stroke="#000000"] {
-        stroke: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Price icons
-  .price_transport,
-  .price_moving,
-  .price_workers {
-    svg {
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-
-      path[stroke="#000"],
-      path[stroke="#000000"] {
-        stroke: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Arrow and navigation icons
-  .arrow_m,
-  .arrow-next,
-  .chevron_feature,
-  .button_arrow,
-  .block_3_arrow,
-  .testimonials_arrow_left,
-  .testimonials_arrow_right {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: currentColor !important;
-      }
-    }
-  }
-
-  // Link icon
-  .link {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: currentColor !important;
-      }
-    }
-  }
-
-  // Divider icon
-  .divider {
-    svg {
-      // Dark fills -> primary text color
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-
-      // Light grey fill (#F0F0F0) -> dark grey
-      path[fill="#F0F0F0"],
-      path[fill="#f0f0f0"],
-      g[fill="#F0F0F0"],
-      g[fill="#f0f0f0"] {
-        fill: var(--colors-dark-grey-200) !important;
-      }
-
-      // White stroke (#FFF) -> primary text color
-      circle[stroke="#FFF"],
-      circle[stroke="#FFFFFF"],
-      circle[stroke="#fff"],
-      circle[stroke="#ffffff"] {
-        stroke: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Home icons
-  .home,
-  .home_1,
-  .home_2 {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Car icon - maintain orange appearance in dark mode (same as light mode)
-  .car {
-    svg {
-      // Override gradient fills (url(#id)) to white - these are dark gradients for wheels/details
-      path[fill^="url(#"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-
-      // White fills -> keep white for visibility
-      path[fill="#FFF"],
-      path[fill="#FFFFFF"],
-      path[fill="#fff"],
-      path[fill="#ffffff"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-
-      // Dark fills (wheels, details, text) -> white for visibility
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"],
-      path[fill="#0A0B09"],
-      path[fill="#0a0b09"],
-      path[fill="#010101"],
-      path[fill="#010201"],
-      rect[fill="#1B1B1B"],
-      rect[fill="#1b1b1b"],
-      rect[fill="#000"],
-      rect[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-
-      // Light blue windows -> keep light for visibility
-      path[fill="#E9EBFF"],
-      path[fill="#e9ebff"] {
-        fill: color-mix(
-          in srgb,
-          var(--colors-dark-text-primary) 50%,
-          transparent
-        ) !important;
-      }
-
-      // Orange accent -> KEEP ORANGE (maintains car appearance)
-      path[fill="#FFA511"],
-      path[fill="#ffa511"],
-      rect[fill="#FFA511"],
-      rect[fill="#ffa511"] {
-        fill: var(--colors-accent) !important;
-      }
-
-      // Red color -> keep red for visibility
-      path[fill="#FF3939"],
-      path[fill="#ff3939"] {
-        fill: #ff3939 !important;
-      }
-
-      // Black strokes -> white for visibility against dark background
-      path[stroke="#000"],
-      path[stroke="#000000"],
-      path[stroke="#1B1B1B"],
-      path[stroke="#1b1b1b"] {
-        stroke: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Cloud icons - fix white fills and black strokes
-  .cloud_small,
-  .cloud_large {
-    svg {
-      // White fill -> adapt to dark mode (make it visible)
-      path[fill="#FFF"],
-      path[fill="#FFFFFF"],
-      path[fill="#fff"],
-      path[fill="#ffffff"] {
-        fill: color-mix(
-          in srgb,
-          var(--colors-dark-text-primary) 90%,
-          transparent
-        ) !important;
-      }
-
-      // Dark fills -> white
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-
-      // Black strokes -> white
-      path[stroke="#000"],
-      path[stroke="#000000"],
-      path[stroke="#1B1B1B"],
-      path[stroke="#1b1b1b"] {
-        stroke: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Block icons
-  .block_2_1,
-  .block_2_2,
-  .block_2_3,
-  .block_2_info,
-  .block_3_1,
-  .block_3_2,
-  .block_3_3,
-  .block_3_4,
-  .block_3_5 {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Thanks icon
-  .icon_thanks {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Label schedule
-  .label_schedule {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-accent) !important;
-      }
-    }
-  }
-
-  // Reviews section icons
-  .reviews__icon,
-  .reviews__chevron {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: currentColor !important;
-      }
-    }
-  }
-
-  // Icon variants (colored versions)
-  .icon_1,
-  .icon_2,
-  .icon_3,
-  .icon_4,
-  .icon_6 {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Icon colored versions (should use currentColor)
-  .icon_1_c,
-  .icon_2_c,
-  .icon_3_c,
-  .icon_4_c,
-  .icon_5_c {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: currentColor !important;
-      }
-    }
-  }
-
-  // Icon white versions (should stay white or adapt)
-  .icon_1_w,
-  .icon_2_w,
-  .icon_3_w {
-    svg {
-      path[fill="#FFF"],
-      path[fill="#FFFFFF"],
-      path[fill="#fff"],
-      path[fill="#ffffff"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Nav modal icon
-  .icon_nav-modal {
-    svg {
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  .page-main__bg-home {
-    svg {
-      g:first-child {
-        path[fill="#FFF"],
-        path[fill="#fff"] {
-          fill: var(--colors-dark-bg) !important;
-        }
-      }
-    }
-  }
-
-  .bg__from,
-  .bg__to {
-    .bg__home {
-      svg {
-        path[fill="#FFF"],
-        path[fill="#fff"] {
-          fill: var(--colors-dark-bg) !important;
-        }
-      }
-    }
-  }
-
-  // Background icons and decorative SVGs
-  .bg,
-  .bg_dark,
-  .mobile_bg,
-  .page-main__bg,
-  .bg-car,
-  .bg__from,
-  .bg__to,
-  .bg__home,
-  .bg__workers,
-  .services__bg {
-    svg {
-      // Background SVGs - adapt dark fills to white for visibility
-      path[fill="#1B1B1B"],
-      path[fill="#1b1b1b"],
-      path[fill="#000"],
-      path[fill="#000000"],
-      path[fill="#0A0B09"],
-      path[fill="#0a0b09"],
-      path[fill="#010101"] {
-        fill: var(--colors-dark-text-primary) !important;
-      }
-
-      // Light fills can stay or adapt to subtle grey
-      path[fill="#F6F6F6"],
-      path[fill="#f6f6f6"],
-      path[fill="#E6E6E6"],
-      path[fill="#e6e6e6"] {
-        fill: color-mix(
-          in srgb,
-          var(--colors-dark-text-primary) 30%,
-          transparent
-        ) !important;
-      }
-
-      // White fills -> visible white
-      path[fill="#FFF"],
-      path[fill="#FFFFFF"],
-      path[fill="#fff"],
-      path[fill="#ffffff"] {
-        fill: color-mix(
-          in srgb,
-          var(--colors-dark-text-primary) 90%,
-          transparent
-        ) !important;
-      }
-
-      // Strokes
-      path[stroke="#000"],
-      path[stroke="#000000"] {
-        stroke: var(--colors-dark-text-primary) !important;
-      }
-    }
-  }
-
-  // Car background container - ensure car and clouds are visible
-  .bg-car {
-    &__image {
-      svg {
-        // Car icon in background - maintain orange appearance (same as light mode)
-        // Override gradient fills (url(#id)) to white - these are dark gradients for wheels/details
-        path[fill^="url(#"] {
-          fill: var(--colors-dark-text-primary) !important;
-        }
-
-        mask#e {
-          display: none;
-        }
-
-        // White fills -> keep white for visibility
-        path[fill="#FFF"],
-        path[fill="#FFFFFF"],
-        path[fill="#fff"],
-        path[fill="#ffffff"] {
-          fill: var(--colors-dark-grey-100) !important;
-        }
-
-        // Dark fills (wheels, details, text) -> white for visibility
-        path[fill="#1B1B1B"],
-        path[fill="#1b1b1b"],
-        path[fill="#000"],
-        path[fill="#000000"],
-        path[fill="#0A0B09"],
-        path[fill="#0a0b09"],
-        path[fill="#010101"],
-        path[fill="#010201"],
-        rect[fill="#1B1B1B"],
-        rect[fill="#1b1b1b"],
-        rect[fill="#000"],
-        rect[fill="#000000"] {
-          fill: var(--colors-dark-text-primary) !important;
-        }
-
-        // Light blue windows -> keep light for visibility
-        path[fill="#E9EBFF"],
-        path[fill="#e9ebff"] {
-          fill: color-mix(
-            in srgb,
-            var(--colors-dark-text-primary) 50%,
-            transparent
-          ) !important;
-        }
-
-        // Orange accent -> KEEP ORANGE (maintains car appearance)
-        path[fill="#FFA511"],
-        path[fill="#ffa511"],
-        rect[fill="#FFA511"],
-        rect[fill="#ffa511"] {
-          fill: var(--colors-accent) !important;
-        }
-
-        // Red color -> keep red for visibility
-        path[fill="#FF3939"],
-        path[fill="#ff3939"] {
-          fill: #ff3939 !important;
-        }
-
-        // Black strokes -> white for visibility against dark background
-        path[stroke="#000"],
-        path[stroke="#000000"] {
-          stroke: rgba(255, 255, 255, 1) !important;
-        }
-
-        path[fill="#0A0B09"],
-        path[fill="url(#svgicon_car_h)"],
-        path[fill="url(#svgicon_car_a)"] {
-          fill: #50626b !important;
-        }
-
-        path[fill="#010101"] {
-          fill: rgba(255, 255, 255, 0.5) !important;
-        }
-      }
-    }
-
-    &__cloud {
-      .cloud {
-        &__icon {
-          svg {
-            // Cloud icons in background
-            path[fill="#FFF"],
-            path[fill="#FFFFFF"],
-            path[fill="#fff"],
-            path[fill="#ffffff"] {
-              fill: color-mix(
-                in srgb,
-                var(--colors-dark-text-primary) 10%,
-                transparent
-              ) !important;
-            }
-
-            path[fill="#1B1B1B"],
-            path[fill="#1b1b1b"],
-            path[fill="#000"],
-            path[fill="#000000"] {
-              fill: var(--colors-dark-text-primary) !important;
-            }
-
-            path[stroke="#000"],
-            path[stroke="#000000"] {
-              stroke: color-mix(
-                in srgb,
-                var(--colors-dark-text-primary) 10%,
-                transparent
-              ) !important;
-            }
-          }
-        }
-
-        &__title {
-          color: var(--colors-dark-text-primary);
-        }
-      }
-    }
-  }
-
-  // Background SVG icons used in page-main
-  .page-main {
-    svg {
-      // Home icons
-      &.home,
-      &.home_1,
-      &.home_2 {
-        path[fill="#1B1B1B"],
-        path[fill="#1b1b1b"],
-        path[fill="#000"],
-        path[fill="#000000"] {
-          fill: var(--colors-dark-text-primary) !important;
-        }
-      }
-
-      // Workers icons
-      &.workers_1,
-      &.workers_2 {
-        path[fill="#000"],
-        path[fill="#000000"] {
-          fill: var(--colors-dark-text-primary) !important;
-        }
-
-        path[stroke="#000"],
-        path[stroke="#000000"] {
-          stroke: var(--colors-dark-text-primary) !important;
-        }
-      }
-
-      // Car icon - maintain orange appearance in dark mode (same as light mode)
-      &.car {
-        // Override gradient fills (url(#id)) to white - these are dark gradients for wheels/details
-        path[fill^="url(#"] {
-          fill: var(--colors-dark-text-primary) !important;
-        }
-
-        // White fills -> keep white for visibility
-        path[fill="#FFF"],
-        path[fill="#FFFFFF"],
-        path[fill="#fff"],
-        path[fill="#ffffff"] {
-          fill: var(--colors-dark-text-primary) !important;
-        }
-
-        // Dark fills (wheels, details, text) -> white for visibility
-        path[fill="#1B1B1B"],
-        path[fill="#1b1b1b"],
-        path[fill="#000"],
-        path[fill="#000000"],
-        path[fill="#0A0B09"],
-        path[fill="#0a0b09"],
-        path[fill="#010101"],
-        path[fill="#010201"],
-        rect[fill="#1B1B1B"],
-        rect[fill="#1b1b1b"],
-        rect[fill="#000"],
-        rect[fill="#000000"] {
-          fill: var(--colors-dark-text-primary) !important;
-        }
-
-        // Light blue windows -> keep light for visibility
-        path[fill="#E9EBFF"],
-        path[fill="#e9ebff"] {
-          fill: color-mix(
-            in srgb,
-            var(--colors-dark-text-primary) 50%,
-            transparent
-          ) !important;
-        }
-
-        // Orange accent -> KEEP ORANGE (maintains car appearance)
-        path[fill="#FFA511"],
-        path[fill="#ffa511"],
-        rect[fill="#FFA511"],
-        rect[fill="#ffa511"] {
-          fill: var(--colors-accent) !important;
-        }
-
-        // Red color -> keep red for visibility
-        path[fill="#FF3939"],
-        path[fill="#ff3939"] {
-          fill: #ff3939 !important;
-        }
-
-        // Black strokes -> white for visibility against dark background
-        path[stroke="#000"],
-        path[stroke="#000000"] {
-          stroke: var(--colors-dark-text-primary) !important;
-        }
-      }
-
-      // Cloud icons - fix white fills and strokes
-      &.cloud_small,
-      &.cloud_large {
-        path[fill="#FFF"],
-        path[fill="#FFFFFF"],
-        path[fill="#fff"],
-        path[fill="#ffffff"] {
-          fill: color-mix(
-            in srgb,
-            var(--colors-dark-text-primary) 90%,
-            transparent
-          ) !important;
-        }
-
-        path[fill="#1B1B1B"],
-        path[fill="#1b1b1b"],
-        path[fill="#000"],
-        path[fill="#000000"] {
-          fill: var(--colors-dark-text-primary) !important;
-        }
-
-        path[stroke="#000"],
-        path[stroke="#000000"] {
-          stroke: var(--colors-dark-text-primary) !important;
-        }
-      }
-
-      // Mobile background
-      &.mobile_bg {
-        path[fill="#1B1B1B"],
-        path[fill="#1b1b1b"],
-        path[fill="#000"],
-        path[fill="#000000"] {
-          fill: color-mix(
-            in srgb,
-            var(--colors-dark-text-primary) 20%,
-            transparent
-          ) !important;
-        }
-      }
+  // Cloud icons - adjusted opacity
+  .cloud_small svg,
+  .cloud_large svg,
+  .page-main svg.cloud_small,
+  .page-main svg.cloud_large {
+    path[fill*="svg-color-white"] {
+      fill: color-mix(
+        in srgb,
+        var(--colors-dark-text-primary) 90%,
+        transparent
+      ) !important;
     }
   }
 }

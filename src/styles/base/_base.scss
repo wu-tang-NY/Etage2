@@ -1,6 +1,20 @@
 @use "../utils/functions" as *;
 @use "../utils/mixins" as *;
 
+// CSS variables for SVG colors (light mode defaults)
+:root {
+  // SVG color variables - light mode
+  --svg-color-primary: #1b1b1b;
+  --svg-color-white: #fff;
+  --svg-color-grey-light: #f6f6f6;
+  --svg-color-grey-medium: #d0d0d0;
+  --svg-color-accent: #ffa511;
+  --svg-color-red: #ff3939;
+  --svg-color-blue-light: #e9ebff;
+  --svg-color-dark-alt: #0a0b09;
+  --svg-color-black-alt: #010101;
+}
+
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

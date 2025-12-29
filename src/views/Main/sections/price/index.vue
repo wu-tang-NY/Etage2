@@ -15,8 +15,9 @@
             class="lg:bg-gray-100 lg:dark:bg-gray-800 lg:py-2 lg:px-4 flex items-center"
           >
             <svg-icon
+              v-if="!mobile && !tablet"
               :name="category.iconName"
-              class="hidden lg:block size-5 mr-3"
+              class="size-5 mr-3"
               original
             />
             <template
@@ -312,8 +313,6 @@ export default {
     },
 
     openForm(e) {
-      this.handleOpenFullSize(e);
-      e.opened = false;
       this.$eventbus.$emit("openFormModal");
     },
   },

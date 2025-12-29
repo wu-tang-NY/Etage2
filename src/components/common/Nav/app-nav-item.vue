@@ -2,11 +2,12 @@
   <NuxtLink
     :to="to"
     :id="id"
-    class="block py-1.5 px-6 font-semibold text-sm relative !outline-none flex items-center gap-2 transition-background duration-300 ease-in-out"
+    class="block py-2.5 lg:py-1.5 px-3 lg:px-6 font-semibold text-sm relative !outline-none flex items-center gap-2 transition-background duration-300 ease-in-out"
     :class="{
       'bg-primary text-white cursor-default': active,
-      'bg-gray-100': visited && !active,
-      'hover:bg-gray-100': !visited && !active,
+      'bg-gray-100 dark:bg-gray-800': visited && !active,
+      'hover:bg-gray-100 dark:hover:bg-gray-800 group-hover:bg-gray-100 dark:group-hover:bg-gray-800':
+        !visited && !active,
       '[clip-path:polygon(0_0,calc(100%-20px)_0,100%_100%,0%_100%)] pl-3':
         index === 0,
       '[clip-path:polygon(0_0,calc(100%-20px)_0,100%_100%,0_100%)] lg:[clip-path:polygon(0_0,calc(100%-20px)_0,100%_100%,20px_100%)]':
@@ -83,46 +84,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-@media (min-width: 993px) {
-  .nav-item:first-child {
-    &__bg {
-      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0% 100%);
-    }
-  }
-
-  .nav-item:last-child {
-    .nav-item {
-      &__bg {
-        clip-path: polygon(20px 0, 100% 0, 100% 100%, 0% 100%);
-      }
-    }
-  }
-}
-
-.nav-item {
-  @include media-breakpoint-up(lg) {
-    &:not(:last-child) {
-      margin-right: -15px;
-    }
-
-    &__link {
-      &:hover {
-        .nav-item__bg::before {
-          width: 100%;
-          left: 0;
-        }
-      }
-    }
-
-    &.nav-item--visited {
-      .nav-item {
-        &__bg::before {
-          width: 100%;
-        }
-      }
-    }
-  }
-}
-</style>

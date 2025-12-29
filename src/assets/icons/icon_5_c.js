@@ -5,6 +5,6 @@ icon.register({
     width: 26,
     height: 26,
     viewBox: '0 0 26 26',
-    data: '<g id="Artboard" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="icon" transform="translate(3 3)"><circle id="Oval" cx="10" cy="10" r="9" fill="#fff" stroke="#1b1b1b" stroke-width="2"/><g id="Group-40" fill="#ffa511" transform="translate(8 4)"><path id="Rectangle" d="M0 0h4L3 7H1z"/><path id="Rectangle-Copy-9" d="M.5 8h3v3h-3z" transform="matrix(1 0 0 -1 0 19)"/></g></g></g>'
+    data: '<g id="Artboard" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="icon" transform="translate(3 3)"><circle id="Oval" cx="10" cy="10" r="9" fill="var(--svg-color-white)" stroke="var(--svg-color-primary)" stroke-width="2"/><g id="Group-40" fill="var(--svg-color-accent)" transform="translate(8 4)"><path id="Rectangle" d="M0 0h4L3 7H1z"/><path id="Rectangle-Copy-9" d="M.5 8h3v3h-3z" transform="matrix(1 0 0 -1 0 19)"/></g></g></g>'
   }
 })

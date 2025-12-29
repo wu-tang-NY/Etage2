@@ -4,7 +4,7 @@
     :class="{
       'translate-none': navOpen,
       '-translate-x-full': !navOpen,
-      'pt-[90px]': showDecorations,
+      'pt-[120px]': showDecorations,
     }"
   >
     <div class="container mx-auto h-full pt-6">
