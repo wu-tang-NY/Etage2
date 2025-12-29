@@ -1,208 +1,220 @@
 <template>
   <ClientOnly>
-    <div class="price">
-      <h2>{{ $t("price.title") }}</h2>
+    <div>
+      <h2 class="mb-6">{{ $t("price.title") }}</h2>
 
-      <div class="subtitle dark-gray price__header--mobile">
-        <a href="#" @click.prevent="navigateToInfo('auto')">{{
-          $t("price.mobileSubtitle1")
-        }}</a>
-        {{ $t("price.mobileSubtitle2") }}
-
-        <a href="#" @click.prevent="navigateToInfo('specialists')">{{
-          $t("price.mobileSubtitle3")
-        }}</a>
-        {{ $t("price.mobileSubtitle4") }}
-
-        <a href="#" @click.prevent="navigateToInfo('package')">{{
-          $t("price.mobileSubtitle5")
-        }}</a>
-      </div>
-
-      <div class="price__header">
-        <div class="price__header-block subtitle dark-gray">
-          <svg-icon name="icon_1" original />
-          <a href="#" @click.prevent="navigateToInfo('auto')">{{
-            $t("price.desktopSubtitle1")
-          }}</a>
-          &nbsp;{{ $t("price.desktopSubtitle2") }}
-        </div>
-        <div class="price__header-block subtitle dark-gray">
-          <svg-icon name="icon_2" original />
-          {{ $t("price.desktopSubtitle3") }}&nbsp;
-          <a href="#" @click.prevent="navigateToInfo('specialists')">{{
-            $t("price.desktopSubtitle4")
-          }}</a>
-        </div>
-        <div class="price__header-block subtitle dark-gray">
-          <svg-icon name="icon_3" original />
-          {{ $t("price.desktopSubtitle5") }}&nbsp;
-          <a href="#" @click.prevent="navigateToInfo('package')">{{
-            $t("price.desktopSubtitle6")
-          }}</a>
-        </div>
-      </div>
-
-      <div class="row" v-if="!mobile && !tablet">
-        <div class="col-lg-8">
-          <div class="price__subtitle-wrapper">
-            <div
-              class="price__subtitle price__subtitle--tree"
-              @click="navigateToInfo('auto')"
+      <div
+        class="text-gray-800 dark:text-gray-300 flex items-center flex-wrap lg:flex-nowrap gap-3 mb-6"
+      >
+        <div
+          class="flex items-center gap-3 text-lg lg:text-sm"
+          v-for="(category, index) in categories2"
+        >
+          <div
+            :key="index"
+            class="lg:bg-gray-100 lg:dark:bg-gray-800 lg:py-2 lg:px-4 flex items-center"
+          >
+            <svg-icon
+              :name="category.iconName"
+              class="hidden lg:block size-5 mr-3"
+              original
+            />
+            <template
+              v-for="(part, partIndex) in category.parts"
+              :key="partIndex"
             >
-              {{ $t("price.carRental") }}
-              <svg-icon name="link" original />
-            </div>
+              <template v-if="partIndex > 0">&nbsp;</template>
+              <NuxtLink
+                v-if="part.type === 'link'"
+                :to="getInfoRoute(part.route)"
+                class="link"
+              >
+                {{ part.text }}
+              </NuxtLink>
+              <span v-else>{{ part.text }}</span>
+            </template>
           </div>
-        </div>
-
-        <div class="col-lg-4">
-          <div class="price__subtitle" @click="navigateToInfo('specialists')">
-            {{ $t("price.specialistsServices") }}
-            <svg-icon name="link" original />
+          <div v-if="index < categories2.length - 1" class="text-gray-300">
+            +
           </div>
         </div>
       </div>
 
-      <div class="row mt-12" v-if="mobile || tablet">
-        <div v-for="category in categories" :key="category.name" class="col-12">
-          <div class="category-mini p-4 flex flex-col mb-4">
-            <div class="flex items-center mb-4">
+      <div
+        class="hidden lg:flex text-gray-500 dark:text-gray-400 font-bold text-sm text-center"
+      >
+        <div class="w-2/3 flex justify-center">
+          <div
+            class="mb-3 relative cursor-pointer before:content-[''] before:block before:absolute before:top-1/2 before:right-[calc(100%+20px)] before:w-[84px] before:h-5 before:border-t-2 before:border-l-2 before:border-gray-200 dark:before:border-gray-600 after:content-[''] after:block after:absolute after:top-1/2 after:left-[calc(100%+20px)] after:w-[84px] after:h-5 after:border-t-2 after:border-r-2 after:border-gray-200 dark:after:border-gray-600"
+            @click="navigateToInfo('auto')"
+          >
+            {{ $t("price.carRental") }}
+            <svg-icon name="link" class="size-3 ml-1" original />
+          </div>
+        </div>
+
+        <div class="w-1/3">
+          <div
+            class="mb-3 relative cursor-pointer"
+            @click="navigateToInfo('specialists')"
+          >
+            {{ $t("price.specialistsServices") }}
+            <svg-icon name="link" class="size-3 ml-1" original />
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap lg:flex-nowrap gap-4">
+        <div
+          v-for="category in categories"
+          :key="category.name"
+          class="w-full lg:w-1/3"
+        >
+          <div class="bg-gray-100 dark:bg-gray-800 h-full p-5 lg:py-2">
+            <div class="flex items-center gap-4">
               <svg-icon
                 :name="category.iconName"
-                class="category-mini__icon"
+                class="size-20 lg:size-12 lg:order-last"
                 original
               />
-              <div class="category-mini__info">
-                <h3 class="capitalize">
-                  {{ category.name }}
-                </h3>
-                <p class="category-mini__subtitle dark-gray">
+              <div>
+                <h3>{{ category.name }}</h3>
+                <p
+                  class="text-base leading-1 lg:text-sm text-gray-500 dark:text-gray-400 max-w-[90%]"
+                >
                   {{ category.subtitle }}
                 </p>
               </div>
             </div>
+
             <div
-              class="category__price-wrapper"
+              class="flex items-center my-4"
               v-for="item in category.items"
               :key="item.id"
             >
-              <div class="category__additional" v-if="item.additional">
+              <div
+                v-if="item.additional"
+                class="w-20 h-10 flex items-center justify-center pr-2 mr-3 bg-white dark:bg-gray-700 [clip-path:polygon(79%_0,100%_50%,80%_100%,0_100%,0_0)] text-base font-bold text-primary"
+              >
                 {{ item.additional }}
               </div>
 
-              <div class="category__price">
-                <div class="category__tooltip-wrapper">
-                  <span class="category__price-value"
-                    >{{ item.time }}&nbsp;</span
-                  >
-                  <span
-                    class="category__price-value category__price-value--highlighted"
-                    >{{ item.price }}</span
-                  >
+              <div>
+                <div class="flex items-center text-lg font-bold">
+                  <span>{{ item.time }}&nbsp;</span>
+                  <span class="text-primary">{{ item.price }}</span>
 
-                  <div class="category__tooltip" v-if="item.info">
-                    <svg-icon name="info" />
-                    <div class="category__info">{{ item.info }}</div>
+                  <div
+                    v-if="item.info"
+                    class="relative ml-3 cursor-pointer group"
+                  >
+                    <svg-icon name="info" class="size-5" />
+                    <div
+                      class="absolute hidden z-[9999999] lg:text-sm group-hover:block bg-gray-900 text-white rounded w-80 px-4 py-2 text-base font-normal bottom-full mb-2 left-1/2 -translate-x-1/2 before:content-[''] before:absolute before:-bottom-[5px] before:size-3 before:bg-inherit before:left-1/2 before:-translate-x-1/2 before:rotate-45"
+                    >
+                      {{ item.info }}
+                    </div>
                   </div>
                 </div>
 
-                <p class="category__description">{{ item.description }}</p>
+                <p class="text-gray-500 dark:text-gray-400 lg:text-sm">
+                  {{ item.description }}
+                </p>
               </div>
             </div>
-            <p class="category__undertext">{{ category.undertext }}</p>
-            <div class="row justify-center">
-              <div
-                v-if="mobile"
-                @click="openForm(category)"
-                class="price__examples price__examples--mobile"
-              >
-                {{ $t("price.orderButton") }}
-              </div>
-            </div>
+
+            <p class="lg:hidden my-5 text-gray-600 dark:text-gray-200">
+              {{ category.undertext }}
+            </p>
+
+            <AppButton
+              v-if="mobile || tablet"
+              variant="primary"
+              size="lg"
+              class="w-full"
+              @click="openForm(category)"
+            >
+              {{ $t("price.orderButton") }}
+            </AppButton>
           </div>
         </div>
       </div>
-      <div class="row items-stretch">
-        <div
-          v-for="category in categories"
-          :key="category.name"
-          class="col-lg-4"
+
+      <div class="flex justify-center">
+        <AppButton
+          variant="primary"
+          size="lg"
+          class="mt-12"
+          @click="navigateToInfo('flat_move')"
         >
-          <transition name="component-fade">
-            <div v-if="!mobile && !tablet" class="price__category category">
-              <div class="mobile-wrapper">
-                <div class="category__header-wrapper">
-                  <h3 class="category__title">{{ category.name }}</h3>
-                  <div
-                    class="category__tooltip category__tooltip--small-screens"
-                  >
-                    <svg-icon name="info" />
-                    <div class="category__info">{{ category.undertext }}</div>
-                  </div>
-                </div>
-
-                <p class="category__subtitle">{{ category.subtitle }}</p>
-
-                <svg-icon
-                  :name="category.iconName"
-                  class="category__icon"
-                  original
-                />
-              </div>
-
-              <div
-                class="category__price-wrapper"
-                v-for="item in category.items"
-                :key="item.id"
-              >
-                <div class="category__additional" v-if="item.additional">
-                  {{ item.additional }}
-                </div>
-
-                <div class="category__price">
-                  <div class="category__tooltip-wrapper">
-                    <span class="category__price-value"
-                      >{{ item.time }}&nbsp;</span
-                    >
-                    <span
-                      class="category__price-value category__price-value--highlighted"
-                      >{{ item.price }}</span
-                    >
-
-                    <div class="category__tooltip" v-if="item.info">
-                      <svg-icon name="info" />
-                      <div class="category__info">{{ item.info }}</div>
-                    </div>
-                  </div>
-
-                  <p class="category__description">{{ item.description }}</p>
-                </div>
-              </div>
-            </div>
-          </transition>
-        </div>
-      </div>
-
-      <div class="row justify-center">
-        <div class="price__examples" @click="navigateToInfo('flat_move')">
           {{ $t("price.examplesButton") }}
-          <svg-icon name="arrow-next" />
-        </div>
+          <svg-icon name="arrow-next" class="size-4 ml-2" />
+        </AppButton>
       </div>
     </div>
   </ClientOnly>
 </template>
 
 <script>
+import AppButton from "../../../../components/ui/Button/app-button.vue";
+
 export default {
   name: "AppPageMainSectionPrice",
+  components: {
+    AppButton,
+  },
   props: {
     active: Boolean,
     mobile: Boolean,
     tablet: Boolean,
   },
   computed: {
+    categories2() {
+      return [
+        {
+          iconName: "icon_1",
+          parts: [
+            {
+              type: "link",
+              text: this.$t("price.desktopSubtitle1"),
+              route: "auto",
+            },
+            {
+              type: "text",
+              text: this.$t("price.desktopSubtitle2"),
+            },
+          ],
+        },
+        {
+          iconName: "icon_2",
+          parts: [
+            {
+              type: "text",
+              text: this.$t("price.desktopSubtitle3"),
+            },
+            {
+              type: "link",
+              text: this.$t("price.desktopSubtitle4"),
+              route: "specialists",
+            },
+          ],
+        },
+        {
+          iconName: "icon_3",
+          parts: [
+            {
+              type: "text",
+              text: this.$t("price.desktopSubtitle5"),
+            },
+            {
+              type: "link",
+              text: this.$t("price.desktopSubtitle6"),
+              route: "package",
+            },
+          ],
+        },
+      ];
+    },
     categories() {
       return [
         {
@@ -278,8 +290,11 @@ export default {
       ];
     },
   },
-  data: () => ({}),
   methods: {
+    getInfoRoute(route) {
+      const locale = this.$i18n?.locale || "ua";
+      return `/${locale}/info/${route}`;
+    },
     navigateToInfo(route) {
       const locale = this.$i18n?.locale || "ua";
       if (this.$router) {
@@ -304,460 +319,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.price {
-  padding-top: 40px;
-
-  h2 {
-    margin-bottom: 16px;
-  }
-
-  .subtitle {
-    margin-bottom: 16px;
-  }
-
-  &__header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-
-    &--mobile {
-      display: none;
-    }
-
-    svg {
-      height: 18px;
-      margin-right: 6px;
-    }
-
-    .price__header-block + .price__header-block {
-      margin-left: 24px;
-      position: relative;
-
-      &::before {
-        content: "+";
-        position: absolute;
-        left: -12px;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-    }
-  }
-
-  &__header-block {
-    margin-bottom: 0;
-    font-size: rem(13);
-    background-color: var(--colors-grey-200);
-    height: 36px;
-    padding: 0 10px;
-    display: flex;
-    align-items: center;
-  }
-
-  &__subtitle-wrapper {
-    display: flex;
-    justify-content: center;
-  }
-
-  &__subtitle {
-    color: var(--colors-text-secondary);
-    font-family: var(--font-family-secondary);
-    font-size: rem(18);
-    font-weight: bold;
-    letter-spacing: 0.4px;
-    text-align: center;
-    margin-bottom: 18px;
-    position: relative;
-    cursor: pointer;
-
-    &--tree {
-      &::before {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: calc(100% + 20px);
-        @include size(84px, 20px);
-        border-top: 2px solid #e8e8e8;
-        border-left: 2px solid #e8e8e8;
-      }
-
-      &::after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: calc(100% + 20px);
-        @include size(84px, 20px);
-        border-top: 2px solid #e8e8e8;
-        border-right: 2px solid #e8e8e8;
-      }
-    }
-
-    svg {
-      @include size(12px);
-      margin-left: 2px;
-    }
-  }
-
-  &__examples {
-    margin-top: 34px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 13px 20px;
-    background-color: var(--colors-accent);
-    color: var(--white);
-    font-size: rem(14);
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.3px;
-    transition: 0.3s ease-in-out;
-    cursor: pointer;
-
-    &--mobile {
-      padding: 12px 38px;
-      margin-top: 52px;
-    }
-
-    svg {
-      @include size(18px);
-      margin-left: 14px;
-      transition: 0.3s ease-in-out;
-      fill: #fff;
-    }
-
-    &:hover {
-      color: var(--white);
-      filter: brightness(1.1);
-
-      svg {
-        transform: translateX(6px);
-      }
-    }
-  }
-}
-
-.category {
-  background-color: var(--colors-grey-100);
-  padding: 10px 20px 20px 20px;
-  position: relative;
-  height: 100%;
-
-  &__subtitle {
-    letter-spacing: 0.3px;
-    max-width: 280px;
-    margin-bottom: 12px;
-  }
-
-  &__icon {
-    @include size(40px);
-    position: absolute;
-    right: 20px;
-    top: 20px;
-  }
-
-  &__price-wrapper {
-    display: flex;
-    align-items: center;
-
-    &:not(:last-of-type) {
-      margin-bottom: 14px;
-    }
-  }
-
-  &__additional {
-    @include size(72px, 37px);
-    margin-right: 12px;
-    background-color: var(--white);
-    clip-path: polygon(79% 0, 100% 50%, 80% 100%, 0 100%, 0 0);
-    padding-left: 9px;
-    line-height: 37px;
-    font-family: var(--font-family-secondary);
-    font-size: rem(16);
-    font-weight: 800;
-    letter-spacing: 0.4px;
-    color: var(--colors-accent);
-  }
-
-  &__price-value {
-    font-family: var(--font-family-secondary);
-    font-size: rem(19);
-    font-weight: bold;
-    letter-spacing: 0.4px;
-
-    &--highlighted {
-      color: var(--colors-accent);
-    }
-  }
-
-  &__undertext {
-    margin-top: 20px;
-    color: var(--colors-text-secondary);
-  }
-
-  &__header-wrapper {
-    display: flex;
-    align-items: center;
-
-    .category__tooltip {
-      margin-top: -3px;
-    }
-  }
-
-  &__tooltip-wrapper {
-    display: flex;
-    align-items: center;
-  }
-
-  &__tooltip {
-    position: relative;
-    margin-left: 8px;
-    cursor: pointer;
-    display: inline;
-
-    &--small-screens {
-      display: none;
-    }
-
-    svg {
-      @include size(16px);
-      fill: #d0d0d0;
-      transition: 0.3s ease-in-out;
-    }
-
-    &:hover {
-      svg {
-        fill: var(--colors-accent);
-      }
-
-      .category__info {
-        display: block;
-      }
-    }
-  }
-
-  &__info {
-    position: absolute;
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-    background-color: var(--colors-text-primary);
-    color: var(--white);
-    border-radius: 4px;
-    width: 184px;
-    padding: 10px 14px;
-    font-size: rem(12);
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translate(-50%);
-    display: none;
-
-    &::before {
-      content: "";
-      position: absolute;
-      bottom: -5px;
-      @include size(10px);
-      background-color: var(--colors-text-primary);
-      left: 50%;
-      transform: translateX(-50%) rotateZ(45deg);
-    }
-  }
-}
-
-.category-mini {
-  background-color: var(--colors-grey-100);
-
-  &__icon {
-    @include size(60px);
-    margin-right: 16px;
-    flex-shrink: 0;
-    transition: 0.3s ease-in-out;
-  }
-}
-
-@media screen and (min-width: 993px) and (max-height: 890px) {
-  .price {
-    padding-top: 0;
-
-    &__subtitle {
-      font-size: rem(16);
-    }
-
-    &__examples {
-      height: 38px;
-    }
-  }
-
-  .category {
-    &__price-value {
-      font-size: rem(17);
-    }
-
-    &__price-wrapper {
-      margin-bottom: 0 !important;
-
-      & + & {
-        margin-top: 14px;
-      }
-    }
-
-    &__icon {
-      @include size(35px);
-      top: 16px;
-      right: 16px;
-    }
-
-    &__subtitle {
-      max-width: calc(100% - 20px);
-    }
-
-    &__undertext {
-      display: none;
-    }
-
-    &__tooltip {
-      &--small-screens {
-        display: block;
-
-        svg {
-          fill: var(--colors-accent);
-          animation: pulse 0.6s 2s 3;
-        }
-
-        &:hover {
-          svg {
-            animation: none;
-          }
-        }
-
-        .category__info {
-          width: 250px;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (min-width: 993px) and (max-height: 770px) {
-  .price {
-    padding-top: 10px;
-
-    &__header {
-      margin-bottom: 0;
-
-      svg {
-        height: 14px;
-      }
-    }
-
-    &__header-block {
-      height: 30px;
-      font-size: rem(11);
-    }
-
-    &__examples {
-      margin-top: 25px;
-    }
-  }
-}
-
-@media screen and (min-width: 993px) and (max-height: 730px) {
-  .price {
-    padding-top: 10px;
-
-    &__header {
-      margin-bottom: 0;
-    }
-  }
-}
-
-@media screen and (max-width: 992px) {
-  .price {
-    &__header {
-      display: none;
-
-      &--mobile {
-        display: block;
-      }
-    }
-  }
-
-  .category {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 100000;
-    padding: 0 16px 0 16px;
-
-    h3 {
-      font-size: rem(22);
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      margin-bottom: 4px;
-    }
-
-    &__subtitle {
-      color: var(--colors-text-primary);
-      max-width: 250px;
-    }
-
-    &__undertext {
-      margin-top: 20px;
-      padding: 0;
-    }
-
-    &__close {
-      @include size(16px);
-      overflow: hidden;
-      position: absolute;
-      top: 16px;
-      right: 0;
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotateZ(-45deg);
-        @include size(20px, 2px);
-        background-color: var(--colors-text-primary);
-      }
-
-      &::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotateZ(45deg);
-        @include size(20px, 2px);
-        background-color: var(--colors-text-primary);
-      }
-    }
-
-    &__icon {
-      @include size(50px);
-      top: 105px;
-      right: 10px;
-    }
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .category {
-    padding: 0 16px 0 16px;
-
-    &__close {
-      top: 16px;
-      right: 0;
-    }
-
-    &__icon {
-      @include size(50px);
-      top: 60px;
-      right: 0px;
-    }
-  }
-}
-</style>

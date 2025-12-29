@@ -1,46 +1,45 @@
 <template>
   <ClientOnly>
-    <section class="pt-10 max-lg:pt-[50px]">
+    <section>
       <div
-        class="flex justify-between items-start max-lg:flex-col max-lg:items-center"
+        class="flex justify-between items-start flex-col items-center lg:flex-row mb-9 lg:mb-6"
       >
-        <h2 class="mb-9 max-lg:mb-[10px]">{{ $t("reviews.title") }}</h2>
-        <div
+        <h2>{{ $t("reviews.title") }}</h2>
+        <AppButton
           id="feedback-btn"
-          class="inline-flex items-center justify-center h-10 px-[30px] bg-[var(--colors-accent)] text-[var(--white)] font-bold cursor-pointer transition-all duration-300 ease-in-out tracking-[0.3px] [clip-path:polygon(0_0,calc(100%-10px)_0,100%_100%,10px_100%)] hover:brightness-110 max-lg:hidden"
+          variant="primary"
+          size="lg"
           @click.prevent="modalFeedbackOpen = true"
           v-if="!mobile && !tablet"
         >
           {{ $t("reviews.leaveReview") }}
-        </div>
+        </AppButton>
       </div>
 
-      <div class="flex items-start justify-between flex-wrap max-lg:flex-wrap">
+      <div class="flex items-start justify-between flex-wrap lg:flex-nowrap">
         <div
           v-for="(item, index) in items"
           :key="item.feature"
           :class="[
-            'flex flex-col items-center cursor-pointer w-1/5 max-lg:w-[calc(50%-8px)] max-lg:mb-4 max-lg:h-[120px] max-lg:bg-[var(--colors-grey-100)] max-lg:px-[9px] max-lg:py-[14px] max-lg:pb-4 max-lg:justify-center',
-            index === 1 && 'max-lg:order-[-1] max-lg:w-full',
+            'w-1/2 lg:w-1/5 flex-0 lg:flex-1 p-1',
+            index === 1 && 'order-[-1] lg:order-none w-full lg:w-auto',
           ]"
           @click="openPopup(item.component)"
         >
-          <svg-icon
-            :name="item.svg"
-            original
-            class="w-[39px] h-[39px] mb-[10px] max-lg:mb-3 max-lg:flex-shrink-0"
-          />
-
           <div
-            class="text-center font-[var(--font-family-secondary)] text-base font-medium tracking-[0.3px] max-lg:text-xs max-lg:tracking-[0.2px] max-lg:text-[var(--colors-text-primary)]"
-            v-html="item.feature"
-          ></div>
+            class="flex flex-col items-center justify-center cursor-pointer h-40 lg:h-auto bg-gray-100 dark:bg-gray-800 lg:!bg-transparent"
+          >
+            <svg-icon
+              :name="item.svg"
+              original
+              class="size-10 mb-4 lg:mb-3 flex-shrink-0"
+            />
 
-          <svg-icon
-            name="chevron_feature"
-            original
-            class="h-3 mt-3 max-lg:hidden"
-          />
+            <div
+              class="text-center font-medium text-base lg:text-sm"
+              v-html="item.feature"
+            ></div>
+          </div>
         </div>
       </div>
 
@@ -55,50 +54,51 @@
             class="text-center w-[400px] min-w-[400px] cursor-pointer snap-center max-lg:w-full max-lg:min-w-full"
             @click="navigateToInfo('reviews')"
           >
-            <div
-              class="text-primary text-base leading-none tracking-[0.3px] font-bold mb-[7px]"
-            >
+            <h3 class="text-primary leading-none font-bold mb-4">
               {{ slide.title }}
-            </div>
+            </h3>
 
-            <p class="dark-gray leading-4 break-normal" v-line-clamp="3">
+            <p
+              class="text-gray-500 dark:text-gray-400 leading-5 text-base lg:text-sm break-normal"
+              v-line-clamp="3"
+            >
               {{ slide.desc }}
             </p>
           </div>
         </div>
 
-        <button
-          class="w-7 h-7 bg-[var(--colors-accent)] bg-no-repeat bg-center rounded-full border-none cursor-pointer absolute top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 left-[-30px] bg-[length:8px_14px] hover:brightness-110 focus:brightness-110 active:brightness-110 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed max-lg:top-auto max-lg:bottom-[-48px] max-lg:translate-y-0 max-lg:left-[20%] [background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%208%2014%27%3E%3Cpath%20fill=%27white%27%20d=%27M7%200l1%201-6%206%206%206-1%201-7-7z%27/%3E%3C/svg%3E')]"
+        <AppButton
+          variant="primary"
+          size="icon"
+          class="size-8 bg-primary bg-no-repeat bg-center absolute top-1/2 -translate-y-1/2 -left-16 bg-[length:8px_14px] max-lg:top-auto max-lg:bottom-[-48px] max-lg:translate-y-0 max-lg:left-[20%] [background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%208%2014%27%3E%3Cpath%20fill=%27white%27%20d=%27M7%200l1%201-6%206%206%206-1%201-7-7z%27/%3E%3C/svg%3E')]"
           @click="scrollCarousel('prev')"
           :disabled="!canScrollPrev"
-          aria-label="Previous review"
-        ></button>
-        <svg-icon
-          name="divider"
-          original
-          v-if="mobile || tablet"
-          class="absolute bottom-[-48px] h-7 left-1/2 -translate-x-1/2 w-[35%]"
-        ></svg-icon>
-        <button
-          class="w-7 h-7 bg-[var(--colors-accent)] bg-no-repeat bg-center rounded-full border-none cursor-pointer absolute top-1/2 -translate-y-1/2 z-20 transition-opacity duration-300 right-[-30px] bg-[length:8px_14px] hover:brightness-110 focus:brightness-110 active:brightness-110 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed max-lg:top-auto max-lg:bottom-[-48px] max-lg:translate-y-0 max-lg:right-[20%] [background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%208%2014%27%3E%3Cpath%20fill=%27white%27%20d=%27M1%200L0%201l6%206-6%206%201%201%207-7z%27/%3E%3C/svg%3E')]"
+          :aria-label="'Previous review'"
+        ></AppButton>
+        <AppButton
+          variant="primary"
+          size="icon"
+          class="size-8 bg-primary bg-no-repeat bg-center absolute top-1/2 -translate-y-1/2 -right-16 bg-[length:8px_14px] max-lg:top-auto max-lg:bottom-[-48px] max-lg:translate-y-0 max-lg:right-[20%] [background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%208%2014%27%3E%3Cpath%20fill=%27white%27%20d=%27M1%200L0%201l6%206-6%206%201%201%207-7z%27/%3E%3C/svg%3E')]"
           @click="scrollCarousel('next')"
           :disabled="!canScrollNext"
-          aria-label="Next review"
-        ></button>
+          :aria-label="'Next review'"
+        ></AppButton>
       </div>
 
       <div
         class="flex justify-between items-start max-lg:flex-col max-lg:items-center"
       >
-        <div
+        <AppButton
           id="feedback-btn-mobile"
-          class="inline-flex items-center justify-center h-10 px-[30px] bg-[var(--colors-accent)] text-[var(--white)] font-bold cursor-pointer transition-all duration-300 ease-in-out tracking-[0.3px] [clip-path:polygon(0_0,calc(100%-10px)_0,100%_100%,10px_100%)] hover:brightness-110 max-lg:clip-path-none max-lg:mt-0 hidden max-lg:flex"
+          variant="primary"
+          class="!px-6"
           @click.prevent="modalFeedbackOpen = true"
           v-if="mobile || tablet"
         >
           {{ $t("reviews.leaveReview") }}
-        </div>
+        </AppButton>
       </div>
+
       <feedback-modal v-model="modalFeedbackOpen" />
     </section>
   </ClientOnly>
@@ -106,14 +106,15 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
+import AppButton from "@/components/ui/Button/app-button.vue";
 
-// Lazy load FeedbackModal - only loads when reviews section is active or modal is opened
 export default {
   name: "AppPageMainSectionReviews",
   components: {
     FeedbackModal: defineAsyncComponent(() =>
       import("@/components/common/Feedback/app-feedback-modal")
     ),
+    AppButton,
   },
   props: {
     active: Boolean,

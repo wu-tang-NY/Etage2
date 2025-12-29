@@ -2,12 +2,16 @@
   <ClientOnly>
     <h2 class="mb-4">{{ $t("order.title") }}</h2>
 
-    <div class="subtitle dark:text-gray-400 mb-10">
+    <div class="text-gray-800 dark:text-gray-400 mb-8">
       {{ $t("order.subtitle") }}
     </div>
 
-    <div class="flex items-start justify-start flex-wrap lg:flex-nowrap mb-6">
-      <div class="text-center lg:text-left mb-2 lg:mb-0">
+    <div
+      class="flex items-center lg:items-start justify-start flex-wrap flex-col lg:flex-row lg:flex-nowrap mb-6"
+    >
+      <div
+        class="flex items-center justify-center flex-col lg:items-start lg:justify-start mb-2 lg:mb-0"
+      >
         <AppButton
           variant="secondary"
           size="lg"
@@ -20,17 +24,19 @@
 
         <div
           class="text-sm leading-normal mx-auto text-gray-500"
-          :class="{ 'text-gray-700 dark:text-gray-400': activeTab === 'call' }"
+          :class="{ 'text-gray-800 dark:text-gray-400': activeTab === 'call' }"
         >
           {{ $t("order.leaveNumberDesc") }}
         </div>
       </div>
 
-      <div class="text-sm leading-9 font-bold px-5">
+      <div class="text-sm leading-9 font-bold py-2 px-5">
         {{ $t("common.or") }}
       </div>
 
-      <div class="text-center lg:text-left mb-2 lg:mb-0 max-w-[210px]">
+      <div
+        class="flex items-center justify-center flex-col lg:items-start lg:justify-start lg:text-left mb-2 lg:mb-0 max-w-[210px]"
+      >
         <AppButton
           class="mb-3 lg:pl-10 lg:pr-5 lg:[clip-path:polygon(0_0,100%_0,100%_100%,20px_100%)]"
           variant="secondary"
@@ -122,10 +128,10 @@ export default {
   }),
   methods: {
     openModal(tab) {
+      this.activeTab = tab;
+
       if (this.mobile || this.tablet) {
         this.isModalOpen = true;
-      } else {
-        this.activeTab = tab;
       }
     },
     closeModal() {

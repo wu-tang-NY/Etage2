@@ -10,7 +10,6 @@
 
   .bg-light {
     background-color: var(--white);
-    color: var(--colors-text-secondary);
   }
 }
 

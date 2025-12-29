@@ -1,7 +1,7 @@
 <template>
   <div class="call-form">
-    <div class="row" v-if="unsend">
-      <div class="col-lg-4">
+    <div class="flex flex-wrap gap-4">
+      <div class="w-full lg:w-1/4">
         <app-input
           id="call-name"
           :requiredField="!name && name !== null"
@@ -13,7 +13,7 @@
         />
       </div>
 
-      <div class="col-lg-4">
+      <div class="w-full lg:w-1/4">
         <app-input
           id="call-phone"
           :requiredField="!phone && phone !== null"
@@ -31,25 +31,22 @@
       id="callback-form-btn"
       variant="primary"
       size="lg"
+      class="w-full lg:w-auto"
       :disabled="!phone || !name"
       @click.prevent="handleSendEmail"
     >
       {{ $t("common.submit") }}
     </app-button>
-
-    <welcome-modal v-model="modalWelcomeOpen" />
   </div>
 </template>
 
 <script>
 import emailService from "@/utils/emailService";
 import AppButton from "@/components/ui/Button/app-button.vue";
-import WelcomeModal from "@/components/common/Welcome/app-welcome-modal";
 
 export default {
   name: "CallFormComponent",
   components: {
-    WelcomeModal,
     AppButton,
   },
   props: {
@@ -60,17 +57,13 @@ export default {
     return {
       name: null,
       phone: null,
-      unsend: true,
-      modalWelcomeOpen: false,
     };
   },
-  beforeUnmount() {
-    // Ensure modal is closed before component unmounts
-    if (this.modalWelcomeOpen) {
-      this.modalWelcomeOpen = false;
-    }
-  },
   methods: {
+    clearForm() {
+      this.name = null;
+      this.phone = null;
+    },
     async handleSendEmail() {
       if (this.name && this.phone) {
         try {
@@ -79,8 +72,9 @@ export default {
             phone: this.phone,
           });
 
-          this.unsend = false;
-          this.modalWelcomeOpen = true;
+          this.clearForm();
+          this.$emit("closeModal");
+          this.$eventbus.emit("openWelcomeModal");
         } catch (error) {
           console.error("Failed to send callback request:", error);
           // Optionally show error message to user

@@ -1,15 +1,13 @@
 <template>
   <ClientOnly>
     <div class="flex items-center">
-      <NuxtLink to="/" aria-label="Home">
-        <span
-          class="block w-[110px] h-[22px] md:w-[90px] md:h-[18px] [&_svg]:align-top [&_svg]:w-full"
-        >
-          <svg-icon :name="logoIconName" original />
+      <a href="/" aria-label="Home">
+        <span class="flex w-[110px] h-[22px] md:w-[90px] md:h-[18px]">
+          <svg-icon :name="logoIconName" original class="size-full" />
         </span>
-      </NuxtLink>
+      </a>
       <span
-        class="hidden xl:inline-block font-medium text-gray-500 whitespace-nowrap before:content-[''] before:bg-gray-300 dark:before:bg-gray-700 before:inline-block before:w-[2px] before:h-[28px] before:mx-4 before:align-middle"
+        class="hidden xl:block font-medium text-gray-500 whitespace-nowrap before:content-[''] before:bg-gray-300 dark:before:bg-gray-700 before:inline-block before:w-[2px] before:h-[28px] before:mx-4 before:align-middle"
         >{{ $t("logo.subtitle") }}</span
       >
     </div>

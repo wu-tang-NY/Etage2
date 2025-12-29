@@ -1,27 +1,60 @@
 <template>
   <app-nav>
-    <app-nav-item
+    <li
+      class="group"
       v-for="({ id, title, icon, children }, index) in pages"
-      :id="id"
+      :class="{
+        '-ml-4': index > 0,
+      }"
       :key="title"
-      :title="title"
-      :icon="icon"
-      :children="children"
-      :active="!isInfoRoute && index === activePage"
-      :visited="!isInfoRoute && index < activePage"
-      @click="handleClick(index)"
-      @close="$emit('close')"
-    />
+    >
+      <app-nav-item
+        :id="id"
+        :title="title"
+        :icon="icon"
+        :index="index"
+        :children="children"
+        :active="!isInfoRoute && index === activePage"
+        :visited="!isInfoRoute && index < activePage"
+        @click="handleClick(index)"
+        @close="$emit('close')"
+      />
 
-    <app-nav-item
-      :title="$t('navInfo.information')"
-      icon="icon_5_c"
-      :to="localizedInfoPath"
-      :active="isInfoRoute"
-      :visited="isInfoRoute"
-      class="lg:ml-auto"
-      @close="$emit('close')"
-    />
+      <ul
+        class="group-hover:block bg-gray-100 p-2.5 absolute top-full left-0 w-60 hidden list-none group-focus-within/item:block"
+        v-if="children?.length > 0"
+        role="menu"
+        :class="{
+          'bg-primary': isInfoRoute && index === activePage,
+        }"
+      >
+        <template v-for="child in children" :key="child.title">
+          <li role="menuitem">
+            <NuxtLink
+              :to="`/${$i18n?.locale || 'ua'}/info/${child.path}`"
+              class="block p-2.5 font-medium transition-colors duration-150 ease-in-out hover:bg-black/5 focus:bg-black/5"
+              :exactActiveClass="'text-white hover:bg-white/20'"
+              role="link"
+              tabindex="0"
+            >
+              {{ child.title }}
+            </NuxtLink>
+          </li>
+        </template>
+      </ul>
+    </li>
+
+    <li class="lg:ml-auto">
+      <app-nav-item
+        :title="$t('navInfo.information')"
+        icon="icon_5_c"
+        :to="localizedInfoPath"
+        :active="isInfoRoute"
+        :visited="isInfoRoute"
+        class="[clip-path:polygon(20px_0,100%_0,100%_100%,0%_100%)]"
+        @close="$emit('close')"
+      />
+    </li>
   </app-nav>
 </template>
 
@@ -39,23 +72,23 @@ export default {
           children: [
             {
               title: this.$t("nav.flatMove"),
-              path: "PopupContentFlatMove",
+              path: "flat_move",
             },
             {
               title: this.$t("nav.officeMove"),
-              path: "PopupContentOfficeMove",
+              path: "office_move",
             },
             {
               title: this.$t("nav.stuffMove"),
-              path: "PopupContentStuffMove",
+              path: "stuff_move",
             },
             {
               title: this.$t("nav.specialists"),
-              path: "PopupContentSpecialists",
+              path: "specialists",
             },
             {
               title: this.$t("nav.package"),
-              path: "PopupContentPackage",
+              path: "package",
             },
           ],
         },

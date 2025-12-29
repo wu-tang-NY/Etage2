@@ -23,7 +23,7 @@
             role="document"
           >
             <div
-              class="modal-content relative flex flex-col w-[400px] pointer-events-auto bg-white bg-clip-padding border border-black/20 rounded outline-0 max-sm:border-0 max-sm:w-full max-sm:h-screen max-sm:overflow-auto"
+              class="modal-content relative flex flex-col w-[400px] pointer-events-auto bg-white bg-clip-padding border border-black/20 rounded outline-0 max-sm:border-0 max-sm:w-full max-sm:h-screen max-sm:overflow-auto dark:bg-dark"
               v-if="show"
             >
               <div class="flex justify-between p-4">
@@ -35,7 +35,13 @@
                   </div>
                 </div>
 
-                <AppButton :icon="true" @click="handleCloseModal">
+                <AppButton
+                  :icon="true"
+                  class="ml-auto"
+                  :aria-label="$t('common.close')"
+                  :title="$t('common.close')"
+                  @click="handleCloseModal"
+                >
                   <svg
                     class="h-4 w-4"
                     xmlns="http://www.w3.org/2000/svg"

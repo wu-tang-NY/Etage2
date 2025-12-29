@@ -13,6 +13,8 @@ export default {
     copyright: "© 2019 Etage. All Rights Reserved.",
     themeToggle: "Переключить тему",
     settings: "Настройки:",
+    openMenu: "Открыть меню",
+    closeMenu: "Закрыть меню",
   },
 
   // Navigation
@@ -486,7 +488,7 @@ export default {
     categoryWorkersItem1Price: "300 грн",
     categoryWorkersItem1Desc: "За одного грузчика",
     categoryWorkersItem1Info:
-      "Оплата транспортивки предмотов, весом свыше 100кг расчитываеться индивидуально",
+      "Оплата транспортивки предметов, весом свыше 100кг рассчитывается индивидуально",
     categoryWorkersItem2Time: ">2 часов -",
     categoryWorkersItem2Price: "150 грн/полчаса",
     examplesButton: "Мне нужны примеры",

@@ -16,14 +16,14 @@
             class="w-full h-[160px] md:h-[300px] object-cover"
           />
         </div>
-        <div class="page-main__inner">
+        <div>
           <div
-            class="page-main__sections flex flex-col lg:flex-row gap-24 lg:gap-0"
+            class="page-main__sections flex flex-col lg:flex-row lg:h-full gap-24 lg:gap-0"
             ref="sectionsWrapper"
             id="sections"
           >
             <section
-              class="app-section"
+              class="app-section h-auto lg:h-full flex-none"
               :class="{ 'app-section--scroll': hasScroll }"
               :style="{
                 width: !mobile && !tablet ? `${windowWidth}px` : '100%',
@@ -55,38 +55,66 @@
               class="w-full h-[160px] md:h-[300px] object-cover"
             />
           </div>
-          <div v-else class="page-main__bg bg">
-            <div class="page-main__bg-inner">
+          <div
+            v-else
+            class="page-main__bg bg lg:absolute lg:left-0 lg:bottom-[40px] lg:w-full lg:-z-10"
+          >
+            <div class="page-main__bg-inner lg:overflow-hidden">
               <div
                 class="page-main__bg-image"
                 :style="{ width: `${totalWidth}px` }"
                 ref="bg"
               >
-                <div class="page-main__bg-home">
-                  <svg-icon name="home" class="page-main" original />
+                <div
+                  class="page-main__bg-home lg:w-[170px] lg:h-[95px] lg:absolute lg:right-[120px] lg:bottom-[10px]"
+                >
+                  <svg-icon
+                    name="home"
+                    class="page-main w-full h-full"
+                    original
+                  />
                 </div>
 
-                <div class="bg__from" ref="home1">
-                  <div class="bg__home">
-                    <svg-icon name="home_1" original />
+                <div class="bg__from absolute bottom-[22px]" ref="home1">
+                  <div
+                    class="bg__home absolute bottom-0 w-[90px] h-[90px] z-[1]"
+                  >
+                    <svg-icon name="home_1" class="w-full h-full" original />
                   </div>
-                  <div class="bg__workers" ref="workers1">
-                    <svg-icon name="workers_1" original />
+                  <div
+                    class="bg__workers absolute left-0 bottom-0 w-[70px] h-[35px]"
+                    ref="workers1"
+                  >
+                    <svg-icon name="workers_1" class="w-full h-full" original />
                   </div>
                 </div>
 
-                <div class="bg__to" ref="home2">
-                  <div class="bg__home">
-                    <svg-icon name="home_2" original />
+                <div
+                  class="bg__to absolute bottom-[22px] overflow-hidden w-[500px] h-[100px]"
+                  ref="home2"
+                >
+                  <div
+                    class="bg__home absolute bottom-0 w-[90px] h-[90px] z-[1]"
+                  >
+                    <svg-icon name="home_2" class="w-full h-full" original />
                   </div>
-                  <div class="bg__workers" ref="workers2">
-                    <svg-icon name="workers_1" original />
+                  <div
+                    class="bg__workers absolute left-0 bottom-0 w-[70px] h-[35px]"
+                    ref="workers2"
+                  >
+                    <svg-icon name="workers_1" class="w-full h-full" original />
                   </div>
                 </div>
               </div>
 
-              <div class="page-main__bg-car bg-car" ref="car">
-                <div class="bg-car__cloud" ref="clouds">
+              <div
+                class="page-main__bg-car bg-car lg:absolute lg:bottom-[10px] lg:left-0 lg:w-[130px] lg:h-[58px]"
+                ref="car"
+              >
+                <div
+                  class="bg-car__cloud absolute left-full bottom-full -mb-[10px] -translate-x-[35px]"
+                  ref="clouds"
+                >
                   <car-cloud
                     :title="$t('main.carCloud.appraiser')"
                     icon="cloud_small"
@@ -104,7 +132,7 @@
                 </div>
 
                 <div class="bg-car__image">
-                  <svg-icon name="car" original />
+                  <svg-icon name="car" class="w-full h-full" original />
                 </div>
               </div>
             </div>
@@ -113,7 +141,7 @@
       </template>
 
       <template #fallback>
-        <div class="page-main__inner"></div>
+        <div></div>
       </template>
     </ClientOnly>
   </div>
@@ -301,33 +329,10 @@ export default {
       document.body.style.height = "";
       document.body.classList.remove("modal-open");
 
-      this.updateScrollbarWidth();
-
       // Use nextTick to ensure refs are available
       this.$nextTick(() => {
         this.initAnimations();
       });
-    },
-
-    onSpacePress(e) {
-      if (typeof window === "undefined" || typeof document === "undefined")
-        return;
-      if (e.target.localName !== "input") {
-        if (e.keyCode === 32) {
-          e.preventDefault();
-          const sections = document.querySelector("#sections");
-          const el = sections?.querySelector("section.active");
-
-          if (el) {
-            this.activeSectionIndex = Array.from(sections.children).indexOf(el);
-
-            if (this.activeSectionIndex < 4) {
-              const top = window.innerWidth * (this.activeSectionIndex + 1);
-              document.documentElement.scrollTo({ top, behavior: "smooth" });
-            }
-          }
-        }
-      }
     },
 
     onSectionChange(index, instant = false) {
@@ -340,7 +345,7 @@ export default {
         const section = document.getElementById(`section-${index + 1}`);
 
         if (section) {
-          top = section.getBoundingClientRect().top + window.pageYOffset - 50;
+          top = section.getBoundingClientRect().top + window.pageYOffset - 120;
         }
       }
 
@@ -470,8 +475,6 @@ export default {
             }
           }
         });
-
-        this.hasScroll = this.isScrollPresent();
       } catch (error) {
         console.error("Failed to initialize animations:", error);
         // Retry if error occurs
@@ -485,48 +488,8 @@ export default {
         }
       }
     },
-    isScrollPresent() {
-      if (typeof window === "undefined" || typeof document === "undefined")
-        return false;
-      return window.innerWidth > document.body.clientWidth;
-    },
-    getScrollbarWidth() {
-      if (typeof document === "undefined") return 0;
-      // Create a temporary div to measure scrollbar width
-      const outer = document.createElement("div");
-      outer.style.visibility = "hidden";
-      outer.style.overflow = "scroll";
-      outer.style.msOverflowStyle = "scrollbar"; // needed for WinJS apps
-      outer.style.width = "100px";
-      outer.style.position = "absolute";
-      outer.style.top = "-9999px";
-      document.body.appendChild(outer);
-
-      const inner = document.createElement("div");
-      inner.style.width = "100%";
-      outer.appendChild(inner);
-
-      const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-
-      outer.parentNode.removeChild(outer);
-
-      return scrollbarWidth;
-    },
-    updateScrollbarWidth() {
-      if (typeof document === "undefined") return;
-      this.scrollbarWidth = this.getScrollbarWidth();
-      // Set CSS variable for dynamic padding (also updates global variable)
-      document.documentElement.style.setProperty(
-        "--scrollbar-width",
-        `${this.scrollbarWidth}px`
-      );
-      // Update hasScroll state
-      this.hasScroll = this.isScrollPresent();
-    },
   },
   mounted() {
-    this.updateScrollbarWidth();
-
     // Listen for theme changes
     this.themeChangeHandler = (event) => {
       this.isDark = event.detail.isDark;
@@ -556,7 +519,6 @@ export default {
       // Double nextTick to ensure ClientOnly has fully rendered
       this.$nextTick(() => {
         this.onResize();
-        this.hasScroll = this.isScrollPresent();
 
         // Add scroll listener for all devices
         window.addEventListener("scroll", this.onScroll, { passive: true });
@@ -651,123 +613,16 @@ export default {
 </script>
 
 <style lang="scss">
-// .app-page {
-//   position: relative;
-// }
-
-.page-main {
-  &__sections {
-    display: flex;
-    @include media-breakpoint-up(lg) {
-      height: 100%;
-    }
-  }
-}
-
-.bg-car {
-  &__cloud {
-    position: absolute;
-    left: 100%;
-    bottom: 100%;
-    margin-bottom: -10px;
-    transform: translate(-35px, 0);
-
-    .cloud {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-    }
-  }
-
-  &__image {
-    svg {
-      @include size(100%);
-    }
-  }
-}
-
-.bg {
-  &__from,
-  &__to {
-    position: absolute;
-    bottom: 22px;
-  }
-
-  &__to {
-    overflow: hidden;
-    width: 500px;
-    height: 100px;
-  }
-
-  &__home {
-    position: absolute;
-    bottom: 0;
-    @include size(90px);
-    z-index: 1;
-
-    svg {
-      @include size(100%);
-    }
-  }
-
-  &__workers {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    @include size(70px, 35px);
-
-    svg {
-      @include size(100%);
-    }
-  }
-}
-
-.app-section {
-  height: 100%;
-  flex: 0 0 auto;
-
-  @include media-breakpoint-down(lg) {
-    height: auto;
-  }
-}
-
-#app ~ div {
-  opacity: 0 !important;
-}
-
 @include media-breakpoint-up(lg) {
   .page-main {
-    &__bg {
-      z-index: -1;
-
-      &-inner {
-        overflow: hidden;
-      }
-
-      &-image {
-        background: url("/static/images/bg.png") -100px 12px repeat-x;
-        background-size: auto 150px;
-        height: 150px;
-        position: relative;
-      }
-
-      &-home {
-        @include size(170px, 95px);
-        @include absolute(null, 120px, 10px);
-
-        svg {
-          @include size(100%);
-        }
-      }
-
-      &-car {
-        position: absolute;
-        bottom: 10px;
-        left: 0;
-        @include size(130px, 58px);
-      }
+    &__bg-image {
+      background: url("/static/images/bg.png") -100px 12px repeat-x;
+      background-size: auto 150px;
+      height: 150px;
+      position: relative;
     }
   }
+
   // Dark theme: switch to dark version background image
   .theme-dark {
     .page-main__bg-image {
@@ -775,48 +630,11 @@ export default {
       background-size: auto 163px;
     }
   }
+
   .page-main {
-    &__bg {
-      position: absolute;
-      left: 0;
-      bottom: 60px;
-      width: 100%;
-
-      &-image {
-        height: 200px;
-        background-size: auto 200px;
-      }
-    }
-  }
-
-  .modal-open {
-    .app-section {
-      padding-right: var(--scrollbar-width, 0px);
-    }
-  }
-
-  .app-section {
-    &--scroll {
-      padding-right: var(--scrollbar-width, 0px);
-    }
-  }
-}
-
-@media screen and (min-width: 993px) and (max-height: 890px) {
-  .page-main {
-    &__bg {
-      bottom: 40px;
-    }
-  }
-}
-
-@media screen and (min-width: 993px) and (max-height: 730px) {
-  .page-main {
-    // Compensate for reduced app-content offset (50px instead of 140px)
-    margin-top: -50px;
-
-    &__bg {
-      bottom: -3px;
+    &__bg-image {
+      height: 200px;
+      background-size: auto 200px;
     }
   }
 }
@@ -832,11 +650,15 @@ export default {
   }
 }
 
-@include media-breakpoint-down(lg) {
-  .page-main {
-    &__sections {
-      flex-direction: column;
-    }
-  }
+// Cloud positioning within bg-car__cloud
+.bg-car__cloud .cloud {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+// Hide elements after #app
+#app ~ div {
+  opacity: 0 !important;
 }
 </style>

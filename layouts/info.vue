@@ -1,53 +1,71 @@
 <template>
   <div class="container mx-auto">
     <div
-      class="info-layout w-full flex flex-col lg:flex-row relative lg:top-[200px]"
+      class="w-full flex flex-col lg:flex-row relative pb-[60px] pb-0 lg:pt-[200px] pt-0"
     >
-      <div class="info-layout__sidebar sticky">
-        <div class="info-layout__nav">
+      <div
+        class="sticky bg-light dark:bg-dark lg:top-[200px] lg:w-[15%] lg:max-w-[15%] lg:min-w-[300px] lg:flex-shrink-0 lg:self-start relative top-0 w-full"
+      >
+        <div class="info-nav -mx-4 lg:mx-0">
           <template v-if="navItems && navItems.length > 0">
             <template
               v-for="(item, index) in navItems"
               :key="item.header || index"
             >
+              <!-- Single link item - render as direct link -->
+              <NuxtLink
+                v-if="item && item.links.length === 1"
+                :to="getLocalizedPath(`/info/${item.links[0].slug}`)"
+                class="flex items-center h-9 text-sm max-lg:text-base font-bold px-4 hover:bg-gray-200 dark:hover:bg-gray-800 mb-1 lg:max-w-[210px] max-w-full transition-all duration-300 ease-in-out"
+                :exactActiveClass="'bg-gray-200 dark:bg-gray-800 dark:text-white'"
+              >
+                {{ item.header }}
+              </NuxtLink>
+
               <div
-                v-if="item"
-                class="info-layout__panel"
-                :class="{ 'info-layout__panel--active': item.isActive }"
+                v-else-if="item"
+                class="mb-2 lg:max-w-[210px] cursor-pointer max-w-full w-full"
               >
                 <div
-                  class="info-layout__panel-header"
-                  @click="toggleActive(item, index)"
+                  class="flex items-center justify-between h-9 lg:text-sm text-base font-bold px-4 hover:bg-gray-200 dark:hover:bg-gray-800"
+                  :class="{
+                    'bg-gray-200 dark:bg-gray-800': activeGroupIndex === index,
+                  }"
+                  @click="toggleAccordion(index)"
                 >
-                  {{ item.header }}
-                  <svg-icon name="modal_dropdown" original />
+                  <span>{{ item.header }}</span>
+                  <svg-icon
+                    :ref="`icon-${index}`"
+                    name="modal_dropdown"
+                    class="w-2 h-4 transition-transform duration-300 ease-in-out rotate-180"
+                  />
                 </div>
-                <template v-if="item && item.links && item.links.length > 0">
-                  <template
-                    v-for="(link, linkIndex) in item.links"
-                    :key="link.slug || linkIndex"
-                  >
-                    <div v-if="link" class="info-layout__panel-content">
+                <div
+                  :ref="`content-${index}`"
+                  class="max-h-0 transition-[max-height] duration-300 ease-in-out overflow-hidden"
+                >
+                  <template v-if="item && item.links && item.links.length > 0">
+                    <template
+                      v-for="(link, linkIndex) in item.links"
+                      :key="link.slug || linkIndex"
+                    >
                       <NuxtLink
                         v-if="link && link.title"
                         :to="getLocalizedPath(`/info/${link.slug}`)"
-                        class="info-layout__panel-link"
-                        :class="{
-                          'info-layout__panel-link--active': link.isActive,
-                        }"
-                        @click="handleLinkClick"
+                        class="flex items-center h-10 pl-4 my-1 opacity-75 text-base lg:text-sm font-medium hover:opacity-100"
+                        :exactActiveClass="'text-primary opacity-100'"
                       >
                         {{ link.title }}
                       </NuxtLink>
-                    </div>
+                    </template>
                   </template>
-                </template>
+                </div>
               </div>
             </template>
           </template>
         </div>
       </div>
-      <div class="info-layout__content">
+      <div class="pt-6 info-content text-lg lg:text-base lg:pt-0">
         <slot />
       </div>
     </div>
@@ -59,467 +77,132 @@ export default {
   name: "InfoLayout",
   data() {
     return {
-      activeStates: {},
-      currentPath: "",
-      manuallyToggledGroups: new Set(), // Track groups that have been manually toggled
-    };
-  },
-  computed: {
-    baseNavItems() {
-      if (!this.$i18n) return [];
-      return [
+      activeGroupIndex: null,
+      navItems: [
         {
           header: this.$t("modal.aboutCompany"),
           links: [
-            {
-              title: this.$t("modal.aboutUs"),
-              slug: "about_us",
-            },
-            {
-              title: this.$t("modal.history"),
-              slug: "history",
-            },
-            {
-              title: this.$t("modal.ourGoal"),
-              slug: "our_goal",
-            },
-            {
-              title: this.$t("modal.facts"),
-              slug: "facts",
-            },
-            {
-              title: this.$t("modal.auto"),
-              slug: "auto",
-            },
+            { title: this.$t("modal.aboutUs"), slug: "about_us" },
+            { title: this.$t("modal.history"), slug: "history" },
+            { title: this.$t("modal.ourGoal"), slug: "our_goal" },
+            { title: this.$t("modal.facts"), slug: "facts" },
+            { title: this.$t("modal.auto"), slug: "auto" },
           ],
-          isActive: false,
         },
         {
           header: this.$t("modal.services"),
           links: [
-            {
-              title: this.$t("modal.flatMove"),
-              slug: "flat_move",
-            },
-            {
-              title: this.$t("modal.officeMove"),
-              slug: "office_move",
-            },
-            {
-              title: this.$t("modal.stuffMove"),
-              slug: "stuff_move",
-            },
-            {
-              title: this.$t("modal.specialists"),
-              slug: "specialists",
-            },
-            {
-              title: this.$t("modal.package"),
-              slug: "package",
-            },
+            { title: this.$t("modal.flatMove"), slug: "flat_move" },
+            { title: this.$t("modal.officeMove"), slug: "office_move" },
+            { title: this.$t("modal.stuffMove"), slug: "stuff_move" },
+            { title: this.$t("modal.specialists"), slug: "specialists" },
+            { title: this.$t("modal.package"), slug: "package" },
           ],
-          isActive: false,
         },
         {
           header: this.$t("modal.information"),
           links: [
-            {
-              title: this.$t("modal.jobs"),
-              slug: "jobs",
-            },
-            {
-              title: this.$t("modal.reviews"),
-              slug: "reviews",
-            },
-            {
-              title: this.$t("modal.contacts"),
-              slug: "contacts",
-            },
+            { title: this.$t("modal.jobs"), slug: "jobs" },
+            { title: this.$t("modal.reviews"), slug: "reviews" },
+            { title: this.$t("modal.contacts"), slug: "contacts" },
           ],
-          isActive: false,
         },
         {
           header: this.$t("modal.payment"),
-          links: [
-            {
-              title: this.$t("modal.payment"),
-              slug: "payment",
-            },
-          ],
-          isActive: false,
+          links: [{ title: this.$t("modal.payment"), slug: "payment" }],
         },
         {
           header: this.$t("modal.specialOffers"),
           links: [
-            {
-              title: this.$t("modal.specialOffers"),
-              slug: "special_offers",
-            },
+            { title: this.$t("modal.specialOffers"), slug: "special_offers" },
           ],
-          isActive: false,
         },
-      ];
-    },
-    navItems() {
-      if (!this.$i18n) return [];
-      const items = this.baseNavItems;
-
-      // Mark active states based on current route
-      // Extract slug from path like /ua/info/about_us or /ru/info/about_us
-      const match = this.currentPath.match(/\/info\/([^/]+)/);
-      const currentSlug = match ? match[1] : "";
-
-      // Check if any group was manually toggled
-      const hasManuallyToggledGroups = this.manuallyToggledGroups.size > 0;
-
-      return items.map((item, index) => {
-        const hasActiveLink = item.links.some(
-          (link) => link.slug === currentSlug
-        );
-        const links = item.links.map((link) => ({
-          ...link,
-          isActive: link.slug === currentSlug,
-        }));
-
-        // If group was manually toggled, respect manual state only
-        // If any group was manually toggled, only use manual states (don't auto-open via hasActiveLink)
-        // Otherwise, auto-open if it has an active link
-        const isManuallyToggled = this.manuallyToggledGroups.has(index);
-        const isActive = isManuallyToggled
-          ? this.activeStates[index] || false
-          : hasManuallyToggledGroups
-          ? this.activeStates[index] || false
-          : hasActiveLink || this.activeStates[index] || false;
-
-        return {
-          ...item,
-          isActive,
-          links,
-        };
-      });
-    },
+      ],
+    };
   },
   watch: {
-    "$route.path": {
-      handler(newPath) {
-        this.currentPath = newPath;
-        this.updateActiveStates();
-      },
-      immediate: true,
-    },
-    "$i18n.locale": {
-      handler() {
-        // Force reactivity update when locale changes
-        this.$forceUpdate();
-      },
+    activeGroupIndex(newIndex, oldIndex) {
+      this.$nextTick(() => {
+        // Close old accordion
+        if (oldIndex !== null && oldIndex !== newIndex) {
+          const oldContent = this.$refs[`content-${oldIndex}`]?.[0];
+          const oldIcon = this.$refs[`icon-${oldIndex}`]?.[0];
+          if (oldContent) oldContent.style.maxHeight = "0";
+          if (oldIcon?.$el) oldIcon.$el.style.transform = "rotate(180deg)";
+        }
+
+        // Open new accordion
+        if (newIndex !== null) {
+          const content = this.$refs[`content-${newIndex}`]?.[0];
+          const icon = this.$refs[`icon-${newIndex}`]?.[0];
+          if (content) content.style.maxHeight = content.scrollHeight + "px";
+          if (icon?.$el) icon.$el.style.transform = "rotate(0deg)";
+        }
+      });
     },
   },
   methods: {
-    toggleNav() {
-      if (this.mobile || this.tablet) {
-        this.navOpen = !this.navOpen;
-      }
-    },
-    closeNav() {
-      this.navOpen = false;
-    },
     getLocalizedPath(path) {
       const locale = this.$i18n?.locale || "ua";
-      // If path already has a locale prefix, replace it; otherwise add it
       const pathWithoutLocale = path.replace(/^\/(ua|ru)(\/|$)/, "$2");
       return `/${locale}${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`;
     },
-    handleLinkClick() {
-      if (this.mobile || this.tablet) {
-        this.navOpen = false;
-      }
+    toggleAccordion(index) {
+      // Toggle: if clicking the same one, close it; otherwise open the new one
+      this.activeGroupIndex = this.activeGroupIndex === index ? null : index;
     },
-    toggleActive(item, index) {
-      let prev = null;
-
-      // Find which panel is currently active
-      Object.keys(this.activeStates).forEach((key) => {
-        if (this.activeStates[key]) {
-          prev = parseInt(key);
-        }
-      });
-
-      // Mark this group as manually toggled
-      this.manuallyToggledGroups.add(index);
-
-      // Close all panels
-      this.activeStates = {};
-
-      // Open the clicked panel if it wasn't already open
-      if (prev !== index) {
-        this.activeStates[index] = true;
+    findActiveGroup() {
+      // Find which group has the active link
+      const index = this.navItems.findIndex(
+        (item) => item.hasActiveLink && item.links.length > 1
+      );
+      if (index !== -1) {
+        this.activeGroupIndex = index;
       }
-    },
-    updateActiveStates() {
-      // Open the panel that contains the current active link
-      // Extract slug from path like /ua/info/about_us or /ru/info/about_us
-      const match = this.currentPath.match(/\/info\/([^/]+)/);
-      const currentSlug = match ? match[1] : "";
-
-      // Reset manual toggle state for groups that no longer have active links
-      const groupsWithActiveLinks = new Set();
-
-      // Use baseNavItems to avoid circular dependency with navItems computed property
-      this.baseNavItems.forEach((item, index) => {
-        const hasActiveLink = item.links.some(
-          (link) => link.slug === currentSlug
-        );
-        if (hasActiveLink) {
-          groupsWithActiveLinks.add(index);
-          // Only auto-open if group wasn't manually toggled
-          if (!this.manuallyToggledGroups.has(index)) {
-            this.activeStates[index] = true;
-          }
-        } else {
-          // Clear active state for groups without active links (but respect manual toggle)
-          if (!this.manuallyToggledGroups.has(index)) {
-            this.activeStates[index] = false;
-          }
-        }
-      });
-
-      // Remove manual toggle flag for groups that no longer have active links
-      // This allows them to auto-open again when their links become active
-      this.manuallyToggledGroups.forEach((index) => {
-        if (!groupsWithActiveLinks.has(index)) {
-          this.manuallyToggledGroups.delete(index);
-        }
-      });
     },
   },
   mounted() {
-    this.updateActiveStates();
+    this.findActiveGroup();
   },
 };
 </script>
 
-<style lang="scss">
-.info-layout {
-  width: 100%;
-  min-height: calc(100vh - 200px);
-  padding: 0 0 60px;
-
-  .sticky {
-    position: sticky;
-    top: 200px;
-    overflow: auto;
-    max-height: calc(100vh - 200px);
-    width: 15%;
-    max-width: 15%;
-    min-width: 300px;
-    flex-shrink: 0;
-    align-self: flex-start;
-
-    @media screen and (max-width: 992px) {
-      position: relative;
-      top: 0;
-      width: 100%;
-      max-height: none;
-      max-width: 100%;
-      overflow: visible;
-
-      &--open {
-        min-height: 100vh;
-      }
-    }
-  }
-
-  &__panel {
-    margin-bottom: 10px;
-    max-width: 210px;
-    cursor: pointer;
-
-    @media screen and (max-width: 992px) {
-      max-width: 100%;
-      width: 100%;
-    }
-
-    &--active {
-      .info-layout__panel-header {
-        background-color: var(--colors-grey-200);
-
-        svg {
-          transform: rotateZ(0);
-
-          g {
-            fill: var(--colors-text-primary);
-          }
-        }
-      }
-      .info-layout__panel-content {
-        max-height: 10000px;
-      }
-    }
-  }
-
-  &__panel-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 36px;
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 0.3px;
-    padding: 0 16px;
-    line-height: 36px;
-    transition: 0.3s ease-in-out;
-
-    &:hover {
-      background-color: var(--colors-grey-200);
-    }
-
-    svg {
-      @include size(8px, 5px);
-      transform: rotateZ(180deg);
-      transition: 0.3s ease-in-out;
-      fill: var(--colors-accent);
-
-      g {
-        fill: var(--colors-text-primary);
-      }
-    }
-  }
-
-  &__panel-content {
-    max-height: 0;
-    transition: 0.3s ease-in-out;
-    overflow: hidden;
-  }
-
-  &__panel-link {
-    display: block;
-    height: 36px;
-    padding-left: 26px;
-    opacity: 0.75;
-    font-size: rem(14);
-    line-height: 36px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    max-height: 0;
-    transition: 0.3s ease-in-out;
-    text-decoration: none;
-
-    &.active {
-      color: var(--colors-accent);
-      opacity: 1;
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  &__content {
-    // padding-top: 60px;
-
-    @media screen and (max-width: 992px) {
-      margin-left: 0;
-      padding-top: 24px;
-    }
-
-    h2 {
-      color: var(--colors-accent);
-      margin-bottom: 20px;
-    }
-
-    h3 {
-      color: var(--colors-accent);
-      margin-bottom: 20px;
-    }
-
-    p,
-    li {
-      font-size: rem(15);
-      line-height: 1.6;
-      letter-spacing: 0.3px;
-
-      @media screen and (max-width: 992px) {
-        font-size: 1.1rem;
-        line-height: 1.5;
-        letter-spacing: 0.2px;
-      }
-    }
-
-    p + p,
-    img + p,
-    img + img,
-    p + img {
-      margin-top: 20px;
-    }
-
-    img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
-
-    // Ensure BoosterImage component displays images correctly
-    :deep(img),
-    :deep(picture),
-    :deep(picture img) {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    ul,
-    ol {
-      padding-left: 20px;
-      margin: 20px 0;
-
-      li {
-        margin-bottom: 10px;
-      }
-    }
-
-    ul {
-      list-style: disc;
-    }
-
-    ol {
-      list-style: decimal;
-    }
+<style>
+/* Christmas lights margin adjustment */
+@media screen and (max-width: 992px) {
+  .has-christmas-lights .info-nav {
+    margin-top: 120px;
   }
 }
 
-@media screen and (max-width: 992px) {
-  .info-layout {
-    padding-top: 0;
-    min-height: 100vh;
-
-    &__nav {
-      margin: 40px -16px 0;
-    }
-
-    &__panel-header {
-      font-size: 1rem;
-      height: 42px;
-      line-height: 42px;
-    }
-
-    &__panel-link {
-      font-size: 0.9rem;
-      max-height: none;
-      height: 42px;
-      line-height: 42px;
-    }
+.info-content {
+  h1,
+  h2,
+  h3 {
+    color: var(--colors-accent) !important;
   }
 
-  .has-christmas-lights {
-    .info-layout {
-      &__nav {
-        margin-top: 100px;
-      }
-    }
+  * + * {
+    margin-top: 1rem;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  ul,
+  ol {
+    padding-left: 1rem;
+  }
+
+  p,
+  li {
+    line-height: 1.6;
+    margin-bottom: 1rem;
   }
 }
 </style>

@@ -3,68 +3,52 @@
     <app-modal
       :show="isOpen"
       @update:show="$emit('update:modelValue', $event)"
-      :title="unsend ? $t('callback.title') : false"
+      :title="$t('callback.title')"
     >
-      <form v-if="unsend">
-        <div class="row">
-          <div class="col-lg-12">
-            <app-input
-              id="callback-name"
-              :requiredField="!name && name !== null"
-              :label="$t('callback.nameLabel')"
-              type="text"
-              :placeholder="$t('callback.namePlaceholder')"
-              v-model="name"
-            />
-          </div>
-        </div>
+      <form>
+        <app-input
+          id="callback-name"
+          :requiredField="!name && name !== null"
+          :label="$t('callback.nameLabel')"
+          type="text"
+          :placeholder="$t('callback.namePlaceholder')"
+          v-model="name"
+        />
 
-        <div class="row">
-          <div class="col-lg-12">
-            <app-input
-              id="callback-phone"
-              :requiredField="!phone && phone !== null"
-              :label="$t('callback.phoneLabel')"
-              type="text"
-              :placeholder="$t('callback.phonePlaceholder')"
-              :isPhoneInput="true"
-              mask="###-###-##-##"
-              v-model="phone"
-            />
-          </div>
-        </div>
+        <app-input
+          id="callback-phone"
+          :requiredField="!phone && phone !== null"
+          :label="$t('callback.phoneLabel')"
+          type="text"
+          :placeholder="$t('callback.phonePlaceholder')"
+          :isPhoneInput="true"
+          mask="###-###-##-##"
+          v-model="phone"
+        />
 
-        <div class="row">
-          <div class="col-lg-12 text-center pb-1">
-            <button
-              type="button"
-              class="btn"
-              :disabled="!name || !phone"
-              @click.prevent="handleSendEmail"
-            >
-              {{ $t("common.submit") }}
-            </button>
-          </div>
-        </div>
+        <AppButton
+          variant="primary"
+          size="lg"
+          class="w-full"
+          :disabled="!name || !phone"
+          @click.prevent="handleSendEmail"
+        >
+          {{ $t("common.submit") }}
+        </AppButton>
       </form>
-
-      <div v-else class="welcome-block">
-        <svg-icon name="icon_thanks" original />
-        <h4>{{ $t("callback.thanks") }}</h4>
-        <p>{{ $t("callback.thanksMessage") }}</p>
-        <button type="button" class="btn" @click="closeModal">
-          {{ $t("common.backToSite") }}
-        </button>
-      </div>
     </app-modal>
   </ClientOnly>
 </template>
 
 <script>
 import emailService from "@/utils/emailService";
+import AppButton from "../../ui/Button/app-button.vue";
 
 export default {
   name: "AppCallbackModal",
+  components: {
+    AppButton,
+  },
   props: {
     modelValue: {
       type: Boolean,
@@ -80,7 +64,6 @@ export default {
   data: () => ({
     name: null,
     phone: null,
-    unsend: true,
     required: null,
   }),
   computed: {
@@ -89,7 +72,19 @@ export default {
       return this.open !== undefined ? this.open : this.modelValue;
     },
   },
+  watch: {
+    isOpen(newValue) {
+      // Reset form when modal opens
+      if (newValue) {
+        this.clearForm();
+      }
+    },
+  },
   methods: {
+    clearForm() {
+      this.name = null;
+      this.phone = null;
+    },
     async handleSendEmail() {
       if (this.phone && this.name) {
         try {
@@ -97,7 +92,9 @@ export default {
             name: this.name,
             phone: this.phone,
           });
-          this.unsend = false;
+          this.clearForm();
+          this.$eventbus.$emit("openWelcomeModal");
+          this.closeModal();
         } catch (error) {
           console.error("Failed to send callback request:", error);
           // Optionally show error message to user

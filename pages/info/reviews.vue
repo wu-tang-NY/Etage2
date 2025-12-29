@@ -2,9 +2,11 @@
   <InfoLayout>
     <h2>{{ $t("feedback.title") }}</h2>
     <div class="mb-10" v-for="(comment, index) in comments" :key="index">
-      <h5 class="text-accent mb-0">{{ comment.name }}</h5>
-      <div class="text-sm text-gray-500 mb-2">{{ comment.category }}</div>
-      <p>{{ comment.comment }}</p>
+      <h5 class="text-primary font-bold mb-0">{{ comment.name }}</h5>
+      <div class="text-sm text-gray-500 font-medium mb-2">
+        {{ comment.category }}
+      </div>
+      <p class="text-base leading-relaxed mt-3">{{ comment.comment }}</p>
     </div>
   </InfoLayout>
 </template>
@@ -19,7 +21,6 @@ export default {
   },
   computed: {
     comments() {
-      const slides = this.$t("reviews.slides", { returnObjects: true });
       const categoryMap = {
         slide1: this.$t("feedback.categories.flatMove"),
         slide2: this.$t("feedback.categories.stuffMove"),
@@ -29,11 +30,38 @@ export default {
         slide6: this.$t("feedback.categories.commercialMove"),
       };
 
-      return Object.keys(slides).map((key) => ({
-        name: slides[key].title,
-        category: categoryMap[key] || this.$t("feedback.categories.flatMove"),
-        comment: slides[key].desc,
-      }));
+      return [
+        {
+          name: this.$t("reviews.slides.slide1.title"),
+          category: categoryMap.slide1,
+          comment: this.$t("reviews.slides.slide1.desc"),
+        },
+        {
+          name: this.$t("reviews.slides.slide2.title"),
+          category: categoryMap.slide2,
+          comment: this.$t("reviews.slides.slide2.desc"),
+        },
+        {
+          name: this.$t("reviews.slides.slide3.title"),
+          category: categoryMap.slide3,
+          comment: this.$t("reviews.slides.slide3.desc"),
+        },
+        {
+          name: this.$t("reviews.slides.slide4.title"),
+          category: categoryMap.slide4,
+          comment: this.$t("reviews.slides.slide4.desc"),
+        },
+        {
+          name: this.$t("reviews.slides.slide5.title"),
+          category: categoryMap.slide5,
+          comment: this.$t("reviews.slides.slide5.desc"),
+        },
+        {
+          name: this.$t("reviews.slides.slide6.title"),
+          category: categoryMap.slide6,
+          comment: this.$t("reviews.slides.slide6.desc"),
+        },
+      ];
     },
   },
   head() {

@@ -1,6 +1,5 @@
 @use "../utils/functions" as *;
 @use "../utils/mixins" as *;
-@use "grid" as *;
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -12,8 +11,11 @@
 // Consistent scrollbar styling to prevent layout shift when switching themes
 // Base scrollbar width (8px) - dark mode will override colors but keep same width
 html {
-  // Reserve space for scrollbar to prevent layout shift
   scrollbar-gutter: stable;
+}
+
+.container {
+  padding: 0 1rem;
 }
 
 body {
@@ -73,21 +75,10 @@ h3 {
   letter-spacing: 0.4px;
 }
 
-p {
-  font-size: rem(14);
-  line-height: rem(20);
-  margin: 0;
-}
-
-.subtitle {
-  font-size: rem(15);
-  line-height: rem(24);
-
-  a {
-    color: var(--colors-accent);
-    font-weight: bold;
-    @include underline;
-  }
+a.link {
+  color: var(--colors-accent);
+  font-weight: bold;
+  @include underline;
 }
 
 button,
@@ -98,8 +89,8 @@ select {
   cursor: pointer;
 
   &:focus {
-    outline: 2px solid var(--colors-accent) !important;
-    outline-offset: 2px !important;
+    outline: 2px solid var(--colors-accent);
+    outline-offset: 2px;
   }
 }
 
@@ -124,24 +115,6 @@ select {
     font-size: rem(22);
     letter-spacing: 0.3px;
   }
-
-  .subtitle {
-    font-size: 1.1rem;
-    line-height: 1.5;
-    letter-spacing: 0.2px;
-  }
-
-  p {
-    font-size: rem(14);
-    line-height: rem(20);
-    letter-spacing: 0.2px;
-  }
-  .mobile-wrapper {
-    position: relative;
-    margin: 0 auto;
-    max-width: 690px;
-    padding: 85px 0;
-  }
 }
 
 .component-fade-enter-active,
@@ -152,13 +125,6 @@ select {
 .component-fade-enter,
 .component-fade-leave-to {
   opacity: 0;
-}
-
-@media screen and (max-width: 767px) {
-  .mobile-wrapper {
-    max-width: 510px;
-    padding: 40px 0;
-  }
 }
 
 @media screen and (min-width: 993px) and (max-height: 920px) {
@@ -172,16 +138,6 @@ select {
 
   h3 {
     font-size: rem(18);
-  }
-
-  p {
-    font-size: rem(13);
-    line-height: rem(17);
-  }
-
-  .subtitle {
-    font-size: rem(14);
-    line-height: rem(20);
   }
 }
 
@@ -211,22 +167,5 @@ select {
     [fill="none"] {
       fill: none !important;
     }
-  }
-}
-
-@keyframes pulse {
-  0% {
-    fill: var(--colors-grey-200);
-    transform: none;
-  }
-
-  50% {
-    fill: var(--colors-accent);
-    transform: scale(1.2);
-  }
-
-  100% {
-    fill: var(--colors-grey-200);
-    transform: none;
   }
 }

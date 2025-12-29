@@ -1,10 +1,10 @@
 /* eslint-disable */
-import icon from 'vue-svgicon'
+import icon from "vue-svgicon";
 icon.register({
-  'modal_dropdown': {
+  modal_dropdown: {
     width: 8,
     height: 5,
-    viewBox: '0 0 8 5',
-    data: '<g id="website" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="information" fill="#fff" transform="translate(-316 -171)"><g id="Group-6" transform="translate(130 155)"><g id="Group-3"><path id="modal_dropdown" d="M186 16h8l-4 5z" transform="matrix(1 0 0 -1 0 37)"/></g></g></g></g>'
-  }
-})
+    viewBox: "0 0 8 5",
+    data: '<g id="website" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="information" fill="currentColor" transform="translate(-316 -171)"><g id="Group-6" transform="translate(130 155)"><g id="Group-3"><path id="modal_dropdown" d="M186 16h8l-4 5z" transform="matrix(1 0 0 -1 0 37)"/></g></g></g></g>',
+  },
+});

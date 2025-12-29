@@ -4,45 +4,51 @@
     :class="{
       'translate-none': navOpen,
       '-translate-x-full': !navOpen,
-      'pt-[60px]': showDecorations,
+      'pt-[90px]': showDecorations,
     }"
   >
     <div class="container mx-auto h-full pt-6">
-      <div class="nav-wrapper__inner">
-        <div class="nav-wrapper__container">
-          <ul class="nav-wrapper__blocks nav-wrapper__menu">
-            <li class="nav-wrapper__block nav-block">
-              <div class="nav-block__title">
+      <div class="flex flex-col h-full">
+        <div class="flex flex-col flex-1 flex-auto">
+          <ul class="list-none -mx-4 p-0">
+            <li class="mt-6 first:mt-0">
+              <div
+                class="bg-gray-200 dark:bg-gray-700 [clip-path:polygon(0_0,calc(100%_-_20px)_0,100%_100%,0%_100%)] max-w-[300px] flex items-center h-9 px-[35px] pl-4 font-bold"
+              >
                 <span>{{ $t("common.menu") }}</span>
               </div>
 
-              <div class="nav-block__content max-w-[300px] -ml-4">
+              <div class="pt-4 px-4 max-w-[300px] -ml-4">
                 <LayoutMainNav @close="$emit('close')" />
               </div>
             </li>
           </ul>
 
-          <div class="flex flex-col flex-1 lg:hidden">
-            <ul class="nav-wrapper__blocks">
-              <li class="nav-wrapper__block nav-block">
-                <div class="nav-block__title">
+          <div class="flex flex-col mt-8 flex-1 lg:hidden">
+            <ul class="list-none -mx-4 p-0">
+              <li class="mt-6 first:mt-0">
+                <div
+                  class="bg-gray-200 dark:bg-gray-700 [clip-path:polygon(0_0,calc(100%_-_20px)_0,100%_100%,0%_100%)] max-w-[300px] flex items-center h-9 px-[35px] pl-4 font-bold"
+                >
                   <span>{{ $t("common.contacts") }}</span>
                   <div class="ml-auto">
                     <AppCallback />
                   </div>
                 </div>
 
-                <div class="nav-block__content">
+                <div class="pt-4 px-4">
                   <AppPhones />
                 </div>
               </li>
 
-              <li class="nav-wrapper__block nav-block">
-                <div class="nav-block__title">
+              <li class="mt-6 first:mt-0">
+                <div
+                  class="bg-gray-200 dark:bg-gray-700 [clip-path:polygon(0_0,calc(100%_-_20px)_0,100%_100%,0%_100%)] max-w-[300px] flex items-center h-9 px-[35px] pl-4 font-bold"
+                >
                   <span>{{ $t("common.schedule") }}</span>
                 </div>
 
-                <div class="nav-block__content">
+                <div class="pt-4 px-4">
                   <app-schedule without-label />
                 </div>
               </li>

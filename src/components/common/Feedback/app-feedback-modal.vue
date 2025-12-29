@@ -6,71 +6,52 @@
       :title="$t('feedback.modalTitle')"
     >
       <form v-if="unsend">
-        <div class="row">
-          <div class="col-lg-12">
-            <app-input
-              id="feedback-name"
-              :requiredField="!name && name !== null"
-              :label="$t('feedback.nameLabel')"
-              type="text"
-              :placeholder="$t('feedback.namePlaceholder')"
-              v-model="name"
-            />
-          </div>
-        </div>
+        <app-input
+          id="feedback-name"
+          :requiredField="!name && name !== null"
+          :label="$t('feedback.nameLabel')"
+          type="text"
+          :placeholder="$t('feedback.namePlaceholder')"
+          v-model="name"
+        />
 
-        <div class="row">
-          <div class="col-lg-12">
-            <app-input
-              id="feedback-from"
-              :requiredField="!from && from !== null"
-              :label="$t('feedback.fromLabel')"
-              type="text"
-              :placeholder="$t('feedback.fromPlaceholder')"
-              v-model="from"
-            />
-          </div>
-        </div>
+        <app-input
+          id="feedback-from"
+          :requiredField="!from && from !== null"
+          :label="$t('feedback.fromLabel')"
+          type="text"
+          :placeholder="$t('feedback.fromPlaceholder')"
+          v-model="from"
+        />
 
-        <div class="row">
-          <div class="col-lg-12">
-            <app-input
-              id="feedback-phone"
-              :requiredField="!phone && phone !== null"
-              :label="$t('feedback.phoneLabel')"
-              type="text"
-              :placeholder="$t('feedback.phonePlaceholder')"
-              :isPhoneInput="true"
-              mask="###-###-##-##"
-              v-model="phone"
-            />
-          </div>
-        </div>
+        <app-input
+          id="feedback-phone"
+          :requiredField="!phone && phone !== null"
+          :label="$t('feedback.phoneLabel')"
+          type="text"
+          :placeholder="$t('feedback.phonePlaceholder')"
+          :isPhoneInput="true"
+          mask="###-###-##-##"
+          v-model="phone"
+        />
 
-        <div class="row">
-          <div class="col-lg-12">
-            <app-textarea
-              id="feedback-comment"
-              :requiredField="!comment && comment !== null"
-              :label="$t('feedback.commentLabel')"
-              :placeholder="$t('feedback.commentPlaceholder')"
-              v-model="comment"
-            />
-          </div>
-        </div>
+        <app-textarea
+          id="feedback-comment"
+          :requiredField="!comment && comment !== null"
+          :label="$t('feedback.commentLabel')"
+          :placeholder="$t('feedback.commentPlaceholder')"
+          v-model="comment"
+        />
 
-        <div class="row">
-          <div class="col-lg-12 text-center pb-1">
-            <button
-              type="button"
-              class="btn"
-              :disabled="!phone || !name || !from || !comment"
-              @click.prevent="handleSendEmail"
-            >
-              {{ $t("common.submit") }}
-            </button>
-          </div>
-        </div>
+        <AppButton
+          variant="primary"
+          size="lg"
+          class="w-full"
+          :disabled="!phone || !name || !from || !comment"
+          @click.prevent="handleSendEmail"
+        >
+          {{ $t("common.submit") }}
+        </AppButton>
       </form>
       <div v-else>
         <strong>{{ $t("feedback.thanks") }}</strong>
@@ -83,9 +64,12 @@
 
 <script>
 import emailService from "@/utils/emailService";
-
+import AppButton from "../../ui/Button/app-button.vue";
 export default {
   name: "AppFeedbackModal",
+  components: {
+    AppButton,
+  },
   props: {
     modelValue: {
       type: Boolean,
@@ -111,7 +95,22 @@ export default {
       return this.open !== undefined ? this.open : this.modelValue;
     },
   },
+  watch: {
+    isOpen(newValue) {
+      // Reset form when modal opens
+      if (newValue) {
+        this.clearForm();
+      }
+    },
+  },
   methods: {
+    clearForm() {
+      this.name = null;
+      this.phone = null;
+      this.from = null;
+      this.comment = null;
+      this.unsend = true;
+    },
     async handleSendEmail() {
       if (this.phone && this.name && this.from && this.comment) {
         try {
@@ -121,6 +120,7 @@ export default {
             from: this.from,
             comment: this.comment,
           });
+          this.clearForm();
           this.unsend = false;
         } catch (error) {
           console.error("Failed to send feedback:", error);

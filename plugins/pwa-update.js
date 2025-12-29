@@ -312,43 +312,17 @@ export default defineNuxtPlugin(() => {
       z-index: 9999;
       font-size: 14px;
       backdrop-filter: blur(10px);
-      animation: slideIn 0.3s ease-out;
     `;
+    notification.classList.add("animate-slideIn");
     notification.textContent = "Додаток готовий до роботи офлайн";
     document.body.appendChild(notification);
 
     // Remove notification after 3 seconds
     setTimeout(() => {
-      notification.style.animation = "slideOut 0.3s ease-out";
+      notification.classList.remove("animate-slideIn");
+      notification.classList.add("animate-slideOut");
       setTimeout(() => notification.remove(), 300);
     }, 3000);
   }
 
-  // Add CSS animations for notifications
-  if (typeof document !== "undefined") {
-    const style = document.createElement("style");
-    style.textContent = `
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes slideOut {
-        from {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        to {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
 });

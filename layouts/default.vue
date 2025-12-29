@@ -63,6 +63,7 @@
 
       <layout-main-footer class="mt-2 lg:fixed bottom-0 left-0 w-full" />
 
+      <AppWelcomeModal />
       <div id="modal-portal"></div>
     </div>
   </ClientOnly>
@@ -75,6 +76,7 @@ import LayoutMainNav from "@/layouts/main/components/LayoutMainNav.vue";
 import LayoutMainFooter from "@/layouts/main/components/LayoutMainFooter.vue";
 import MobileMenu from "@/components/common/MobileMenu/MobileMenu.vue";
 
+import AppWelcomeModal from "../src/components/common/Welcome/app-welcome-modal.vue";
 export default {
   name: "AppMainLayout",
   components: {
@@ -83,6 +85,7 @@ export default {
     AppButton,
     MobileMenu,
     MenuToggle,
+    AppWelcomeModal,
   },
   provide() {
     // Provide eventbus to child components for Options API inject
@@ -132,17 +135,10 @@ export default {
     handleCloseMenu() {
       if (typeof document === "undefined") return;
 
-      // Restore scroll position before removing the class
-      const scrollPosition = this.scrollPosition;
       this.navOpen = false;
 
       document.body.classList.remove("modal-open");
       document.body.classList.remove("menu-open");
-      document.body.style.top = "";
-      // Restore scroll position
-      if (scrollPosition > 0) {
-        window.scrollTo(0, scrollPosition);
-      }
     },
 
     isMobile() {
@@ -200,43 +196,6 @@ export default {
 
       return false;
     },
-
-    getScrollbarWidth() {
-      // Only run on client side
-      if (typeof document === "undefined") return 0;
-
-      // Create a temporary div to measure scrollbar width
-      const outer = document.createElement("div");
-      outer.style.visibility = "hidden";
-      outer.style.overflow = "scroll";
-      outer.style.msOverflowStyle = "scrollbar"; // needed for WinJS apps
-      outer.style.width = "100px";
-      outer.style.position = "absolute";
-      outer.style.top = "-9999px";
-      document.body.appendChild(outer);
-
-      const inner = document.createElement("div");
-      inner.style.width = "100%";
-      outer.appendChild(inner);
-
-      const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-
-      outer.parentNode.removeChild(outer);
-
-      return scrollbarWidth;
-    },
-
-    updateScrollbarWidth() {
-      // Only run on client side
-      if (typeof document === "undefined") return;
-
-      const scrollbarWidth = this.getScrollbarWidth();
-      // Set CSS variable for dynamic padding globally
-      document.documentElement.style.setProperty(
-        "--scrollbar-width",
-        `${scrollbarWidth}px`
-      );
-    },
   },
   beforeMount() {
     if (typeof window === "undefined") return;
@@ -249,8 +208,6 @@ export default {
     if (this.$themeManager) {
       this.$themeManager.applyTheme(this.$themeManager.currentTheme);
     }
-
-    this.updateScrollbarWidth();
   },
   beforeDestroy() {
     if (typeof window === "undefined") return;
@@ -258,252 +215,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-$footer-height: 65px;
-
-.modal {
-  &-enter,
-  &-leave-to {
-    opacity: 0;
-  }
-
-  &-enter-active,
-  &-leave-active {
-    transition: 0.25s ease-in-out;
-  }
-}
-
-.app-header {
-  &__inner {
-    display: flex;
-    align-items: center;
-    padding: 18px 0;
-    width: 100%;
-  }
-
-  &__blocks {
-    margin-left: auto;
-    margin-bottom: 0;
-    padding: 0;
-  }
-
-  &__block {
-    display: inline-block;
-    margin-left: 40px;
-    vertical-align: middle;
-
-    &:first-of-type {
-      margin-left: 0;
-    }
-  }
-}
-
-@media screen and (min-width: 993px) and (min-height: 730px) and (max-height: 890px) {
-  .app-header {
-    &__inner {
-      padding: 10px 0;
-    }
-
-    &__block {
-      margin-left: 30px;
-    }
-  }
-
-  .app-content {
-    padding-top: 10px;
-  }
-
-  .app-footer {
-    &__inner {
-      height: 40px;
-    }
-  }
-}
-
-@media screen and (min-width: 993px) and (max-height: 730px) {
-  .app-header {
-    &__blocks {
-      display: none;
-    }
-  }
-
-  .nav-wrapper {
-    display: none;
-    padding: 18px 0;
-    @include fixed(0, 0, 0, 0);
-
-    &__inner {
-      justify-content: center;
-    }
-
-    &__menu {
-      .nav-block__title {
-        display: flex;
-      }
-
-      .nav-block__content {
-        padding-left: 0;
-        padding-right: 0;
-      }
-    }
-
-    &__footer-mobile {
-      border-top: 1px solid var(--colors-grey-100);
-      display: block !important;
-      position: static;
-      width: 700px;
-      margin: 20px auto 0;
-
-      .container {
-        margin: 0;
-        padding: 0;
-      }
-    }
-
-    &__container {
-      display: flex;
-      justify-content: space-between;
-      width: 700px;
-      margin: 0 auto;
-    }
-
-    &__mobile-only {
-      display: block;
-    }
-
-    &--open {
-      background-color: var(--white);
-      display: block;
-    }
-
-    &__inner {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      // overflow-y: auto;
-      // overflow-x: hidden;
-    }
-
-    .app-nav {
-      margin: 0;
-    }
-
-    &__blocks {
-      list-style: none;
-      margin: 0 -15px;
-      padding: 0;
-    }
-
-    .app-copyright {
-      text-align: center;
-      font-size: rem(12);
-    }
-  }
-
-  .nav-block {
-    margin-bottom: 30px;
-
-    &.nav-social {
-      display: none;
-    }
-
-    &__title {
-      background-color: var(--colors-grey-200);
-      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0% 100%);
-      width: 300px;
-      display: flex;
-      align-items: center;
-      height: 42px;
-      padding: 0 35px 0 15px;
-      font-weight: 900;
-      font-size: rem(20);
-    }
-
-    &__content {
-      padding: 21px 15px 0;
-    }
-  }
-
-  .app-footer {
-    display: none;
-  }
-}
-
-@include media-breakpoint-down(lg) {
-  .menu-open {
-    @include fixed(0, 0, 0, 0);
-    overflow-y: scroll;
-  }
-
-  .app-header {
-    &__blocks {
-      display: none;
-    }
-  }
-
-  .nav-wrapper {
-    &--open {
-      background-color: var(--white);
-      display: block;
-      overflow: auto;
-    }
-
-    &__container {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-    }
-
-    .container {
-      height: 100%;
-    }
-
-    &__inner {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      // overflow-y: auto;
-      // overflow-x: hidden;
-    }
-
-    .app-nav {
-      margin: 0 -15px 0;
-    }
-
-    &__blocks {
-      list-style: none;
-      margin: 0 -15px;
-      padding: 0;
-    }
-
-    .app-copyright {
-      text-align: center;
-      font-size: rem(12);
-    }
-  }
-
-  .nav-block {
-    margin-top: 25px;
-
-    &.nav-social {
-      display: block;
-    }
-
-    &__title {
-      background-color: var(--colors-grey-200);
-      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 100%, 0% 100%);
-      max-width: 300px;
-      display: flex;
-      align-items: center;
-      height: 36px;
-      padding: 0 35px 0 15px;
-      font-weight: 700;
-    }
-
-    &__content {
-      padding: 15px 15px 0;
-    }
-  }
-}
-</style>

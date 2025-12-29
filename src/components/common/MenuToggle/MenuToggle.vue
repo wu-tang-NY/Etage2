@@ -1,5 +1,10 @@
 <template>
-  <AppButton :icon="true" class="relative focus:outline-none rounded">
+  <AppButton
+    :icon="true"
+    class="relative focus:outline-none rounded"
+    :aria-label="open ? $t('common.closeMenu') : $t('common.openMenu')"
+    :title="open ? $t('common.closeMenu') : $t('common.openMenu')"
+  >
     <div
       class="block w-4 left-1/2 absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >

@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <footer
-      class="lg:border-t lg:fixed bottom-0 left-0 w-full font-medium text-xs border-solid border-grey-200 bg-white dark:bg-dark"
+      class="lg:border-t lg:fixed bottom-0 left-0 w-full font-medium text-xs border-solid border-grey-200 dark:border-gray-800 bg-white dark:bg-dark"
     >
       <div class="container mx-auto">
         <div
@@ -17,7 +17,7 @@
               :icon-name="icon.iconName"
               :original="icon.original"
               :aria-label="icon.ariaLabel"
-              class="size-7 lg:size-5"
+              class="size-9 lg:size-5"
             />
           </div>
           <div class="flex items-center justify-center gap-12 order-2"></div>

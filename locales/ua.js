@@ -13,6 +13,8 @@ export default {
     copyright: "© 2019 Etage. All Rights Reserved.",
     themeToggle: "Перемкнути тему",
     settings: "Налаштування:",
+    openMenu: "Відкрити меню",
+    closeMenu: "Закрити меню",
   },
 
   // Navigation

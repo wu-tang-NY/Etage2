@@ -1,9 +1,9 @@
 <template>
   <ClientOnly>
-    <div class="app-callback">
+    <div class="mx-[10px]">
       <button
         id="callback-btn"
-        class="app-callback__text"
+        class="border-b border-dashed border-[var(--colors-accent)] inline-block text-xs font-semibold tracking-[0.2px] cursor-pointer"
         @click="openCallModal"
       >
         {{ $t("callback.button") }}
@@ -37,17 +37,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.app-callback {
-  margin: 0 10px;
-
-  &__text {
-    @include underline();
-    font-size: rem(12);
-    font-weight: 600;
-    letter-spacing: 0.2px;
-    cursor: pointer;
-  }
-}
-</style>

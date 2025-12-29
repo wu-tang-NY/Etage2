@@ -1,53 +1,57 @@
 <template>
-  <div>
-    <!-- Modal is teleported to body, this wrapper ensures stable root element for transitions -->
-    <app-modal :show="isOpen" @update:show="handleUpdate">
-      <div class="welcome-block">
-        <svg-icon name="icon_thanks" original />
-        <h4>{{ $t("welcome.thanks") }}</h4>
-        <p>{{ $t("welcome.thanksMessage") }}</p>
+  <app-modal :show="show" @update:show="closeModal">
+    <div class="flex flex-col items-center justify-center">
+      <svg-icon name="icon_thanks" class="mb-4 size-20" original />
+      <h2>{{ $t("welcome.thanks") }}</h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-8">
+        {{ $t("welcome.thanksMessage") }}
+      </p>
 
-        <div class="row">
-          <div class="col-lg-12 text-center pb-1">
-            <button type="button" class="btn" @click="closeModal">
-              {{ $t("welcome.backToSite") }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </app-modal>
-  </div>
+      <AppButton variant="primary" size="lg" class="w-full" @click="closeModal">
+        {{ $t("welcome.backToSite") }}
+      </AppButton>
+    </div>
+  </app-modal>
 </template>
 
 <script>
+import AppButton from "../../ui/Button/app-button.vue";
 export default {
+  components: {
+    AppButton,
+  },
+  data: () => ({
+    show: false,
+    timer: null,
+  }),
   name: "AppWelcomeModal",
-  props: {
-    modelValue: {
-      type: Boolean,
-      default: false,
-    },
-    // Legacy support for 'open' prop
-    open: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ["update:modelValue", "update:open", "input"],
-  computed: {
-    isOpen() {
-      return this.modelValue !== undefined ? this.modelValue : this.open;
-    },
-  },
   methods: {
-    handleUpdate(value) {
-      this.$emit("update:modelValue", value);
-      this.$emit("update:open", value);
-      this.$emit("input", value);
-    },
     closeModal() {
-      this.handleUpdate(false);
+      this.show = false;
+      this.clearTimer();
     },
+    clearTimer() {
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+    },
+    startAutoCloseTimer() {
+      this.clearTimer();
+      this.timer = setTimeout(() => {
+        this.closeModal();
+      }, 10000); // 10 seconds
+    },
+  },
+  mounted() {
+    this.$eventbus.$on("openWelcomeModal", () => {
+      this.show = true;
+      this.startAutoCloseTimer();
+    });
+  },
+  beforeUnmount() {
+    this.$eventbus.$off("openWelcomeModal");
+    this.clearTimer();
   },
 };
 </script>

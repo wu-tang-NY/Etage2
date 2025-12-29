@@ -8,7 +8,7 @@
         class="cloud__title font-bold text-sm leading-normal absolute top-1/2 left-0 -mt-1 px-7 -translate-y-1/2"
       >
         <slot>
-          <span class="text-lg font-extrabold text-accent">{{ title }}</span>
+          <span class="font-extrabold">{{ title }}</span>
         </slot>
       </div>
 

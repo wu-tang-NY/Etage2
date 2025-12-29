@@ -4,7 +4,7 @@
       <!-- Snowflakes -->
       <div class="snowflakes" aria-hidden="true">
         <div
-          class="snowflake"
+          class="snowflake animate-snowflakes-fall"
           v-for="n in snowflakeCount"
           :key="n"
           :style="getSnowflakeStyle(n)"
@@ -16,7 +16,7 @@
       <!-- Sparkles -->
       <div class="sparkles" aria-hidden="true">
         <div
-          class="sparkle"
+          class="sparkle animate-sparkle"
           v-for="n in sparkleCount"
           :key="n"
           :style="getSparkleStyle(n)"
@@ -30,7 +30,7 @@
         <li
           v-for="n in lightCount"
           :key="n"
-          :class="getLightClass(n)"
+          :class="['animate-flash-1', getLightClass(n)]"
           :style="getLightStyle(n)"
         ></li>
       </ul>
@@ -183,9 +183,6 @@ export default {
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
   user-select: none;
   cursor: default;
-  animation-name: snowflakes-fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
 }
 
 .sparkles {
@@ -200,9 +197,6 @@ export default {
   position: absolute;
   font-size: 20px;
   opacity: 0;
-  animation-name: sparkle;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
 }
 
 .confetti-container {
@@ -215,34 +209,8 @@ export default {
 .confetti {
   position: absolute;
   border-radius: 50%;
-  animation-name: confetti-fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
 }
 
-@keyframes snowflakes-fall {
-  to {
-    transform: translateY(100vh) rotate(360deg);
-  }
-}
-
-@keyframes sparkle {
-  0%,
-  100% {
-    opacity: 0;
-    transform: scale(0);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes confetti-fall {
-  to {
-    transform: translateY(calc(100vh + 100px)) rotate(720deg);
-  }
-}
 
 // Reduce animations on mobile for better performance
 @media (max-width: 768px) {
@@ -276,7 +244,6 @@ export default {
   animation-duration: 2s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;
-  animation-name: flash-1;
   border-radius: 50%;
   display: inline-block;
   height: 20px;
@@ -372,41 +339,6 @@ export default {
   animation-duration: 1.4s;
 }
 
-@keyframes flash-1 {
-  0%,
-  100% {
-    background: var(--christmas-lights-1);
-    box-shadow: 0px 5px 24px 3px var(--christmas-lights-1);
-  }
-  50% {
-    background: var(--christmas-lights-2);
-    box-shadow: 0px 5px 24px 3px var(--christmas-lights-2);
-  }
-}
-
-@keyframes flash-2 {
-  0%,
-  100% {
-    background: var(--christmas-lights-2);
-    box-shadow: 0px 5px 24px 3px var(--christmas-lights-2);
-  }
-  50% {
-    background: var(--christmas-lights-3);
-    box-shadow: 0px 5px 24px 3px var(--christmas-lights-3);
-  }
-}
-
-@keyframes flash-3 {
-  0%,
-  100% {
-    background: var(--christmas-lights-3);
-    box-shadow: 0px 5px 24px 3px var(--christmas-lights-3);
-  }
-  50% {
-    background: var(--christmas-lights-1);
-    box-shadow: 0px 5px 24px 3px var(--christmas-lights-1);
-  }
-}
 
 @media (max-width: 1024px) {
   .christmas-lights[data-position="left"] {

@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
-    <div class="services pt-10 lg:pt-0">
-      <h1 class="mt-5 mb-[10px] lg:mb-[50px]">
+    <div>
+      <h1 class="mt-5 lg:mt-10 mb-4 lg:mb-10">
         {{ $t("services.title") }}
         <br v-if="!mobile && !tablet" />
         <span class="text-primary">{{ $t("services.titleSpan") }}</span>
@@ -9,24 +9,24 @@
       </h1>
 
       <div
-        class="subtitle light-gray mb-[10px] lg:mb-8 font-medium text-lg leading-[1.75] max-w-full lg:max-w-[680px]"
+        class="text-gray-400 mb-4 lg:mb-8 font-medium text-lg leading-[1.75] max-w-full lg:max-w-[680px]"
       >
         {{ $t("services.subtitle1") }}
-        <span class="text-[var(--colors-text-primary)] font-extrabold">{{
+        <span class="text-gray-900 dark:text-gray-400 font-extrabold">{{
           $t("services.subtitle1Span")
         }}</span
         >{{ $t("services.subtitle1Middle") }}
-        <span class="text-[var(--colors-text-primary)] font-extrabold">{{
+        <span class="text-gray-900 dark:text-gray-400 font-extrabold">{{
           $t("services.subtitle1Span2")
         }}</span
         >{{ $t("services.subtitle1End") }}
       </div>
 
       <div
-        class="subtitle dark-gray mb-[10px] lg:mb-8 font-medium text-lg leading-[1.75] max-w-full lg:max-w-[680px]"
+        class="mb-4 lg:mb-8 font-medium text-lg leading-[1.75] max-w-full lg:max-w-[680px]"
       >
         {{ $t("services.subtitle2") }}
-        <a href="" @click.prevent="modalCallbackOpen = true">{{
+        <a href="" class="link" @click.prevent="modalCallbackOpen = true">{{
           $t("services.subtitle2Link")
         }}</a
         >{{ $t("services.subtitle2End") }}
@@ -40,7 +40,6 @@
 <script>
 import { defineAsyncComponent } from "vue";
 
-// Lazy load CallbackModal - only loads when services section is active or modal is opened
 export default {
   name: "AppPageMainSectionServices",
   components: {
