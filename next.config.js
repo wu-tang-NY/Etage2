@@ -19,8 +19,8 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   // Compress public assets
   compress: true,
-  // Enable static page generation where possible
-  output: "standalone",
+  // Enable static export for Firebase Hosting
+  output: "export",
   // Set correct workspace root for Turbopack
   turbopack: {
     root: __dirname,
