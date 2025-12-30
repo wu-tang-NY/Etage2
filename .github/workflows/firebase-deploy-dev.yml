@@ -24,9 +24,7 @@ jobs:
       - name: Authenticate Firebase
         run: |
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ETAGE_STATIC_APP }}' > $HOME/firebase-service-account.json
-          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-service-account.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-service-account.json" >> $GITHUB_ENV
 
       - name: Deploy to Firebase App Hosting
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-service-account.json
         run: firebase apphosting:rollouts:create etage-app --git-branch dev --project etage-static-app
