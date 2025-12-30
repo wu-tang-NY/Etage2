@@ -20,7 +20,7 @@ const nextConfig = {
   // Compress public assets
   compress: true,
   // Enable static export for Firebase Hosting
-  output: "export",
+  output: "standalone",
   trailingSlash: true,
 
   // Set correct workspace root for Turbopack
