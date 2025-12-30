@@ -76,7 +76,7 @@ export default function MainNav({ onClose }: MainNavProps) {
           className={`group relative ${index > 0 ? "lg:-ml-4" : ""}`}
         >
           <NavItem
-            id={page.id}
+            id={`${page.id}-nav-item`}
             title={page.title}
             to={`/${locale}#${page.id}`}
             icon={page.icon}

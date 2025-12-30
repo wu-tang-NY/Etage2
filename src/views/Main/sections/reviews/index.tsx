@@ -229,6 +229,7 @@ export default function PageSectionReviews({
           <Button
             id="feedback-btn-mobile"
             variant="primary"
+            size="lg"
             className="!px-6"
             onClick={(e) => {
               e.preventDefault();

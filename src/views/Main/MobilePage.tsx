@@ -35,7 +35,7 @@ export default function MobilePage() {
   useEffect(() => {
     const handleScroll = () => {
       // Detect which section is in view
-      const sections = document.querySelectorAll('section[id]');
+      const sections = document.querySelectorAll("section[id]");
       const scrollPosition = window.scrollY + window.innerHeight / 3; // Check from top third of viewport
 
       sections.forEach((section) => {
@@ -46,7 +46,7 @@ export default function MobilePage() {
         if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
           const sectionId = section.id;
           setActiveNavId(sectionId);
-          
+
           // Update URL hash
           const newHash = `#${sectionId}`;
           if (window.location.hash !== newHash) {
@@ -61,12 +61,12 @@ export default function MobilePage() {
     };
 
     // Add scroll listener
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     // Initial check
     handleScroll();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [setActiveNavId]);
 
