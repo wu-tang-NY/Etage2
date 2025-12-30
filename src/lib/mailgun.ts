@@ -1,5 +1,5 @@
-import formData from 'form-data';
-import Mailgun from 'mailgun.js';
+import formData from "form-data";
+import Mailgun from "mailgun.js";
 
 const mailgun = new Mailgun(formData);
 
@@ -13,14 +13,15 @@ interface EmailOptions {
 export async function sendEmail({ to, subject, html, from }: EmailOptions) {
   const apiKey = process.env.MAILGUN_API_KEY;
   const domain = process.env.MAILGUN_DOMAIN;
-  const fromEmail = from || process.env.MAILGUN_FROM_EMAIL || `noreply@${domain}`;
+  const fromEmail =
+    from || process.env.MAILGUN_FROM_EMAIL || `noreply@${domain}`;
 
   if (!apiKey || !domain) {
-    throw new Error('Mailgun API key and domain must be configured');
+    throw new Error("Mailgun API key and domain must be configured");
   }
 
   const mg = mailgun.client({
-    username: 'api',
+    username: "api",
     key: apiKey,
   });
 
@@ -34,7 +35,7 @@ export async function sendEmail({ to, subject, html, from }: EmailOptions) {
 
     return result;
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
     throw error;
   }
 }
