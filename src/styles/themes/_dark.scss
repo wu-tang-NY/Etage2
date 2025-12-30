@@ -53,7 +53,8 @@
   // Special overrides for specific contexts
   .page-main__bg-home svg g:first-child path[fill*="svg-color-white"],
   .bg__from .bg__home svg path[fill*="svg-color-white"],
-  .bg__to .bg__home svg path[fill*="svg-color-white"] {
+  .bg__to .bg__home svg path[fill*="svg-color-white"],
+  .bg__main-home svg path[fill*="svg-color-white"] {
     fill: var(--colors-dark-bg) !important;
   }
 

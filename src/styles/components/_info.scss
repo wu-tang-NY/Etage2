@@ -1,0 +1,49 @@
+@use "../utils/mixins" as *;
+@use "../utils/functions" as *;
+
+// Info layout styles
+.info-content {
+  h1,
+  h2,
+  h3 {
+    color: var(--colors-accent) !important;
+  }
+
+  * + * {
+    margin-top: 1rem;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  ul,
+  ol {
+    padding-left: 1rem;
+  }
+
+  p,
+  li {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+}
+
+// Info map styles
+.info-map {
+  iframe {
+    border: 0;
+  }
+}
+
+// Christmas lights margin adjustment
+@include media-breakpoint-down(lg) {
+  .has-christmas-lights .info-nav {
+    margin-top: 120px;
+  }
+}
+

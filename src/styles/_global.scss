@@ -4,6 +4,8 @@
 // CSS Custom Properties (CSS Variables)
 :root {
   // Colors
+
+  --scroll-color: #000;
   --colors-accent: #ffa511;
   --colors-surface: #f6f6f6;
   --colors-grey-100: #f6f6f6;
@@ -57,6 +59,12 @@
   // Z-index values (Bootstrap standard)
   --zindex-tooltip: 1070;
   --zindex-modal: 1050;
+}
+
+.theme-dark {
+  :root {
+    --scroll-color: #fff;
+  }
 }
 
 // Block body scrolling when modal is open
