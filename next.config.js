@@ -21,6 +21,8 @@ const nextConfig = {
   compress: true,
   // Enable static export for Firebase Hosting
   output: "export",
+  trailingSlash: true,
+
   // Set correct workspace root for Turbopack
   turbopack: {
     root: __dirname,
