@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { readdirSync } from 'fs';
 import { join, resolve } from 'path';
 
+export const dynamic = 'force-static';
+
 // Function to recursively get all routes from app directory
 function getRoutesFromDirectory(dir: string, basePath: string = ''): string[] {
   const routes: string[] = [];

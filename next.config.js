@@ -20,7 +20,7 @@ const nextConfig = {
   // Compress public assets
   compress: true,
   // Enable static page generation where possible
-  output: "standalone",
+  output: "export",
   // Set correct workspace root for Turbopack
   turbopack: {
     root: __dirname,
