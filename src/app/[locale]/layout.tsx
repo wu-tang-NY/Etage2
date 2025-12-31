@@ -11,6 +11,8 @@ import DefaultLayout from "./default-layout";
 import { routing } from "../../i18n/routing";
 import "../globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
+// Load icons at the module level before any components render
+import "../icon-initializer";
 
 const locales = ["ua", "ru"];
 
@@ -26,12 +28,52 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://etage.com.ua";
+  
   return {
     title: t("title"),
     description: t("description"),
-    metadataBase: new URL(
-      process.env.NEXT_PUBLIC_SITE_URL || "https://etage.com.ua"
-    ),
+    keywords: t("keywords"),
+    metadataBase: new URL(siteUrl),
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      url: `${siteUrl}/${locale}`,
+      siteName: "Етаж - Etage",
+      images: [
+        {
+          url: `/og-images/og-${locale}.png`,
+          width: 1200,
+          height: 630,
+          alt: t("title"),
+        },
+      ],
+      locale: locale === "ua" ? "uk_UA" : "ru_RU",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: [`/og-images/og-${locale}.png`],
+    },
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      ],
+      apple: [
+        { url: "/favicon/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      ],
+      other: [
+        {
+          rel: "mask-icon",
+          url: "/favicon/safari-pinned-tab.svg",
+        },
+      ],
+    },
+    manifest: "/manifest.webmanifest",
     alternates: {
       languages: {
         // Use proper ISO 639-1 language codes for hreflang
@@ -81,31 +123,10 @@ export default async function LocaleLayout({
           name="google-site-verification"
           content="vKA3RhUs0WxI3pWumanZ7yC33v9yf74_KzTRS4CLMkE"
         />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/favicon/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/manifest.webmanifest" />
-        <link
-          rel="mask-icon"
-          href="/favicon/safari-pinned-tab.svg"
-          color="#ffa511"
-        />
+        <meta name="theme-color" content="#ffffff" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Етаж" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -121,7 +142,6 @@ export default async function LocaleLayout({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;900&family=Roboto:wght@400;500;700;900&display=swap&subset=cyrillic"
           media="print"
-          onLoad="this.media='all'"
         />
         <noscript>
           <link
@@ -190,8 +210,14 @@ export default async function LocaleLayout({
               display: flex;
               align-items: center;
               justify-content: center;
+              opacity: 1;
+              transition: opacity 0.3s ease-out;
+              pointer-events: none;
             }
             body.loading-complete #initial-loading-screen {
+              opacity: 0;
+            }
+            body.loading-hidden #initial-loading-screen {
               display: none;
             }
             #initial-loading-screen .loader {
@@ -226,7 +252,7 @@ export default async function LocaleLayout({
           }}
         />
       </head>
-      <body className="bg-light dark:bg-dark">
+      <body className="bg-light dark:bg-dark" suppressHydrationWarning>
         <div id="initial-loading-screen">
           <span className="loader" />
         </div>
@@ -241,6 +267,22 @@ export default async function LocaleLayout({
             <DefaultLayout>{children}</DefaultLayout>
           </NextIntlClientProvider>
         </ThemeProvider>
+
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17829407196"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){window.dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17829407196');
+            `,
+          }}
+        />
+        <script src="/register-sw.js" defer></script>
       </body>
     </html>
   );

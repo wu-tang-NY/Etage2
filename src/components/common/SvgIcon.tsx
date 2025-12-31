@@ -16,7 +16,12 @@ export default function SvgIcon({ name, original = false, className = '', style 
   }, [name]);
 
   if (!icon) {
-    console.warn(`Icon "${name}" not found in registry`);
+    if (process.env.NODE_ENV === 'development') {
+      const availableIcons = Object.keys(iconRegistry.icons);
+      console.warn(`Icon "${name}" not found in registry. Available icons (${availableIcons.length}):`, availableIcons.slice(0, 10).join(', '), '...');
+    } else {
+      console.warn(`Icon "${name}" not found in registry`);
+    }
     return null;
   }
 

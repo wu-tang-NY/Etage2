@@ -10,7 +10,6 @@ import LanguageSwitcher from "@/components/common/LanguageSwitcher/language-swit
 import Phones from "@/components/common/Phones/phones";
 import Schedule from "@/components/common/Schedule/schedule";
 import Callback from "@/components/common/Callback/callback";
-import LoadingScreen from "@/components/common/LoadingScreen/loading-screen";
 import MenuToggle from "@/components/common/MenuToggle/MenuToggle";
 import MainNav from "./components/main-nav";
 import MainFooter from "./components/main-footer";
@@ -55,6 +54,13 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
 
   useEffect(() => {
     setShowDecorations(shouldShowDecorations());
+    const hideTimer = setTimeout(() => {
+      document.body.classList.add("loading-hidden");
+    }, 100); // After fade transition completes (100ms + 300ms transition + buffer)
+
+    return () => {
+      clearTimeout(hideTimer);
+    };
   }, []);
 
   const handleToggleMenu = () => {

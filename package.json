@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/generate-og-images.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -14,8 +15,10 @@
     "generate:srcset": "node scripts/generate-srcset.js",
     "generate:sitemap": "node scripts/generate-sitemap.js",
     "generate:robots": "node scripts/generate-robots.js",
+    "generate:og": "node scripts/generate-og-images.js",
     "optimize:all": "npm run generate:srcset && npm run optimize:images",
-    "svg": "node scripts/convert-svgs-to-icons.js"
+    "svg": "node scripts/convert-svgs-to-icons.js",
+    "postinstall": "node scripts/setup-vue-svgicon.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -54,6 +57,11 @@
   "sideEffects": [
     "*.css",
     "*.scss",
-    "*.sass"
+    "*.sass",
+    "src/assets/icons/**/*.js",
+    "src/utils/icon-registry.js",
+    "src/utils/vue-svgicon-bridge.js",
+    "src/lib/icons.ts",
+    "src/app/icon-initializer.ts"
   ]
 }

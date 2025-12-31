@@ -30,7 +30,7 @@ export default function PageSectionServices({
       <h1 className="mt-5 lg:mt-10 mb-4 lg:mb-10">
         {t("services.title")}
         {!mobile && !tablet && <br />}
-        &nbsp; <span className="text-primary">{t("services.titleSpan")}</span>
+        <span className="text-primary">{t("services.titleSpan")}</span>
         &nbsp; {t("services.titleEnd")}
       </h1>
 

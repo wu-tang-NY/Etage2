@@ -21,8 +21,7 @@ const nextConfig = {
   },
   // Target modern browsers to avoid unnecessary polyfills
   experimental: {
-    browsersListForSwc: true,
-    legacyBrowsers: false,
+    // Removed deprecated browsersListForSwc and legacyBrowsers options
   },
   sassOptions: {
     additionalData: `@use "@/styles/utils/functions" as *; @use "@/styles/utils/mixins" as *;`,
@@ -37,24 +36,23 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   // Compress public assets
   compress: true,
-  // Enable static export for Firebase Hosting
+  // Enable standalone output for Firebase App Hosting
   output: "standalone",
   trailingSlash: true,
 
   // Set correct workspace root for Turbopack
   turbopack: {
     root: __dirname,
+    resolveAlias: {
+      "@": "./src",
+    },
   },
   // Webpack configuration
   webpack: (config, { isServer, webpack }) => {
-    // Add alias for src directory
-    config.resolve.alias["@"] = path.resolve(__dirname, "src");
+    const srcPath = path.resolve(__dirname, "src");
 
-    // Alias vue-svgicon to our bridge for icon registration
-    config.resolve.alias["vue-svgicon"] = path.resolve(
-      __dirname,
-      "src/utils/vue-svgicon-bridge.js"
-    );
+    // Add alias for src directory
+    config.resolve.alias["@"] = srcPath;
 
     // Enable tree shaking for better dead code elimination
     config.optimization.usedExports = true;
@@ -81,20 +79,29 @@ const nextConfig = {
                 const packageName = module.context.match(
                   /[\\/]node_modules[\\/](.*?)([\\/]|$)/
                 )?.[1];
-                
+
                 // Group common packages
                 if (packageName) {
-                  if (packageName.startsWith('next') || packageName.startsWith('react')) {
-                    return 'framework';
+                  if (
+                    packageName.startsWith("next") ||
+                    packageName.startsWith("react")
+                  ) {
+                    return "framework";
                   }
-                  if (packageName === 'gsap' || packageName.startsWith('@gsap')) {
-                    return 'animations';
+                  if (
+                    packageName === "gsap" ||
+                    packageName.startsWith("@gsap")
+                  ) {
+                    return "animations";
                   }
-                  if (packageName === 'next-intl' || packageName === 'next-themes') {
-                    return 'ui-utils';
+                  if (
+                    packageName === "next-intl" ||
+                    packageName === "next-themes"
+                  ) {
+                    return "ui-utils";
                   }
                 }
-                return 'vendors';
+                return "vendors";
               },
             },
             default: {
