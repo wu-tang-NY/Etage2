@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
 import Logo from "@/components/common/Logo/logo";
@@ -9,15 +10,26 @@ import LanguageSwitcher from "@/components/common/LanguageSwitcher/language-swit
 import Phones from "@/components/common/Phones/phones";
 import Schedule from "@/components/common/Schedule/schedule";
 import Callback from "@/components/common/Callback/callback";
-import WelcomeModal from "@/components/common/Welcome/welcome-modal";
 import LoadingScreen from "@/components/common/LoadingScreen/loading-screen";
-import NewYearDecorations from "@/components/common/NewYearDecorations/new-year-decorations";
 import MenuToggle from "@/components/common/MenuToggle/MenuToggle";
 import MainNav from "./components/main-nav";
 import MainFooter from "./components/main-footer";
-import MobileMenu from "@/components/common/MobileMenu/MobileMenu";
 import IconLoader from "@/components/common/IconLoader";
 import { NavProvider } from "@/hooks/useNav";
+
+// Dynamically import non-critical components
+const WelcomeModal = dynamic(
+  () => import("@/components/common/Welcome/welcome-modal"),
+  { ssr: false }
+);
+const NewYearDecorations = dynamic(
+  () => import("@/components/common/NewYearDecorations/new-year-decorations"),
+  { ssr: false }
+);
+const MobileMenu = dynamic(
+  () => import("@/components/common/MobileMenu/MobileMenu"),
+  { ssr: false }
+);
 
 interface DefaultLayoutProps {
   children: React.ReactNode;

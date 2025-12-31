@@ -50,5 +50,10 @@
     "edge >= 88",
     "firefox >= 78",
     "safari >= 14"
+  ],
+  "sideEffects": [
+    "*.css",
+    "*.scss",
+    "*.sass"
   ]
 }

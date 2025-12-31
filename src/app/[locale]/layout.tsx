@@ -1,13 +1,16 @@
 import { NextIntlClientProvider } from "next-intl";
 import { hasLocale } from "next-intl";
-import { getMessages, setRequestLocale, getTranslations } from "next-intl/server";
+import {
+  getMessages,
+  setRequestLocale,
+  getTranslations,
+} from "next-intl/server";
 import { notFound } from "next/navigation";
 import DefaultLayout from "./default-layout";
 
 import { routing } from "../../i18n/routing";
 import "../globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
-import LoadingScreen from "@/components/common/LoadingScreen/loading-screen";
 
 const locales = ["ua", "ru"];
 
@@ -26,7 +29,9 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("description"),
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://etage.com.ua"),
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_SITE_URL || "https://etage.com.ua"
+    ),
     alternates: {
       languages: {
         // Use proper ISO 639-1 language codes for hreflang
@@ -108,9 +113,22 @@ export default async function LocaleLayout({
           crossOrigin="anonymous"
         />
         <link
-          rel="stylesheet"
+          rel="preload"
+          as="style"
           href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;900&family=Roboto:wght@400;500;700;900&display=swap&subset=cyrillic"
         />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;900&family=Roboto:wght@400;500;700;900&display=swap&subset=cyrillic"
+          media="print"
+          onLoad="this.media='all'"
+        />
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;900&family=Roboto:wght@400;500;700;900&display=swap&subset=cyrillic"
+          />
+        </noscript>
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -212,7 +230,6 @@ export default async function LocaleLayout({
         <div id="initial-loading-screen">
           <span className="loader" />
         </div>
-        <LoadingScreen />
         <ThemeProvider
           attribute="class"
           defaultTheme="theme-dark"
