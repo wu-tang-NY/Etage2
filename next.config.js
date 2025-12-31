@@ -6,6 +6,16 @@ const withNextIntl = createNextIntlPlugin("./src/i18n.ts");
 
 const nextConfig = {
   reactStrictMode: true,
+  // Configure SWC to target modern browsers
+  compiler: {
+    // Remove console logs in production
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  // Target modern browsers to avoid unnecessary polyfills
+  experimental: {
+    browsersListForSwc: true,
+    legacyBrowsers: false,
+  },
   sassOptions: {
     additionalData: `@use "@/styles/utils/functions" as *; @use "@/styles/utils/mixins" as *;`,
     includePaths: ["node_modules"],

@@ -57,8 +57,9 @@ export async function GET() {
   });
 
   // Get i18n locales with prefixes
+  // Note: 'code' is the ISO 639-1 language code for hreflang, 'prefix' is the URL path
   const locales = [
-    { code: 'ua', iso: 'uk-UA', prefix: '/ua' },
+    { code: 'uk', iso: 'uk-UA', prefix: '/ua' }, // Ukrainian: 'uk' is the language code, '/ua' is the URL
     { code: 'ru', iso: 'ru-RU', prefix: '/ru' },
   ];
 

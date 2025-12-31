@@ -212,7 +212,7 @@ export default function PageSectionReviews({
           className="!size-8 !p-0 bg-primary bg-no-repeat bg-center absolute top-1/2 -translate-y-1/2 -left-16 bg-[length:8px_14px] max-lg:top-auto max-lg:bottom-[-48px] max-lg:translate-y-0 max-lg:left-[20%] [background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%208%2014%27%3E%3Cpath%20fill=%27white%27%20d=%27M7%200l1%201-6%206%206%206-1%201-7-7z%27/%3E%3C/svg%3E')]"
           onClick={() => scrollCarousel("prev")}
           disabled={!canScrollPrev}
-          aria-label="Previous review"
+          ariaLabel="Previous review"
         />
         <Button
           variant="primary"
@@ -220,7 +220,7 @@ export default function PageSectionReviews({
           className="!size-8 !p-0 bg-primary bg-no-repeat bg-center absolute top-1/2 -translate-y-1/2 -right-16 bg-[length:8px_14px] max-lg:top-auto max-lg:bottom-[-48px] max-lg:translate-y-0 max-lg:right-[20%] [background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%208%2014%27%3E%3Cpath%20fill=%27white%27%20d=%27M1%200L0%201l6%206-6%206%201%201%207-7z%27/%3E%3C/svg%3E')]"
           onClick={() => scrollCarousel("next")}
           disabled={!canScrollNext}
-          aria-label="Next review"
+          ariaLabel="Next review"
         />
       </div>
 

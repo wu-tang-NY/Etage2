@@ -1,6 +1,6 @@
 import { NextIntlClientProvider } from "next-intl";
 import { hasLocale } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import DefaultLayout from "./default-layout";
 
@@ -13,6 +13,34 @@ const locales = ["ua", "ru"];
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://etage.com.ua"),
+    alternates: {
+      languages: {
+        // Use proper ISO 639-1 language codes for hreflang
+        "uk-UA": "/ua", // Ukrainian
+        uk: "/ua",
+        "ru-RU": "/ru", // Russian
+        ru: "/ru",
+        "x-default": "/ua",
+      },
+    },
+    other: {
+      "google-site-verification": "vKA3RhUs0WxI3pWumanZ7yC33v9yf74_KzTRS4CLMkE",
+    },
+  };
 }
 
 export default async function LocaleLayout({
@@ -32,8 +60,11 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
 
+  // Map internal locale codes to proper ISO 639-1 language codes
+  const htmlLang = locale === "ua" ? "uk" : locale;
+
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={htmlLang} suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
